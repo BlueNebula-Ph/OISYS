@@ -7,6 +7,18 @@
   <PropertyGroup>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\js\app.js" />
+    <Content Include="wwwroot\js\app.min.js" />
+    <Content Include="wwwroot\views\customer\customer-list.html" />
+    <Content Include="wwwroot\views\customer\index.html" />
+    <Content Include="wwwroot\views\delivery\index.html" />
+    <Content Include="wwwroot\views\home\index.html" />
+    <Content Include="wwwroot\views\inventory\index.html" />
+    <Content Include="wwwroot\views\order\index.html" />
+    <Content Include="wwwroot\views\user\index.html" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
@@ -23,13 +35,15 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="templates\" />
     <Folder Include="Views\Customer\" />
     <Folder Include="Views\Delivery\" />
     <Folder Include="Views\Inventory\" />
     <Folder Include="Views\User\" />
     <Folder Include="Views\Order\" />
     <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\views\home\index.html" />
   </ItemGroup>
 
 </Project>
