@@ -1,17 +1,13 @@
 ﻿namespace Oisys.Service
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Microsoft.EntityFrameworkCore;
 
-        public class Startup
+    public class Startup
     {
         public Startup(IHostingEnvironment env)
         {
@@ -29,6 +25,7 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<OisysDbContext>(opt => opt.UseInMemoryDatabase());
+
             // Add framework services.
             services.AddMvc();
         }
