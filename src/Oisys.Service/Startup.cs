@@ -9,8 +9,9 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.EntityFrameworkCore;
 
-    public class Startup
+        public class Startup
     {
         public Startup(IHostingEnvironment env)
         {
@@ -27,6 +28,7 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<OisysDbContext>(opt => opt.UseInMemoryDatabase());
             // Add framework services.
             services.AddMvc();
         }
