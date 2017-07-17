@@ -7,5 +7,9 @@
 
     public class CreditMemo : ModelBase
     {
+        public string Code { get; set; }
+        public DateTime Date { get; set; }
+        public string Driver { get; set; }
+        public ICollection<CreditMemoDetail> Details { get; set; }
     }
 }
