@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Oisys.Service.Models
+﻿namespace Oisys.Service.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class SalesQuote : ModelBase
     {
         public string Code { get; set; }

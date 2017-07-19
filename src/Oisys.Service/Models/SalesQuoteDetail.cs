@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Oisys.Service.Models
+﻿namespace Oisys.Service.Models
 {
     public class SalesQuoteDetail : ModelBase
     {
+        public int SalesQuoteId { get; set; }
         public decimal Quantity { get; set; }
         public int ItemId { get; set; }
         public string Description { get; set; }
