@@ -6,9 +6,13 @@
     public class SalesQuote : ModelBase
     {
         public string Code { get; set; }
+
         public int CustomerId { get; set; }
+
         public DateTime Date { get; set; }
+
         public decimal DeliveryFee { get; set; }
+
         public ICollection<SalesQuoteDetail> Details { get; set; }
     }
 }

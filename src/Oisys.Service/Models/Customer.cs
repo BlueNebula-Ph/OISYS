@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Oisys.Service.Models
+﻿namespace Oisys.Service.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Customer : ModelBase
     {
         [Required]

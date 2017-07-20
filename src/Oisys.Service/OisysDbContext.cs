@@ -2,25 +2,12 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Oisys.Service.Models;
-    
 
     public class OisysDbContext : DbContext
     {
-        public OisysDbContext(DbContextOptions<OisysDbContext> options) : base(options)
+        public OisysDbContext(DbContextOptions<OisysDbContext> options)
+            : base(options)
         {
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            //Credit Memo Detail
-            modelBuilder.Entity<CreditMemoDetail>()
-                .HasOne<CreditMemo>(d => d.CreditMemo)
-                .WithMany(p => p.Details)
-                .HasForeignKey(p => p.CreditMemoId);
-
-            //Customer
         }
 
         // DbSets
@@ -46,5 +33,17 @@
 
         public DbSet<User> Users { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Credit Memo Detail
+            modelBuilder.Entity<CreditMemoDetail>()
+                .HasOne<CreditMemo>(d => d.CreditMemo)
+                .WithMany(p => p.Details)
+                .HasForeignKey(p => p.CreditMemoId);
+
+            // Customer
+        }
     }
 }
