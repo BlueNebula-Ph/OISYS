@@ -18,7 +18,7 @@
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
-<body>
+<body ng-app="oisys-app">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -38,27 +38,27 @@
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Order" asp-action="Index">
+                        <a href="/Order/#!/list/orders">
                             <i class="fa fa-file-o"></i> Orders
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Delivery" asp-action="Index">
+                        <a href="/Delivery/#!/list/deliveries">
                             <i class="fa fa-truck"></i> Delivery
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Inventory" asp-action="Index">
+                        <a href="/Inventory/#!/list/inventory">
                             <i class="fa fa-database"></i> Inventory
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Customer" asp-action="Index">
+                        <a href="/Customer/#!/list/customers">
                             <i class="fa fa-address-book-o"></i> Customer Accounts
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="User" asp-action="Index">
+                        <a href="/User/#!/list/users">
                             <i class="fa fa-user"></i> Users
                         </a>
                     </li>
@@ -76,14 +76,16 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/angularjs/angular.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/angular/angular.js"></script>
+        <script src="~/lib/angular-route/angular-route.js"></script>
+        <script src="~/js/app.js" asp-append-version="true"></script>
     </environment>
     <environment names="Production">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="~/lib/angularjs/angular.min.js"></script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/angular/angular.min.js"></script>
+        <script src="~/lib/angular-route/angular-route.min.js"></script>
+        <script src="~/js/app.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)
