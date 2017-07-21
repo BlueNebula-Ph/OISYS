@@ -36,9 +36,9 @@ namespace Oisys.Service.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Customer> GetAll()
+        public IActionResult GetAll()
         {
-            return this.context.Customers.ToList();
+            return this.Ok(this.context.Customers.ToList());
         }
 
         [HttpGet("{id}", Name = "GetCustomer")]
@@ -50,7 +50,7 @@ namespace Oisys.Service.Controllers
                 return this.NotFound();
             }
 
-            return new ObjectResult(item);
+            return this.Ok(item);
         }
     }
 }
