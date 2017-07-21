@@ -7,6 +7,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json.Serialization;
+    using Swashbuckle.AspNetCore.Swagger;
 
     public class Startup
     {
@@ -31,7 +32,14 @@
                     {
                         opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     });
+            services.AddLogging();
+
             services.AddDbContext<OisysDbContext>(opt => opt.UseInMemoryDatabase());
+
+            services.AddSwaggerGen(opt =>
+                {
+                    opt.SwaggerDoc("v1", new Info { Title = "OISYS API", Version = "v1" });
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +49,14 @@
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(opt =>
+                {
+                    opt.SwaggerEndpoint("/swagger/v1/swagger.json", "OISYS API V1");
+                    opt.RoutePrefix = "info";
+                });
         }
     }
 }

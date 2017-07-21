@@ -43,7 +43,23 @@
                 .WithMany(p => p.Details)
                 .HasForeignKey(p => p.CreditMemoId);
 
-            // Customer
+            // Delivery
+            modelBuilder.Entity<DeliveryDetail>()
+                .HasOne<Delivery>(d => d.Delivery)
+                .WithMany(p => p.Details)
+                .HasForeignKey(p => p.DeliveryId);
+
+            // Order
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne<Order>(d => d.Order)
+                .WithMany(p => p.Details)
+                .HasForeignKey(p => p.OrderId);
+
+            // Sales Quote
+            modelBuilder.Entity<SalesQuoteDetail>()
+                .HasOne<SalesQuote>(d => d.SalesQuote)
+                .WithMany(p => p.Details)
+                .HasForeignKey(p => p.SalesQuoteId);
         }
     }
 }
