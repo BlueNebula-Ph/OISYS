@@ -6,8 +6,10 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
     using Swashbuckle.AspNetCore.Swagger;
+    using System.IO;
 
     public class Startup
     {
@@ -38,7 +40,12 @@
 
             services.AddSwaggerGen(opt =>
                 {
-                    opt.SwaggerDoc("v1", new Info { Title = "OISYS API", Version = "v1" });
+                    opt.SwaggerDoc("v1", new Info { Title = "OISYS API", Version = "v1", Description = "Order and Inventory System API" });
+
+                    // Set comments path for swagger
+                    var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                    var xmlPath = Path.Combine(basePath, "Oisys.Service.xml");
+                    opt.IncludeXmlComments(xmlPath);
                 });
         }
 

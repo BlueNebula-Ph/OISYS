@@ -2,16 +2,24 @@ namespace Oisys.Service.Controllers
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Models;
 
+    /// <summary>
+    /// <see cref="CustomerController"/> class handles Customer basic add, edit, delete and get.
+    /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class CustomerController : Controller
     {
         private readonly OisysDbContext context;
 
-        // Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomerController"/> class.
+        /// </summary>
+        /// <param name="context">DbContext</param>
         public CustomerController(OisysDbContext context)
         {
             this.context = context;
@@ -36,54 +44,71 @@ namespace Oisys.Service.Controllers
             }
         }
 
-        // Get all customers
+        /// <summary>
+        /// Returns list of active <see cref="Customer"/>
+        /// </summary>
+        /// <returns>List of Customer</returns>
         [HttpGet(Name = "GetAllCustomers")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return this.Ok(this.context.Customers.Where(c => !c.IsDeleted).ToList());
+            var customers = await this.context.Customers.Where(c => !c.IsDeleted).ToListAsync();
+            return this.Ok(customers);
         }
 
-        // Get customer by ID
+        /// <summary>
+        /// Gets a specific <see cref="Customer"/>.
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>Customer</returns>
         [HttpGet("{id}", Name = "GetCustomer")]
-        public IActionResult GetById(long id)
+        public async Task<IActionResult> GetById(long id)
         {
-            var item = this.context.Customers.FirstOrDefault(c => c.Id == id);
-            if (item == null)
+            var customer = await this.context.Customers.FirstOrDefaultAsync(c => c.Id == id);
+            if (customer == null)
             {
-                return this.NotFound();
+                return this.NotFound(id);
             }
 
-            return this.Ok(item);
+            return this.Ok(customer);
         }
 
-        // Create a new customer
+        /// <summary>
+        /// Creates a <see cref="Customer"/>.
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns>Customer</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] Customer entity)
+        public async Task<IActionResult> Create([FromBody] Customer entity)
         {
-            if (entity == null)
+            if (entity == null || !this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState);
             }
 
-            this.context.Customers.Add(entity);
-            this.context.SaveChanges();
+            await this.context.Customers.AddAsync(entity);
+            await this.context.SaveChangesAsync();
 
             return this.CreatedAtRoute("GetCustomer", new { id = entity.Id }, entity);
         }
 
-        // Update a customer
+        /// <summary>
+        /// Updates a specific <see cref="Customer"/>.
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="entity">entity</param>
+        /// <returns>None</returns>
         [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] Customer entity)
+        public async Task<IActionResult> Update(long id, [FromBody] Customer entity)
         {
             if (entity == null || entity.Id == 0 || id == 0)
             {
                 return this.BadRequest();
             }
 
-            var customer = this.context.Customers.SingleOrDefault(t => t.Id == id);
+            var customer = await this.context.Customers.SingleOrDefaultAsync(t => t.Id == id);
             if (customer == null)
             {
-                return this.NotFound();
+                return this.NotFound(id);
             }
 
             // TODO: Use Automapper
@@ -101,24 +126,28 @@ namespace Oisys.Service.Controllers
             customer.Terms = entity.Terms;
 
             this.context.Update(customer);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
 
-            return this.CreatedAtRoute("GetCustomer", new { id = entity.Id }, entity);
+            return new NoContentResult();
         }
 
-        // Delete a customer
+        /// <summary>
+        /// Deletes a specific <see cref="Customer"/>.
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>None</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public async Task<IActionResult> Delete(long id)
         {
-            var customer = this.context.Customers.First(t => t.Id == id);
+            var customer = await this.context.Customers.FirstAsync(t => t.Id == id);
             if (customer == null)
             {
-                return this.NotFound();
+                return this.NotFound(id);
             }
 
             customer.IsDeleted = true;
             this.context.Update(customer);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
 
             return new NoContentResult();
         }
