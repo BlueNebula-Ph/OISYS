@@ -43,6 +43,12 @@
                 .WithMany(p => p.Details)
                 .HasForeignKey(p => p.CreditMemoId);
 
+            // Customer
+            modelBuilder.Entity<CustomerTransaction>()
+                .HasOne<Customer>(d => d.Customer)
+                .WithMany(p => p.Transactions)
+                .HasForeignKey(p => p.CustomerId);
+
             // Delivery
             modelBuilder.Entity<DeliveryDetail>()
                 .HasOne<Delivery>(d => d.Delivery)
