@@ -1,5 +1,7 @@
 ﻿namespace Oisys.Service.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public class Customer : ModelBase
@@ -13,6 +15,7 @@
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
+        [DataType(DataType.PhoneNumber)]
         [Required]
         public string ContactNumber { get; set; }
 
@@ -29,7 +32,7 @@
         public int ProvinceId { get; set; }
 
         [Required]
-        public string Term { get; set; }
+        public string Terms { get; set; }
 
         [Required]
         public string Discount { get; set; }
@@ -37,8 +40,13 @@
         [Required]
         public string PriceList { get; set; }
 
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
+
         public Reference City { get; set; }
 
         public Reference Province { get; set; }
+
+        public ICollection<CustomerTransaction> Transactions { get; set; }
     }
 }
