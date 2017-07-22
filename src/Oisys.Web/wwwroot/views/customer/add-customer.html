@@ -1,0 +1,67 @@
+﻿<sidebar show-save="true" show-cancel="true" cancel-url="#!/list/customers" toggle-save="ctrl.save()"></sidebar>
+<div class="body-content">
+    <h3>Save Customer Details. <small class="text-muted">Please input customer details.</small></h3>
+    <div class="col-md-3 side-padding-none">
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="CustomerCode">Customer Code</label>
+            <input type="text" class="form-control input-sm" id="CustomerCode" placeholder="This field is auto-generated." readonly />
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="CustomerName">Customer Name</label>
+            <input type="text" class="form-control input-sm" id="CustomerName" placeholder="Ex. Alice" />
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="Email">Email</label>
+            <input type="email" class="form-control input-sm" id="Email" placeholder="Ex. Alice@gmail.com" />
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="ContactNumber">Contact Number</label>
+            <input class="form-control input-sm" id="ContactNumber" placeholder="Ex. (900)-911-5555" />
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="ContactPerson">Contact Person</label>
+            <input class="form-control input-sm" id="ContactPerson" placeholder="Ex. Bob" />
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="Address">Address</label>
+            <textarea class="form-control input-sm" id="Address" rows="4" />
+        </div>
+    </div>
+    <div class="col-md-3 side-padding-none">
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="City">City</label>
+            <select class="form-control input-sm">
+                <option>Manila</option>
+                <option>Makati</option>
+                <option>Malabon</option>
+            </select>
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="Province">Province</label>
+            <select class="form-control input-sm">
+                <option>Manila</option>
+                <option>Makati</option>
+                <option>Malabon</option>
+            </select>
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="Term">Term</label>
+            <input class="form-control input-sm" id="Term" />
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="Discount">Discount</label>
+            <input class="form-control input-sm" id="Discount" />
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="PriceList">Price List</label>
+            <div>
+                <label class="radio-inline">
+                    <input type="radio" name="pricelistoptions" value="Walk-In Price" checked> Walk-In Price
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="pricelistoptions" value="Mainstream Price"> Mainstream Price
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

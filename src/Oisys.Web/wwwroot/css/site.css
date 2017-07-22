@@ -4,10 +4,12 @@
 
 html, body {
     height: 100%;
+    min-height: 100%;
 }
 
 .page-wrap {
     min-height: 100%;
+
     /* equal to footer height */
     margin-bottom: -30px;
     padding-top: 30px;
@@ -24,22 +26,74 @@ html, body {
 
 .site-footer {
     border-top: 1px solid #aaa;
-    background: #efefef;
+    background: #7992ad;
     text-align: center;
     font-weight: bold;
     padding: 5px 0;
+    color: #fefefe;
+    z-index: 10;
+    position: relative;
 }
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    margin: 40px 0 0 40px;
+}
+
+.side-padding-none {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.left-padding-none {
+    padding-left: 0;
+}
+
+.right-padding-none {
+    padding-right: 0;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 300px;
 }
+
+/* Front page logo */
+.logo {
+    font-size: larger;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+}
+
+/* Sidebar */
+.sidebar {
+    background: #3f4347;
+    position: fixed;
+    left: 0;
+    top: 50px;
+    width: 35px;
+    text-align: center;
+    color: #fff;
+    font-size: large;
+    padding-top: 20px;
+    height: 100%;
+}
+    .sidebar li {
+        margin-bottom: 15px;
+    }
+
+    .sidebar a {
+        color: #fff;
+    }
+
+/* Summary page */
+.summary-table {
+    border: 1px solid #ccc;
+}
+
+    .summary-table th {
+        background-color: #6faced;
+        color: #fefefe;
+    }
