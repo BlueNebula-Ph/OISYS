@@ -1,6 +1,6 @@
 ﻿(function () {
     var customerService = function ($http) {
-        var urlBase = 'http://localhost:57333/api/customer';
+        var urlBase = 'http://localhost:57334/api/customer';
         var dataFactory = {};
 
         dataFactory.fetchAllCustomers = function () {
