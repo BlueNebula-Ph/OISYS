@@ -3,9 +3,11 @@ namespace Oisys.Service.Controllers
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using Oisys.Service.DTO;
 
     /// <summary>
     /// <see cref="CustomerController"/> class handles Customer basic add, edit, delete and get.
@@ -15,14 +17,17 @@ namespace Oisys.Service.Controllers
     public class CustomerController : Controller
     {
         private readonly OisysDbContext context;
+        private readonly IMapper mapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerController"/> class.
         /// </summary>
         /// <param name="context">DbContext</param>
-        public CustomerController(OisysDbContext context)
+        /// /// <param name="mapper">Automapper</param>
+        public CustomerController(OisysDbContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
 
             if (this.context.Customers.Count() == 0)
             {
@@ -98,7 +103,7 @@ namespace Oisys.Service.Controllers
         /// <param name="entity">entity</param>
         /// <returns>None</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(long id, [FromBody] Customer entity)
+        public async Task<IActionResult> Update(long id, [FromBody] SaveCustomerRequest entity)
         {
             if (entity == null || entity.Id == 0 || id == 0)
             {
@@ -111,22 +116,16 @@ namespace Oisys.Service.Controllers
                 return this.NotFound(id);
             }
 
-            // TODO: Use Automapper
-            customer.Address = entity.Address;
-            customer.CityId = entity.CityId;
-            customer.Code = entity.Code;
-            customer.ContactNumber = entity.ContactNumber;
-            customer.ContactPerson = entity.ContactPerson;
-            customer.Discount = entity.Discount;
-            customer.Email = entity.Email;
-            customer.LastUpdatedDate = DateTime.Now;
-            customer.LastUpdatedBy = 1;
-            customer.Name = entity.Name;
-            customer.PriceList = entity.PriceList;
-            customer.Terms = entity.Terms;
-
-            this.context.Update(customer);
-            await this.context.SaveChangesAsync();
+            try
+            {
+                this.mapper.Map(entity, customer);
+                this.context.Update(customer);
+                await this.context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex);
+            }
 
             return new NoContentResult();
         }
