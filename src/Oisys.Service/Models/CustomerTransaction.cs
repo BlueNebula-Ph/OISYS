@@ -1,19 +1,18 @@
 ﻿namespace Oisys.Service.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// <see cref="CreditMemo"/> class CreditMemo object.
+    /// <see cref="CustomerTransaction"/> class.
     /// </summary>
-    public class CreditMemo : ModelBase
+    public class CustomerTransaction : ModelBase
     {
         /// <summary>
-        /// Gets or sets property Code.
+        /// Gets or sets property Customer Id.
         /// </summary>
         [Required]
-        public string Code { get; set; }
+        public int CustomerId { get; set; }
 
         /// <summary>
         /// Gets or sets property Date.
@@ -22,19 +21,24 @@
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Gets or sets property Driver.
+        /// Gets or sets property Debit.
         /// </summary>
-        public string Driver { get; set; }
+        public decimal? Debit { get; set; }
 
         /// <summary>
-        /// Gets or sets property CustomerId.
+        /// Gets or sets property Credit.
         /// </summary>
-        public int CustomerId { get; set; }
+        public decimal? Credit { get; set; }
 
         /// <summary>
-        /// Gets or sets property Details.
+        /// Gets or sets property Description.
         /// </summary>
-        public ICollection<CreditMemoDetail> Details { get; set; }
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets property RunningBalance.
+        /// </summary>
+        public decimal RunningBalance { get; set; }
 
         /// <summary>
         /// Gets or sets property Customer.
