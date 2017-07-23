@@ -30,6 +30,6 @@
         /// <summary>
         /// Gets or sets property Details.
         /// </summary>
-        public ICollection<DeliveryDetail> Details { get; set; }
+        public ICollection<OrderDetail> Details { get; set; }
     }
 }

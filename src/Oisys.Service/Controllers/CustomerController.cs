@@ -2,12 +2,14 @@ namespace Oisys.Service.Controllers
 {
     using System;
     using System.Linq;
+    using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Oisys.Service.DTO;
+    using Oisys.Service.Helpers;
 
     /// <summary>
     /// <see cref="CustomerController"/> class handles Customer basic add, edit, delete and get.
@@ -52,11 +54,45 @@ namespace Oisys.Service.Controllers
         /// <summary>
         /// Returns list of active <see cref="Customer"/>
         /// </summary>
+        /// <param name="filter"><see cref="CustomerFilterRequest"/></param>
         /// <returns>List of Customer</returns>
-        [HttpGet(Name = "GetAllCustomers")]
-        public async Task<IActionResult> GetAll()
+        [HttpPost("summary", Name = "GetAllCustomers")]
+        public async Task<IActionResult> GetAll([FromBody]CustomerFilterRequest filter)
         {
-            var customers = await this.context.Customers.Where(c => !c.IsDeleted).ToListAsync();
+            // CustomerFilterRequest filter = null;
+
+            // if (!string.IsNullOrEmpty(data))
+            // {
+            //    try
+            //    {
+            //        string o = JsonConvert.DeserializeObject(data).ToString();
+            //        var v = JObject.Parse(o);
+            //        filter = v.ToObject<CustomerFilterRequest>();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            // }
+
+            // get list of active customers (not deleted)
+            var list = this.context.Customers.Where(c => !c.IsDeleted);
+
+            // filter
+
+            // sort
+            if (filter == null)
+            {
+                list = list.OrderBy(c => c.Name);
+            }
+            else
+            {
+                list = list.OrderBy(filter.SortBy, filter.SortDirection, null);
+            }
+
+            // paging
+            var customers = await SummaryList<Customer>.CreateAsync(list, filter == null ? Constants.DefaultPageIndex : filter.PageIndex, filter == null ? Constants.DefaultPageSize : filter.PageSize);
+
             return this.Ok(customers);
         }
 
