@@ -1,11 +1,10 @@
 ﻿(function () {
-    var customerService = function () {
-        var urlBase = '/api/customers';
+    var customerService = function ($http) {
+        var urlBase = 'http://localhost:57333/api/customer';
         var dataFactory = {};
 
         dataFactory.fetchAllCustomers = function () {
-            var url = urlBase;
-            return $http.get(url);
+            return $http.get(urlBase);
         };
 
         dataFactory.fetchCustomers = function (page, sort, search) {
@@ -14,13 +13,13 @@
         };
 
         dataFactory.getCustomer = function (id) {
-            var url = urlBase + '/' + id;
+            var url = urlBase + "/" + id;
             return $http.get(url);
         };
 
         dataFactory.saveCustomer = function (id, customer) {
             if (id === 0) {
-                return $http.post(urlBase, { customer: customer });
+                return $http.post(urlBase, customer);
             } else {
                 var url = urlBase + "/" + id;
                 return $http.put(url, customer);
@@ -28,11 +27,12 @@
         };
 
         dataFactory.deleteCustomer = function (id) {
-            return $http.delete(url, { id: id });
+            var url = urlBase + "/" + id;
+            return $http.delete(url);
         };
 
         return dataFactory;
     };
 
-    angular.module("oisys-app").factory("customerService", [customerService]);
+    angular.module("oisys-app").factory("customerService", ["$http", customerService]);
 })();

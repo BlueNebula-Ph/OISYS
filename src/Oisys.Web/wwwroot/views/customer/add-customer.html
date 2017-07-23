@@ -5,62 +5,72 @@
     <div class="col-md-3 side-padding-none">
         <div class="form-group form-group-sm">
             <label class="control-label" for="CustomerCode">Customer Code</label>
-            <input type="text" class="form-control input-sm" id="CustomerCode" placeholder="This field is auto-generated." readonly />
+            <input type="text" class="form-control input-sm" id="CustomerCode" placeholder="This field is auto-generated." readonly 
+                   ng-model="ctrl.customer.code" />
         </div>
         <div class="form-group form-group-sm">
             <label class="control-label" for="CustomerName">Customer Name</label>
-            <input type="text" class="form-control input-sm" id="CustomerName" placeholder="Ex. Alice" />
+            <input type="text" class="form-control input-sm" id="CustomerName" placeholder="Ex. Alice" 
+                   ng-model="ctrl.customer.name" />
         </div>
         <div class="form-group form-group-sm">
             <label class="control-label" for="Email">Email</label>
-            <input type="email" class="form-control input-sm" id="Email" placeholder="Ex. Alice@gmail.com" />
+            <input type="email" class="form-control input-sm" id="Email" placeholder="Ex. Alice@gmail.com" 
+                   ng-model="ctrl.customer.email" />
         </div>
         <div class="form-group form-group-sm">
             <label class="control-label" for="ContactNumber">Contact Number</label>
-            <input class="form-control input-sm" id="ContactNumber" placeholder="Ex. (900)-911-5555" />
+            <input class="form-control input-sm" id="ContactNumber" placeholder="Ex. (900)-911-5555" 
+                   ng-model="ctrl.customer.contactNumber" />
         </div>
         <div class="form-group form-group-sm">
             <label class="control-label" for="ContactPerson">Contact Person</label>
-            <input class="form-control input-sm" id="ContactPerson" placeholder="Ex. Bob" />
+            <input class="form-control input-sm" id="ContactPerson" placeholder="Ex. Bob" 
+                   ng-model="ctrl.customer.contactPerson" />
         </div>
         <div class="form-group form-group-sm">
             <label class="control-label" for="Address">Address</label>
-            <textarea class="form-control input-sm" id="Address" rows="4" />
+            <textarea class="form-control input-sm" id="Address" rows="4" 
+                      ng-model="ctrl.customer.address" />
         </div>
     </div>
     <div class="col-md-3 side-padding-none">
         <div class="form-group form-group-sm">
             <label class="control-label" for="City">City</label>
-            <select class="form-control input-sm">
-                <option>Manila</option>
-                <option>Makati</option>
-                <option>Malabon</option>
+            <select class="form-control input-sm" ng-model="ctrl.customer.cityId">
+                <option value="1">Manila</option>
+                <option value="1">Makati</option>
+                <option value="1">Malabon</option>
             </select>
         </div>
         <div class="form-group form-group-sm">
             <label class="control-label" for="Province">Province</label>
-            <select class="form-control input-sm">
-                <option>Manila</option>
-                <option>Makati</option>
-                <option>Malabon</option>
+            <select class="form-control input-sm" ng-model="ctrl.customer.provinceId" >
+                <option value="1">Manila</option>
+                <option value="1">Makati</option>
+                <option value="1">Malabon</option>
             </select>
         </div>
         <div class="form-group form-group-sm">
-            <label class="control-label" for="Term">Term</label>
-            <input class="form-control input-sm" id="Term" />
+            <label class="control-label" for="Term">Terms</label>
+            <input class="form-control input-sm" id="Terms" 
+                    ng-model="ctrl.customer.terms" />
         </div>
         <div class="form-group form-group-sm">
             <label class="control-label" for="Discount">Discount</label>
-            <input class="form-control input-sm" id="Discount" />
+            <input class="form-control input-sm" id="Discount" 
+                    ng-model="ctrl.customer.discount" />
         </div>
         <div class="form-group form-group-sm">
             <label class="control-label" for="PriceList">Price List</label>
             <div>
                 <label class="radio-inline">
-                    <input type="radio" name="pricelistoptions" value="Walk-In Price" checked> Walk-In Price
+                    <input type="radio" name="pricelistoptions" value="Walk-In Price" 
+                           checked ng-model="ctrl.customer.priceList"> Walk-In Price
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="pricelistoptions" value="Mainstream Price"> Mainstream Price
+                    <input type="radio" name="pricelistoptions" value="Mainstream Price"
+                            ng-model="ctrl.customer.priceList"> Mainstream Price
                 </label>
             </div>
         </div>

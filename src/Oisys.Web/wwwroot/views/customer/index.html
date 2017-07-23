@@ -7,6 +7,7 @@
             <tr>
                 <th>Code</th>
                 <th>Customer Name</th>
+                <th>Email</th>
                 <th>City</th>
                 <th>Province</th>
                 <th>Contact Person</th>
@@ -15,20 +16,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="c in ctrl.customers track by c.Id">
-                <td>{{ c.Code }}</td>
-                <td>{{ c.Name }}</td>
-                <td>{{ c.City }}</td>
-                <td>{{ c.Province }}</td>
-                <td>{{ c.ContactPerson }}</td>
-                <td>{{ c.ContactNumber }}</td>
+            <tr ng-repeat="c in ctrl.customers track by c.id">
+                <td>{{ c.code }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.email }}</td>
+                <td>{{ c.cityId }}</td>
+                <td>{{ c.provinceId }}</td>
+                <td>{{ c.contactPerson }}</td>
+                <td>{{ c.contactNumber }}</td>
                 <td>
-                    <a ng-href="#!/details/customer/{{ c.Id }}" class="btn btn-default btn-xs" title="View customer details">
+                    <a ng-href="#!/details/customer/{{ c.id }}" class="btn btn-default btn-xs" title="View customer details">
                         <i class="fa fa-file-o fa-fw"></i>
                     </a>
-                    <button class="btn btn-default btn-xs" title="Edit this customer">
+                    <a ng-href="#!/add/customer/{{ c.id }}" class="btn btn-default btn-xs" title="Edit this customer">
                         <i class="fa fa-edit fa-fw"></i>
-                    </button>
+                    </a>
                     <button class="btn btn-danger btn-xs" title="Delete this customer">
                         <i class="fa fa-trash-o fa-fw"></i>
                     </button>

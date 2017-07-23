@@ -1,27 +1,24 @@
 ﻿(function () {
-    var viewCustomerController = function (loadingService) {
+    var viewCustomerController = function (customerService, loadingService) {
         var vm = this;
 
         vm.customers = [];
 
-        loadingService.showLoading();
-
         $(function () {
-            for (var i = 0; i < 100; i++) {
-                vm.customers.push({
-                    Id: i + 1,
-                    Code: "Code " + i + 1,
-                    Name: "Name",
-                    City: "City1",
-                    Province: "Province1",
-                    ContactPerson: "MyContact",
-                    ContactNumber: "911-5555"
+            loadingService.showLoading();
+
+            customerService.fetchAllCustomers()
+                .then(function (response) {
+                    vm.customers = response.data;
+                }, function (error) {
+                    console.log(error);
+                }).finally(function () {
+                    loadingService.hideLoading();
                 });
-            };
         });
 
         return vm;
     };
 
-    angular.module("oisys-app").controller("viewCustomerController", ["loadingService", viewCustomerController]);
+    angular.module("oisys-app").controller("viewCustomerController", ["customerService", "loadingService", viewCustomerController]);
 })();

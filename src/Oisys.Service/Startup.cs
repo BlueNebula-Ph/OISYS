@@ -42,6 +42,17 @@
         /// <param name="services">Services</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add CORS policy
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "OisysCorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+
             // Add framework services.
             services.AddMvc()
                 .AddJsonOptions(opt =>
@@ -75,6 +86,8 @@
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors("OisysCorsPolicy");
 
             app.UseMvc();
 
