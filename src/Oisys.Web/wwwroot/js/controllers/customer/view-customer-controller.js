@@ -1,8 +1,10 @@
 ﻿(function () {
-    var viewCustomerController = function () {
+    var viewCustomerController = function (loadingService) {
         var vm = this;
 
         vm.customers = [];
+
+        loadingService.showLoading();
 
         $(function () {
             for (var i = 0; i < 100; i++) {
@@ -21,5 +23,5 @@
         return vm;
     };
 
-    angular.module("oisys-app").controller("viewCustomerController", [viewCustomerController]);
+    angular.module("oisys-app").controller("viewCustomerController", ["loadingService", viewCustomerController]);
 })();

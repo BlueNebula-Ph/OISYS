@@ -88,6 +88,18 @@ textarea {
         color: #fff;
     }
 
+/* Loading control */
+.loading-indicator {
+    position: fixed;
+    width: 120px;
+    text-align: center;
+    left: 40%;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    background-color: #ffff99;
+    font-weight: bold;
+}
+
 /* Summary page */
 .summary-table {
     border: 1px solid #ccc;
