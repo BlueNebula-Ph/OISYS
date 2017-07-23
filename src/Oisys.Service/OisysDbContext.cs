@@ -38,11 +38,6 @@
         public DbSet<Delivery> Deliveries { get; set; }
 
         /// <summary>
-        /// Gets or sets property Delivery Details <see cref="DeliveryDetail"/> class.
-        /// </summary>
-        public DbSet<DeliveryDetail> DeliveryDetails { get; set; }
-
-        /// <summary>
         /// Gets or sets property Items <see cref="Item"/> class.
         /// </summary>
         public DbSet<Item> Items { get; set; }
@@ -91,12 +86,6 @@
                 .HasOne<Customer>(d => d.Customer)
                 .WithMany(p => p.Transactions)
                 .HasForeignKey(p => p.CustomerId);
-
-            // Delivery
-            modelBuilder.Entity<DeliveryDetail>()
-                .HasOne<Delivery>(d => d.Delivery)
-                .WithMany(p => p.Details)
-                .HasForeignKey(p => p.DeliveryId);
 
             // Order
             modelBuilder.Entity<OrderDetail>()

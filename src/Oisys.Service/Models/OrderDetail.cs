@@ -26,6 +26,12 @@
         public int ItemId { get; set; }
 
         /// <summary>
+        /// Gets or sets property DeliveryId.
+        /// </summary>
+        [Required]
+        public int DeliveryId { get; set; }
+
+        /// <summary>
         /// Gets or sets property Price.
         /// </summary>
         [Required]
@@ -40,5 +46,10 @@
         /// Gets or sets Item navigation property.
         /// </summary>
         public Item Item { get; set; }
+
+        /// <summary>
+        /// Gets or sets Delivery navigation property.
+        /// </summary>
+        public Delivery Delivery { get; set; }
     }
 }
