@@ -1,5 +1,7 @@
 ﻿namespace Oisys.Service
 {
+    using System.IO;
+    using AutoMapper;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -9,10 +11,16 @@
     using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
     using Swashbuckle.AspNetCore.Swagger;
-    using System.IO;
 
+    /// <summary>
+    /// <see cref="Startup"/> class API configuration.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="env">Hosting environment</param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -23,9 +31,15 @@
             this.Configuration = builder.Build();
         }
 
+        /// <summary>
+        /// Gets read-only property configuration <see cref="IConfigurationRoot"/> class.
+        /// </summary>
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">Services</param>
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
@@ -35,6 +49,8 @@
                         opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     });
             services.AddLogging();
+
+            services.AddAutoMapper();
 
             services.AddDbContext<OisysDbContext>(opt => opt.UseInMemoryDatabase());
 
@@ -49,7 +65,12 @@
                 });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app">IApplicationBuilder</param>
+        /// <param name="env">IHostingEnvironment</param>
+        /// <param name="loggerFactory">ILoggerFactory</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));

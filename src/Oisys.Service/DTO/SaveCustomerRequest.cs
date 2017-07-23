@@ -1,13 +1,11 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Service.DTO
 {
-    using System.Collections.Generic;
-    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// <see cref="Customer"/> class Customer object.
+    /// <see cref="SaveCustomerRequest"/> class Create/Update Customer object.
     /// </summary>
-    public class Customer : ModelBase
+    public class SaveCustomerRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets property Code.
@@ -75,26 +73,5 @@
         /// </summary>
         [Required]
         public string PriceList { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
-        /// </summary>
-        [DefaultValue(false)]
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// Gets or sets property City.
-        /// </summary>
-        public Reference City { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Province.
-        /// </summary>
-        public Reference Province { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Customer transactions.
-        /// </summary>
-        public ICollection<CustomerTransaction> Transactions { get; set; }
     }
 }
