@@ -10,8 +10,6 @@ namespace Oisys.Service.Controllers
     using Models;
     using Oisys.Service.DTO;
     using Oisys.Service.Helpers;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// <see cref="CustomerController"/> class handles Customer basic add, edit, delete and get.
@@ -56,26 +54,26 @@ namespace Oisys.Service.Controllers
         /// <summary>
         /// Returns list of active <see cref="Customer"/>
         /// </summary>
-        /// <param name="data"><see cref="CustomerFilterRequest"/></param>
+        /// <param name="filter"><see cref="CustomerFilterRequest"/></param>
         /// <returns>List of Customer</returns>
-        [HttpGet(Name = "GetAllCustomers")]
-        public async Task<IActionResult> GetAll(string data)
+        [HttpPost("summary", Name = "GetAllCustomers")]
+        public async Task<IActionResult> GetAll([FromBody]CustomerFilterRequest filter)
         {
-            CustomerFilterRequest filter = null;
+            // CustomerFilterRequest filter = null;
 
-            if (!string.IsNullOrEmpty(data))
-            {
-                try
-                {
-                    string o = JsonConvert.DeserializeObject(data).ToString();
-                    var v = JObject.Parse(o);
-                    filter = v.ToObject<CustomerFilterRequest>();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
+            // if (!string.IsNullOrEmpty(data))
+            // {
+            //    try
+            //    {
+            //        string o = JsonConvert.DeserializeObject(data).ToString();
+            //        var v = JObject.Parse(o);
+            //        filter = v.ToObject<CustomerFilterRequest>();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            // }
 
             // get list of active customers (not deleted)
             var list = this.context.Customers.Where(c => !c.IsDeleted);
