@@ -1,5 +1,11 @@
 @{
-    ViewData["Title"] = "Customer List";
+    this.ViewData["Title"] = "Manage Customers";
 }
 
 <div ng-view></div>
+
+@section Scripts {
+    <script src="~/js/controllers/customer/view-customer-controller.js"></script>
+    <script src="~/js/controllers/customer/customer-details-controller.js"></script>
+    <script src="~/js/controllers/customer/add-customer-controller.js"></script>
+}

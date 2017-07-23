@@ -83,17 +83,18 @@ namespace Oisys.Service.Controllers
         /// <param name="entity">entity</param>
         /// <returns>Customer</returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Customer entity)
+        public async Task<IActionResult> Create([FromBody] SaveCustomerRequest entity)
         {
             if (entity == null || !this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            await this.context.Customers.AddAsync(entity);
+            var customer = this.mapper.Map<Customer>(entity);
+            await this.context.Customers.AddAsync(customer);
             await this.context.SaveChangesAsync();
 
-            return this.CreatedAtRoute("GetCustomer", new { id = entity.Id }, entity);
+            return this.CreatedAtRoute("GetCustomer", new { id = customer.Id }, entity);
         }
 
         /// <summary>

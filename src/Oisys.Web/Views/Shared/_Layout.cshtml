@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Order and Inventory Management System</title>
+    <title>@this.ViewData["Title"] - Order and Inventory Management System</title>
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootswatch/spacelab/bootstrap.css" />
@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
-    @Html.Raw(JavaScriptSnippet.FullScript)
+    @this.Html.Raw(this.JavaScriptSnippet.FullScript)
 </head>
 <body ng-app="oisys-app">
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -28,7 +28,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-controller="Home" asp-action="Index" class="navbar-brand">Ace Plastic Center</a>
+                <a asp-controller="Home" asp-action="Index" class="navbar-brand">
+                    <span class="logo">Ace Plastic Center</span>
+                </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -66,8 +68,8 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid body-content page-wrap">
-        @RenderBody()
+    <div class="container-fluid page-wrap">
+        @this.RenderBody()
     </div>
     <footer class="site-footer">
         &copy; 2017 - Ace Plastic Center - OISYS
@@ -79,6 +81,10 @@
         <script src="~/lib/angular/angular.js"></script>
         <script src="~/lib/angular-route/angular-route.js"></script>
         <script src="~/js/app.js" asp-append-version="true"></script>
+        <script src="~/js/services/loading-service.js"></script>
+        <script src="~/js/services/customer-service.js"></script>
+        <script src="~/js/directives/sidebar.js"></script>
+        <script src="~/js/directives/loadingInidicator.js"></script>
     </environment>
     <environment names="Production">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -88,6 +94,6 @@
         <script src="~/js/app.min.js" asp-append-version="true"></script>
     </environment>
 
-    @RenderSection("Scripts", required: false)
+    @this.RenderSection("Scripts", required: false)
 </body>
 </html>

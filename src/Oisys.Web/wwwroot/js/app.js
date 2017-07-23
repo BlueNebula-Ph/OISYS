@@ -5,10 +5,18 @@
             $routeProvider
                 .when("/", {
                     templateUrl: "/views/home/index.html"
-                }).when("/list/customers", { // Customers route
+                }).when("/list/customers", { // Customer routes
                     templateUrl: "/views/customer/index.html",
-                    controller: "",
-                    controllerAs: ""
+                    controller: "viewCustomerController",
+                    controllerAs: "ctrl"
+                }).when("/add/customer/:id", {
+                    templateUrl: "/views/customer/add-customer.html",
+                    controller: "addCustomerController",
+                    controllerAs: "ctrl"
+                }).when("/details/customer/:id", {
+                    templateUrl: "/views/customer/customer-details.html",
+                    controller: "customerDetailsController",
+                    controllerAs: "ctrl"
                 }).when("/list/orders", { // Orders route
                     templateUrl: "/views/order/index.html",
                     controller: "",
