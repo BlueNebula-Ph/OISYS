@@ -1,4 +1,4 @@
-﻿(function () {
+﻿(function (module) {
     var loadingService = function () {
         var self = this;
         self.isShown = false;
@@ -18,5 +18,6 @@
         return self;
     };
 
-    angular.module('oisys-app').service('loadingService', [loadingService]);
-})();
+    module.factory("loadingService", [loadingService]);
+
+})(angular.module("oisys-app"));

@@ -1,4 +1,4 @@
-﻿(function () {
+﻿(function (module) {
     var customerService = function ($http) {
         var urlBase = 'http://localhost:57334/api/customer';
         var dataFactory = {};
@@ -34,5 +34,6 @@
         return dataFactory;
     };
 
-    angular.module("oisys-app").factory("customerService", ["$http", customerService]);
-})();
+    module.factory("customerService", ["$http", customerService]);
+
+})(angular.module("oisys-app"));

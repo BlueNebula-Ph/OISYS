@@ -1,5 +1,7 @@
-﻿(function () {
+﻿(function (module) {
+
     var sidebar = function () {
+
         var sidebarController = ["$scope", function ($scope) {
             var vm = this;
 
@@ -39,5 +41,6 @@
         };
     };
 
-    angular.module("oisys-app").directive("sidebar", [sidebar]);
-})();
+    module.directive("sidebar", [sidebar]);
+
+})(angular.module("oisys-app"));

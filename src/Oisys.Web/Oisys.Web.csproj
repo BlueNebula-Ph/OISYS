@@ -15,14 +15,21 @@
   <ItemGroup>
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\app.min.js" />
+    <Content Include="wwwroot\js\controllers\common\login-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\add-customer-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\customer-details-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\view-customer-controller.js" />
     <Content Include="wwwroot\js\directives\loadingInidicator.js" />
     <Content Include="wwwroot\js\directives\sidebar.js" />
+    <Content Include="wwwroot\js\services\auth-service.js" />
+    <Content Include="wwwroot\js\services\current-user.js" />
     <Content Include="wwwroot\js\services\customer-service.js" />
+    <Content Include="wwwroot\js\services\form-encode.js" />
     <Content Include="wwwroot\js\services\loading-service.js" />
+    <Content Include="wwwroot\js\services\login-redirect.js" />
+    <Content Include="wwwroot\js\services\token-service.js" />
     <Content Include="wwwroot\views\common\loading-indicator.html" />
+    <Content Include="wwwroot\views\common\login.html" />
     <Content Include="wwwroot\views\common\sidebar.html" />
     <Content Include="wwwroot\views\customer\add-customer.html" />
     <Content Include="wwwroot\views\customer\customer-details.html" />
@@ -30,6 +37,7 @@
     <Content Include="wwwroot\views\delivery\index.html" />
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\index.html" />
+    <Content Include="wwwroot\views\login.html" />
     <Content Include="wwwroot\views\order\index.html" />
     <Content Include="wwwroot\views\user\index.html" />
   </ItemGroup>
