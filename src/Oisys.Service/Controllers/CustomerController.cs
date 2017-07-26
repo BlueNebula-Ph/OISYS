@@ -59,22 +59,6 @@ namespace Oisys.Service.Controllers
         [HttpPost("summary", Name = "GetAllCustomers")]
         public async Task<IActionResult> GetAll([FromBody]CustomerFilterRequest filter)
         {
-            // CustomerFilterRequest filter = null;
-
-            // if (!string.IsNullOrEmpty(data))
-            // {
-            //    try
-            //    {
-            //        string o = JsonConvert.DeserializeObject(data).ToString();
-            //        var v = JObject.Parse(o);
-            //        filter = v.ToObject<CustomerFilterRequest>();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        throw ex;
-            //    }
-            // }
-
             // get list of active customers (not deleted)
             var list = this.context.Customers.Where(c => !c.IsDeleted);
 

@@ -16,10 +16,16 @@
         public MappingConfig()
         {
             // TODO: Change LastUpdatedBy value
+            // Customer
             this.CreateMap<SaveCustomerRequest, Customer>()
                 .ForMember(d => d.LastUpdatedDate, s => s.MapFrom(o => DateTime.Now))
                 .ForMember(d => d.LastUpdatedBy, s => s.MapFrom(o => 1))
                 .ForMember(d => d.CreatedBy, s => s.MapFrom(o => 1));
+
+            // ReferenceType
+            this.CreateMap<ReferenceType, ReferenceTypeSummary>();
+
+            this.CreateMap<SaveReferenceTypeRequest, ReferenceType>();
         }
     }
 }
