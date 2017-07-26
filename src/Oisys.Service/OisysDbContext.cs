@@ -68,6 +68,16 @@
         public DbSet<User> Users { get; set; }
 
         /// <summary>
+        /// Gets or sets property Users <see cref="ReferenceType"/> class.
+        /// </summary>
+        public DbSet<ReferenceType> ReferenceTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Users <see cref="Reference"/> class.
+        /// </summary>
+        public DbSet<Reference> References { get; set; }
+
+        /// <summary>
         /// This method sets up the foreign keys of entities
         /// </summary>
         /// <param name="modelBuilder">ModelBuilder</param>
@@ -104,6 +114,10 @@
             modelBuilder.Entity<Customer>()
                 .Property(e => e.CreatedDate)
                 .HasDefaultValueSql("getutcdate()");
+
+            modelBuilder.Entity<ReferenceType>()
+                .Property(e => e.CreatedDate)
+                .HasDefaultValueSql("GETUTCDATE()");
         }
     }
 }

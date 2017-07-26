@@ -8,9 +8,14 @@
     public class ReferenceType : ModelBase
     {
         /// <summary>
-        /// Gets or sets property Code.
+        /// Gets or sets a value indicating whether gets or sets property Code.
         /// </summary>
         [Required]
         public string Code { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
+        /// </summary>
+        public bool IsDeleted { get; set; }
     }
 }
