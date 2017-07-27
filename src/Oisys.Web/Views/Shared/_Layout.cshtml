@@ -80,17 +80,25 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/angular/angular.js"></script>
         <script src="~/lib/angular-route/angular-route.js"></script>
+        <script src="~/js/env.js"></script>
         <script src="~/js/app.js" asp-append-version="true"></script>
         <script src="~/js/services/loading-service.js"></script>
         <script src="~/js/services/customer-service.js"></script>
         <script src="~/js/directives/sidebar.js"></script>
         <script src="~/js/directives/loadingInidicator.js"></script>
+        <script src="~/js/controllers/common/login-controller.js"></script>
+        <script src="~/js/services/current-user.js"></script>
+        <script src="~/js/services/auth-service.js"></script>
+        <script src="~/js/services/form-encode.js"></script>
+        <script src="~/js/services/login-redirect.js"></script>
+        <script src="~/js/services/token-service.js"></script>
     </environment>
     <environment names="Production">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="~/lib/angular/angular.min.js"></script>
         <script src="~/lib/angular-route/angular-route.min.js"></script>
+        <script src="~/js/env.prod.js"></script>
         <script src="~/js/app.min.js" asp-append-version="true"></script>
     </environment>
 

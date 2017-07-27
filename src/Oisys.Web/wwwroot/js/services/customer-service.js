@@ -1,6 +1,6 @@
 ﻿(function (module) {
-    var customerService = function ($http) {
-        var urlBase = 'http://localhost:57334/api/customer';
+    var customerService = function ($http, env) {
+        var urlBase = env.baseUrl + "/api/customer";
         var dataFactory = {};
 
         dataFactory.fetchAllCustomers = function () {
@@ -8,8 +8,6 @@
         };
 
         dataFactory.fetchCustomers = function (page, sort, search) {
-            var url = urlBase + '?page=' + page + '&sort=' + sort + '&search=' + search;
-            return $http.get(url);
         };
 
         dataFactory.getCustomer = function (id) {
@@ -34,6 +32,6 @@
         return dataFactory;
     };
 
-    module.factory("customerService", ["$http", customerService]);
+    module.factory("customerService", ["$http", "env", customerService]);
 
 })(angular.module("oisys-app"));

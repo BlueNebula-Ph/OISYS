@@ -1,10 +1,23 @@
 ﻿(function () {
     'use strict';
+
+    // Set the environment variables
+    var env = {};
+
+    if (window) {
+        Object.assign(env, window._environment);
+    };
+
     angular.module("oisys-app", ["ngRoute"])
+        .constant("env", env)
         .config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
             $routeProvider
                 .when("/", {
                     templateUrl: "/views/home/index.html"
+                }).when("/login", {
+                    templateUrl: "/views/common/login.html",
+                    controller: "loginController",
+                    controllerAs: "ctrl"
                 }).when("/list/customers", { // Customer routes
                     templateUrl: "/views/customer/index.html",
                     controller: "viewCustomerController",

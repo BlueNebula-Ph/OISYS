@@ -1,6 +1,6 @@
 ﻿(function (module) {
 
-    var authService = function ($http, formEncode, currentUser) {
+    var authService = function ($http, formEncode, currentUser, env) {
 
         var login = function (username, password) {
 
@@ -17,7 +17,7 @@
             });
 
             return $http
-                .post("/token", data, config)
+                .post(env.baseUrl + "/connect/token", data, config)
                 .then(function (response) {
                     currentUser.setUserProfile(username, response.data.access_token);
                     return username;
@@ -29,6 +29,6 @@
         };
     };
 
-    module.factory("authService", ["$http", "formEncode", authService]);
+    module.factory("authService", ["$http", "formEncode", "currentUser", "env", authService]);
 
 })(angular.module("oisys-app"));

@@ -14,11 +14,12 @@
                     .then(function () {
                         loginRedirect.redirectPostLogin();
                     })
-                    .catch(function () {
+                    .catch(function (error) {
+                        console.log(error);
                         alert("CANNOT LOGIN!");
                     });
 
-                model.username = model.password = "";
+                vm.username = vm.password = "";
                 form.$setUntouched();
             }
         };
