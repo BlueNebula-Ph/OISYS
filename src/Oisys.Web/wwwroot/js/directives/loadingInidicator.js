@@ -1,5 +1,7 @@
-﻿(function () {
+﻿(function (module) {
+
     var loadingIndicator = function (loadingService) {
+
         var loadingController = ["$scope", "loadingService", function ($scope, loadingService) {
             $scope.showIndicator = loadingService.isShown;
 
@@ -7,6 +9,7 @@
                 $scope.showIndicator = newVal;
             });
         }];
+
         return {
             restrict: "E",
             templateUrl: "/views/common/loading-indicator.html?" + $.now(),
@@ -23,5 +26,6 @@
         };
     };
 
-    angular.module("oisys-app").directive("loadingIndicator", [loadingIndicator]);
-})();
+    module.directive("loadingIndicator", [loadingIndicator]);
+
+})(angular.module("oisys-app"));

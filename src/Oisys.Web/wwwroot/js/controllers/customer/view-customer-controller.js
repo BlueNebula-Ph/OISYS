@@ -1,4 +1,5 @@
-﻿(function () {
+﻿(function (module) {
+
     var viewCustomerController = function (customerService, loadingService) {
         var vm = this;
 
@@ -20,5 +21,6 @@
         return vm;
     };
 
-    angular.module("oisys-app").controller("viewCustomerController", ["customerService", "loadingService", viewCustomerController]);
-})();
+    module.controller("viewCustomerController", ["customerService", "loadingService", viewCustomerController]);
+
+})(angular.module("oisys-app"));

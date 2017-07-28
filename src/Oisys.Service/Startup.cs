@@ -63,7 +63,25 @@
 
             services.AddAutoMapper();
 
-            services.AddDbContext<OisysDbContext>(opt => opt.UseInMemoryDatabase());
+            services.AddDbContext<OisysDbContext>(opt =>
+            {
+                opt.UseInMemoryDatabase();
+
+                opt.UseOpenIddict();
+            });
+
+            services.AddOpenIddict(opt =>
+            {
+                opt.AddEntityFrameworkCoreStores<OisysDbContext>();
+
+                opt.AddMvcBinders();
+
+                opt.EnableTokenEndpoint("/connect/token");
+
+                opt.AllowPasswordFlow();
+
+                opt.DisableHttpsRequirement();
+            });
 
             services.AddSwaggerGen(opt =>
                 {
@@ -89,7 +107,9 @@
 
             app.UseCors("OisysCorsPolicy");
 
-            app.UseMvc();
+            app.UseOpenIddict();
+
+            app.UseMvcWithDefaultRoute();
 
             app.UseSwagger();
 

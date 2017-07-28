@@ -1,4 +1,5 @@
-﻿(function () {
+﻿(function (module) {
+
     var customerDetailsController = function () {
         var vm = this;
 
@@ -12,5 +13,6 @@
         return vm;
     };
 
-    angular.module("oisys-app").controller("customerDetailsController", [customerDetailsController]);
-})();
+    module.controller("customerDetailsController", [customerDetailsController]);
+
+})(angular.module("oisys-app"));

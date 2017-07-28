@@ -1,0 +1,15 @@
+﻿<form name="loginForm" ng-submit="ctrl.login(loginForm)">
+    <div class="form-group">
+        <label class="control-label">Username</label>
+        <input type="text" class="form-control input-sm" placeholder="Alice"
+               ng-model="ctrl.username"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Password</label>
+        <input type="password" class="form-control input-sm"
+               ng-model="ctrl.password" />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+</form>
