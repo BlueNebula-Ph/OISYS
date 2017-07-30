@@ -1,0 +1,108 @@
+** CUSTOMERS **
+
+POST /api/customer/search
+{ search - customername | city | province,  sort, pageNumber, pageSize,  }
+
+GET /api/customer/{id}
+
+POST /api/customer
+{ customer data to save }
+
+PUT /api/customer/{id}
+{ customer data to save }
+
+DELETE /api/customer/{id}
+
+GET /api/customer/{id}/transactions?datefrom=xx&dateto=xx
+
+
+** REFERENCES **
+
+GET /api/reference/search?type=xx&search=xx&sort=xx&page=xx&pageSize=xx
+
+GET /api/reference/{id}
+
+POST /api/reference
+{ reference data to save }
+
+PUT /api/reference/{id}
+{ reference data to save }
+
+DELETE /api/reference/{id}
+
+** ITEMS / INVENTORY **
+
+POST /api/item/search
+{ search = itemcode | itemname | category, sort, pageNumber, pageSize }
+
+GET /api/item/{id}
+
+POST /api/item
+{ item data to save }
+
+PUT /api/item/{id}
+{ item data to save }
+
+DELETE /api/item/{id}
+
+
+** ORDERS **
+
+POST /api/order/search
+{ search = ordernumber | customer | datefrom & dateto | item, sort, pageNumber, pageSize }
+
+GET /api/order/{id}
+
+POST /api/order
+{ order data to save }
+
+PUT /api/order/{id}
+{ order data to save }
+
+DELETE /api/order/{id}
+
+** DELIVERIES **
+
+POST /api/delivery/search
+{ search = deliverynumber | customer | datefrom & dateto | item, sort, pageNumber, pageSize }
+
+GET /api/delivery/{id}
+
+POST /api/delivery
+{ delivery data to save }
+
+PUT /api/delivery/{id}
+{ delivery data to save }
+
+DELETE /api/delivery/{id}
+
+
+** CREDIT MEMO / RETURNS **
+
+POST /api/creditMemo/search
+{ search = creditMemoNumber | customer | datefrom & dateto | item, sort, pageNumber, pageSize }
+
+GET /api/creditMemo/{id}
+
+POST /api/creditMemo
+{ credit memo data to save }
+
+PUT /api/creditMemo/{id}
+{ credit memo data to save }
+
+DELETE /api/creditMemo/{id}
+
+
+** USERS **
+
+GET /api/user/search?username=xx
+
+GET /api/user/{id}
+
+POST /api/user
+{ user data to save }
+
+PUT /api/user/{id}
+{ user data to save }
+
+DELETE /api/user/{id}
