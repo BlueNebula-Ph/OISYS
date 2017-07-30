@@ -118,6 +118,8 @@
                     opt.SwaggerEndpoint("/swagger/v1/swagger.json", "OISYS API V1");
                     opt.RoutePrefix = "info";
                 });
+
+            OisysDbContext.Seed(app);
         }
     }
 }

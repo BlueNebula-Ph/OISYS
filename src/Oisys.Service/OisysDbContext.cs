@@ -1,12 +1,17 @@
 ﻿namespace Oisys.Service
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
     using Oisys.Service.Models;
 
     /// <summary>
     /// <see cref="OisysDbContext"/> class DbContext.
     /// </summary>
-    public class OisysDbContext : DbContext
+    public class OisysDbContext : DbContext, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OisysDbContext"/> class.
@@ -78,6 +83,25 @@
         public DbSet<Reference> References { get; set; }
 
         /// <summary>
+        /// Seeds the database with test data.
+        /// </summary>
+        /// <param name="app">The application builder.</param>
+        public static void Seed(IApplicationBuilder app)
+        {
+            using (var context = app.ApplicationServices.GetRequiredService<OisysDbContext>())
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                SeedCustomer(context);
+                SeedReferenceTypes(context);
+                SeedReferences(context);
+
+                context.SaveChanges();
+            }
+        }
+
+        /// <summary>
         /// This method sets up the foreign keys of entities
         /// </summary>
         /// <param name="modelBuilder">ModelBuilder</param>
@@ -118,6 +142,73 @@
             modelBuilder.Entity<ReferenceType>()
                 .Property(e => e.CreatedDate)
                 .HasDefaultValueSql("GETUTCDATE()");
+        }
+
+        private static void SeedCustomer(OisysDbContext context)
+        {
+            if (!context.Customers.Any())
+            {
+                context.Customers.Add(new Customer
+                {
+                    Code = "A",
+                    Name = "A",
+                    Email = "a@a.com",
+                    ContactNumber = "a",
+                    ContactPerson = "a",
+                    Address = "A",
+                    CityId = 1,
+                    ProvinceId = 1,
+                    Terms = "term1",
+                    Discount = "discount1",
+                    PriceList = "A",
+                });
+
+                context.Customers.Add(new Customer
+                {
+                    Code = "B",
+                    Name = "B",
+                    Email = "b@b.com",
+                    ContactNumber = "b",
+                    ContactPerson = "b",
+                    Address = "B",
+                    CityId = 1,
+                    ProvinceId = 1,
+                    Terms = "term2",
+                    Discount = "discount2",
+                    PriceList = "B",
+                });
+            }
+        }
+
+        private static void SeedReferenceTypes(OisysDbContext context)
+        {
+            if (!context.ReferenceTypes.Any())
+            {
+                var referenceTypes = new List<ReferenceType>
+                {
+                    new ReferenceType { Code = "Category" },
+                    new ReferenceType { Code = "City" },
+                    new ReferenceType { Code = "Province" },
+                };
+                context.ReferenceTypes.AddRange(referenceTypes);
+            }
+        }
+
+        private static void SeedReferences(OisysDbContext context)
+        {
+            if (!context.References.Any())
+            {
+                var references = new List<Reference>
+                {
+                    new Reference { ReferenceTypeId = 2, Code = "Manila" },
+                    new Reference { ReferenceTypeId = 2, Code = "Makati" },
+                    new Reference { ReferenceTypeId = 2, Code = "Malabon" },
+                    new Reference { ReferenceTypeId = 3, Code = "NCR" },
+                    new Reference { ReferenceTypeId = 3, Code = "Quezon" },
+                    new Reference { ReferenceTypeId = 3, Code = "Cavite" },
+                };
+                context.References.AddRange(references);
+            }
         }
     }
 }

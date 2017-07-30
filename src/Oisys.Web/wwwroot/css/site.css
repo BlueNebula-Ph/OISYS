@@ -107,5 +107,8 @@ textarea {
 
     .summary-table th {
         background-color: #6faced;
+    }
+
+    .summary-table th a {
         color: #fefefe;
     }

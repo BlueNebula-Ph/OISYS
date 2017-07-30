@@ -4,10 +4,13 @@
         var dataFactory = {};
 
         dataFactory.fetchAllCustomers = function () {
-            return $http.get(urlBase);
         };
 
-        dataFactory.fetchCustomers = function (page, sort, search) {
+        dataFactory.fetchCustomers = function (page, sortBy, sortDirection, search) {
+            var url = urlBase + "/search";
+            var filter = { sortBy: sortBy, sortDirection: sortDirection };
+
+            return $http.post(url, filter);
         };
 
         dataFactory.getCustomer = function (id) {

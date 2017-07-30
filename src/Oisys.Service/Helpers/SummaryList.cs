@@ -10,7 +10,7 @@
     /// <see cref="SummaryList{T}"/> class represents the items, total pages object.
     /// </summary>
     /// <typeparam name="T">The first generic type parameter.</typeparam>
-    public class SummaryList<T> : List<T>
+    public class SummaryList<T>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SummaryList{T}"/> class.
@@ -19,12 +19,12 @@
         /// <param name="count">Count</param>
         /// <param name="pageIndex">PageIndex</param>
         /// <param name="pageSize">PageSize</param>
-        public SummaryList(List<T> items, int count, int pageIndex, int pageSize)
+        public SummaryList(IEnumerable<T> items, int count, int pageIndex, int pageSize)
         {
             this.PageIndex = pageIndex;
             this.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
-            this.AddRange(items);
+            this.Items = items;
         }
 
         /// <summary>
@@ -58,6 +58,11 @@
                 return this.PageIndex < this.TotalPages;
             }
         }
+
+        /// <summary>
+        /// Gets the items of the <see cref="SummaryList{T}"/> object.
+        /// </summary>
+        public IEnumerable<T> Items { get; private set; }
 
         /// <summary>
         /// Method to page list input

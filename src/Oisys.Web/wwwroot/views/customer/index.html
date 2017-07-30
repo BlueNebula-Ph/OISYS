@@ -5,13 +5,34 @@
     <table class="table table-condensed table-striped summary-table">
         <thead>
             <tr>
-                <th>Code</th>
-                <th>Customer Name</th>
-                <th>Email</th>
-                <th>City</th>
-                <th>Province</th>
-                <th>Contact Person</th>
-                <th>Contact Number</th>
+                <th>
+                    <column-header header-text="Code" header-value="Code" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                                   fetch-call-back="ctrl.fetchCustomers()"></column-header>
+                </th>
+                <th>
+                    <column-header header-text="Customer Name" header-value="Name" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                                   fetch-call-back="ctrl.fetchCustomers()"></column-header>
+                </th>
+                <th>
+                    <column-header header-text="Email" header-value="Email" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                                   fetch-call-back="ctrl.fetchCustomers()"></column-header>
+                </th>
+                <th>
+                    <column-header header-text="City" header-value="City" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                                   fetch-call-back="ctrl.fetchCustomers()"></column-header>
+                </th>
+                <th>
+                    <column-header header-text="Province" header-value="Province" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                                   fetch-call-back="ctrl.fetchCustomers()"></column-header>
+                </th>
+                <th>
+                    <column-header header-text="Contact Person" header-value="ContactPerson" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                                   fetch-call-back="ctrl.fetchCustomers()"></column-header>
+                </th>
+                <th>
+                    <column-header header-text="Contact #" header-value="ContactNumber" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                                   fetch-call-back="ctrl.fetchCustomers()"></column-header>
+                </th>
                 <th></th>
             </tr>
         </thead>
