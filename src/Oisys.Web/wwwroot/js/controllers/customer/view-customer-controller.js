@@ -4,18 +4,24 @@
         var vm = this;
 
         vm.customers = [];
+        vm.sort = "Name";
+        vm.sortDirection = "asc";
 
-        $(function () {
+        vm.fetchCustomers = function () {
             loadingService.showLoading();
 
-            customerService.fetchAllCustomers()
+            customerService.fetchCustomers(1, vm.sort, vm.sortDirection, "search")
                 .then(function (response) {
-                    vm.customers = response.data;
+                    vm.customers = response.data.items;
                 }, function (error) {
                     console.log(error);
                 }).finally(function () {
                     loadingService.hideLoading();
                 });
+        };
+
+        $(function () {
+            vm.fetchCustomers();
         });
 
         return vm;

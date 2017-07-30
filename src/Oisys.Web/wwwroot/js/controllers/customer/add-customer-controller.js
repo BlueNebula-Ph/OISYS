@@ -11,11 +11,9 @@
         vm.save = function () {
             loadingService.showLoading();
 
-            console.log(vm.customer);
-
             customerService.saveCustomer(0, vm.customer)
                 .then(function (response) {
-                    console.log(response);
+                    toastr.success("SUCCESS!");
                 }, function (response) {
                     console.log(response.data);
                 }).finally(function () {

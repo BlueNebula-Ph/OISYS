@@ -30,25 +30,6 @@ namespace Oisys.Service.Controllers
         {
             this.context = context;
             this.mapper = mapper;
-
-            if (this.context.Customers.Count() == 0)
-            {
-                this.context.Customers.Add(new Customer
-                {
-                    Code = "A",
-                    Name = "A",
-                    Email = "a@a.com",
-                    ContactNumber = "a",
-                    ContactPerson = "a",
-                    Address = "A",
-                    CityId = 1,
-                    ProvinceId = 1,
-                    Terms = "term1",
-                    Discount = "discount",
-                    PriceList = "a",
-                });
-                this.context.SaveChanges();
-            }
         }
 
         /// <summary>
@@ -56,7 +37,7 @@ namespace Oisys.Service.Controllers
         /// </summary>
         /// <param name="filter"><see cref="CustomerFilterRequest"/></param>
         /// <returns>List of Customer</returns>
-        [HttpPost("summary", Name = "GetAllCustomers")]
+        [HttpPost("search", Name = "GetAllCustomers")]
         public async Task<IActionResult> GetAll([FromBody]CustomerFilterRequest filter)
         {
             // get list of active customers (not deleted)
@@ -65,17 +46,20 @@ namespace Oisys.Service.Controllers
             // filter
 
             // sort
-            if (filter == null)
+            var ordering = $"Name {Constants.DefaultSortDirection}";
+            if (!string.IsNullOrEmpty(filter?.SortBy))
             {
-                list = list.OrderBy(c => c.Name);
-            }
-            else
-            {
-                list = list.OrderBy(filter.SortBy, filter.SortDirection, null);
+                ordering = $"{filter.SortBy} {filter.SortDirection}";
             }
 
+            list = list.OrderBy(ordering);
+
             // paging
-            var customers = await SummaryList<Customer>.CreateAsync(list, filter == null ? Constants.DefaultPageIndex : filter.PageIndex, filter == null ? Constants.DefaultPageSize : filter.PageSize);
+            var pageNumber = (filter?.PageIndex).IsNullOrZero() ? Constants.DefaultPageIndex : filter.PageIndex;
+            var pageSize = (filter?.PageSize).IsNullOrZero() ? Constants.DefaultPageSize : filter.PageSize;
+
+            // TODO: Should be returning ViewModel
+            var customers = await SummaryList<Customer>.CreateAsync(list, pageNumber, pageSize);
 
             return this.Ok(customers);
         }
