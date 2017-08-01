@@ -19,6 +19,7 @@
     <Content Include="wwwroot\js\controllers\customer\add-customer-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\customer-details-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\view-customer-controller.js" />
+    <Content Include="wwwroot\js\controllers\reference\reference-controller.js" />
     <Content Include="wwwroot\js\directives\column-header.js" />
     <Content Include="wwwroot\js\directives\loading-inidicator.js" />
     <Content Include="wwwroot\js\directives\loadingInidicator.js" />
@@ -31,6 +32,7 @@
     <Content Include="wwwroot\js\services\form-encode.js" />
     <Content Include="wwwroot\js\services\loading-service.js" />
     <Content Include="wwwroot\js\services\login-redirect.js" />
+    <Content Include="wwwroot\js\services\reference-service.js" />
     <Content Include="wwwroot\js\services\token-service.js" />
     <Content Include="wwwroot\views\common\column-header.html" />
     <Content Include="wwwroot\views\common\loading-indicator.html" />
@@ -43,6 +45,7 @@
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\index.html" />
     <Content Include="wwwroot\views\order\index.html" />
+    <Content Include="wwwroot\views\reference\index.html" />
     <Content Include="wwwroot\views\user\index.html" />
   </ItemGroup>
   <ItemGroup>
@@ -62,10 +65,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Management\" />
     <Folder Include="Views\Delivery\" />
     <Folder Include="Views\Inventory\" />
-    <Folder Include="Views\User\" />
     <Folder Include="Views\Order\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>

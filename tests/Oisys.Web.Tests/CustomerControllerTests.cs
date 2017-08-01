@@ -11,7 +11,7 @@
         public void Index_Should_Return_ViewResult()
         {
             // Arrange
-            var customerController = new CustomerController();
+            var customerController = new ManagementController();
 
             // Act
             var result = customerController.Index();

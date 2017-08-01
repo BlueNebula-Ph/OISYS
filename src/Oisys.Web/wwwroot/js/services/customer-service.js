@@ -1,5 +1,7 @@
 ﻿(function (module) {
+
     var customerService = function ($http, env) {
+
         var urlBase = env.baseUrl + "/api/customer";
         var dataFactory = {};
 

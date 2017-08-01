@@ -46,6 +46,10 @@
                     templateUrl: "/views/user/index.html",
                     controller: "",
                     controllerAs: ""
+                }).when("/references", { // References route
+                    templateUrl: "/views/reference/index.html",
+                    controller: "",
+                    controllerAs: ""
                 }).otherwise({ // Otherwise, route to home
                     redirectTo: "/"
                 });

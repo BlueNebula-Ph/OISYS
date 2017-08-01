@@ -18,6 +18,8 @@ GET /api/customer/{id}/transactions?datefrom=xx&dateto=xx
 
 ** REFERENCES **
 
+GET /api/reference/{type} or /api/reference/{typeId} ??
+
 GET /api/reference/search?type=xx&search=xx&sort=xx&page=xx&pageSize=xx
 
 GET /api/reference/{id}
@@ -33,7 +35,7 @@ DELETE /api/reference/{id}
 ** ITEMS / INVENTORY **
 
 POST /api/item/search
-{ search = itemcode | itemname | category, sort, pageNumber, pageSize }
+{ search = itemcode | itemname | category | tag, sort, pageNumber, pageSize }
 
 GET /api/item/{id}
 
