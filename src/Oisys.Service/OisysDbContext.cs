@@ -38,6 +38,11 @@
         public DbSet<Customer> Customers { get; set; }
 
         /// <summary>
+        /// Gets or sets property Customers <see cref="CustomerTransaction"/> class.
+        /// </summary>
+        public DbSet<CustomerTransaction> CustomerTransactions { get; set; }
+
+        /// <summary>
         /// Gets or sets property Deliveries <see cref="Delivery"/> class.
         /// </summary>
         public DbSet<Delivery> Deliveries { get; set; }

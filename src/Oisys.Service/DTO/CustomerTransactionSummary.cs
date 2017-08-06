@@ -1,23 +1,20 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Service.DTO
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// <see cref="CustomerTransaction"/> class.
+    /// <see cref="CustomerTransactionSummary"/> class.
     /// </summary>
-    public class CustomerTransaction : ModelBase
+    public class CustomerTransactionSummary : DTOBase
     {
         /// <summary>
         /// Gets or sets property Customer Id.
         /// </summary>
-        [Required]
         public int CustomerId { get; set; }
 
         /// <summary>
         /// Gets or sets property Date.
         /// </summary>
-        [Required]
         public DateTime Date { get; set; }
 
         /// <summary>
@@ -43,12 +40,6 @@
         /// <summary>
         /// Gets or sets property Transaction type.
         /// </summary>
-        [Required]
         public string TransactionType { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Customer.
-        /// </summary>
-        public Customer Customer { get; set; }
     }
 }
