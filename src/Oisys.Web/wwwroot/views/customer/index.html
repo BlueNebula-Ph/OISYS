@@ -2,6 +2,18 @@
 <sidebar show-add="true" add-url="#!/add/customer/0" add-tooltip="Add new customer" show-search="true" show-export="true" show-send="true"></sidebar>
 <div class="body-content">
     <h3>Customer Accounts. <small class="text-muted">Search customer details & accounts.</small></h3>
+    <div class="form-inline">
+        <input class="form-control input-sm" placeholder="Search..." />
+        <select class="form-control input-sm">
+            <option class="text-muted" label="Filter by city..." value="0"></option>
+        </select>
+        <select class="form-control input-sm">
+            <option class="text-muted" label="Filter by province..." value="0"></option>
+        </select>
+        <button class="btn btn-default btn-sm">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
     <table class="table table-condensed table-striped summary-table">
         <thead>
             <tr>
