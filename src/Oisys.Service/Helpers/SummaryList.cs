@@ -1,6 +1,5 @@
 ﻿namespace Oisys.Service.Helpers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -13,29 +12,14 @@
     public class SummaryList<T>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SummaryList{T}"/> class.
+        /// Gets or sets property PageIndex.
         /// </summary>
-        /// <param name="items">Items</param>
-        /// <param name="count">Count</param>
-        /// <param name="pageIndex">PageIndex</param>
-        /// <param name="pageSize">PageSize</param>
-        public SummaryList(IEnumerable<T> items, int count, int pageIndex, int pageSize)
-        {
-            this.PageIndex = pageIndex;
-            this.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
-            this.Items = items;
-        }
+        public int PageIndex { get; set; }
 
         /// <summary>
-        /// Gets property PageIndex.
+        /// Gets or sets property TotalPages.
         /// </summary>
-        public int PageIndex { get; private set; }
-
-        /// <summary>
-        /// Gets property TotalPages.
-        /// </summary>
-        public int TotalPages { get; private set; }
+        public int TotalPages { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether gets property HasPreviousPage.
@@ -60,9 +44,9 @@
         }
 
         /// <summary>
-        /// Gets the items of the <see cref="SummaryList{T}"/> object.
+        /// Gets or sets the items of the <see cref="SummaryList{T}"/> object.
         /// </summary>
-        public IEnumerable<T> Items { get; private set; }
+        public IEnumerable<T> Items { get; set; }
 
         /// <summary>
         /// Method to page list input
@@ -75,7 +59,7 @@
         {
             var count = await source.CountAsync();
             var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-            return new SummaryList<T>(items, count, pageIndex, pageSize);
+            return new SummaryList<T>();
         }
     }
 }
