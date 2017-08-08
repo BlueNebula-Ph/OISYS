@@ -29,8 +29,10 @@
     <Content Include="wwwroot\js\services\current-user.js" />
     <Content Include="wwwroot\js\services\customer-service.js" />
     <Content Include="wwwroot\js\services\form-encode.js" />
+    <Content Include="wwwroot\js\services\item-service.js" />
     <Content Include="wwwroot\js\services\loading-service.js" />
     <Content Include="wwwroot\js\services\login-redirect.js" />
+    <Content Include="wwwroot\js\services\order-service.js" />
     <Content Include="wwwroot\js\services\token-service.js" />
     <Content Include="wwwroot\views\common\column-header.html" />
     <Content Include="wwwroot\views\common\loading-indicator.html" />
