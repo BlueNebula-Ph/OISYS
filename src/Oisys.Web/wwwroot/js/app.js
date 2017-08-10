@@ -67,10 +67,26 @@
                     templateUrl: "/views/home/index.html"
                 })
 
-                .state("customers", {
-                    url: "/manage/customers",
-                    templateUrl: "/views/customer/index.html",
+                .state("system", {
+                    url: "/system",
+                    templateUrl: "/views/manage/index.html"
+                })
+                .state("system.customers-list", {
+                    url: "/customers/list",
+                    templateUrl: "/views/customer/list.html",
                     controller: "viewCustomerController",
+                    controllerAs: "ctrl"
+                })
+                .state("system.customers-add", {
+                    url: "/customers/add/{id}",
+                    templateUrl: "/views/customer/add-customer.html",
+                    controller: "addCustomerController",
+                    controllerAs: "ctrl"
+                })
+                .state("system.customers-detail", {
+                    url: "/customers/detail/{id}",
+                    templateUrl: "/views/customer/customer-details.html",
+                    controller: "customerDetailsController",
                     controllerAs: "ctrl"
                 });
         }]);

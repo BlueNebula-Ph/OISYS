@@ -8,16 +8,25 @@
         vm.sortDirection = "asc";
 
         vm.fetchCustomers = function () {
-            loadingService.showLoading();
+            //loadingService.showLoading();
 
-            customerService.fetchCustomers(1, vm.sort, vm.sortDirection, "search")
-                .then(function (response) {
-                    vm.customers = response.data.items;
-                }, function (error) {
-                    console.log(error);
-                }).finally(function () {
-                    loadingService.hideLoading();
+            //customerService.fetchCustomers(1, vm.sort, vm.sortDirection, "search")
+            //    .then(function (response) {
+            //        vm.customers = response.data.items;
+            //    }, function (error) {
+            //        console.log(error);
+            //    }).finally(function () {
+            //        loadingService.hideLoading();
+            //    });
+
+            for (var i = 0; i < 10; i++) {
+                vm.customers.push({
+                    id: i + 1,
+                    name: "Name",
+                    code: "Code",
+                    email: "email@test.com"
                 });
+            }
         };
 
         $(function () {

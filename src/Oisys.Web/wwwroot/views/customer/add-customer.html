@@ -1,5 +1,5 @@
 ﻿<loading-indicator loading-text="Saving"></loading-indicator>
-<sidebar show-save="true" show-cancel="true" cancel-url="#!/list/customers" toggle-save="ctrl.save()"></sidebar>
+<!--<sidebar show-save="true" show-cancel="true" cancel-url="#!/list/customers" toggle-save="ctrl.save()"></sidebar>-->
 <div class="body-content">
     <h3>Save Customer Details. <small class="text-muted">Please input customer details.</small></h3>
     <div class="col-md-3 side-padding-none">
@@ -73,6 +73,11 @@
                             ng-model="ctrl.customer.priceList"> Mainstream Price
                 </label>
             </div>
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label" for="Tags">Tags</label>
+            <input class="form-control input-sm" id="Tags"
+                   ng-model="ctrl.customer.tags" />
         </div>
     </div>
 </div>

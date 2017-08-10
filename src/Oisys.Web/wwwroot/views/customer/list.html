@@ -1,8 +1,8 @@
 ﻿<loading-indicator></loading-indicator>
-<sidebar show-add="true" add-url="#!/add/customer/0" add-tooltip="Add new customer" show-search="true" show-export="true" show-send="true"></sidebar>
-<div class="body-content">
+<!--<sidebar show-add="true" add-url="#!/add/customer/0" add-tooltip="Add new customer" show-search="true"></sidebar>-->
+<div class="">
     <h3>Customer Accounts. <small class="text-muted">Search customer details & accounts.</small></h3>
-    <div class="form-inline">
+    <div class="form-inline" style="margin-bottom: 10px;">
         <input class="form-control input-sm" placeholder="Search..." />
         <select class="form-control input-sm">
             <option class="text-muted" label="Filter by city..." value="0"></option>
@@ -58,10 +58,10 @@
                 <td>{{ c.contactPerson }}</td>
                 <td>{{ c.contactNumber }}</td>
                 <td>
-                    <a ng-href="#!/details/customer/{{ c.id }}" class="btn btn-default btn-xs" title="View customer details">
+                    <a ui-sref="system.customers-detail({ id: c.id })" class="btn btn-default btn-xs" title="View customer details">
                         <i class="fa fa-file-o fa-fw"></i>
                     </a>
-                    <a ng-href="#!/add/customer/{{ c.id }}" class="btn btn-default btn-xs" title="Edit this customer">
+                    <a ui-sref="system.customers-add({ id: c.id })" class="btn btn-default btn-xs" title="Edit this customer">
                         <i class="fa fa-edit fa-fw"></i>
                     </a>
                     <button class="btn btn-danger btn-xs" title="Delete this customer">
