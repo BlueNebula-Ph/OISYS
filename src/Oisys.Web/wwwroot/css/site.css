@@ -59,28 +59,28 @@ textarea {
 
         .sidebar li.header {
             background: #eee;
-            padding: 8px 6px;
+            padding: 8px 10px;
         }
 
         .sidebar li.item {
-            padding: 6px 12px;
+            padding: 6px 14px;
         }
 
             .sidebar li.item:last-child {
                 border-bottom: 1px solid #ccc;
             }
 
-        .sidebar li a:hover {
+        .sidebar li a {
             text-decoration: none;
         }
 
-/*.sidebar li {
-        margin-bottom: 15px;
-    }
+.sidebar-active {
+    background: #fff;
+    color: #333;
+    font-weight: bold;
+    margin-right: -1px;
+}
 
-    .sidebar a {
-        color: #fff;
-    }*/
 /* Loading control */
 .loading-indicator {
     position: fixed;

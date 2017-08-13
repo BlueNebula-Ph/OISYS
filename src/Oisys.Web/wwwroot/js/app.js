@@ -11,53 +11,6 @@
     angular.module("oisys-app", ["ui.router"])
         .constant("env", env)
         .config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
-            //$routeProvider
-            //    .when("/", {
-            //        templateUrl: "/views/home/index.html"
-            //    }).when("/login", {
-            //        templateUrl: "/views/common/login.html",
-            //        controller: "loginController",
-            //        controllerAs: "ctrl"
-            //    }).when("/list/customers", { // Customer routes
-            //        templateUrl: "/views/customer/index.html",
-            //        controller: "viewCustomerController",
-            //        controllerAs: "ctrl"
-            //    }).when("/add/customer/:id", {
-            //        templateUrl: "/views/customer/add-customer.html",
-            //        controller: "addCustomerController",
-            //        controllerAs: "ctrl"
-            //    }).when("/details/customer/:id", {
-            //        templateUrl: "/views/customer/customer-details.html",
-            //        controller: "customerDetailsController",
-            //        controllerAs: "ctrl"
-            //    }).when("/list/orders", { // Orders route
-            //        templateUrl: "/views/order/index.html",
-            //        controller: "",
-            //        controllerAs: ""
-            //    }).when("/list/inventory", { // Inventory route
-            //        templateUrl: "/views/inventory/index.html",
-            //        controller: "",
-            //        controllerAs: ""
-            //    }).when("/list/deliveries", { // Deliveries route
-            //        templateUrl: "/views/delivery/index.html",
-            //        controller: "",
-            //        controllerAs: ""
-            //    }).when("/list/users", { // Users route
-            //        templateUrl: "/views/user/index.html",
-            //        controller: "",
-            //        controllerAs: ""
-            //    }).when("/references", { // References route
-            //        templateUrl: "/views/reference/index.html",
-            //        controller: "",
-            //        controllerAs: ""
-            //    }).otherwise({ // Otherwise, route to home
-            //        redirectTo: "/"
-            //    });
-
-            //$locationProvider.html5Mode({
-            //    enabled: false,
-            //    requireBase: false
-            //});
 
             $urlRouterProvider.otherwise("/home");
 
@@ -69,25 +22,39 @@
 
                 .state("system", {
                     url: "/system",
-                    templateUrl: "/views/manage/index.html"
+                    templateUrl: "/views/common/index.html",
+                    controller: "manageSystemController",
+                    controllerAs: "ctrl"
                 })
-                .state("system.customers-list", {
-                    url: "/customers/list",
+
+                .state("customers", {
+                    url: "/customers",
+                    templateUrl: "/views/common/index.html",
+                    controller: "manageCustomerController",
+                    controllerAs: "ctrl"
+                })
+                .state("customers.list", {
+                    url: "/list",
                     templateUrl: "/views/customer/list.html",
                     controller: "viewCustomerController",
                     controllerAs: "ctrl"
                 })
-                .state("system.customers-add", {
-                    url: "/customers/add/{id}",
+                .state("customers.add", {
+                    url: "/add/{id}",
                     templateUrl: "/views/customer/add-customer.html",
                     controller: "addCustomerController",
                     controllerAs: "ctrl"
                 })
-                .state("system.customers-detail", {
-                    url: "/customers/detail/{id}",
+                .state("customers.detail", {
+                    url: "/detail/{id}",
                     templateUrl: "/views/customer/customer-details.html",
                     controller: "customerDetailsController",
                     controllerAs: "ctrl"
                 });
-        }]);
+        }])
+        .run(["$rootScope", "$state", "$stateParams",
+            function ($rootScope, $state, $stateParams) {
+                $rootScope.$state = $state;
+                $rootScope.$stateParams = $stateParams;
+            }]);;
 })();
