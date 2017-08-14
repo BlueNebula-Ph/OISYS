@@ -10,6 +10,7 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
+    using Oisys.Service.Helpers;
     using Swashbuckle.AspNetCore.Swagger;
 
     /// <summary>
@@ -92,6 +93,9 @@
                     var xmlPath = Path.Combine(basePath, "Oisys.Service.xml");
                     opt.IncludeXmlComments(xmlPath);
                 });
+
+            // Add application services
+            services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
         }
 
         /// <summary>
