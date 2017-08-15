@@ -27,7 +27,7 @@
                 .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Code));
 
             // Customer Transaction
-            //TODO: Create method to compute running balance
+            // TODO: Create method to compute running balance
             this.CreateMap<SaveCustomerTrxRequest, CustomerTransaction>();
 
             this.CreateMap<CustomerTransaction, CustomerTransactionSummary>();
