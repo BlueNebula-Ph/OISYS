@@ -1,12 +1,12 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Service.DTO
 {
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// <see cref="CustomerTransaction"/> class.
+    /// <see cref="SaveCustomerTrxRequest"/> class.
     /// </summary>
-    public class CustomerTransaction : ModelBase
+    public class SaveCustomerTrxRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets property Customer Id.
@@ -36,19 +36,9 @@
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets property RunningBalance.
-        /// </summary>
-        public decimal RunningBalance { get; set; }
-
-        /// <summary>
         /// Gets or sets property Transaction type.
         /// </summary>
         [Required]
         public string TransactionType { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Customer.
-        /// </summary>
-        public Customer Customer { get; set; }
     }
 }
