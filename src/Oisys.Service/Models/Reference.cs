@@ -1,5 +1,6 @@
 ﻿namespace Oisys.Service.Models
 {
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
@@ -20,8 +21,24 @@
         public int ReferenceTypeId { get; set; }
 
         /// <summary>
+        /// Gets or sets property ParentId.
+        /// </summary>
+        public int? ParentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
+
+        /// <summary>
         /// Gets or sets ReferenceType navigation property.
         /// </summary>
         public ReferenceType ReferenceType { get; set; }
+
+        /// <summary>
+        /// Gets or sets Parent navigation property.
+        /// </summary>
+        public Reference Parent { get; set; }
     }
 }

@@ -32,6 +32,15 @@
 
             this.CreateMap<CustomerTransaction, CustomerTransactionSummary>();
 
+            // Reference
+            this.CreateMap<Reference, ReferenceLookup>();
+
+            this.CreateMap<Reference, ReferenceSummary>()
+                .ForMember(d => d.ParentCode, s => s.MapFrom(o => o.Parent.Code))
+                .ForMember(d => d.ReferenceTypeCode, s => s.MapFrom(o => o.ReferenceType.Code));
+
+            this.CreateMap<SaveReferenceRequest, Reference>();
+
             // ReferenceType
             this.CreateMap<ReferenceType, ReferenceTypeSummary>();
 
