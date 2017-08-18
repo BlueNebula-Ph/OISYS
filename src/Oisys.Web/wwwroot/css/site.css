@@ -21,6 +21,10 @@ html, body {
     padding-right: 0;
 }
 
+.bottom-margin-sm {
+    margin-bottom: 10px;
+}
+
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,

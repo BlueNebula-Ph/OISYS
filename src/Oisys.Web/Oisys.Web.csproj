@@ -13,6 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\views\manage\**" />
+    <Content Remove="wwwroot\views\manage\**" />
+    <EmbeddedResource Remove="wwwroot\views\manage\**" />
+    <None Remove="wwwroot\views\manage\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\app.min.js" />
     <Content Include="wwwroot\js\controllers\common\login-controller.js" />
@@ -23,6 +30,7 @@
     <Content Include="wwwroot\js\controllers\manage\manage-system-controller.js" />
     <Content Include="wwwroot\js\controllers\reference\reference-controller.js" />
     <Content Include="wwwroot\js\directives\column-header.js" />
+    <Content Include="wwwroot\js\directives\form-input.js" />
     <Content Include="wwwroot\js\directives\loading-inidicator.js" />
     <Content Include="wwwroot\js\directives\navigation.js" />
     <Content Include="wwwroot\js\directives\sidebar.js" />
@@ -46,13 +54,10 @@
     <Content Include="wwwroot\views\common\sidebar.html" />
     <Content Include="wwwroot\views\customer\add-customer.html" />
     <Content Include="wwwroot\views\customer\customer-details.html" />
-    <Content Include="wwwroot\views\customer\htmlpage.html" />
-    <Content Include="wwwroot\views\customer\index.html" />
     <Content Include="wwwroot\views\customer\list.html" />
     <Content Include="wwwroot\views\delivery\index.html" />
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\index.html" />
-    <Content Include="wwwroot\views\manage\index.html" />
     <Content Include="wwwroot\views\order\index.html" />
     <Content Include="wwwroot\views\reference\index.html" />
     <Content Include="wwwroot\views\user\index.html" />

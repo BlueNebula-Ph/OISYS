@@ -11,14 +11,16 @@
         vm.save = function () {
             loadingService.showLoading();
 
-            customerService.saveCustomer(0, vm.customer)
-                .then(function (response) {
-                    toastr.success("SUCCESS!");
-                }, function (response) {
-                    console.log(response.data);
-                }).finally(function () {
-                    loadingService.hideLoading();
-                });
+            console.log(addCustomerForm);
+
+            //customerService.saveCustomer(0, vm.customer)
+            //    .then(function (response) {
+            //        toastr.success("SUCCESS!");
+            //    }, function (response) {
+            //        console.log(response.data);
+            //    }).finally(function () {
+            //        loadingService.hideLoading();
+            //    });
         };
 
         return vm;
