@@ -26,6 +26,38 @@
                     controller: "manageSystemController",
                     controllerAs: "ctrl"
                 })
+                .state("system.add-city", {
+                    url: "/add/city/{id}",
+                    templateUrl: "/views/manage/add-cities.html",
+                    controller: "addCityController",
+                    controllerAs: "ctrl"
+                })
+                .state("system.list-cities", {
+                    url: "/list/cities",
+                    templateUrl: "/views/manage/cities-list.html",
+                    controller: "viewCityController",
+                    controllerAs: "ctrl"
+                })
+                .state("system.add-category", {
+                    url: "/add/category/{id}",
+                    templateUrl: "/views/manage/add-category.html",
+                    controller: "addCategoryController",
+                    controllerAs: "ctrl"
+                })
+                .state("system.list-categories", {
+                    url: "/list/categories",
+                    templateUrl: "/views/manage/category-list.html",
+                    controller: "viewCategoryController",
+                    controllerAs: "ctrl"
+                })
+                .state("system.add-user", {
+                    url: "/add/user/{id}",
+                    template: "<h3>Add New User</h3>"
+                })
+                .state("system.list-users", {
+                    url: "/list/users",
+                    template: "<h3>Search Users</h3>"
+                })
 
                 .state("customers", {
                     url: "/customers",
@@ -35,7 +67,7 @@
                 })
                 .state("customers.list", {
                     url: "/list",
-                    templateUrl: "/views/customer/list.html",
+                    templateUrl: "/views/customer/customers-list.html",
                     controller: "viewCustomerController",
                     controllerAs: "ctrl"
                 })
@@ -50,6 +82,20 @@
                     templateUrl: "/views/customer/customer-details.html",
                     controller: "customerDetailsController",
                     controllerAs: "ctrl"
+                })
+                .state("customers.transactions", {
+                    url: "/transactions",
+                    template: "<h3>Transactions</h3>"
+                })
+
+                .state("inventory", {
+                    url: "/inventory",
+                    templateUrl: "/views/common/index.html",
+                    controller: "manageInventoryController",
+                    controllerAs: "ctrl"
+                }).state("inventory.list", {
+                    url: "/list",
+                    template: "<h3>List</h3>"
                 });
         }])
         .run(["$rootScope", "$state", "$stateParams",

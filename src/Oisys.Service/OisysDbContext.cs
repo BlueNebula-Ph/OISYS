@@ -211,6 +211,12 @@
                     new Reference { ReferenceTypeId = 2, ParentId = 1, Code = "Manila" },
                     new Reference { ReferenceTypeId = 2, ParentId = 2, Code = "Makati" },
                     new Reference { ReferenceTypeId = 2, ParentId = 1, Code = "Malabon" },
+                    new Reference { ReferenceTypeId = 1, Code = "Cellphones" },
+                    new Reference { ReferenceTypeId = 1, Code = "Computers" },
+                    new Reference { ReferenceTypeId = 1, Code = "Devices" },
+                    new Reference { ReferenceTypeId = 1, Code = "Keyboards" },
+                    new Reference { ReferenceTypeId = 1, Code = "Mobile Phones" },
+                    new Reference { ReferenceTypeId = 1, Code = "Mouse" },
                 };
                 context.References.AddRange(references);
             }

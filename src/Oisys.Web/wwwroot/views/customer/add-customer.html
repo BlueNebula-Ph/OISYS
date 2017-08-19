@@ -73,15 +73,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <pre>{{ addCustomerForm | json }}</pre>
-    </div>
     <div class="col-md-12 left-padding-none">
-        <button class="btn btn-primary btn-sm" ng-click="ctrl.save()">
-            <i class="fa fa-save"></i> Save
-        </button>
-        <button class="btn btn-default btn-sm">
-            <i class="fa fa-times"></i> Cancel
-        </button>
+        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"></form-control>
     </div>
 </form>

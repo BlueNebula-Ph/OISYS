@@ -9,9 +9,9 @@
         };
 
         vm.save = function () {
-            loadingService.showLoading();
+            // loadingService.showLoading();
 
-            console.log(addCustomerForm);
+            alert("SAVE!!");
 
             //customerService.saveCustomer(0, vm.customer)
             //    .then(function (response) {
@@ -21,6 +21,10 @@
             //    }).finally(function () {
             //        loadingService.hideLoading();
             //    });
+        };
+
+        vm.reset = function () {
+            alert("RESET!!!");
         };
 
         return vm;
