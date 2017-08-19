@@ -22,6 +22,25 @@
                 .ForMember(d => d.LastUpdatedBy, s => s.MapFrom(o => 1))
                 .ForMember(d => d.CreatedBy, s => s.MapFrom(o => 1));
 
+            this.CreateMap<Customer, CustomerSummary>()
+                .ForMember(d => d.CityName, s => s.MapFrom(o => o.City.Code))
+                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Code));
+
+            // Customer Transaction
+            // TODO: Create method to compute running balance
+            this.CreateMap<SaveCustomerTrxRequest, CustomerTransaction>();
+
+            this.CreateMap<CustomerTransaction, CustomerTransactionSummary>();
+
+            // Reference
+            this.CreateMap<Reference, ReferenceLookup>();
+
+            this.CreateMap<Reference, ReferenceSummary>()
+                .ForMember(d => d.ParentCode, s => s.MapFrom(o => o.Parent.Code))
+                .ForMember(d => d.ReferenceTypeCode, s => s.MapFrom(o => o.ReferenceType.Code));
+
+            this.CreateMap<SaveReferenceRequest, Reference>();
+
             // ReferenceType
             this.CreateMap<ReferenceType, ReferenceTypeSummary>();
 

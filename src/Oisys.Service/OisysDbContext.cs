@@ -38,6 +38,11 @@
         public DbSet<Customer> Customers { get; set; }
 
         /// <summary>
+        /// Gets or sets property Customers <see cref="CustomerTransaction"/> class.
+        /// </summary>
+        public DbSet<CustomerTransaction> CustomerTransactions { get; set; }
+
+        /// <summary>
         /// Gets or sets property Deliveries <see cref="Delivery"/> class.
         /// </summary>
         public DbSet<Delivery> Deliveries { get; set; }
@@ -200,12 +205,12 @@
             {
                 var references = new List<Reference>
                 {
-                    new Reference { ReferenceTypeId = 2, Code = "Manila" },
-                    new Reference { ReferenceTypeId = 2, Code = "Makati" },
-                    new Reference { ReferenceTypeId = 2, Code = "Malabon" },
                     new Reference { ReferenceTypeId = 3, Code = "NCR" },
                     new Reference { ReferenceTypeId = 3, Code = "Quezon" },
                     new Reference { ReferenceTypeId = 3, Code = "Cavite" },
+                    new Reference { ReferenceTypeId = 2, ParentId = 1, Code = "Manila" },
+                    new Reference { ReferenceTypeId = 2, ParentId = 2, Code = "Makati" },
+                    new Reference { ReferenceTypeId = 2, ParentId = 1, Code = "Malabon" },
                 };
                 context.References.AddRange(references);
             }

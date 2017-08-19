@@ -29,5 +29,21 @@
         /// Sets the default page index
         /// </summary>
         public const int DefaultPageIndex = 1;
+
+        /// <summary>
+        /// <see cref="TransactionType"/> class to hold commonly used values object.
+        /// </summary>
+        public static class TransactionType
+        {
+            /// <summary>
+            /// Sets the customer transaction type value
+            /// </summary>
+            public const string Payment = "Payment";
+
+            /// <summary>
+            /// Sets the customer transaction type value
+            /// </summary>
+            public const string Delivery = "Delivery";
+        }
     }
 }

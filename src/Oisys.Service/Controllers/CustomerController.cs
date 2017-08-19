@@ -5,6 +5,7 @@ namespace Oisys.Service.Controllers
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
@@ -20,16 +21,19 @@ namespace Oisys.Service.Controllers
     {
         private readonly OisysDbContext context;
         private readonly IMapper mapper;
+        private readonly ISummaryListBuilder<Customer, CustomerSummary> builder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerController"/> class.
         /// </summary>
         /// <param name="context">DbContext</param>
-        /// /// <param name="mapper">Automapper</param>
-        public CustomerController(OisysDbContext context, IMapper mapper)
+        /// <param name="mapper">Automapper</param>
+        /// <param name="builder">Builder</param>
+        public CustomerController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Customer, CustomerSummary> builder)
         {
             this.context = context;
             this.mapper = mapper;
+            this.builder = builder;
         }
 
         /// <summary>
@@ -41,9 +45,25 @@ namespace Oisys.Service.Controllers
         public async Task<IActionResult> GetAll([FromBody]CustomerFilterRequest filter)
         {
             // get list of active customers (not deleted)
-            var list = this.context.Customers.Where(c => !c.IsDeleted);
+            var list = this.context.Customers
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted);
 
             // filter
+            if (!string.IsNullOrEmpty(filter?.SearchTerm))
+            {
+                list = list.Where(c => c.Tag.Contains(filter.SearchTerm));
+            }
+
+            if (!(filter?.ProvinceId).IsNullOrZero())
+            {
+                list = list.Where(c => c.ProvinceId == filter.ProvinceId);
+            }
+
+            if (!(filter?.CityId).IsNullOrZero())
+            {
+                list = list.Where(c => c.CityId == filter.CityId);
+            }
 
             // sort
             var ordering = $"Name {Constants.DefaultSortDirection}";
@@ -58,8 +78,7 @@ namespace Oisys.Service.Controllers
             var pageNumber = (filter?.PageIndex).IsNullOrZero() ? Constants.DefaultPageIndex : filter.PageIndex;
             var pageSize = (filter?.PageSize).IsNullOrZero() ? Constants.DefaultPageSize : filter.PageSize;
 
-            // TODO: Should be returning ViewModel
-            var customers = await SummaryList<Customer>.CreateAsync(list, pageNumber, pageSize);
+            var customers = await this.builder.BuildAsync(list, pageNumber, pageSize);
 
             return this.Ok(customers);
         }
@@ -72,13 +91,21 @@ namespace Oisys.Service.Controllers
         [HttpGet("{id}", Name = "GetCustomer")]
         public async Task<IActionResult> GetById(long id)
         {
-            var customer = await this.context.Customers.FirstOrDefaultAsync(c => c.Id == id);
+            var customer = await this.context.Customers
+                .AsNoTracking()
+                .Include(c => c.City)
+                .Include(c => c.Province)
+                .Include(c => c.Transactions)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (customer == null)
             {
                 return this.NotFound(id);
             }
 
-            return this.Ok(customer);
+            var mappedCustomer = this.mapper.Map<CustomerSummary>(customer);
+
+            return this.Ok(mappedCustomer);
         }
 
         /// <summary>
@@ -98,7 +125,9 @@ namespace Oisys.Service.Controllers
             await this.context.Customers.AddAsync(customer);
             await this.context.SaveChangesAsync();
 
-            return this.CreatedAtRoute("GetCustomer", new { id = customer.Id }, entity);
+            var mappedCustomer = this.mapper.Map<CustomerSummary>(entity);
+
+            return this.CreatedAtRoute("GetCustomer", new { id = customer.Id }, mappedCustomer);
         }
 
         /// <summary>
@@ -143,7 +172,7 @@ namespace Oisys.Service.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var customer = await this.context.Customers.FirstAsync(t => t.Id == id);
+            var customer = await this.context.Customers.SingleOrDefaultAsync(t => t.Id == id);
             if (customer == null)
             {
                 return this.NotFound(id);
@@ -154,6 +183,63 @@ namespace Oisys.Service.Controllers
             await this.context.SaveChangesAsync();
 
             return new NoContentResult();
+        }
+
+        /// <summary>
+        /// Adds a transaction record to a <see cref="Customer"/> record
+        /// </summary>
+        /// <param name="customerId">Customer Id</param>
+        /// <param name="entity">Entity to add</param>
+        /// <returns><see cref="Customer"/></returns>
+        [HttpPost("{customerId}/transaction")]
+        public async Task<IActionResult> AddCustomerTransaction(long customerId, [FromBody] SaveCustomerTrxRequest entity)
+        {
+            if (entity == null || customerId == 0 || !this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var transaction = this.mapper.Map<CustomerTransaction>(entity);
+
+            await this.context.CustomerTransactions.AddAsync(transaction);
+            await this.context.SaveChangesAsync();
+
+            return this.Ok(entity);
+        }
+
+        /// <summary>
+        /// Gets all transactions of a customer
+        /// </summary>
+        /// <param name="customerId">Customer Id</param>
+        /// <param name="filter">Filter values</param>
+        /// <returns>Returns list of <see cref="CustomerTransactionSummary"/></returns>
+        [HttpPost("{customerId}/gettransactions")]
+        public async Task<IActionResult> GetCustomerTransactions(long customerId, [FromBody] CustomerTransactionFilterRequest filter)
+        {
+            if (customerId == 0 || !this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var customer = await this.context.Customers
+                .Include(c => c.Transactions)
+                .SingleOrDefaultAsync(c => c.Id == customerId);
+
+            if (filter.DateFrom == null || filter.DateFrom == DateTime.MinValue)
+            {
+                filter.DateFrom = DateTime.Now;
+            }
+
+            if (filter.DateTo == null || filter.DateTo == DateTime.MinValue)
+            {
+                filter.DateTo = DateTime.Now;
+            }
+
+            var transactions = customer.Transactions.Where(c => c.Date >= filter.DateFrom && c.Date <= filter.DateTo);
+
+            var mappedTransactions = transactions.AsQueryable().ProjectTo<CustomerTransactionSummary>();
+
+            return this.Ok(mappedTransactions);
         }
     }
 }

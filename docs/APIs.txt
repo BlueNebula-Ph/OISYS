@@ -1,21 +1,21 @@
 ** CUSTOMERS **
 
-POST /api/customer/search
+***POST /api/customer/search
 { search - customername | city | province,  sort, pageNumber, pageSize,  }
 
-GET /api/customer/{id}
+***GET /api/customer/{id}
 
-POST /api/customer
+***POST /api/customer
 { customer data to save }
 
-PUT /api/customer/{id}
+***PUT /api/customer/{id}
 { customer data to save }
 
-DELETE /api/customer/{id}
+***DELETE /api/customer/{id}
 
 GET /api/customer/{id}/transaction?datefrom=xx&dateto=xx
 
-POST /api/customer/{id}/transaction
+***POST /api/customer/{id}/transaction
 { transaction details }
 
 ** REFERENCES **
