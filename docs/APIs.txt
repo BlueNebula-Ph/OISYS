@@ -35,7 +35,7 @@ GET /api/customer/{id}/transaction?datefrom=xx&dateto=xx
 
 ** ITEMS / INVENTORY **
 
-POST /api/item/search
+**POST /api/item/search
 { search = itemcode | itemname | category | tag, sort, pageNumber, pageSize }
 
 GET /api/item/{id}

@@ -1,0 +1,71 @@
+﻿<loading-indicator></loading-indicator>
+<h3>Customer Accounts. <small class="text-muted">Search customer details & accounts.</small></h3>
+<div class="form-inline bottom-margin-sm">
+    <input class="form-control input-sm" placeholder="Search..." />
+    <select class="form-control input-sm">
+        <option class="text-muted" label="Filter by city..." value="0"></option>
+    </select>
+    <select class="form-control input-sm">
+        <option class="text-muted" label="Filter by province..." value="0"></option>
+    </select>
+    <button class="btn btn-default btn-sm">
+        <i class="fa fa-search"></i>
+    </button>
+</div>
+<table class="table table-condensed table-striped summary-table">
+    <thead>
+        <tr>
+            <th>
+                <column-header header-text="Code" header-value="Code" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
+            </th>
+            <th>
+                <column-header header-text="Customer Name" header-value="Name" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
+            </th>
+            <th>
+                <column-header header-text="Email" header-value="Email" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
+            </th>
+            <th>
+                <column-header header-text="City" header-value="City" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
+            </th>
+            <th>
+                <column-header header-text="Province" header-value="Province" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
+            </th>
+            <th>
+                <column-header header-text="Contact Person" header-value="ContactPerson" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
+            </th>
+            <th>
+                <column-header header-text="Contact #" header-value="ContactNumber" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="c in ctrl.customers track by c.id">
+            <td>{{ c.code }}</td>
+            <td>{{ c.name }}</td>
+            <td>{{ c.email }}</td>
+            <td>{{ c.cityId }}</td>
+            <td>{{ c.provinceId }}</td>
+            <td>{{ c.contactPerson }}</td>
+            <td>{{ c.contactNumber }}</td>
+            <td>
+                <a ui-sref="customers.detail({ id: c.id })" class="btn btn-default btn-xs" title="View customer details">
+                    <i class="fa fa-file-o fa-fw"></i>
+                </a>
+                <a ui-sref="customers.add({ id: c.id })" class="btn btn-default btn-xs" title="Edit this customer">
+                    <i class="fa fa-edit fa-fw"></i>
+                </a>
+                <button class="btn btn-danger btn-xs" title="Delete this customer">
+                    <i class="fa fa-trash-o fa-fw"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,9 @@
+﻿<loading-indicator loading-text="Saving..."></loading-indicator>
+<h3>Save Category. <small class="text-muted">Please input category.</small></h3>
+<form name="addCategoryForm" novalidate>
+    <div form-input>
+        <label for="category">Category Name</label>
+        <input name="category" placeholder="Category Name." ng-model="ctrl.reference.code" required focus-me="ctrl.focus" />
+    </div>
+    <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"></form-control>
+</form>

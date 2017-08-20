@@ -1,5 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
+<div ui-view></div>
 
-<div ng-view></div>
+@section scripts{
+    <script src="~/js/controllers/customer/view-customer-controller.js"></script>
+    <script src="~/js/controllers/customer/add-customer-controller.js"></script>
+    <script src="~/js/controllers/customer/customer-details-controller.js"></script>
+}

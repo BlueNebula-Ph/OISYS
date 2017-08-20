@@ -9,16 +9,22 @@
         };
 
         vm.save = function () {
-            loadingService.showLoading();
+            // loadingService.showLoading();
 
-            customerService.saveCustomer(0, vm.customer)
-                .then(function (response) {
-                    toastr.success("SUCCESS!");
-                }, function (response) {
-                    console.log(response.data);
-                }).finally(function () {
-                    loadingService.hideLoading();
-                });
+            alert("SAVE!!");
+
+            //customerService.saveCustomer(0, vm.customer)
+            //    .then(function (response) {
+            //        toastr.success("SUCCESS!");
+            //    }, function (response) {
+            //        console.log(response.data);
+            //    }).finally(function () {
+            //        loadingService.hideLoading();
+            //    });
+        };
+
+        vm.reset = function () {
+            alert("RESET!!!");
         };
 
         return vm;

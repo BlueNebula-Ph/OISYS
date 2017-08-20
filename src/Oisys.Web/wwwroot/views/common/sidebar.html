@@ -1,37 +1,12 @@
-﻿<ul class="sidebar list-unstyled">
-    <li ng-show="showAdd">
-        <a ng-href="{{ addUrl }}" title="{{ addTooltip }}">
-            <i class="fa fa-plus fa-fw"></i>
-        </a>
-    </li>
-    <li ng-show="showSearch">
-        <a href="" ng-click="ctrl.toggleSearch()" title="Toggle search">
-            <i class="fa fa-search fa-fw"></i>
-        </a>
-    </li>
-    <li ng-show="showSave">
-        <a href="" ng-click="ctrl.toggleSave()" title="Save">
-            <i class="fa fa-save fa-fw"></i>
-        </a> 
-    </li>
-    <li ng-show="showCancel">
-        <a ng-href="{{ cancelUrl }}" title="Cancel">
-            <i class="fa fa-times fa-fw"></i>
-        </a>
-    </li>
-    <li ng-show="showEdit">
-        <a href="" ng-click="alert('Edit')" title="{{ editTooltip }}">
-            <i class="fa fa-edit fa-fw"></i>
-        </a>
-    </li>
-    <li ng-show="showDelete">
-        <a href="" ng-click="alert('Delete')" title="{{ deleteTooltip }}">
-            <i class="fa fa-trash-o fa-fw"></i>
-        </a>
-    </li>
-    <li ng-show="showBack">
-        <a ng-href="{{ backUrl }}" title="Back">
-            <i class="fa fa-arrow-circle-o-left fa-fw"></i>
-        </a>
+﻿<ul class="sidebar">
+    <li ng-repeat="i in items track by $index" ng-class="{ 'header': i.isHeader, 'item': i.isItem }" ui-sref-active="sidebar-active">
+        <span ng-if="i.isHeader">
+            <i class="fa ng-class:i.icon;"></i> {{ i.text }}
+        </span>
+        <span ng-if="i.isItem">
+            <a ui-sref="{{ i.link }}">
+                <i class="fa ng-class:i.icon;"></i> {{ i.text }}
+            </a>
+        </span>
     </li>
 </ul>
