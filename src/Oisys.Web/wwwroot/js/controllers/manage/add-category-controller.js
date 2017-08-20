@@ -12,6 +12,7 @@
         vm.save = function () {
             loadingService.showLoading();
 
+            // TODO: Update for edit
             referenceService.saveReference(0, vm.reference)
                 .then(function () {
                     toastr.success("Category saved successfully.");

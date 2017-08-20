@@ -63,7 +63,6 @@
     <Content Include="wwwroot\views\manage\add-cities.html" />
     <Content Include="wwwroot\views\manage\category-list.html" />
     <Content Include="wwwroot\views\manage\cities-list.html" />
-    <Content Include="wwwroot\views\manage\index.html" />
     <Content Include="wwwroot\views\order\index.html" />
     <Content Include="wwwroot\views\user\index.html" />
   </ItemGroup>

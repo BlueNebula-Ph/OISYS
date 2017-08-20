@@ -4,7 +4,7 @@
         var vm = this;
 
         vm.focus = true;
-        vm.sort = "Parent.Code";
+        vm.sort = "Code";
         vm.sortDirection = "asc";
         vm.search = "";
 
