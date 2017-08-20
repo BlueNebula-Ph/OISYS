@@ -20,18 +20,18 @@ GET /api/customer/{id}/transaction?datefrom=xx&dateto=xx
 
 ** REFERENCES **
 
-POST /api/reference/{typeId}/search
+**POST /api/reference/{typeId}/search
 { search, sort, page }
 
-GET /api/reference/{id}
+**GET /api/reference/{id}
 
-POST /api/reference
+**POST /api/reference
 { reference data to save }
 
-PUT /api/reference/{id}
+**PUT /api/reference/{id}
 { reference data to save }
 
-DELETE /api/reference/{id}
+**DELETE /api/reference/{id}
 
 ** ITEMS / INVENTORY **
 

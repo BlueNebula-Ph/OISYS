@@ -13,23 +13,23 @@
     using Oisys.Service.Helpers;
 
     /// <summary>
-    /// <see cref="ReferenceController"/> class handles Reference basic add, edit, delete and get.
+    /// <see cref="ItemController"/> class handles Item basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ReferenceController : Controller
+    public class ItemController : Controller
     {
         private readonly OisysDbContext context;
         private readonly IMapper mapper;
-        private readonly ISummaryListBuilder<Reference, ReferenceSummary> builder;
+        private readonly ISummaryListBuilder<Item, ItemSummary> builder;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReferenceController"/> class.
+        /// Initializes a new instance of the <see cref="ItemController"/> class.
         /// </summary>
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
-        public ReferenceController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Reference, ReferenceSummary> builder)
+        public ItemController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Item, ItemSummary> builder)
         {
             this.context = context;
             this.mapper = mapper;
@@ -37,24 +37,30 @@
         }
 
         /// <summary>
-        /// Returns list of active <see cref="Reference"/>
+        /// Returns list of active <see cref="Item"/>
         /// </summary>
-        /// <param name="typeId">ReferenceType Id</param>
-        /// <param name="filter">Reference filter</param>
-        /// <returns>List of References</returns>
-        [HttpPost("{typeId}/search", Name = "GetAllReferences")]
-        public async Task<IActionResult> GetAll(long typeId, [FromBody]ReferenceFilterRequest filter)
+        /// <param name="filter"><see cref="ItemFilterRequest"/></param>
+        /// <returns>List of Items</returns>
+        [HttpPost("search", Name = "GetAllItems")]
+        public async Task<IActionResult> GetAll([FromBody]ItemFilterRequest filter)
         {
-            // get list of active references (not deleted)
-            var list = this.context.References
+            // get list of active items (not deleted)
+            var list = this.context.Items
                 .AsNoTracking()
-                .Where(c => !c.IsDeleted && c.ReferenceTypeId == typeId);
+                .Where(c => !c.IsDeleted);
 
             // filter
-            if (!(filter?.ParentId).IsNullOrZero())
+            if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
-                list = list.Where(c => c.ParentId == filter.ParentId);
+                list = list.Where(c => c.Code.Contains(filter.SearchTerm));
             }
+
+            if (!(filter?.CategoryId).IsNullOrZero())
+            {
+                list = list.Where(c => c.CategoryId == filter.CategoryId);
+            }
+
+            // TODO: filter price
 
             // sort
             var ordering = $"Code {Constants.DefaultSortDirection}";
@@ -75,105 +81,105 @@
         }
 
         /// <summary>
-        /// Returns list of active <see cref="Reference"/>
+        /// Returns list of active <see cref="Item"/>
         /// </summary>
-        /// <param name="typeId">ReferenceType Id</param>
-        /// <param name="parentId">Parent Id</param>
-        /// <returns>List of References</returns>
-        [HttpGet("{typeId}/lookup/{parentId?}", Name = "GetReferenceLookup")]
-        public IActionResult GetLookup(long typeId, int? parentId)
+        /// <returns>List of Items</returns>
+        [HttpGet("lookup", Name = "GetItemLookup")]
+        public IActionResult GetLookup()
         {
-            // get list of active references (not deleted)
-            var list = this.context.References
+            // get list of active items (not deleted)
+            var list = this.context.Items
                 .AsNoTracking()
-                .Where(c => !c.IsDeleted && c.ReferenceTypeId == typeId);
-
-            // filter
-            if (!parentId.IsNullOrZero())
-            {
-                list = list.Where(c => c.ParentId == parentId);
-            }
+                .Where(c => !c.IsDeleted);
 
             // sort
             var ordering = $"Code {Constants.DefaultSortDirection}";
 
             list = list.OrderBy(ordering);
 
-            var entities = list.ProjectTo<ReferenceLookup>();
+            var entities = list.ProjectTo<ItemLookup>();
 
             return this.Ok(entities);
         }
 
         /// <summary>
-        /// Gets a specific <see cref="Reference"/>.
+        /// Gets a specific <see cref="Item"/>.
         /// </summary>
         /// <param name="id">id</param>
-        /// <returns>Reference</returns>
-        [HttpGet("{id}", Name = "GetReference")]
+        /// <returns>Item</returns>
+        [HttpGet("{id}", Name = "GetItem")]
         public async Task<IActionResult> GetById(long id)
         {
-            var entity = await this.context.References
+            var entity = await this.context.Items
                 .AsNoTracking()
-                .Include(c => c.ReferenceType)
-                .Include(c => c.Parent)
-                .SingleOrDefaultAsync(c => c.Id == id);
+                .Include(c => c.Category)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
             {
                 return this.NotFound(id);
             }
 
-            var mappedEntity = this.mapper.Map<ReferenceSummary>(entity);
+            var mappedEntity = this.mapper.Map<ItemSummary>(entity);
 
             return this.Ok(mappedEntity);
         }
 
         /// <summary>
-        /// Creates a <see cref="Reference"/>.
+        /// Creates a <see cref="Item"/>.
         /// </summary>
-        /// <param name="entity">Reference to save</param>
-        /// <returns>Reference</returns>
+        /// <param name="entity">entity to be created</param>
+        /// <returns>Item</returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] SaveReferenceRequest entity)
+        public async Task<IActionResult> Create([FromBody]SaveItemRequest entity)
         {
             if (entity == null || !this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            var reference = this.mapper.Map<Reference>(entity);
-            await this.context.References.AddAsync(reference);
+            var item = this.mapper.Map<Item>(entity);
+            await this.context.Items.AddAsync(item);
             await this.context.SaveChangesAsync();
 
-            var mappedReference = this.mapper.Map<ReferenceSummary>(reference);
+            try
+            {
+                var mappedItem = this.mapper.Map<ItemSummary>(item);
 
-            return this.CreatedAtRoute("GetReference", new { id = reference.Id }, mappedReference);
+                return this.CreatedAtRoute("GetItem", new { id = item.Id }, mappedItem);
+            }
+            catch (AutoMapperMappingException ex)
+            {
+
+            }
+
+            return this.Ok();
         }
 
         /// <summary>
-        /// Updates a specific <see cref="Reference"/>.
+        /// Updates a specific <see cref="Item"/>.
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="entity">entity</param>
         /// <returns>None</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(long id, [FromBody]SaveReferenceRequest entity)
+        public async Task<IActionResult> Update(long id, [FromBody]SaveItemRequest entity)
         {
             if (entity == null || entity.Id == 0 || id == 0)
             {
                 return this.BadRequest();
             }
 
-            var reference = await this.context.References.SingleOrDefaultAsync(t => t.Id == id);
-            if (reference == null)
+            var item = await this.context.Items.SingleOrDefaultAsync(t => t.Id == id);
+            if (item == null)
             {
                 return this.NotFound(id);
             }
 
             try
             {
-                this.mapper.Map(entity, reference);
-                this.context.Update(reference);
+                this.mapper.Map(entity, item);
+                this.context.Update(item);
                 await this.context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -185,14 +191,14 @@
         }
 
         /// <summary>
-        /// Deletes a specific <see cref="Reference"/>.
+        /// Deletes a specific <see cref="Item"/>.
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>None</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var entity = await this.context.References.SingleOrDefaultAsync(t => t.Id == id);
+            var entity = await this.context.Items.SingleOrDefaultAsync(t => t.Id == id);
             if (entity == null)
             {
                 return this.NotFound(id);
