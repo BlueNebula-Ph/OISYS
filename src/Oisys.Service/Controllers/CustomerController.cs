@@ -78,9 +78,31 @@ namespace Oisys.Service.Controllers
             var pageNumber = (filter?.PageIndex).IsNullOrZero() ? Constants.DefaultPageIndex : filter.PageIndex;
             var pageSize = (filter?.PageSize).IsNullOrZero() ? Constants.DefaultPageSize : filter.PageSize;
 
-            var customers = await this.builder.BuildAsync(list, pageNumber, pageSize);
+            var entities = await this.builder.BuildAsync(list, pageNumber, pageSize);
 
-            return this.Ok(customers);
+            return this.Ok(entities);
+        }
+
+        /// <summary>
+        /// Returns list of active <see cref="Customer"/>
+        /// </summary>
+        /// <returns>List of Customers</returns>
+        [HttpGet("lookup", Name = "GetCustomerLookup")]
+        public IActionResult GetLookup()
+        {
+            // get list of active items (not deleted)
+            var list = this.context.Customers
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted);
+
+            // sort
+            var ordering = $"Name {Constants.DefaultSortDirection}";
+
+            list = list.OrderBy(ordering);
+
+            var entities = list.ProjectTo<CustomerLookup>();
+
+            return this.Ok(entities);
         }
 
         /// <summary>
@@ -91,27 +113,27 @@ namespace Oisys.Service.Controllers
         [HttpGet("{id}", Name = "GetCustomer")]
         public async Task<IActionResult> GetById(long id)
         {
-            var customer = await this.context.Customers
+            var entity = await this.context.Customers
                 .AsNoTracking()
                 .Include(c => c.City)
                 .Include(c => c.Province)
                 .Include(c => c.Transactions)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (customer == null)
+            if (entity == null)
             {
                 return this.NotFound(id);
             }
 
-            var mappedCustomer = this.mapper.Map<CustomerSummary>(customer);
+            var mappedEntity = this.mapper.Map<CustomerSummary>(entity);
 
-            return this.Ok(mappedCustomer);
+            return this.Ok(mappedEntity);
         }
 
         /// <summary>
         /// Creates a <see cref="Customer"/>.
         /// </summary>
-        /// <param name="entity">entity</param>
+        /// <param name="entity">entity to be created</param>
         /// <returns>Customer</returns>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SaveCustomerRequest entity)

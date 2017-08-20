@@ -1,12 +1,11 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Service.DTO
 {
-    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// <see cref="Item"/> class Item/Inventory object.
+    /// <see cref="SaveItemRequest"/> class Create/Update Item object.
     /// </summary>
-    public class Item : ModelBase
+    public class SaveItemRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets property Code.
@@ -67,19 +66,8 @@
         public decimal Quantity { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
-        /// </summary>
-        [DefaultValue(false)]
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
         /// Gets or sets property Tag.
         /// </summary>
         public string Tag { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Category.
-        /// </summary>
-        public Reference Category { get; set; }
     }
 }
