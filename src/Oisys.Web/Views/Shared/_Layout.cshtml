@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@this.ViewData["Title"] - Order and Inventory Management System</title>
+    <title>Order and Inventory Management System - Ace Plastic Center</title>
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootswatch/spacelab/bootstrap.css" />
@@ -21,76 +21,40 @@
     @this.Html.Raw(this.JavaScriptSnippet.FullScript)
 </head>
 <body ng-app="oisys-app">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-controller="Home" asp-action="Index" class="navbar-brand">
-                    <span class="logo">Ace Plastic Center</span>
-                </a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a asp-controller="Home" asp-action="Index">
-                            <i class="fa fa-home"></i> Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/Order/#!/list/orders">
-                            <i class="fa fa-file-o"></i> Orders
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/Delivery/#!/list/deliveries">
-                            <i class="fa fa-truck"></i> Delivery
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/Inventory/#!/list/inventory">
-                            <i class="fa fa-database"></i> Inventory
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/Customer/#!/list/customers">
-                            <i class="fa fa-address-book-o"></i> Customer Accounts
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/User/#!/list/users">
-                            <i class="fa fa-user"></i> Users
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="container-fluid page-wrap">
-        @this.RenderBody()
-    </div>
-    <footer class="site-footer">
-        &copy; 2017 - Ace Plastic Center - OISYS
-    </footer>
+    @this.RenderBody()
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/angular/angular.js"></script>
         <script src="~/lib/angular-route/angular-route.js"></script>
+        <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
         <script src="~/lib/toastr/toastr.js"></script>
         <script src="~/js/env.js"></script>
         <script src="~/js/app.js" asp-append-version="true"></script>
+        
         <script src="~/js/services/loading-service.js"></script>
         <script src="~/js/services/customer-service.js"></script>
+        <script src="~/js/services/reference-service.js"></script>
+        
+        <script src="~/js/directives/navigation.js"></script>
         <script src="~/js/directives/sidebar.js"></script>
         <script src="~/js/directives/loading-inidicator.js"></script>
         <script src="~/js/directives/column-header.js"></script>
+        <script src="~/js/directives/form-input.js"></script>
+        <script src="~/js/directives/form-controls.js"></script>
+        <script src="~/js/directives/focus-me.js"></script>
+
         <script src="~/js/controllers/common/login-controller.js"></script>
+        <script src="~/js/controllers/manage/manage-system-controller.js"></script>
+        <script src="~/js/controllers/manage/add-category-controller.js"></script>
+        <script src="~/js/controllers/manage/view-category-controller.js"></script>
+        <script src="~/js/controllers/manage/add-city-controller.js"></script>
+        <script src="~/js/controllers/manage/view-city-controller.js"></script>
+
+        <script src="~/js/controllers/customer/manage-customer-controller.js"></script>
+        <script src="~/js/controllers/inventory/manage-inventory-controller.js"></script>
+
         <script src="~/js/services/current-user.js"></script>
         <script src="~/js/services/auth-service.js"></script>
         <script src="~/js/services/form-encode.js"></script>

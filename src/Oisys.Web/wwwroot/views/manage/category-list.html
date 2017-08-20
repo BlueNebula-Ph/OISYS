@@ -1,0 +1,35 @@
+﻿<loading-indicator></loading-indicator>
+<h3>Categories. <small class="text-muted">Search categories.</small></h3>
+<div class="form-inline bottom-margin-sm">
+    <input class="form-control input-sm" placeholder="Search Category..." ng-model="ctrl.search" focus-me="ctrl.focus" />
+    <button class="btn btn-default btn-sm" ng-click="ctrl.fetchCategories()">
+        <i class="fa fa-search"></i>
+    </button>
+</div>
+<table class="table table-condensed table-striped summary-table">
+    <thead>
+        <tr>
+            <th>
+                <column-header header-text="Category Name" header-value="Code" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+                               fetch-call-back="ctrl.fetchCategories()"></column-header>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="c in ctrl.categories track by c.id">
+            <td>{{ c.code }}</td>
+            <td>
+                <a ui-sref="system.add-category({ id: c.id })" class="btn btn-default btn-xs" title="Edit this category">
+                    <i class="fa fa-edit fa-fw"></i>
+                </a>
+                <button class="btn btn-danger btn-xs" title="Delete this category">
+                    <i class="fa fa-trash-o fa-fw"></i>
+                </button>
+            </td>
+        </tr>
+        <tr ng-if="ctrl.categories.length == 0">
+            <td colspan="2">No records found.</td>
+        </tr>
+    </tbody>
+</table>
