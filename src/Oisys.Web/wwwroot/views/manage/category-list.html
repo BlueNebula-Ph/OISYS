@@ -1,7 +1,7 @@
 ﻿<loading-indicator></loading-indicator>
 <h3>Categories. <small class="text-muted">Search categories.</small></h3>
 <div class="form-inline bottom-margin-sm">
-    <input class="form-control input-sm" placeholder="Search Category..." ng-model="ctrl.search" focus-me="ctrl.focus" />
+    <input class="form-control input-sm" placeholder="Search Category..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
     <button class="btn btn-default btn-sm" ng-click="ctrl.fetchCategories()">
         <i class="fa fa-search"></i>
     </button>
@@ -10,14 +10,14 @@
     <thead>
         <tr>
             <th>
-                <column-header header-text="Category Name" header-value="Code" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
-                               fetch-call-back="ctrl.fetchCategories()"></column-header>
+                <column-header header-text="Category Name" header-value="Code" sort="ctrl.filters.sortBy" 
+                               sort-direction="ctrl.filters.sortDirection" fetch-call-back="ctrl.fetchCategories()"></column-header>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="c in ctrl.categories track by c.id">
+        <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
             <td>{{ c.code }}</td>
             <td>
                 <a ui-sref="system.add-category({ id: c.id })" class="btn btn-default btn-xs" title="Edit this category">
@@ -28,8 +28,9 @@
                 </button>
             </td>
         </tr>
-        <tr ng-if="ctrl.categories.length == 0">
-            <td colspan="2">No records found.</td>
-        </tr>
+        <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="2"></tr>
     </tbody>
 </table>
+<pager current-page="ctrl.currentPage" total-pages="ctrl.summaryResult.totalPages"
+       has-previous-page="ctrl.summaryResult.hasPreviousPage" has-next-page="ctrl.summaryResult.hasNextPage"
+       on-page-change="ctrl.fetchCategories()"></pager>

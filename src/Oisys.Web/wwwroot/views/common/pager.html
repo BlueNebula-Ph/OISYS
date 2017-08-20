@@ -1,0 +1,15 @@
+﻿<ul class="pagination pagination-sm vertical-margin-none">
+    <li ng-class="{ 'disabled': !hasPreviousPage }">
+        <a href="" ng-click="ctrl.goToPrev()">
+            <i class="fa fa-angle-double-left"></i> Prev
+        </a>
+    </li>
+    <li ng-repeat="p in ctrl.getTotalPages() track by $index" ng-class="{ 'active-page': currentPage == p }">
+        <a href="" ng-click="ctrl.goToPage(p)">{{ p }}</a>
+    </li>
+    <li ng-class="{ 'disabled': !hasNextPage }">
+        <a href="" ng-click="ctrl.goToNext()">
+            Next <i class="fa fa-angle-double-right"></i>
+        </a>
+    </li>
+</ul>

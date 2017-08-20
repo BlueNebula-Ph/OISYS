@@ -1,58 +1,34 @@
 ﻿<loading-indicator></loading-indicator>
 <h3>Customer Accounts. <small class="text-muted">Search customer details & accounts.</small></h3>
 <div class="form-inline bottom-margin-sm">
-    <input class="form-control input-sm" placeholder="Search..." />
+    <input class="form-control input-sm" placeholder="Search..." ng-model="ctrl.filters.searchTerm" />
     <select class="form-control input-sm">
         <option class="text-muted" label="Filter by city..." value="0"></option>
     </select>
     <select class="form-control input-sm">
         <option class="text-muted" label="Filter by province..." value="0"></option>
     </select>
-    <button class="btn btn-default btn-sm">
+    <button class="btn btn-default btn-sm" ng-click="ctrl.fetchCustomers()">
         <i class="fa fa-search"></i>
     </button>
 </div>
 <table class="table table-condensed table-striped summary-table">
     <thead>
         <tr>
-            <th>
-                <column-header header-text="Code" header-value="Code" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+            <th ng-repeat="header in ctrl.headers track by $index">
+                <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy" 
+                               sort-direction="ctrl.filters.sortDirection"
                                fetch-call-back="ctrl.fetchCustomers()"></column-header>
             </th>
-            <th>
-                <column-header header-text="Customer Name" header-value="Name" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
-                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
-            </th>
-            <th>
-                <column-header header-text="Email" header-value="Email" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
-                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
-            </th>
-            <th>
-                <column-header header-text="City" header-value="City" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
-                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
-            </th>
-            <th>
-                <column-header header-text="Province" header-value="Province" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
-                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
-            </th>
-            <th>
-                <column-header header-text="Contact Person" header-value="ContactPerson" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
-                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
-            </th>
-            <th>
-                <column-header header-text="Contact #" header-value="ContactNumber" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
-                               fetch-call-back="ctrl.fetchCustomers()"></column-header>
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="c in ctrl.customers track by c.id">
+        <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
             <td>{{ c.code }}</td>
             <td>{{ c.name }}</td>
             <td>{{ c.email }}</td>
-            <td>{{ c.cityId }}</td>
-            <td>{{ c.provinceId }}</td>
+            <td>{{ c.cityName }}</td>
+            <td>{{ c.provinceName }}</td>
             <td>{{ c.contactPerson }}</td>
             <td>{{ c.contactNumber }}</td>
             <td>
@@ -67,5 +43,9 @@
                 </button>
             </td>
         </tr>
+        <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="8"></tr>
     </tbody>
 </table>
+<pager current-page="ctrl.currentPage" total-pages="ctrl.summaryResult.totalPages"
+       has-previous-page="ctrl.summaryResult.hasPreviousPage" has-next-page="ctrl.summaryResult.hasNextPage"
+       on-page-change="ctrl.fetchCategories()"></pager>

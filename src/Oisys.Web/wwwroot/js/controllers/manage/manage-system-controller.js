@@ -5,8 +5,8 @@
 
         vm.sidebarItems = [
             { text: "Cities / Provinces", isHeader: true, isItem: false, icon: "fa-map-pin" },
-            { text: "Add New Province", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-city({ id: 0 })" },
-            { text: "Search Province", isHeader: false, isItem: true, icon: "fa-search", link: ".list-cities" },
+            { text: "Add New City", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-city({ id: 0 })" },
+            { text: "Search Cities", isHeader: false, isItem: true, icon: "fa-search", link: ".list-cities" },
             { text: "Categories", isHeader: true, isItem: false, icon: "fa-bookmark" },
             { text: "Add New Category", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-category({ id: 0 })" },
             { text: "Search Categories", isHeader: false, isItem: true, icon: "fa-search", link: ".list-categories" },
