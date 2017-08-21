@@ -1,7 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
     /// <summary>
-    /// <see cref="FilterRequestBase"/> class represents basic Customer filter for displaying data.
+    /// <see cref="CustomerFilterRequest"/> class represents basic Customer filter for displaying data.
     /// </summary>
     public class CustomerFilterRequest : FilterRequestBase
     {

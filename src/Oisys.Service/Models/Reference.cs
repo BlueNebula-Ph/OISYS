@@ -23,7 +23,7 @@
         /// <summary>
         /// Gets or sets property ParentId.
         /// </summary>
-        public int? ParentId { get; set; }
+        public int? ParentReferenceId { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.
@@ -39,6 +39,6 @@
         /// <summary>
         /// Gets or sets Parent navigation property.
         /// </summary>
-        public Reference Parent { get; set; }
+        public Reference ParentReference { get; set; }
     }
 }

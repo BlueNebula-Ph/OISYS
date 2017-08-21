@@ -1,11 +1,11 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Service.DTO
 {
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// <see cref="OrderDetail"/> class represents the child of Order object.
     /// </summary>
-    public class OrderDetail : ModelBase
+    public class SaveOrderDetailRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets property OrderId.
@@ -35,20 +35,5 @@
         /// </summary>
         [Required]
         public decimal Price { get; set; }
-
-        /// <summary>
-        /// Gets or sets Order navigation property.
-        /// </summary>
-        public Order Order { get; set; }
-
-        /// <summary>
-        /// Gets or sets Item navigation property.
-        /// </summary>
-        public Item Item { get; set; }
-
-        /// <summary>
-        /// Gets or sets Delivery navigation property.
-        /// </summary>
-        public Delivery Delivery { get; set; }
     }
 }
