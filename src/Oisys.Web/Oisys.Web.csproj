@@ -33,6 +33,8 @@
     <Content Include="wwwroot\js\directives\form-input.js" />
     <Content Include="wwwroot\js\directives\loading-inidicator.js" />
     <Content Include="wwwroot\js\directives\navigation.js" />
+    <Content Include="wwwroot\js\directives\no-records.js" />
+    <Content Include="wwwroot\js\directives\pager.js" />
     <Content Include="wwwroot\js\directives\sidebar.js" />
     <Content Include="wwwroot\js\env.js" />
     <Content Include="wwwroot\js\env.prod.js" />
@@ -52,6 +54,8 @@
     <Content Include="wwwroot\views\common\loading-indicator.html" />
     <Content Include="wwwroot\views\common\login.html" />
     <Content Include="wwwroot\views\common\navigation.html" />
+    <Content Include="wwwroot\views\common\no-records.html" />
+    <Content Include="wwwroot\views\common\pager.html" />
     <Content Include="wwwroot\views\common\sidebar.html" />
     <Content Include="wwwroot\views\customer\add-customer.html" />
     <Content Include="wwwroot\views\customer\customer-details.html" />

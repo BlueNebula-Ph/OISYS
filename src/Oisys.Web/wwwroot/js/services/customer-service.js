@@ -8,11 +8,9 @@
         dataFactory.fetchAllCustomers = function () {
         };
 
-        dataFactory.fetchCustomers = function (page, sortBy, sortDirection, search) {
+        dataFactory.fetchCustomers = function (filters) {
             var url = urlBase + "/search";
-            var filter = { sortBy: sortBy, sortDirection: sortDirection };
-
-            return $http.post(url, filter);
+            return $http.post(url, filters);
         };
 
         dataFactory.getCustomer = function (id) {

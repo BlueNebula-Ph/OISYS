@@ -2,27 +2,25 @@
 
     var viewCategoryController = function (referenceService, loadingService) {
         var vm = this;
-
-        vm.search = "";
-        vm.sort = "Code";
-        vm.sortDirection = "asc";
         vm.focus = true;
-
-        vm.categories = [];
+        vm.currentPage = 1;
+        vm.filters = {
+            sortBy: "Code",
+            sortDirection: "asc",
+            searchTerm: ""
+        };
+        vm.summaryResult = {
+            items: []
+        };
 
         vm.fetchCategories = function () {
             loadingService.showLoading();
 
-            var search = {
-                sortBy: vm.sort,
-                sortDirection: vm.sortDirection,
-                searchTerm: vm.search
-            };
+            vm.filters.pageIndex = vm.currentPage;
 
-            referenceService.fetchReferences(1, search)
+            referenceService.fetchReferences(1, vm.filters)
                 .then(function (response) {
-                    var data = response.data;
-                    vm.categories = data.items;
+                    angular.copy(response.data, vm.summaryResult);
                 }, function (error) {
                     toastr.error("An error has occurred.");
                 })

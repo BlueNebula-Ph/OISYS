@@ -21,6 +21,11 @@ html, body {
     padding-right: 0;
 }
 
+.vertical-margin-none {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .bottom-margin-sm {
     margin-bottom: 10px;
 }
@@ -117,3 +122,9 @@ textarea {
         .summary-table th a, .summary-table th span {
             color: #fefefe;
         }
+
+.active-page a {
+    background-color: #6faced !important;
+    color: #fefefe !important;
+    font-weight: bold;
+}

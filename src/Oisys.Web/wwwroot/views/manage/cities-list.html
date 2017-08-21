@@ -1,7 +1,7 @@
 ﻿<loading-indicator></loading-indicator>
 <h3>Provinces / Cities. <small class="text-muted">Search province / city.</small></h3>
 <div class="form-inline bottom-margin-sm">
-    <input class="form-control input-sm" placeholder="Search province or city..." ng-model="ctrl.search" focus-me="ctrl.focus" />
+    <input class="form-control input-sm" placeholder="Search province or city..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
     <button class="btn btn-default btn-sm" ng-click="ctrl.fetchCities()">
         <i class="fa fa-search"></i>
     </button>
@@ -9,21 +9,17 @@
 <table class="table table-condensed table-striped summary-table">
     <thead>
         <tr>
-            <th>
-                <column-header header-text="Province" header-value="Parent.Code" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
+            <th ng-repeat="header in ctrl.headers track by $index">
+                <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy" 
+                               sort-direction="ctrl.filters.sortDirection"
                                fetch-call-back="ctrl.fetchCities()"></column-header>
             </th>
-            <th>
-                <column-header header-text="City" header-value="Code" sort="ctrl.sort" sort-direction="ctrl.sortDirection"
-                               fetch-call-back="ctrl.fetchCities()"></column-header>
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="c in ctrl.provinces track by c.id">
-            <td>{{ c.parentCode }}</td>
+        <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
             <td>{{ c.code }}</td>
+            <td>{{ c.parentCode }}</td>
             <td>
                 <a ui-sref="system.add-city({ id: c.id })" class="btn btn-default btn-xs" title="Edit this province">
                     <i class="fa fa-edit fa-fw"></i>
@@ -33,8 +29,9 @@
                 </button>
             </td>
         </tr>
-        <tr ng-if="ctrl.provinces.length == 0">
-            <td colspan="3">No records found.</td>
-        </tr>
+        <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="3"></tr>
     </tbody>
 </table>
+<pager current-page="ctrl.currentPage" total-pages="ctrl.summaryResult.totalPages"
+       has-previous-page="ctrl.summaryResult.hasPreviousPage" has-next-page="ctrl.summaryResult.hasNextPage"
+       on-page-change="ctrl.fetchCategories()"></pager>

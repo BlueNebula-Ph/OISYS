@@ -2,31 +2,40 @@
 
     var viewCustomerController = function (customerService, loadingService) {
         var vm = this;
-
-        vm.customers = [];
-        vm.sort = "Name";
-        vm.sortDirection = "asc";
+        vm.focus = true;
+        vm.currentPage = 1;
+        vm.filters = {
+            sortBy: "Name",
+            sortDirection: "asc",
+            searchTerm: ""
+        };
+        vm.summaryResult = {
+            items: []
+        };
+        vm.headers = [
+            { text: "Code", value: "Code" },
+            { text: "Customer Name", value: "Name" },
+            { text: "Email", value: "Email" },
+            { text: "City", value: "City.Code" },
+            { text: "Province", value: "Province.Code" },
+            { text: "Contact Person", value: "ContactPerson" },
+            { text: "Contact #", value: "ContactNumber" },
+            { text: "", value: "" }
+        ];
 
         vm.fetchCustomers = function () {
-            //loadingService.showLoading();
+            loadingService.showLoading();
 
-            //customerService.fetchCustomers(1, vm.sort, vm.sortDirection, "search")
-            //    .then(function (response) {
-            //        vm.customers = response.data.items;
-            //    }, function (error) {
-            //        console.log(error);
-            //    }).finally(function () {
-            //        loadingService.hideLoading();
-            //    });
+            vm.filters.pageIndex = vm.currentPage;
 
-            for (var i = 0; i < 10; i++) {
-                vm.customers.push({
-                    id: i + 1,
-                    name: "Name",
-                    code: "Code",
-                    email: "email@test.com"
+            customerService.fetchCustomers(vm.filters)
+                .then(function (response) {
+                    angular.copy(response.data, vm.summaryResult);
+                }, function (error) {
+                    console.log(error);
+                }).finally(function () {
+                    loadingService.hideLoading();
                 });
-            }
         };
 
         $(function () {

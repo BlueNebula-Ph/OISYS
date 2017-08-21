@@ -2,30 +2,30 @@
 
     var viewCityController = function (referenceService, loadingService) {
         var vm = this;
-
         vm.focus = true;
-        vm.sort = "Code";
-        vm.sortDirection = "asc";
-        vm.search = "";
-
-        vm.provinces = [];
+        vm.currentPage = 1;
+        vm.filters = {
+            sortBy: "Code",
+            sortDirection: "asc",
+            searchTerm: ""
+        };
+        vm.summaryResult = {
+            items: []
+        };
+        vm.headers = [
+            { text: "City", value: "Code" },
+            { text: "Province", value: "Parent.Code" },
+            { text: "", value: "" }
+        ];
 
         vm.fetchCities = function () {
             loadingService.showLoading();
 
-            var search = {
-                sortBy: vm.sort,
-                sortDirection: vm.sortDirection,
-                searchTerm: vm.search
-            };
+            vm.filters.pageIndex = vm.currentPage;
 
-            referenceService.fetchReferences(2, search)
+            referenceService.fetchReferences(2, vm.filters)
                 .then(function (response) {
-                    var data = response.data;
-
-                    vm.provinces = data.items;
-
-                    console.log(vm.provinces);
+                    angular.copy(response.data, vm.summaryResult);
                 }, function (error) {
                     toastr.error("An error has occurred.");
                 })
