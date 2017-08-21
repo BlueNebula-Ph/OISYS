@@ -1,14 +1,13 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Service.DTO
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// <see cref="Order"/> class represents the Order object.
+    /// <see cref="SaveOrderRequest"/> class Create/Update Order object.
     /// </summary>
-    public class Order : ModelBase
+    public class SaveOrderRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets property Code.
@@ -34,19 +33,8 @@
         public DateTime? DueDate { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
-        /// </summary>
-        [DefaultValue(false)]
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Customer navigation property.
-        /// </summary>
-        public Customer Customer { get; set; }
-
-        /// <summary>
         /// Gets or sets property Details navigation property.
         /// </summary>
-        public ICollection<OrderDetail> Details { get; set; }
+        public IEnumerable<SaveOrderDetailRequest> Details { get; set; }
     }
 }

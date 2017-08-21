@@ -67,6 +67,16 @@
         public decimal Quantity { get; set; }
 
         /// <summary>
+        /// Gets or sets property Actual quantity or physical quantity of the item.
+        /// </summary>
+        public decimal? ActualQuantity { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Current quantity or Actual quantity - order quantity.
+        /// </summary>
+        public decimal? CurrentQuantity { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.
         /// </summary>
         [DefaultValue(false)]

@@ -1,54 +1,48 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Service.DTO
 {
-    using System.ComponentModel.DataAnnotations;
-
     /// <summary>
-    /// <see cref="OrderDetail"/> class represents the child of Order object.
+    /// <see cref="OrderDetailSummary"/> class represents the child of OrderSummary object.
     /// </summary>
-    public class OrderDetail : ModelBase
+    public class OrderDetailSummary : DTOBase
     {
         /// <summary>
         /// Gets or sets property OrderId.
         /// </summary>
-        [Required]
         public int OrderId { get; set; }
 
         /// <summary>
         /// Gets or sets property Quanity.
         /// </summary>
-        [Required]
         public decimal Quantity { get; set; }
 
         /// <summary>
         /// Gets or sets property ItemId.
         /// </summary>
-        [Required]
         public int ItemId { get; set; }
 
         /// <summary>
         /// Gets or sets property DeliveryId.
         /// </summary>
-        public int? DeliveryId { get; set; }
+        public int DeliveryId { get; set; }
 
         /// <summary>
         /// Gets or sets property Price.
         /// </summary>
-        [Required]
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Gets or sets Order navigation property.
+        /// Gets or sets OrderSummary navigation property.
         /// </summary>
-        public Order Order { get; set; }
+        public OrderSummary Order { get; set; }
 
         /// <summary>
-        /// Gets or sets Item navigation property.
+        /// Gets or sets ItemSummary navigation property.
         /// </summary>
-        public Item Item { get; set; }
+        public ItemSummary Item { get; set; }
 
         /// <summary>
         /// Gets or sets Delivery navigation property.
         /// </summary>
-        public Delivery Delivery { get; set; }
+        public DeliverySummary Delivery { get; set; }
     }
 }

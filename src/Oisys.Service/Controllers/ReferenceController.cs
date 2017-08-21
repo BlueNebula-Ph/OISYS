@@ -51,9 +51,14 @@
                 .Where(c => !c.IsDeleted && c.ReferenceTypeId == typeId);
 
             // filter
+            if (!string.IsNullOrEmpty(filter?.SearchTerm))
+            {
+                list = list.Where(c => c.Code.Contains(filter.SearchTerm) || (c.ParentReference != null && c.ParentReference.Code.Contains(filter.SearchTerm)));
+            }
+
             if (!(filter?.ParentId).IsNullOrZero())
             {
-                list = list.Where(c => c.ParentId == filter.ParentId);
+                list = list.Where(c => c.ParentReferenceId == filter.ParentId);
             }
 
             // sort
@@ -91,7 +96,7 @@
             // filter
             if (!parentId.IsNullOrZero())
             {
-                list = list.Where(c => c.ParentId == parentId);
+                list = list.Where(c => c.ParentReferenceId == parentId);
             }
 
             // sort
@@ -115,7 +120,7 @@
             var entity = await this.context.References
                 .AsNoTracking()
                 .Include(c => c.ReferenceType)
-                .Include(c => c.Parent)
+                .Include(c => c.ParentReference)
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)

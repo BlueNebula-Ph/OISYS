@@ -34,6 +34,9 @@
 
             this.CreateMap<CustomerTransaction, CustomerTransactionSummary>();
 
+            // Delivery
+            this.CreateMap<Delivery, DeliverySummary>();
+
             // Item
             this.CreateMap<Item, ItemLookup>()
                 .ForMember(d => d.CodeName, s => s.MapFrom(o => $"{o.Code} - {o.Name}"));
@@ -43,14 +46,25 @@
 
             this.CreateMap<SaveItemRequest, Item>();
 
+            // Order
+            this.CreateMap<Order, OrderSummary>();
+
+            this.CreateMap<SaveOrderRequest, Order>();
+
+            // Order Detail
+            this.CreateMap<OrderDetail, OrderDetailSummary>();
+
+            this.CreateMap<SaveOrderRequest, OrderDetail>();
+
             // Reference
             this.CreateMap<Reference, ReferenceLookup>();
 
             this.CreateMap<Reference, ReferenceSummary>()
-                .ForMember(d => d.ParentCode, s => s.MapFrom(o => o.Parent.Code))
+                .ForMember(d => d.ParentCode, s => s.MapFrom(o => o.ParentReference.Code))
                 .ForMember(d => d.ReferenceTypeCode, s => s.MapFrom(o => o.ReferenceType.Code));
 
-            this.CreateMap<SaveReferenceRequest, Reference>();
+            this.CreateMap<SaveReferenceRequest, Reference>()
+                .ForMember(d => d.ParentReference.Code, s => s.MapFrom(o => o.ParentCode));
 
             // ReferenceType
             this.CreateMap<ReferenceType, ReferenceTypeSummary>();
