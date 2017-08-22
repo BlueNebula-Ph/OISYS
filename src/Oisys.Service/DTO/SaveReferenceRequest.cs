@@ -27,5 +27,10 @@
         /// Gets or sets property ReferenceTypeId.
         /// </summary>
         public int ReferenceTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets property ParentReference
+        /// </summary>
+        public SaveReferenceRequest ParentReference { get; set; }
     }
 }
