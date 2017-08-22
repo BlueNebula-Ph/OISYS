@@ -95,7 +95,14 @@
                     controllerAs: "ctrl"
                 }).state("inventory.list", {
                     url: "/list",
-                    template: "<h3>List</h3>"
+                    templateUrl: "/views/inventory/items-list.html",
+                    controller: "viewItemController",
+                    controllerAs: "ctrl"
+                }).state("inventory.add", {
+                    url: "/add/{id}",
+                    templateUrl: "/views/inventory/add-item.html",
+                    controller: "addItemController",
+                    controllerAs: "ctrl"
                 });
         }])
         .run(["$rootScope", "$state", "$stateParams",
