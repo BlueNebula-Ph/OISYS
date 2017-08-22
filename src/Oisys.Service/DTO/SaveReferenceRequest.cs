@@ -19,6 +19,11 @@
         public int? ParentId { get; set; }
 
         /// <summary>
+        /// Gets or sets property Parent Code.
+        /// </summary>
+        public string ParentCode { get; set; }
+
+        /// <summary>
         /// Gets or sets property ReferenceTypeId.
         /// </summary>
         public int ReferenceTypeId { get; set; }
