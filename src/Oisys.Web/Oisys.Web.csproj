@@ -28,6 +28,8 @@
     <Content Include="wwwroot\js\controllers\manage\manage-system-controller.js" />
     <Content Include="wwwroot\js\controllers\manage\view-category-controller.js" />
     <Content Include="wwwroot\js\controllers\manage\view-city-controller.js" />
+    <Content Include="wwwroot\js\controllers\order\manage-order-controller.js" />
+    <Content Include="wwwroot\js\controllers\order\view-order-controller.js" />
     <Content Include="wwwroot\js\controllers\reference\reference-controller.js" />
     <Content Include="wwwroot\js\directives\column-header.js" />
     <Content Include="wwwroot\js\directives\focus-me.js" />
@@ -70,13 +72,14 @@
     <Content Include="wwwroot\views\delivery\index.html" />
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />
-    <Content Include="wwwroot\views\inventory\index.html" />
     <Content Include="wwwroot\views\inventory\items-list.html" />
     <Content Include="wwwroot\views\manage\add-category.html" />
     <Content Include="wwwroot\views\manage\add-cities.html" />
     <Content Include="wwwroot\views\manage\category-list.html" />
     <Content Include="wwwroot\views\manage\cities-list.html" />
+    <Content Include="wwwroot\views\order\add-order.html" />
     <Content Include="wwwroot\views\order\index.html" />
+    <Content Include="wwwroot\views\order\orders-list.html" />
     <Content Include="wwwroot\views\user\index.html" />
   </ItemGroup>
   <ItemGroup>

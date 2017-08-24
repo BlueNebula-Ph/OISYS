@@ -103,6 +103,23 @@
                     templateUrl: "/views/inventory/add-item.html",
                     controller: "addItemController",
                     controllerAs: "ctrl"
+                })
+
+                .state("orders", {
+                    url: "/orders",
+                    templateUrl: "/views/common/index.html",
+                    controller: "manageOrderController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.list", {
+                    url: "/list",
+                    templateUrl: "/views/order/orders-list.html",
+                    controller: "viewOrderController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.add", {
+                    url: "/add/{id}",
+                    templateUrl: "/views/orders/add-item.html"
                 });
         }])
         .run(["$rootScope", "$state", "$stateParams",
