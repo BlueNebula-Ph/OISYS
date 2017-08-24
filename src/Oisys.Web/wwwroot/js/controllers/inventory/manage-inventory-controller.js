@@ -1,6 +1,6 @@
 ﻿(function (module) {
 
-    var manageInventoryController = function () {
+    var manageInventoryController = function ($state) {
         var vm = this;
 
         vm.sidebarItems = [
@@ -13,9 +13,13 @@
             { text: "Adjust Item Qty", isHeader: false, isItem: true, icon: "fa-compress", link: ".adjustment" }
         ];
 
+        $(function () {
+            $state.go(".list")
+        });
+
         return vm;
     };
 
-    module.controller("manageInventoryController", [manageInventoryController]);
+    module.controller("manageInventoryController", ["$state", manageInventoryController]);
 
 })(angular.module("oisys-app"));

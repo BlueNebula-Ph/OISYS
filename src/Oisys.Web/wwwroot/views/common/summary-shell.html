@@ -1,0 +1,19 @@
+﻿<loading-indicator></loading-indicator>
+<div ng-transclude="title"></div>
+<div class="form-inline bottom-margin-sm">
+    <div class="pull-left" ng-transclude="search"></div>
+    <div class="pull-right">
+        <pager current-page="ctrl.currentPage" total-pages="ctrl.summaryResult.totalPages"
+               has-previous-page="ctrl.summaryResult.hasPreviousPage" has-next-page="ctrl.summaryResult.hasNextPage"
+               on-page-change="ctrl.fetchCategories()"></pager>
+    </div>
+</div>
+<div ng-transclude="table"></div>
+<span>
+    Displaying page {{ ctrl.currentPage }} of {{ ctrl.summaryResult.totalPages }}.
+</span>
+<div class="pull-right">
+    <pager current-page="ctrl.currentPage" total-pages="ctrl.summaryResult.totalPages"
+           has-previous-page="ctrl.summaryResult.hasPreviousPage" has-next-page="ctrl.summaryResult.hasNextPage"
+           on-page-change="ctrl.fetchCategories()"></pager>
+</div>

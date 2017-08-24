@@ -63,8 +63,7 @@
                 .ForMember(d => d.ParentCode, s => s.MapFrom(o => o.ParentReference.Code))
                 .ForMember(d => d.ReferenceTypeCode, s => s.MapFrom(o => o.ReferenceType.Code));
 
-            this.CreateMap<SaveReferenceRequest, Reference>()
-                .ForMember(d => d.ParentReference.Code, s => s.MapFrom(o => o.ParentCode));
+            this.CreateMap<SaveReferenceRequest, Reference>();
 
             // ReferenceType
             this.CreateMap<ReferenceType, ReferenceTypeSummary>();

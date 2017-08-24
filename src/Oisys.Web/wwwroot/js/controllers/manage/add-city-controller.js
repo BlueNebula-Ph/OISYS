@@ -6,7 +6,7 @@
         vm.focus = true;
         vm.reference = {
             referenceTypeId: 2,
-            parentId: 0
+            parentReferenceId: 0
         };
 
         vm.save = function () {

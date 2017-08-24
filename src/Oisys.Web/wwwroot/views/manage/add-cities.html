@@ -1,22 +1,22 @@
-﻿<loading-indicator></loading-indicator>
+﻿<loading-indicator loading-text="Saving..."></loading-indicator>
 <h3>Save City / Province Details. <small class="text-muted">Please input city / province info.</small></h3>
 <form name="addCategoryForm" novalidate>
     <div>
         <label class="radio-inline">
-            <input name="province" type="radio" ng-model="ctrl.reference.parentId" ng-value="0" /> New province
+            <input name="province" type="radio" ng-model="ctrl.reference.parentReferenceId" ng-value="0" /> New province
         </label>
         <label class="radio-inline">
-            <input name="province" type="radio" ng-model="ctrl.reference.parentId" ng-value="-1"/> Add to existing province
+            <input name="province" type="radio" ng-model="ctrl.reference.parentReferenceId" ng-value="-1"/> Add to existing province
         </label>
     </div>
     <div form-input>
         <label for="province">Province Name</label>
-        <div ng-if="ctrl.reference.parentId == 0">
+        <div ng-if="ctrl.reference.parentReferenceId == 0">
             <input name="province" class="form-control input-sm" placeholder="Province." focus-me="ctrl.focus" 
-                   ng-model="ctrl.reference.parentCode" required" />
+                   ng-model="ctrl.reference.parentReference.code" required" />
         </div>
-        <div ng-if="ctrl.reference.parentId != 0">
-            <select class="form-control input-sm" ng-model="ctrl.reference.parentId" focus-me="ctrl.focus">
+        <div ng-if="ctrl.reference.parentReferenceId != 0">
+            <select class="form-control input-sm" ng-model="ctrl.reference.parentReferenceId" focus-me="ctrl.focus">
                 <option value="3">Cavite</option>
                 <option value="1">NCR</option>
                 <option value="2">Quezon</option>

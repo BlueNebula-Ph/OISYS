@@ -14,7 +14,7 @@
         };
         vm.headers = [
             { text: "City", value: "Code" },
-            { text: "Province", value: "Parent.Code" },
+            { text: "Province", value: "ParentReference.Code" },
             { text: "", value: "" }
         ];
 
