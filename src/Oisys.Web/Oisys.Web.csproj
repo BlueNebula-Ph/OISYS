@@ -38,6 +38,7 @@
     <Content Include="wwwroot\js\directives\loading-inidicator.js" />
     <Content Include="wwwroot\js\directives\navigation.js" />
     <Content Include="wwwroot\js\directives\no-records.js" />
+    <Content Include="wwwroot\js\directives\numeric-textbox.js" />
     <Content Include="wwwroot\js\directives\pager.js" />
     <Content Include="wwwroot\js\directives\sidebar.js" />
     <Content Include="wwwroot\js\directives\summary-controls.js" />

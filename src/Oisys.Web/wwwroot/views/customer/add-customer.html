@@ -3,64 +3,65 @@
 <form name="addCustomerForm">
     <div class="col-md-3 left-padding-none">
         <div form-input>
-            <label for="CustomerCode">Customer Code</label>
-            <input type="text" id="CustomerCode" placeholder="This field is auto-generated." readonly
+            <label for="customerCode">Customer Code</label>
+            <input type="text" name="customerCode" placeholder="This field is auto-generated." readonly
                    ng-model="ctrl.customer.code" />
         </div>
         <div form-input>
-            <label for="CustomerName">Customer Name</label>
-            <input type="text" id="CustomerName" placeholder="Ex. Alice" ng-model="ctrl.customer.name" />
+            <label for="customerName">Customer Name</label>
+            <input type="text" name="customerName" placeholder="Ex. Alice" ng-model="ctrl.customer.name"
+                   focus-me="ctrl.defaultFocus" />
         </div>
         <div form-input>
-            <label for="Email">Email</label>
-            <input type="email" id="Email" placeholder="Ex. Alice@gmail.com" ng-model="ctrl.customer.email" />
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Ex. Alice@gmail.com" ng-model="ctrl.customer.email" />
         </div>
         <div form-input>
-            <label for="ContactNumber">Contact Number</label>
-            <input id="ContactNumber" placeholder="Ex. (900)-911-5555" ng-model="ctrl.customer.contactNumber" />
+            <label for="contactNumber">Contact Number</label>
+            <input name="contactNumber" placeholder="Ex. (900)-911-5555" ng-model="ctrl.customer.contactNumber" />
         </div>
         <div form-input>
-            <label for="ContactPerson">Contact Person</label>
-            <input id="ContactPerson" placeholder="Ex. Bob" ng-model="ctrl.customer.contactPerson" />
+            <label for="contactPerson">Contact Person</label>
+            <input name="contactPerson" placeholder="Ex. Bob" ng-model="ctrl.customer.contactPerson" />
         </div>
     </div>
     <div class="col-md-3 left-padding-none">
         <div form-input>
-            <label for="Address">Address</label>
-            <textarea id="Address" rows="5" ng-model="ctrl.customer.address" />
+            <label for="address">Address</label>
+            <textarea name="address" rows="5" ng-model="ctrl.customer.address" />
         </div>
         <div form-input style="margin-top: -2px;">
-            <label for="City">City</label>
-            <select ng-model="ctrl.customer.cityId">
+            <label for="cityDropdown">City</label>
+            <select name="cityDropdown" ng-model="ctrl.customer.cityId">
                 <option value="1">Manila</option>
                 <option value="1">Makati</option>
                 <option value="1">Malabon</option>
             </select>
         </div>
         <div form-input>
-            <label for="Province">Province</label>
-            <select ng-model="ctrl.customer.provinceId">
+            <label for="provinceDropdown">Province</label>
+            <select name="provinceDropdown" ng-model="ctrl.customer.provinceId">
                 <option value="1">Manila</option>
                 <option value="1">Makati</option>
                 <option value="1">Malabon</option>
             </select>
         </div>
         <div form-input>
-            <label for="Term">Terms</label>
-            <input id="Terms" ng-model="ctrl.customer.terms" />
+            <label for="terms">Terms</label>
+            <input name="terms" ng-model="ctrl.customer.terms" />
         </div>
     </div>
     <div class="col-md-3 left-padding-none">
         <div form-input>
-            <label for="Discount">Discount</label>
-            <input id="Discount" ng-model="ctrl.customer.discount" />
+            <label for="discount">Discount</label>
+            <input name="discount" ng-model="ctrl.customer.discount" />
         </div>
         <div form-input>
-            <label for="Tags">Tags</label>
-            <input id="Tags" ng-model="ctrl.customer.tags" />
+            <label for="tags">Tags</label>
+            <input name="tags" ng-model="ctrl.customer.tags" />
         </div>
         <div form-input>
-            <label for="PriceList">Price List</label>
+            <label for="pricelistoptions">Price List</label>
             <div>
                 <label class="radio-inline">
                     <input type="radio" name="pricelistoptions" value="Walk-In Price"
@@ -74,6 +75,11 @@
         </div>
     </div>
     <div class="col-md-12 left-padding-none">
-        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"></form-control>
+        <form-control on-save="ctrl.save()" on-reset="ctrl.reset(addCustomerForm)"></form-control>
+    </div>
+    <div class="col-md-12" style="height: 100%;">
+        <pre>
+            {{ addCustomerForm }}
+        </pre>
     </div>
 </form>

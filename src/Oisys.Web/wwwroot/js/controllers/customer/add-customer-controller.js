@@ -3,6 +3,8 @@
     var addCustomerController = function (customerService, loadingService) {
         var vm = this;
 
+        vm.defaultFocus = true;
+
         vm.customer = {
             code: "12011",
             priceList: "Walk-In Price"
@@ -23,8 +25,13 @@
             //    });
         };
 
-        vm.reset = function () {
-            alert("RESET!!!");
+        vm.reset = function (form) {
+            form.$setPristine();
+            form.$setUntouched();
+
+            vm.defaultFocus = true;
+
+            console.log(form);
         };
 
         return vm;
