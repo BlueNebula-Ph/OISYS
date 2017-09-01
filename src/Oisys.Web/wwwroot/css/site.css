@@ -56,6 +56,11 @@ textarea {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313',GradientType=0 ); /* IE6-9 */
 }
 
+.logged-user {
+    padding-right: 15px;
+    color: #fff;
+}
+
 /* Sidebar */
 .sidebar {
     position: fixed;

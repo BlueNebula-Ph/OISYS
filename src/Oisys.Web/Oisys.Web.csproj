@@ -70,7 +70,6 @@
     <Content Include="wwwroot\views\customer\add-customer.html" />
     <Content Include="wwwroot\views\customer\customer-details.html" />
     <Content Include="wwwroot\views\customer\customers-list.html" />
-    <Content Include="wwwroot\views\delivery\index.html" />
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />
     <Content Include="wwwroot\views\inventory\items-list.html" />
@@ -79,7 +78,6 @@
     <Content Include="wwwroot\views\manage\category-list.html" />
     <Content Include="wwwroot\views\manage\cities-list.html" />
     <Content Include="wwwroot\views\order\add-order.html" />
-    <Content Include="wwwroot\views\order\index.html" />
     <Content Include="wwwroot\views\order\orders-list.html" />
     <Content Include="wwwroot\views\user\index.html" />
   </ItemGroup>

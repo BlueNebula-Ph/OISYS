@@ -14,7 +14,7 @@
         ];
 
         $(function () {
-            $state.go(".list")
+            $state.go(".list");
         });
 
         return vm;

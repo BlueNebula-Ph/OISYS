@@ -119,7 +119,24 @@
                 })
                 .state("orders.add", {
                     url: "/add/{id}",
-                    templateUrl: "/views/orders/add-item.html"
+                    templateUrl: "/views/order/add-order.html",
+                    controller: "addOrderController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.add-quotation", {
+                    url: "/quotation/add",
+                    template: "<p>Quotation</p>"
+                })
+
+                .state("deliveries", {
+                    url: "/deliveries",
+                    templateUrl: "/views/common/index.html",
+                    controller: "manageDeliveryController",
+                    controllerAs: "ctrl"
+                })
+                .state("deliveries.list", {
+                    url: "/list",
+                    templateUrl: "/views/delivery/delivery-list.html"
                 });
         }])
         .run(["$rootScope", "$state", "$stateParams",
