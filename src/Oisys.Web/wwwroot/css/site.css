@@ -134,3 +134,22 @@ textarea {
     color: #fefefe !important;
     font-weight: bold;
 }
+
+/* Add edit page */
+.well {
+    background: #fafafa;
+}
+
+.input-details-table {
+    border: 1px solid #ccc;
+    background: #fff;
+}
+
+    .input-details-table th {
+        background-color: #6faced;
+        color: #fff;
+    }
+
+    .input-details-table tbody tr:first-child {
+        background-color: #efefef;
+    }

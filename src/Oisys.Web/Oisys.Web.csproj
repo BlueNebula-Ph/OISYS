@@ -31,6 +31,7 @@
     <Content Include="wwwroot\js\controllers\order\manage-order-controller.js" />
     <Content Include="wwwroot\js\controllers\order\view-order-controller.js" />
     <Content Include="wwwroot\js\controllers\reference\reference-controller.js" />
+    <Content Include="wwwroot\js\directives\add-edit-shell.js" />
     <Content Include="wwwroot\js\directives\column-header.js" />
     <Content Include="wwwroot\js\directives\focus-me.js" />
     <Content Include="wwwroot\js\directives\form-controls.js" />
@@ -56,6 +57,7 @@
     <Content Include="wwwroot\js\services\reference-service.js" />
     <Content Include="wwwroot\js\services\order-service.js" />
     <Content Include="wwwroot\js\services\token-service.js" />
+    <Content Include="wwwroot\views\common\add-edit-shell.html" />
     <Content Include="wwwroot\views\common\column-header.html" />
     <Content Include="wwwroot\views\common\form-control.html" />
     <Content Include="wwwroot\views\common\index.html" />

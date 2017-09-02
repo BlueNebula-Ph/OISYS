@@ -104,6 +104,10 @@
                     controller: "addItemController",
                     controllerAs: "ctrl"
                 })
+                .state("inventory.detail", {
+                    url: "/detail/{id}",
+                    template: "<div>Item details</div>"
+                })
 
                 .state("orders", {
                     url: "/orders",
@@ -123,6 +127,10 @@
                     controller: "addOrderController",
                     controllerAs: "ctrl"
                 })
+                .state("orders.detail", {
+                    url: "/detail/{id}",
+                    template: "<div>Order details</div>"
+                })
                 .state("orders.add-quotation", {
                     url: "/quotation/add",
                     template: "<p>Quotation</p>"
@@ -136,7 +144,17 @@
                 })
                 .state("deliveries.list", {
                     url: "/list",
-                    templateUrl: "/views/delivery/delivery-list.html"
+                    templateUrl: "/views/delivery/delivery-list.html",
+                    controller: "viewDeliveryController",
+                    controllerAs: "ctrl"
+                })
+                .state("deliveries.add", {
+                    url: "/add/{id}",
+                    template: "<div>Add Delivery</div>"
+                })
+                .state("deliveries.detail", {
+                    url: "/details/{id}",
+                    template: "<div>Delivery Details</div>"
                 });
         }])
         .run(["$rootScope", "$state", "$stateParams",
