@@ -254,12 +254,12 @@
             if (!context.Items.Any())
             {
                 var items = new List<Item> {
-                    new Item { Code = "Itm10001", Name = "Item Number 1", CategoryId = 8, Description = "Item 1. This is item 1", Quantity = 100, Unit = "pcs.", MainPrice = 1919.99m, NEPrice = 2929.99m, WalkInPrice = 3939.39m },
-                    new Item { Code = "Itm10002", Name = "Item Number 2", CategoryId = 9, Description = "Item 2. This is item 2", Quantity = 95, Unit = "stacks", MainPrice = 919.99m, NEPrice = 929.99m, WalkInPrice = 939.39m },
-                    new Item { Code = "Itm10003", Name = "Item Number 3", CategoryId = 10, Description = "Item 3. This is item 3", Quantity = 47, Unit = "makes", MainPrice = 111m, NEPrice = 222m, WalkInPrice = 333m },
-                    new Item { Code = "Itm10004", Name = "Item Number 4", CategoryId = 11, Description = "Item 4. This is item 4", Quantity = 952, Unit = "pc", MainPrice = 12.50m, NEPrice = 29.50m, WalkInPrice = 39.50m },
-                    new Item { Code = "Itm10005", Name = "Item Number 5", CategoryId = 12, Description = "Item 5. This is item 5", Quantity = 20, Unit = "shards", MainPrice = 400m, NEPrice = 500m, WalkInPrice = 600m },
-                    new Item { Code = "Itm10006", Name = "Item Number 6", CategoryId = 13, Description = "Item 6. This is item 6", Quantity = 320, Unit = "rolls", MainPrice = 1211m, NEPrice = 1222m, WalkInPrice = 1233m },
+                    new Item { Code = "Itm10001", Name = "Item Number 1", CategoryId = 8, Description = "Item 1. This is item 1", CurrentQuantity = 100, ActualQuantity = 100, Unit = "pcs.", MainPrice = 1919.99m, NEPrice = 2929.99m, WalkInPrice = 3939.39m },
+                    new Item { Code = "Itm10002", Name = "Item Number 2", CategoryId = 9, Description = "Item 2. This is item 2", CurrentQuantity = 100, ActualQuantity = 95, Unit = "stacks", MainPrice = 919.99m, NEPrice = 929.99m, WalkInPrice = 939.39m },
+                    new Item { Code = "Itm10003", Name = "Item Number 3", CategoryId = 10, Description = "Item 3. This is item 3", CurrentQuantity = 100, ActualQuantity = 47, Unit = "makes", MainPrice = 111m, NEPrice = 222m, WalkInPrice = 333m },
+                    new Item { Code = "Itm10004", Name = "Item Number 4", CategoryId = 11, Description = "Item 4. This is item 4", CurrentQuantity = 100, ActualQuantity = 952, Unit = "pc", MainPrice = 12.50m, NEPrice = 29.50m, WalkInPrice = 39.50m },
+                    new Item { Code = "Itm10005", Name = "Item Number 5", CategoryId = 12, Description = "Item 5. This is item 5", CurrentQuantity = 100, ActualQuantity = 20, Unit = "shards", MainPrice = 400m, NEPrice = 500m, WalkInPrice = 600m },
+                    new Item { Code = "Itm10006", Name = "Item Number 6", CategoryId = 13, Description = "Item 6. This is item 6", CurrentQuantity = 100, ActualQuantity = 320, Unit = "rolls", MainPrice = 1211m, NEPrice = 1222m, WalkInPrice = 1233m },
                 };
                 context.Items.AddRange(items);
             }

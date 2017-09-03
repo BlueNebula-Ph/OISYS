@@ -11,6 +11,7 @@
     using Models;
     using Oisys.Service.DTO;
     using Oisys.Service.Helpers;
+    using Oisys.Service.Services.Interfaces;
 
     /// <summary>
     /// <see cref="OrderController"/> class handles Order basic add, edit, delete and get.
@@ -22,6 +23,7 @@
         private readonly OisysDbContext context;
         private readonly IMapper mapper;
         private readonly ISummaryListBuilder<Order, OrderSummary> builder;
+        private readonly IAdjustmentService adjustmentService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderController"/> class.
@@ -29,11 +31,13 @@
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
-        public OrderController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Order, OrderSummary> builder)
+        /// <param name="adjustmentService">Adjustment Service</param>
+        public OrderController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Order, OrderSummary> builder, IAdjustmentService adjustmentService)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
+            this.adjustmentService = adjustmentService;
         }
 
         /// <summary>
@@ -79,11 +83,7 @@
 
             list = list.OrderBy(ordering);
 
-            // paging
-            var pageNumber = (filter?.PageIndex).IsNullOrZero() ? Constants.DefaultPageIndex : filter.PageIndex;
-            var pageSize = (filter?.PageSize).IsNullOrZero() ? Constants.DefaultPageSize : filter.PageSize;
-
-            var entities = await this.builder.BuildAsync(list, pageNumber, pageSize);
+            var entities = await this.builder.BuildAsync(list, filter);
 
             return this.Ok(entities);
         }
@@ -126,7 +126,14 @@
             }
 
             var order = this.mapper.Map<Order>(entity);
+
+            foreach (var detail in order.Details)
+            {
+                this.adjustmentService.ModifyCurrentQuantity(detail.Item, detail.Quantity, AdjustmentType.Deduct);
+            }
+
             await this.context.Orders.AddAsync(order);
+
             await this.context.SaveChangesAsync();
 
             var mappedOrder = this.mapper.Map<OrderSummary>(entity);
@@ -157,6 +164,7 @@
             try
             {
                 this.mapper.Map(entity, order);
+
                 this.context.Update(order);
                 await this.context.SaveChangesAsync();
             }

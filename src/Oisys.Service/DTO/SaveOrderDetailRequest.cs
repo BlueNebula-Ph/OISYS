@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
     using System.ComponentModel.DataAnnotations;
+    using Oisys.Service.Models;
 
     /// <summary>
     /// <see cref="OrderDetail"/> class represents the child of Order object.
