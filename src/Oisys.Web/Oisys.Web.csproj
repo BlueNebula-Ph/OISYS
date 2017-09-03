@@ -20,6 +20,7 @@
     <Content Include="wwwroot\js\controllers\customer\customer-details-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\manage-customer-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\view-customer-controller.js" />
+    <Content Include="wwwroot\js\controllers\delivery\view-delivery-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\add-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\manage-inventory-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\view-item-controller.js" />
@@ -33,6 +34,7 @@
     <Content Include="wwwroot\js\controllers\reference\reference-controller.js" />
     <Content Include="wwwroot\js\directives\add-edit-shell.js" />
     <Content Include="wwwroot\js\directives\column-header.js" />
+    <Content Include="wwwroot\js\directives\details-shell.js" />
     <Content Include="wwwroot\js\directives\focus-me.js" />
     <Content Include="wwwroot\js\directives\form-controls.js" />
     <Content Include="wwwroot\js\directives\form-input.js" />
@@ -59,6 +61,7 @@
     <Content Include="wwwroot\js\services\token-service.js" />
     <Content Include="wwwroot\views\common\add-edit-shell.html" />
     <Content Include="wwwroot\views\common\column-header.html" />
+    <Content Include="wwwroot\views\common\details-shell.html" />
     <Content Include="wwwroot\views\common\form-control.html" />
     <Content Include="wwwroot\views\common\index.html" />
     <Content Include="wwwroot\views\common\loading-indicator.html" />
@@ -74,6 +77,7 @@
     <Content Include="wwwroot\views\customer\customers-list.html" />
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />
+    <Content Include="wwwroot\views\inventory\item-details.html" />
     <Content Include="wwwroot\views\inventory\items-list.html" />
     <Content Include="wwwroot\views\manage\add-category.html" />
     <Content Include="wwwroot\views\manage\add-cities.html" />

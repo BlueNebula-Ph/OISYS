@@ -153,3 +153,27 @@ textarea {
     .input-details-table tbody tr:first-child {
         background-color: #efefef;
     }
+
+/* Details page */
+dl {
+    margin-bottom: 10px;
+}
+
+dt {
+    background: #ffffe5;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    margin-top: 2px;
+}
+
+dd {
+    background: #fefefe;
+    padding: 4px 0 0 8px;
+    border: 1px solid #ccc;
+    margin-top: 2px;
+}
+
+.details-table th {
+    background: #6faced;
+    color: #fff;
+}

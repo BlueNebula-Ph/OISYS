@@ -125,6 +125,13 @@ namespace Oisys.Service.Controllers
                 return this.NotFound(id);
             }
 
+            // Sort the transactions by date desc
+            // Hacky! Find better solution if possible
+            entity.Transactions = entity.Transactions
+                .OrderByDescending(t => t.Date)
+                .Select(transaction => transaction)
+                .ToList();
+
             var mappedEntity = this.mapper.Map<CustomerSummary>(entity);
 
             return this.Ok(mappedEntity);
