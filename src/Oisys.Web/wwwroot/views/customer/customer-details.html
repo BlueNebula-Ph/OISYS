@@ -1,4 +1,62 @@
-﻿<loading-indicator></loading-indicator>
-<div class="body-content">
-    <h3>Customer Details.</h3>
-</div>
+﻿<details-shell>
+    <shell-title>
+        <h3>Customer Details.</h3>
+    </shell-title>
+    <shell-details>
+        <h4>Customer Information.</h4>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>Customer Code</dt>
+                <dd>{{ ctrl.customerDetails.code }}</dd>
+                <dt>Customer Name</dt>
+                <dd>{{ ctrl.customerDetails.name }}</dd>
+                <dt>Email</dt>
+                <dd>{{ ctrl.customerDetails.email }}</dd>
+                <dt>Contact Number</dt>
+                <dd>{{ ctrl.customerDetails.contactNumber }}</dd>
+                <dt>Contact Person</dt>
+                <dd>{{ ctrl.customerDetails.contactPerson }}</dd>
+                <dt>Tags</dt>
+                <dd>{{ ctrl.customerDetails.tags }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>Address</dt>
+                <dd>{{ ctrl.customerDetails.address }}</dd>
+                <dt>Province</dt>
+                <dd>{{ ctrl.customerDetails.provinceName }}</dd>
+                <dt>City</dt>
+                <dd>{{ ctrl.customerDetails.cityName }}</dd>
+                <dt>Price List</dt>
+                <dd>{{ ctrl.customerDetails.priceList }}</dd>
+                <dt>Discount</dt>
+                <dd>{{ ctrl.customerDetails.discount }}</dd>
+                <dt>Terms</dt>
+                <dd>{{ ctrl.customerDetails.terms }}</dd>
+            </dl>
+        </div>
+        <div class="clearfix"></div>
+        <h4>Recent Transactions.</h4>
+        <table class="table table-condensed table-bordered table-striped details-table">
+            <thead>
+                <tr>
+                    <th class="text-center">Date</th>
+                    <th>Description</th>
+                    <th class="text-right">Debit Amount</th>
+                    <th class="text-right">Credit Amount</th>
+                    <th class="text-right">Running Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="tr in ctrl.customerDetails.transactions track by $index">
+                    <td class="text-center">{{ tr.date | date:'MM/dd/yyyy' }}</td>
+                    <td>{{ tr.description }}</td>
+                    <td class="text-right">₱ {{ tr.debit | number:2 }}</td>
+                    <td class="text-right">₱ {{ tr.credit | number:2 }}</td>
+                    <td class="text-right">₱ {{ tr.runningBalance | number:2 }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </shell-details>
+</details-shell>

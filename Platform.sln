@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C3798D8C-01DB-4DF5-B1EA-68F12408B8E2}"
 EndProject
@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1D9A6226-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C8AE836D-EE99-4FB2-BE62-CB4CA7DCDA65}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		NuGet.Config = NuGet.Config
 		README.md = README.md
 	EndProjectSection
@@ -52,5 +53,8 @@ Global
 		{F90A47AC-F2B2-4463-98C9-4DF729C20E43} = {C3798D8C-01DB-4DF5-B1EA-68F12408B8E2}
 		{EA7E7613-4EE9-4A92-B3BB-21457953E576} = {1D9A6226-3D5E-46E6-BB7E-933E86F97254}
 		{628D415A-0D09-47D5-ACC2-AAD825B39CF3} = {1D9A6226-3D5E-46E6-BB7E-933E86F97254}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF6D97AB-DC7C-4423-A7BB-9CBAA830C30E}
 	EndGlobalSection
 EndGlobal

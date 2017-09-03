@@ -13,3 +13,4 @@ logs/
 *.sln.ide
 _ReSharper.*
 *.DotSettings.user
+wwwroot/lib/
