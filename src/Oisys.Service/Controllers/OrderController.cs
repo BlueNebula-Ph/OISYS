@@ -192,6 +192,12 @@
 
             order.IsDeleted = true;
             this.context.Update(order);
+
+            foreach (var detail in order.Details)
+            {
+                this.adjustmentService.ModifyCurrentQuantity(detail.Item, detail.Quantity, AdjustmentType.Add);
+            }
+
             await this.context.SaveChangesAsync();
 
             return new NoContentResult();
