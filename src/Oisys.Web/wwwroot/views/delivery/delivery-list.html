@@ -1,0 +1,43 @@
+﻿<summary-shell>
+    <shell-title>
+        <h3>Deliveries. <small class="text-muted">Search deliveries.</small></h3>
+    </shell-title>
+    <shell-search>
+        <input class="form-control input-sm" placeholder="Search..." focus-me="ctrl.focus" ng-model="ctrl.filters.searchTerm" />
+        <select class="form-control input-sm">
+            <option class="text-muted" label="Filter by customer..." value="0"></option>
+        </select>
+        <button class="btn btn-default btn-sm" ng-click="">
+            <i class="fa fa-search"></i>
+        </button>
+    </shell-search>
+    <shell-table>
+        <table class="table table-condensed table-striped summary-table">
+            <thead>
+                <tr>
+                    <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
+                        <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
+                                       sort-direction="ctrl.filters.sortDirection"
+                                       fetch-call-back="ctrl.fetchDeliveries()"></column-header>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
+                    <td>{{ c.code }}</td>
+                    <td>{{ c.code }}</td>
+                    <td>{{ c.code }}</td>
+                    <td>{{ c.code }}</td>
+                    <td class="text-right">₱ {{ c.totalAmount | number: 2 }}</td>
+                    <td class="text-center">
+                        <summary-controls show-details="true" details-state="deliveries.detail({ id: {{ c.id }} })" details-title="View order details."
+                                          show-edit="true" edit-state="deliveries.add({ id: {{ c.id }} })" edit-title="Edit this order."
+                                          show-delete="true" delete-title="Delete this order.">
+                        </summary-controls>
+                    </td>
+                </tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="5"></tr>
+            </tbody>
+        </table>
+    </shell-table>
+</summary-shell>

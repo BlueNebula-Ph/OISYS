@@ -56,6 +56,11 @@ textarea {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313',GradientType=0 ); /* IE6-9 */
 }
 
+.logged-user {
+    padding-right: 15px;
+    color: #fff;
+}
+
 /* Sidebar */
 .sidebar {
     position: fixed;
@@ -128,4 +133,47 @@ textarea {
     background-color: #6faced !important;
     color: #fefefe !important;
     font-weight: bold;
+}
+
+/* Add edit page */
+.well {
+    background: #fafafa;
+}
+
+.input-details-table {
+    border: 1px solid #ccc;
+    background: #fff;
+}
+
+    .input-details-table th {
+        background-color: #6faced;
+        color: #fff;
+    }
+
+    .input-details-table tbody tr:first-child {
+        background-color: #efefef;
+    }
+
+/* Details page */
+dl {
+    margin-bottom: 10px;
+}
+
+dt {
+    background: #ffffe5;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    margin-top: 2px;
+}
+
+dd {
+    background: #fefefe;
+    padding: 4px 0 0 8px;
+    border: 1px solid #ccc;
+    margin-top: 2px;
+}
+
+.details-table th {
+    background: #6faced;
+    color: #fff;
 }

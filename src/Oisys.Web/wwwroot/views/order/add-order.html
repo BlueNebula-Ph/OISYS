@@ -1,1 +1,95 @@
-﻿
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>
+            Save Order Details.
+            <small class="text-muted">
+                <i class="fa fa-info-circle text-primary"></i>
+                To add order items, input the details in the table and click the add (+) button.
+            </small>
+        </h3>
+    </shell-title>
+    <shell-form>
+        <form name="addOrderForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Order Number</label>
+                    <input type="text" />
+                </div>
+                <div form-input>
+                    <label>Customer</label>
+                    <select>
+                        <option>Customer 1</option>
+                        <option>Customer 2</option>
+                        <option>Customer 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Order Date</label>
+                    <input type="date" />
+                </div>
+                <div form-input>
+                    <label>Due Date</label>
+                    <input type="date" />
+                </div>
+            </div>
+            <div class="col-md-12 left-padding-none">
+                <table class="table table-condensed input-details-table">
+                    <thead>
+                        <tr>
+                            <th class="text-right" style="width: 10%;">Quantity</th>
+                            <th style="width: 10%;">Unit</th>
+                            <th style="width: 30%">Item</th>
+                            <th class="text-right" style="width: 15%">Unit Price</th>
+                            <th class="text-right" style="width: 15%">Total Price</th>
+                            <th style="width: 20%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input class="form-control input-sm text-right" type="number" ng-model="ctrl.newOrderDetail.Qty" />
+                            </td>
+                            <td>
+                                <input class="form-control input-sm" readonly />
+                            </td>
+                            <td>
+                                <select class="form-control input-sm" ng-model="ctrl.newOrderDetail.Item">
+                                    <option>Item 1</option>
+                                    <option>Item 2</option>
+                                    <option>Item 3</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control input-sm text-right" ng-model="ctrl.newOrderDetail.UnitPrice"
+                                       numeric-textbox="{ aSign: '₱ '}" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control input-sm text-right" ng-model="ctrl.newOrderDetail.TotalPrice"
+                                       numeric-textbox="{ aSign: '₱ '}" />
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" ng-click="ctrl.addOrderDetails()">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+
+                            </td>
+                        </tr>
+                        <tr ng-repeat="i in ctrl.orderDetails track by $index">
+                            <td class="text-right">{{ i.Qty }}</td>
+                            <td>{{ i.Unit }}</td>
+                            <td>{{ i.Item }}</td>
+                            <td class="text-right">₱ {{ i.UnitPrice | number:2 }}</td>
+                            <td class="text-right">₱ {{ i.TotalPrice | number:2 }}</td>
+                            <td>
+                                <button class="btn btn-primary btn-xs">Edit</button>
+                                <button class="btn btn-danger btn-xs">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </shell-form>
+</add-edit-shell>

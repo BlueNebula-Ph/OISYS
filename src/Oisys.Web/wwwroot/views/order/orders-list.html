@@ -30,8 +30,8 @@
                     <td>{{ c.code }}</td>
                     <td class="text-right">₱ {{ c.totalAmount | number: 2 }}</td>
                     <td class="text-center">
-                        <summary-controls show-details="true" details-state="order.detail({ id: {{ c.id }} })" details-title="View order details."
-                                          show-edit="true" edit-state="order.add({ id: {{ c.id }} })" edit-title="Edit this order."
+                        <summary-controls show-details="true" details-state="orders.detail({ id: {{ c.id }} })" details-title="View order details."
+                                          show-edit="true" edit-state="orders.add({ id: {{ c.id }} })" edit-title="Edit this order."
                                           show-delete="true" delete-title="Delete this order.">
                         </summary-controls>
                     </td>
