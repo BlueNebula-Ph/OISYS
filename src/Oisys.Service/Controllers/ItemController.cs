@@ -11,6 +11,7 @@
     using Models;
     using Oisys.Service.DTO;
     using Oisys.Service.Helpers;
+    using Oisys.Service.Services.Interfaces;
 
     /// <summary>
     /// <see cref="ItemController"/> class handles Item basic add, edit, delete and get.
@@ -22,6 +23,7 @@
         private readonly OisysDbContext context;
         private readonly IMapper mapper;
         private readonly ISummaryListBuilder<Item, ItemSummary> builder;
+        private readonly IAdjustmentService adjustmentService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemController"/> class.
@@ -29,11 +31,12 @@
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
-        public ItemController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Item, ItemSummary> builder)
+        public ItemController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Item, ItemSummary> builder, IAdjustmentService adjustmentService)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
+            this.adjustmentService = adjustmentService;
         }
 
         /// <summary>
@@ -71,11 +74,7 @@
 
             list = list.OrderBy(ordering);
 
-            // paging
-            var pageNumber = (filter?.PageIndex).IsNullOrZero() ? Constants.DefaultPageIndex : filter.PageIndex;
-            var pageSize = (filter?.PageSize).IsNullOrZero() ? Constants.DefaultPageSize : filter.PageSize;
-
-            var entities = await this.builder.BuildAsync(list, pageNumber, pageSize);
+            var entities = await this.builder.BuildAsync(list, filter);
 
             return this.Ok(entities);
         }
@@ -139,21 +138,16 @@
             }
 
             var item = this.mapper.Map<Item>(entity);
+
+            this.adjustmentService.ModifyActualQuantity(item, entity.Quantity, AdjustmentType.Add);
+            this.adjustmentService.ModifyCurrentQuantity(this.context, item, entity.Quantity, AdjustmentType.Add);
+
             await this.context.Items.AddAsync(item);
             await this.context.SaveChangesAsync();
 
-            try
-            {
-                var mappedItem = this.mapper.Map<ItemSummary>(item);
+            var mappedItem = this.mapper.Map<ItemSummary>(item);
 
-                return this.CreatedAtRoute("GetItem", new { id = item.Id }, mappedItem);
-            }
-            catch (AutoMapperMappingException ex)
-            {
-
-            }
-
-            return this.Ok();
+            return this.CreatedAtRoute("GetItem", new { id = item.Id }, mappedItem);
         }
 
         /// <summary>

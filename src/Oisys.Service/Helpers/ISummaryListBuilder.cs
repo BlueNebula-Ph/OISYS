@@ -1,5 +1,6 @@
 ﻿namespace Oisys.Service.Helpers
 {
+    using Oisys.Service.DTO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -14,9 +15,8 @@
         /// Builds the summary list
         /// </summary>
         /// <param name="source">The source queryable</param>
-        /// <param name="pageNumber">The page number</param>
-        /// <param name="pageSize">The page size</param>
+        /// <param name="filter">filter object</param>
         /// <returns>The summary list result</returns>
-        Task<SummaryList<T1>> BuildAsync(IQueryable<T> source, int pageNumber, int pageSize);
+        Task<SummaryList<T1>> BuildAsync(IQueryable<T> source, FilterRequestBase filter);
     }
 }

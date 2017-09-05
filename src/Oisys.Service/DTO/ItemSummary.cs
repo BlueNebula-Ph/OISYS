@@ -58,6 +58,11 @@
         /// <summary>
         /// Gets or sets property Quantity.
         /// </summary>
-        public decimal Quantity { get; set; }
+        public decimal ActualQuantity { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Quantity.
+        /// </summary>
+        public decimal CurrentQuantity { get; set; }
     }
 }

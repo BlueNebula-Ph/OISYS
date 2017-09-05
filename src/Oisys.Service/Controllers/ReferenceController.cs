@@ -70,11 +70,7 @@
 
             list = list.OrderBy(ordering);
 
-            // paging
-            var pageNumber = (filter?.PageIndex).IsNullOrZero() ? Constants.DefaultPageIndex : filter.PageIndex;
-            var pageSize = (filter?.PageSize).IsNullOrZero() ? Constants.DefaultPageSize : filter.PageSize;
-
-            var entities = await this.builder.BuildAsync(list, pageNumber, pageSize);
+            var entities = await this.builder.BuildAsync(list, filter);
 
             return this.Ok(entities);
         }
