@@ -22,6 +22,7 @@
     <Content Include="wwwroot\js\controllers\customer\view-customer-controller.js" />
     <Content Include="wwwroot\js\controllers\delivery\view-delivery-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\add-item-controller.js" />
+    <Content Include="wwwroot\js\controllers\inventory\item-details-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\manage-inventory-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\view-item-controller.js" />
     <Content Include="wwwroot\js\controllers\manage\add-category-controller.js" />

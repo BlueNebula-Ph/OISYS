@@ -106,7 +106,9 @@
                 })
                 .state("inventory.detail", {
                     url: "/detail/{id}",
-                    template: "<div>Item details</div>"
+                    templateUrl: "/views/inventory/item-details.html",
+                    controller: "itemDetailsController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("orders", {
