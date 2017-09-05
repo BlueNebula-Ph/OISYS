@@ -140,7 +140,7 @@
             var item = this.mapper.Map<Item>(entity);
 
             this.adjustmentService.ModifyActualQuantity(item, entity.Quantity, AdjustmentType.Add);
-            this.adjustmentService.ModifyCurrentQuantity(item, entity.Quantity, AdjustmentType.Add);
+            this.adjustmentService.ModifyCurrentQuantity(this.context, item, entity.Quantity, AdjustmentType.Add);
 
             await this.context.Items.AddAsync(item);
             await this.context.SaveChangesAsync();

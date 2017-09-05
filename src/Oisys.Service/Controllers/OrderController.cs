@@ -100,6 +100,7 @@
                 .AsNoTracking()
                 .Include(c => c.Customer)
                 .Include(c => c.Details)
+                .Include("Details.Item")
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
@@ -129,14 +130,15 @@
 
             foreach (var detail in order.Details)
             {
-                this.adjustmentService.ModifyCurrentQuantity(detail.Item, detail.Quantity, AdjustmentType.Deduct);
+                var item = this.context.Items.AsNoTracking().SingleOrDefault(c => c.Id == detail.ItemId);
+                this.adjustmentService.ModifyCurrentQuantity(this.context, item, detail.Quantity, AdjustmentType.Deduct);
             }
 
             await this.context.Orders.AddAsync(order);
 
             await this.context.SaveChangesAsync();
 
-            var mappedOrder = this.mapper.Map<OrderSummary>(entity);
+            var mappedOrder = this.mapper.Map<OrderSummary>(order);
 
             return this.CreatedAtRoute("GetOrder", new { id = order.Id }, mappedOrder);
         }
@@ -155,7 +157,12 @@
                 return this.BadRequest();
             }
 
-            var order = await this.context.Orders.SingleOrDefaultAsync(t => t.Id == id);
+            var order = await this.context.Orders
+                .AsNoTracking()
+                .Include(c => c.Details)
+                .Include("Details.Item")
+                .SingleOrDefaultAsync(t => t.Id == id);
+
             if (order == null)
             {
                 return this.NotFound(id);
@@ -163,9 +170,29 @@
 
             try
             {
+                foreach (var newDetail in entity.Details)
+                {
+                    var oldDetail = order.Details.SingleOrDefault(c => c.Id == newDetail.Id);
+
+                    if (oldDetail != null)
+                    {
+                        this.adjustmentService.ModifyCurrentQuantity(this.context, oldDetail.Item, oldDetail.Quantity, AdjustmentType.Add);
+
+                        if (newDetail.IsDeleted)
+                        {
+                            this.context.Remove(oldDetail);
+                        }
+                        else
+                        {
+                            this.adjustmentService.ModifyCurrentQuantity(this.context, oldDetail.Item, newDetail.Quantity, AdjustmentType.Deduct);
+                        }
+                    }
+                }
+
                 this.mapper.Map(entity, order);
 
                 this.context.Update(order);
+
                 await this.context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -184,19 +211,24 @@
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var order = await this.context.Orders.SingleOrDefaultAsync(t => t.Id == id);
+            var order = await this.context.Orders
+                .Include(c => c.Details)
+                .Include("Details.Item")
+                .SingleOrDefaultAsync(c => c.Id == id);
+
             if (order == null)
             {
                 return this.NotFound(id);
             }
 
             order.IsDeleted = true;
-            this.context.Update(order);
 
             foreach (var detail in order.Details)
             {
-                this.adjustmentService.ModifyCurrentQuantity(detail.Item, detail.Quantity, AdjustmentType.Add);
+                this.adjustmentService.ModifyCurrentQuantity(this.context, detail.Item, detail.Quantity, AdjustmentType.Add);
             }
+
+            this.context.RemoveRange(order.Details);
 
             await this.context.SaveChangesAsync();
 

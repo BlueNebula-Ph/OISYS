@@ -54,7 +54,7 @@
             // Order Detail
             this.CreateMap<OrderDetail, OrderDetailSummary>();
 
-            this.CreateMap<SaveOrderRequest, OrderDetail>();
+            this.CreateMap<SaveOrderDetailRequest, OrderDetail>();
 
             // Reference
             this.CreateMap<Reference, ReferenceLookup>();
