@@ -27,8 +27,8 @@
                     <td>{{ c.code }}</td>
                     <td>{{ c.name }}</td>
                     <td>{{ c.categoryCode }}</td>
-                    <td class="text-right">{{ c.quantity | number: 0 }} {{ c.unit }}</td>
-                    <td class="text-right">{{ c.quantity | number: 0 }} {{ c.unit }}</td>
+                    <td class="text-right">{{ c.currentQuantity | number: 0 }} {{ c.unit }}</td>
+                    <td class="text-right">{{ c.actualQuantity | number: 0 }} {{ c.unit }}</td>
                     <td class="text-right">₱ {{ c.mainPrice | number: 2 }}</td>
                     <td class="text-right">₱ {{ c.nePrice | number: 2 }}</td>
                     <td class="text-right">₱ {{ c.walkInPrice | number: 2 }}</td>

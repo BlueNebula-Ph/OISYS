@@ -1,6 +1,6 @@
 ﻿(function (module) {
 
-    var itemDetailsController = function (inventoryService, loadingService) {
+    var itemDetailsController = function (inventoryService, loadingService, $stateParams) {
         var vm = this;
 
         vm.itemDetails = {};
@@ -9,7 +9,7 @@
         $(function () {
             loadingService.showLoading();
 
-            inventoryService.getItem(1)
+            inventoryService.getItem($stateParams.id)
                 .then(function (response) {
                     var data = response.data;
                     angular.copy(data, vm.itemDetails);
@@ -24,6 +24,6 @@
         return vm;
     };
 
-    module.controller("itemDetailsController", ["inventoryService", "loadingService", itemDetailsController]);
+    module.controller("itemDetailsController", ["inventoryService", "loadingService", "$stateParams", itemDetailsController]);
 
 })(angular.module("oisys-app"));
