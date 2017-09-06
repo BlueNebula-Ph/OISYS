@@ -11,6 +11,7 @@
     using Models;
     using Oisys.Service.DTO;
     using Oisys.Service.Helpers;
+    using Oisys.Service.Services.Interfaces;
 
     /// <summary>
     /// <see cref="OrderController"/> class handles Order basic add, edit, delete and get.
@@ -22,6 +23,7 @@
         private readonly OisysDbContext context;
         private readonly IMapper mapper;
         private readonly ISummaryListBuilder<Order, OrderSummary> builder;
+        private readonly IAdjustmentService adjustmentService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderController"/> class.
@@ -29,11 +31,13 @@
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
-        public OrderController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Order, OrderSummary> builder)
+        /// <param name="adjustmentService">Adjustment Service</param>
+        public OrderController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Order, OrderSummary> builder, IAdjustmentService adjustmentService)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
+            this.adjustmentService = adjustmentService;
         }
 
         /// <summary>
@@ -79,11 +83,7 @@
 
             list = list.OrderBy(ordering);
 
-            // paging
-            var pageNumber = (filter?.PageIndex).IsNullOrZero() ? Constants.DefaultPageIndex : filter.PageIndex;
-            var pageSize = (filter?.PageSize).IsNullOrZero() ? Constants.DefaultPageSize : filter.PageSize;
-
-            var entities = await this.builder.BuildAsync(list, pageNumber, pageSize);
+            var entities = await this.builder.BuildAsync(list, filter);
 
             return this.Ok(entities);
         }
@@ -100,6 +100,7 @@
                 .AsNoTracking()
                 .Include(c => c.Customer)
                 .Include(c => c.Details)
+                .Include("Details.Item")
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
@@ -126,10 +127,18 @@
             }
 
             var order = this.mapper.Map<Order>(entity);
+
+            foreach (var detail in order.Details)
+            {
+                var item = this.context.Items.AsNoTracking().SingleOrDefault(c => c.Id == detail.ItemId);
+                this.adjustmentService.ModifyCurrentQuantity(this.context, item, detail.Quantity, AdjustmentType.Deduct);
+            }
+
             await this.context.Orders.AddAsync(order);
+
             await this.context.SaveChangesAsync();
 
-            var mappedOrder = this.mapper.Map<OrderSummary>(entity);
+            var mappedOrder = this.mapper.Map<OrderSummary>(order);
 
             return this.CreatedAtRoute("GetOrder", new { id = order.Id }, mappedOrder);
         }
@@ -148,7 +157,12 @@
                 return this.BadRequest();
             }
 
-            var order = await this.context.Orders.SingleOrDefaultAsync(t => t.Id == id);
+            var order = await this.context.Orders
+                .AsNoTracking()
+                .Include(c => c.Details)
+                .Include("Details.Item")
+                .SingleOrDefaultAsync(t => t.Id == id);
+
             if (order == null)
             {
                 return this.NotFound(id);
@@ -156,8 +170,29 @@
 
             try
             {
+                foreach (var newDetail in entity.Details)
+                {
+                    var oldDetail = order.Details.SingleOrDefault(c => c.Id == newDetail.Id);
+
+                    if (oldDetail != null)
+                    {
+                        this.adjustmentService.ModifyCurrentQuantity(this.context, oldDetail.Item, oldDetail.Quantity, AdjustmentType.Add);
+
+                        if (newDetail.IsDeleted)
+                        {
+                            this.context.Remove(oldDetail);
+                        }
+                        else
+                        {
+                            this.adjustmentService.ModifyCurrentQuantity(this.context, oldDetail.Item, newDetail.Quantity, AdjustmentType.Deduct);
+                        }
+                    }
+                }
+
                 this.mapper.Map(entity, order);
+
                 this.context.Update(order);
+
                 await this.context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -176,14 +211,25 @@
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var order = await this.context.Orders.SingleOrDefaultAsync(t => t.Id == id);
+            var order = await this.context.Orders
+                .Include(c => c.Details)
+                .Include("Details.Item")
+                .SingleOrDefaultAsync(c => c.Id == id);
+
             if (order == null)
             {
                 return this.NotFound(id);
             }
 
             order.IsDeleted = true;
-            this.context.Update(order);
+
+            foreach (var detail in order.Details)
+            {
+                this.adjustmentService.ModifyCurrentQuantity(this.context, detail.Item, detail.Quantity, AdjustmentType.Add);
+            }
+
+            this.context.RemoveRange(order.Details);
+
             await this.context.SaveChangesAsync();
 
             return new NoContentResult();

@@ -61,12 +61,6 @@
         public int CategoryId { get; set; }
 
         /// <summary>
-        /// Gets or sets property Quantity.
-        /// </summary>
-        [Required]
-        public decimal Quantity { get; set; }
-
-        /// <summary>
         /// Gets or sets property Actual quantity or physical quantity of the item.
         /// </summary>
         public decimal? ActualQuantity { get; set; }

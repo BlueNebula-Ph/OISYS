@@ -11,6 +11,8 @@
     using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
     using Oisys.Service.Helpers;
+    using Oisys.Service.Services;
+    using Oisys.Service.Services.Interfaces;
     using Swashbuckle.AspNetCore.Swagger;
 
     /// <summary>
@@ -96,6 +98,9 @@
 
             // Add application services
             services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
+
+            // Add adjustment service
+            services.AddSingleton<IAdjustmentService, AdjustmentService>();
         }
 
         /// <summary>
