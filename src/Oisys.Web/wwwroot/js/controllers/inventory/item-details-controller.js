@@ -1,20 +1,18 @@
 ﻿(function (module) {
 
-    var customerDetailsController = function (customerService, loadingService, $stateParams) {
+    var itemDetailsController = function (inventoryService, loadingService, $stateParams) {
         var vm = this;
 
-        vm.customerDetails = {};
+        vm.itemDetails = {};
 
         // Initialize the details
         $(function () {
             loadingService.showLoading();
 
-            console.log($stateParams);
-
-            customerService.getCustomer($stateParams.id)
+            inventoryService.getItem($stateParams.id)
                 .then(function (response) {
                     var data = response.data;
-                    angular.copy(data, vm.customerDetails);
+                    angular.copy(data, vm.itemDetails);
                 }, function (error) {
                     console.log(error);
                 })
@@ -26,6 +24,6 @@
         return vm;
     };
 
-    module.controller("customerDetailsController", ["customerService", "loadingService", "$stateParams", customerDetailsController]);
+    module.controller("itemDetailsController", ["inventoryService", "loadingService", "$stateParams", itemDetailsController]);
 
 })(angular.module("oisys-app"));

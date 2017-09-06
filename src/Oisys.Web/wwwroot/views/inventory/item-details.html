@@ -3,6 +3,82 @@
         <h3>Item Details.</h3>
     </shell-title>
     <shell-details>
-
+        <h4>Item Information.</h4>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>Item Code</dt>
+                <dd>{{ ctrl.itemDetails.code }}</dd>
+                <dt>Item Name</dt>
+                <dd>{{ ctrl.itemDetails.name }}</dd>
+                <dt>Description</dt>
+                <dd>{{ ctrl.itemDetails.description }}</dd>
+                <dt>Category</dt>
+                <dd>{{ ctrl.itemDetails.categoryCode }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>Weight</dt>
+                <dd>{{ ctrl.itemDetails.weight }}</dd>
+                <dt>Thickness</dt>
+                <dd>{{ ctrl.itemDetails.thickness }}</dd>
+                <dt>Tags</dt>
+                <dd>{{ ctrl.itemDetails.tags }}</dd>
+            </dl>
+        </div>
+        <div class="clearfix"></div>
+        <h4>Quantities and Prices.</h4>
+        <div class="col-md-2">
+            <div class="details-box">
+                <div class="top">Current Qty</div>
+                <div class="bottom">{{ ctrl.itemDetails.currentQuantity | number: 0 }} {{ ctrl.itemDetails.unit }}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="details-box">
+                <div class="top">Actual Qty</div>
+                <div class="bottom">{{ ctrl.itemDetails.actualQuantity | number: 0 }} {{ ctrl.itemDetails.unit }}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="details-box">
+                <div class="top">Main Price</div>
+                <div class="bottom">₱ {{ ctrl.itemDetails.mainPrice | number:2 }}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="details-box">
+                <div class="top">N.E. Price</div>
+                <div class="bottom">₱ {{ ctrl.itemDetails.nePrice | number:2 }}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="details-box">
+                <div class="top">Walk-In Price</div>
+                <div class="bottom">₱ {{ ctrl.itemDetails.walkInPrice | number:2 }}</div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <h4>Inventory Movement.</h4>
+        <!--<table class="table table-condensed table-bordered table-striped details-table">
+            <thead>
+                <tr>
+                    <th class="text-center">Date</th>
+                    <th>Description</th>
+                    <th class="text-right">Debit Amount</th>
+                    <th class="text-right">Credit Amount</th>
+                    <th class="text-right">Running Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="tr in ctrl.itemDetails.transactions track by $index">
+                    <td class="text-center">{{ tr.date | date:'MM/dd/yyyy' }}</td>
+                    <td>{{ tr.description }}</td>
+                    <td class="text-right">₱ {{ tr.debit | number:2 }}</td>
+                    <td class="text-right">₱ {{ tr.credit | number:2 }}</td>
+                    <td class="text-right">₱ {{ tr.runningBalance | number:2 }}</td>
+                </tr>
+            </tbody>
+        </table>-->
     </shell-details>
 </details-shell>
