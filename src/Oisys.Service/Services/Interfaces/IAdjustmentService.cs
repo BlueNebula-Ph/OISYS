@@ -11,11 +11,10 @@
         /// <summary>
         /// Method to adjust item current quantity when transaction is an order transaction
         /// </summary>
-        /// <param name="context">Context</param>
         /// <param name="item"><see cref="Item"/></param>
         /// <param name="adjustmentQuantity">Adjustment Quantity</param>
         /// <param name="adjustmentType">Adjustment Type</param>
-        void ModifyCurrentQuantity(OisysDbContext context, Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType);
+        void ModifyCurrentQuantity(Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType);
 
         /// <summary>
         /// Method to adjust item actual quantity when transaction is a delivery transaction

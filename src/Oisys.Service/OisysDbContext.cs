@@ -266,7 +266,8 @@
         {
             if (!context.Items.Any())
             {
-                var items = new List<Item> {
+                var items = new List<Item>
+                {
                     new Item { Code = "Itm10001", Name = "Item Number 1", CategoryId = 8, Description = "Item 1. This is item 1", CurrentQuantity = 100, ActualQuantity = 100, Unit = "pcs.", MainPrice = 1919.99m, NEPrice = 2929.99m, WalkInPrice = 3939.39m },
                     new Item { Code = "Itm10002", Name = "Item Number 2", CategoryId = 9, Description = "Item 2. This is item 2", CurrentQuantity = 100, ActualQuantity = 95, Unit = "stacks", MainPrice = 919.99m, NEPrice = 929.99m, WalkInPrice = 939.39m },
                     new Item { Code = "Itm10003", Name = "Item Number 3", CategoryId = 10, Description = "Item 3. This is item 3", CurrentQuantity = 100, ActualQuantity = 47, Unit = "makes", MainPrice = 111m, NEPrice = 222m, WalkInPrice = 333m },

@@ -1,8 +1,8 @@
 ﻿namespace Oisys.Service.Helpers
 {
-    using Oisys.Service.DTO;
     using System.Linq;
     using System.Threading.Tasks;
+    using Oisys.Service.DTO;
 
     /// <summary>
     /// Interface for summary list builder

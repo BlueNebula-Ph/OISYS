@@ -43,7 +43,7 @@ namespace Oisys.Service.Controllers
         public async Task<IActionResult> GetAll()
         {
             // get list of active referenceTypes (not deleted)
-            var list = this.context.ReferenceTypes.Where(c => !c.IsDeleted).ToList();
+            var list = await this.context.ReferenceTypes.Where(c => !c.IsDeleted).ToListAsync();
 
             // filter
 
@@ -147,6 +147,10 @@ namespace Oisys.Service.Controllers
             return new NoContentResult();
         }
 
+        /// <summary>
+        /// Seeds reference type values
+        /// </summary>
+        /// <returns>Action Result</returns>
         [HttpPost("seed")]
         public async Task<IActionResult> SeedReferenceType()
         {

@@ -1,11 +1,13 @@
 ﻿namespace Oisys.Service.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using Oisys.Service.Helpers;
 
     /// <summary>
     /// <see cref="OrderDetail"/> class represents the child of Order object.
     /// </summary>
-    public class OrderDetail : ModelBase
+    public class OrderDetail : ModelBase, IObjectWithState
     {
         /// <summary>
         /// Gets or sets property OrderId.
@@ -50,5 +52,11 @@
         /// Gets or sets Delivery navigation property.
         /// </summary>
         public Delivery Delivery { get; set; }
+
+        /// <summary>
+        /// Gets or sets the objectstate
+        /// </summary>
+        [NotMapped]
+        public ObjectState State { get; set; }
     }
 }

@@ -31,6 +31,7 @@
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
+        /// <param name="adjustmentService">The adjustment service</param>
         public ItemController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Item, ItemSummary> builder, IAdjustmentService adjustmentService)
         {
             this.context = context;
@@ -140,7 +141,7 @@
             var item = this.mapper.Map<Item>(entity);
 
             this.adjustmentService.ModifyActualQuantity(item, entity.Quantity, AdjustmentType.Add);
-            this.adjustmentService.ModifyCurrentQuantity(this.context, item, entity.Quantity, AdjustmentType.Add);
+            this.adjustmentService.ModifyCurrentQuantity(item, entity.Quantity, AdjustmentType.Add);
 
             await this.context.Items.AddAsync(item);
             await this.context.SaveChangesAsync();
