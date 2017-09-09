@@ -4,11 +4,13 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using Oisys.Service.Helpers;
 
     /// <summary>
     /// <see cref="Order"/> class represents the Order object.
     /// </summary>
-    public class Order : ModelBase
+    public class Order : ModelBase, IObjectWithState
     {
         /// <summary>
         /// Gets or sets property Code.
@@ -48,5 +50,11 @@
         /// Gets or sets property Details navigation property.
         /// </summary>
         public ICollection<OrderDetail> Details { get; set; }
+
+        /// <summary>
+        /// Gets or sets the objectstate property
+        /// </summary>
+        [NotMapped]
+        public ObjectState State { get; set; }
     }
 }

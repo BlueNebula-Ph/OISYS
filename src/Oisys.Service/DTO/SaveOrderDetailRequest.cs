@@ -1,12 +1,14 @@
 ﻿namespace Oisys.Service.DTO
 {
     using System.ComponentModel.DataAnnotations;
+    using Newtonsoft.Json;
+    using Oisys.Service.Helpers;
     using Oisys.Service.Models;
 
     /// <summary>
     /// <see cref="OrderDetail"/> class represents the child of Order object.
     /// </summary>
-    public class SaveOrderDetailRequest : DTOBase
+    public class SaveOrderDetailRequest : DTOBase, IObjectWithState
     {
         /// <summary>
         /// Gets or sets property OrderId.
@@ -41,5 +43,11 @@
         /// Gets or sets a value indicating whether order detail is deleted.
         /// </summary>
         public bool IsDeleted { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state property
+        /// </summary>
+        [JsonIgnore]
+        public ObjectState State { get; set; }
     }
 }

@@ -1,9 +1,8 @@
 ﻿namespace Oisys.Service.Services
 {
-    using System.Linq;
     using Oisys.Service.Helpers;
-    using Oisys.Service.Services.Interfaces;
     using Oisys.Service.Models;
+    using Oisys.Service.Services.Interfaces;
 
     /// <summary>
     /// Class for inventory adjustments
@@ -45,11 +44,10 @@
         /// <summary>
         /// Method to adjust item actual quantity when transaction is a delivery transaction
         /// </summary>
-        /// <param name="context">Context</param>
         /// <param name="item"><see cref="Item"/></param>
         /// <param name="adjustmentQuantity">Adjustment Quantity</param>
         /// <param name="adjustmentType">Adjustment Type</param>
-        public void ModifyCurrentQuantity(OisysDbContext context, Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType)
+        public void ModifyCurrentQuantity(Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType)
         {
             if (item != null)
             {
@@ -61,8 +59,6 @@
                 {
                     item.CurrentQuantity = item.CurrentQuantity + adjustmentQuantity;
                 }
-
-                context.Update(item);
             }
         }
     }

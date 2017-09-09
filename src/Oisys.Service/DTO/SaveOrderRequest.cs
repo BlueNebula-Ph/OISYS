@@ -3,11 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Newtonsoft.Json;
+    using Oisys.Service.Helpers;
 
     /// <summary>
     /// <see cref="SaveOrderRequest"/> class Create/Update Order object.
     /// </summary>
-    public class SaveOrderRequest : DTOBase
+    public class SaveOrderRequest : DTOBase, IObjectWithState
     {
         /// <summary>
         /// Gets or sets property Code.
@@ -35,6 +37,12 @@
         /// <summary>
         /// Gets or sets property Details navigation property.
         /// </summary>
-        public IEnumerable<SaveOrderDetailRequest> Details { get; set; }
+        public ICollection<SaveOrderDetailRequest> Details { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state property
+        /// </summary>
+        [JsonIgnore]
+        public ObjectState State { get; set; }
     }
 }

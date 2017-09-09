@@ -100,7 +100,7 @@
             services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
 
             // Add adjustment service
-            services.AddSingleton<IAdjustmentService, AdjustmentService>();
+            services.AddScoped<IAdjustmentService, AdjustmentService>();
         }
 
         /// <summary>
