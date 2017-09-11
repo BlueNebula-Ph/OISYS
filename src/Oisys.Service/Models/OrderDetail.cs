@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets or sets property DeliveryId.
         /// </summary>
-        public int? DeliveryId { get; set; }
+        public int DeliveryId { get; set; }
 
         /// <summary>
         /// Gets or sets property Price.

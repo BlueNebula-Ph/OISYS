@@ -13,25 +13,25 @@
     using Oisys.Service.Services.Interfaces;
 
     /// <summary>
-    /// <see cref="OrderController"/> class handles Order basic add, edit, delete and get.
+    /// <see cref="DeliveryController"/> class handles Delivery basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class OrderController : Controller
+    public class DeliveryController : Controller
     {
         private readonly OisysDbContext context;
         private readonly IMapper mapper;
-        private readonly ISummaryListBuilder<Order, OrderSummary> builder;
+        private readonly ISummaryListBuilder<Delivery, DeliverySummary> builder;
         private readonly IAdjustmentService adjustmentService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderController"/> class.
+        /// Initializes a new instance of the <see cref="DeliveryController"/> class.
         /// </summary>
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
         /// <param name="adjustmentService">Adjustment Service</param>
-        public OrderController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Order, OrderSummary> builder, IAdjustmentService adjustmentService)
+        public DeliveryController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Delivery, DeliverySummary> builder, IAdjustmentService adjustmentService)
         {
             this.context = context;
             this.mapper = mapper;
@@ -40,15 +40,15 @@
         }
 
         /// <summary>
-        /// Returns list of active <see cref="Order"/>
+        /// Returns list of active <see cref="Delivery"/>
         /// </summary>
-        /// <param name="filter"><see cref="OrderFilterRequest"/></param>
-        /// <returns>List of Orders</returns>
-        [HttpPost("search", Name = "GetAllOrders")]
-        public async Task<IActionResult> GetAll([FromBody]OrderFilterRequest filter)
+        /// <param name="filter"><see cref="DeliveryFilterRequest"/></param>
+        /// <returns>List of Deliverys</returns>
+        [HttpPost("search", Name = "GetAllDelivery")]
+        public async Task<IActionResult> GetAll([FromBody]DeliveryFilterRequest filter)
         {
-            // get list of active orders (not deleted)
-            var list = this.context.Orders
+            // get list of active customers (not deleted)
+            var list = this.context.Deliveries
                 .AsNoTracking()
                 .Where(c => !c.IsDeleted);
 
@@ -60,14 +60,12 @@
 
             if (!(filter?.CustomerId).IsNullOrZero())
             {
-                list = list.Where(c => c.CustomerId == filter.CustomerId);
+                list = list.Where(c => c.Details.Any(a => a.Order.CustomerId == filter.CustomerId));
             }
 
-            if (filter?.DateFrom != null || filter?.DateTo != null)
+            if (filter?.DateFrom != null)
             {
-                filter.DateFrom = filter.DateFrom == null || filter.DateFrom == DateTime.MinValue ? DateTime.Today : filter.DateFrom;
-                filter.DateTo = filter.DateTo == null || filter.DateTo == DateTime.MinValue ? DateTime.Today : filter.DateTo;
-                list = list.Where(c => c.Date >= filter.DateFrom && c.Date < filter.DateTo.Value.AddDays(1));
+                list = list.Where(c => c.Date >= filter.DateFrom && c.Date <= filter.DateFrom);
             }
 
             if (!(filter?.ItemId).IsNullOrZero())
@@ -90,17 +88,18 @@
         }
 
         /// <summary>
-        /// Gets a specific <see cref="Order"/>.
+        /// Gets a specific <see cref="Delivery"/>.
         /// </summary>
         /// <param name="id">id</param>
-        /// <returns>Order</returns>
-        [HttpGet("{id}", Name = "GetOrder")]
+        /// <returns>Delivery</returns>
+        [HttpGet("{id}", Name = "GetDelivery")]
         public async Task<IActionResult> GetById(long id)
         {
-            var entity = await this.context.Orders
+            var entity = await this.context.Deliveries
                 .AsNoTracking()
-                .Include(c => c.Customer)
                 .Include(c => c.Details)
+                .Include("Details.Order")
+                .Include("Details.Order.Customer")
                 .Include("Details.Item")
                 .SingleOrDefaultAsync(c => c.Id == id);
 
@@ -109,25 +108,25 @@
                 return this.NotFound(id);
             }
 
-            var mappedEntity = this.mapper.Map<OrderSummary>(entity);
+            var mappedEntity = this.mapper.Map<DeliverySummary>(entity);
 
             return this.Ok(mappedEntity);
         }
 
         /// <summary>
-        /// Creates a <see cref="Order"/>.
+        /// Creates a <see cref="Delivery"/>.
         /// </summary>
         /// <param name="entity">entity to be created</param>
-        /// <returns>Order</returns>
+        /// <returns>Delivery</returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]SaveOrderRequest entity)
+        public async Task<IActionResult> Create([FromBody]SaveDeliveryRequest entity)
         {
             if (entity == null || !this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            var order = this.mapper.Map<Order>(entity);
+            var order = this.mapper.Map<Delivery>(entity);
 
             foreach (var detail in order.Details)
             {
@@ -135,30 +134,30 @@
                 this.adjustmentService.ModifyCurrentQuantity(this.context, item, detail.Quantity, AdjustmentType.Deduct);
             }
 
-            await this.context.Orders.AddAsync(order);
+            await this.context.Deliveries.AddAsync(order);
 
             await this.context.SaveChangesAsync();
 
-            var mappedOrder = this.mapper.Map<OrderSummary>(order);
+            var mappedDelivery = this.mapper.Map<DeliverySummary>(order);
 
-            return this.CreatedAtRoute("GetOrder", new { id = order.Id }, mappedOrder);
+            return this.CreatedAtRoute("GetDelivery", new { id = order.Id }, mappedDelivery);
         }
 
         /// <summary>
-        /// Updates a specific <see cref="Order"/>.
+        /// Updates a specific <see cref="Delivery"/>.
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="entity">entity</param>
         /// <returns>None</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(long id, [FromBody]SaveOrderRequest entity)
+        public async Task<IActionResult> Update(long id, [FromBody]SaveDeliveryRequest entity)
         {
             if (entity == null || entity.Id == 0 || id == 0)
             {
                 return this.BadRequest();
             }
 
-            var order = await this.context.Orders
+            var order = await this.context.Deliveries
                 .AsNoTracking()
                 .Include(c => c.Details)
                 .Include("Details.Item")
@@ -205,14 +204,14 @@
         }
 
         /// <summary>
-        /// Deletes a specific <see cref="Order"/>.
+        /// Deletes a specific <see cref="Delivery"/>.
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>None</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var order = await this.context.Orders
+            var order = await this.context.Deliveries
                 .Include(c => c.Details)
                 .Include("Details.Item")
                 .SingleOrDefaultAsync(c => c.Id == id);
