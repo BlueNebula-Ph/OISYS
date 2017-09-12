@@ -35,6 +35,16 @@
         public DateTime? DueDate { get; set; }
 
         /// <summary>
+        /// Gets or sets property Discount.
+        /// </summary>
+        public decimal Discount { get; set; }
+
+        /// <summary>
+        /// Gets or sets property TotalAmount.
+        /// </summary>
+        public decimal TotalAmount { get; set; }
+
+        /// <summary>
         /// Gets or sets property Details navigation property.
         /// </summary>
         public ICollection<SaveOrderDetailRequest> Details { get; set; }

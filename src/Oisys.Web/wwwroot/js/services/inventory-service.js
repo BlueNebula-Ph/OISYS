@@ -5,7 +5,9 @@
         var urlBase = env.baseUrl + "/api/item";
         var dataFactory = {};
 
-        dataFactory.fetchAllItems = function () {
+        dataFactory.getItemLookup = function () {
+            var url = urlBase + "/lookup";
+            return $http.get(url);
         };
 
         dataFactory.fetchItems = function (filters) {

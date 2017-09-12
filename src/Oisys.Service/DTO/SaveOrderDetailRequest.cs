@@ -40,6 +40,11 @@
         public decimal Price { get; set; }
 
         /// <summary>
+        /// Gets or sets the TotalPrice. Quantity * Price.
+        /// </summary>
+        public decimal TotalPrice { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether order detail is deleted.
         /// </summary>
         public bool IsDeleted { get; set; }

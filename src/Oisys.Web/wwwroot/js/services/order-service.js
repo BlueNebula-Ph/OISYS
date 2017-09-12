@@ -1,14 +1,13 @@
 ﻿(function (module) {
 
     var orderService = function ($http, env) {
+
         var urlBase = env.baseUrl + "/api/order";
         var dataFactory = {};
 
-        dataFactory.fetchOrders = function (page, sortBy, sortDirection, search) {
+        dataFactory.fetchOrders = function (filters) {
             var url = urlBase + "/search";
-            var filter = { sortBy: sortBy, sortDirection: sortDirection };
-
-            return $http.post(url, filter);
+            return $http.post(url, filters);
         };
 
         dataFactory.getOrder = function (id) {

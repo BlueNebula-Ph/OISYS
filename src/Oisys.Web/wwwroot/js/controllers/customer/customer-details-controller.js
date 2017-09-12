@@ -9,8 +9,6 @@
         $(function () {
             loadingService.showLoading();
 
-            console.log($stateParams);
-
             customerService.getCustomer($stateParams.id)
                 .then(function (response) {
                     var data = response.data;

@@ -39,6 +39,11 @@
         public decimal Price { get; set; }
 
         /// <summary>
+        /// Gets or sets property TotalPrice.
+        /// </summary>
+        public decimal TotalPrice { get; set; }
+
+        /// <summary>
         /// Gets or sets Order navigation property.
         /// </summary>
         public Order Order { get; set; }

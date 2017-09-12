@@ -5,8 +5,9 @@
         var urlBase = env.baseUrl + "/api/reference";
         var dataFactory = {};
 
-        dataFactory.getAllReferences = function (referenceTypeId) {
-
+        dataFactory.getReferenceLookup = function (referenceTypeId) {
+            var url = urlBase + "/" + referenceTypeId + "/lookup";
+            return $http.get(url);
         };
 
         dataFactory.fetchReferences = function (referenceTypeId, search) {

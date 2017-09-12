@@ -1,6 +1,6 @@
 ﻿(function (module) {
 
-    var viewItemController = function (inventoryService, loadingService) {
+    var viewItemController = function (inventoryService, referenceService, loadingService) {
 
         var vm = this;
         vm.focus = true;
@@ -8,7 +8,8 @@
         vm.filters = {
             sortBy: "Name",
             sortDirection: "asc",
-            searchTerm: ""
+            searchTerm: "",
+            categoryId: 0
         };
         vm.summaryResult = {
             items: []
@@ -41,13 +42,37 @@
                 });
         };
 
+        vm.clearFilter = function () {
+            vm.filters.searchTerm = "";
+            vm.filters.categoryId = 0;
+
+            vm.focus = true;
+        };
+
+        vm.categoryList = [];
+        var loadCategories = function () {
+            loadingService.showLoading();
+
+            referenceService.getReferenceLookup(1)
+                .then(function (response) {
+                    angular.copy(response.data, vm.categoryList);
+                    vm.categoryList.splice(0, 0, { id: 0, code: "Filter by category.." });
+                }, function (error) {
+                    console.log(error);
+                }).finally(function () {
+                    loadingService.hideLoading();
+                });
+        };
+
         $(function () {
+            loadCategories();
+
             vm.fetchItems();
         });
 
         return vm;
     };
 
-    module.controller("viewItemController", ["inventoryService", "loadingService", viewItemController]);
+    module.controller("viewItemController", ["inventoryService", "referenceService", "loadingService", viewItemController]);
 
 })(angular.module("oisys-app"));

@@ -5,7 +5,9 @@
         var urlBase = env.baseUrl + "/api/customer";
         var dataFactory = {};
 
-        dataFactory.fetchAllCustomers = function () {
+        dataFactory.getCustomerLookup = function () {
+            var url = urlBase + "/lookup";
+            return $http.get(url);
         };
 
         dataFactory.fetchCustomers = function (filters) {
