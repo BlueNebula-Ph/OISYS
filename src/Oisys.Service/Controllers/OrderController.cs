@@ -47,7 +47,7 @@
         [HttpPost("search", Name = "GetAllOrders")]
         public async Task<IActionResult> GetAll([FromBody]OrderFilterRequest filter)
         {
-            // get list of active customers (not deleted)
+            // get list of active orders (not deleted)
             var list = this.context.Orders
                 .AsNoTracking()
                 .Where(c => !c.IsDeleted);
@@ -63,9 +63,11 @@
                 list = list.Where(c => c.CustomerId == filter.CustomerId);
             }
 
-            if (filter?.Date != null)
+            if (filter?.DateFrom != null || filter?.DateTo != null)
             {
-                list = list.Where(c => c.Date >= filter.Date && c.Date <= filter.Date);
+                filter.DateFrom = filter.DateFrom == null || filter.DateFrom == DateTime.MinValue ? DateTime.Today : filter.DateFrom;
+                filter.DateTo = filter.DateTo == null || filter.DateTo == DateTime.MinValue ? DateTime.Today : filter.DateTo;
+                list = list.Where(c => c.Date >= filter.DateFrom && c.Date < filter.DateTo.Value.AddDays(1));
             }
 
             if (!(filter?.ItemId).IsNullOrZero())

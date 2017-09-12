@@ -1,13 +1,13 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Service.DTO
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// <see cref="Delivery"/> class Delivery object.
+    /// <see cref="SaveDeliveryRequest"/> class Create/Update Delivery object.
     /// </summary>
-    public class Delivery : ModelBase
+    public class SaveDeliveryRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets property Code.
@@ -35,6 +35,6 @@
         /// <summary>
         /// Gets or sets property Details.
         /// </summary>
-        public ICollection<OrderDetail> Details { get; set; }
+        public IEnumerable<SaveOrderDetailRequest> Details { get; set; }
     }
 }

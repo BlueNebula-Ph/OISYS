@@ -3,9 +3,9 @@
     using System;
 
     /// <summary>
-    /// <see cref="OrderFilterRequest"/> class represents basic Order filter for displaying data.
+    /// <see cref="DeliveryFilterRequest"/> class represents basic delivery filter for displaying data.
     /// </summary>
-    public class OrderFilterRequest : FilterRequestBase
+    public class DeliveryFilterRequest : FilterRequestBase
     {
         /// <summary>
         /// Gets or sets property Code.
@@ -18,12 +18,12 @@
         public int? CustomerId { get; set; }
 
         /// <summary>
-        /// Gets or sets property Order DateFrom.
+        /// Gets or sets property Delivery Date From.
         /// </summary>
         public DateTime? DateFrom { get; set; }
 
         /// <summary>
-        /// Gets or sets property Order DateTo.
+        /// Gets or sets property Delivery Date To.
         /// </summary>
         public DateTime? DateTo { get; set; }
 
