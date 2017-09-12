@@ -37,6 +37,8 @@
             // Delivery
             this.CreateMap<Delivery, DeliverySummary>();
 
+            this.CreateMap<SaveDeliveryRequest, Delivery>();
+
             // Item
             this.CreateMap<Item, ItemLookup>()
                 .ForMember(d => d.CodeName, s => s.MapFrom(o => $"{o.Code} - {o.Name}"));
