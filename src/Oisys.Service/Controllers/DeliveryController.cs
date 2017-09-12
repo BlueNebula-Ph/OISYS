@@ -63,9 +63,11 @@
                 list = list.Where(c => c.Details.Any(a => a.Order.CustomerId == filter.CustomerId));
             }
 
-            if (filter?.DateFrom != null)
+            if (filter?.DateFrom != null || filter?.DateTo != null)
             {
-                list = list.Where(c => c.Date >= filter.DateFrom && c.Date <= filter.DateFrom);
+                filter.DateFrom = filter.DateFrom == null || filter.DateFrom == DateTime.MinValue ? DateTime.Today : filter.DateFrom;
+                filter.DateTo = filter.DateTo == null || filter.DateTo == DateTime.MinValue ? DateTime.Today : filter.DateTo;
+                list = list.Where(c => c.Date >= filter.DateFrom && c.Date < filter.DateTo.Value.AddDays(1));
             }
 
             if (!(filter?.ItemId).IsNullOrZero())
@@ -126,21 +128,21 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var order = this.mapper.Map<Delivery>(entity);
+            var delivery = this.mapper.Map<Delivery>(entity);
 
-            foreach (var detail in order.Details)
+            foreach (var detail in delivery.Details)
             {
-                var item = this.context.Items.AsNoTracking().SingleOrDefault(c => c.Id == detail.ItemId);
-                this.adjustmentService.ModifyCurrentQuantity(this.context, item, detail.Quantity, AdjustmentType.Deduct);
+                var item = await this.context.Items.FindAsync(detail.ItemId);
+                this.adjustmentService.ModifyActualQuantity(item, detail.Quantity, AdjustmentType.Deduct);
             }
 
-            await this.context.Deliveries.AddAsync(order);
+            await this.context.Deliveries.AddAsync(delivery);
 
             await this.context.SaveChangesAsync();
 
-            var mappedDelivery = this.mapper.Map<DeliverySummary>(order);
+            var mappedDelivery = this.mapper.Map<DeliverySummary>(delivery);
 
-            return this.CreatedAtRoute("GetDelivery", new { id = order.Id }, mappedDelivery);
+            return this.CreatedAtRoute("GetDelivery", new { id = delivery.Id }, mappedDelivery);
         }
 
         /// <summary>
@@ -152,46 +154,53 @@
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveDeliveryRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
+            if (entity == null || entity.Id == 0 || id == 0 || id != entity.Id)
             {
                 return this.BadRequest();
             }
 
-            var order = await this.context.Deliveries
-                .AsNoTracking()
-                .Include(c => c.Details)
-                .Include("Details.Item")
-                .SingleOrDefaultAsync(t => t.Id == id);
+            var deliveryExists = await this.context.Deliveries
+                .AnyAsync(c => c.Id == id);
 
-            if (order == null)
+            if (!deliveryExists)
             {
                 return this.NotFound(id);
             }
 
             try
             {
-                foreach (var newDetail in entity.Details)
+                // Adjust actual quantities accordingly
+                foreach (var updatedDeliveryDetail in entity.Details)
                 {
-                    var oldDetail = order.Details.SingleOrDefault(c => c.Id == newDetail.Id);
-
-                    if (oldDetail != null)
+                    var deliveryDetailItem = await this.context.Items.FindAsync(updatedDeliveryDetail.ItemId);
+                    if (deliveryDetailItem != null)
                     {
-                        this.adjustmentService.ModifyCurrentQuantity(this.context, oldDetail.Item, oldDetail.Quantity, AdjustmentType.Add);
+                        // Fetch the old detail as no tracking to not interfere with the context-tracked order detail
+                        var oldDetail = await this.context.OrderDetails
+                            .AsNoTracking()
+                            .SingleOrDefaultAsync(c => c.Id == updatedDeliveryDetail.Id);
 
-                        if (newDetail.IsDeleted)
+                        // If the order detail exists, return the old quantities back
+                        if (oldDetail != null)
                         {
-                            this.context.Remove(oldDetail);
+                            this.adjustmentService.ModifyActualQuantity(deliveryDetailItem, oldDetail.Quantity, AdjustmentType.Add);
+
+                            // If DeliveryId is set to 0, do not re-add the actual quantity
+                            if (updatedDeliveryDetail.DeliveryId == 0)
+                            {
+                                continue;
+                            }
                         }
-                        else
-                        {
-                            this.adjustmentService.ModifyCurrentQuantity(this.context, oldDetail.Item, newDetail.Quantity, AdjustmentType.Deduct);
-                        }
+
+                        // Deduct the correct amount from the item's current quantity
+                        this.adjustmentService.ModifyCurrentQuantity(deliveryDetailItem, updatedDeliveryDetail.Quantity, AdjustmentType.Deduct);
                     }
                 }
 
-                this.mapper.Map(entity, order);
+                // Map the entity to an delivery object
+                var delivery = this.mapper.Map<Delivery>(entity);
 
-                this.context.Update(order);
+                this.context.Update(delivery);
 
                 await this.context.SaveChangesAsync();
             }
@@ -211,24 +220,23 @@
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var order = await this.context.Deliveries
+            var delivery = await this.context.Deliveries
                 .Include(c => c.Details)
                 .Include("Details.Item")
                 .SingleOrDefaultAsync(c => c.Id == id);
 
-            if (order == null)
+            if (delivery == null)
             {
                 return this.NotFound(id);
             }
 
-            order.IsDeleted = true;
+            delivery.IsDeleted = true;
 
-            foreach (var detail in order.Details)
+            foreach (var detail in delivery.Details)
             {
-                this.adjustmentService.ModifyCurrentQuantity(this.context, detail.Item, detail.Quantity, AdjustmentType.Add);
+                this.adjustmentService.ModifyActualQuantity(detail.Item, detail.Quantity, AdjustmentType.Add);
+                detail.DeliveryId = 0;
             }
-
-            this.context.RemoveRange(order.Details);
 
             await this.context.SaveChangesAsync();
 

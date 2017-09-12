@@ -4,6 +4,7 @@
     using Newtonsoft.Json;
     using Oisys.Service.Helpers;
     using Oisys.Service.Models;
+    using System.ComponentModel;
 
     /// <summary>
     /// <see cref="OrderDetail"/> class represents the child of Order object.
@@ -42,6 +43,7 @@
         /// <summary>
         /// Gets or sets a value indicating whether order detail is deleted.
         /// </summary>
+        [DefaultValue(false)]
         public bool IsDeleted { get; set; }
 
         /// <summary>
