@@ -34,10 +34,5 @@
         /// Gets or sets ItemSummary navigation property.
         /// </summary>
         public ItemSummary Item { get; set; }
-
-        /// <summary>
-        /// Gets or sets Delivery navigation property.
-        /// </summary>
-        public DeliverySummary Delivery { get; set; }
     }
 }
