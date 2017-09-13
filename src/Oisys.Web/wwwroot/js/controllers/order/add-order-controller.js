@@ -5,17 +5,21 @@
 
         vm.defaultFocus = true;
         vm.order = {
-            customerId: 0
+            customerId: 0,
+            discountPercent: 0,
+            discountAmount: 0,
+            totalAmount: 0
         };
         vm.newOrderDetail = {
             id: 0,
             orderId: 0,
             itemId: 0,
-            quantity: 0,
+            quantity: 1,
             selectedItem: { id: 0, codeName: "-- Select Item --" },
             price: 0,
             totalPrice: 0,
-            focus: true
+            focus: true,
+            isDeleted: false
         };
 
         vm.orderDetails = [];
@@ -24,19 +28,45 @@
             vm.orderDetails.splice(0, 0, detail);
         };
 
-        $scope.$watchCollection(function () {
-            var collectionToWatch = [];
-            var totalOrderDetails = vm.orderDetails.length;
-            for (var i = 0; i < totalOrderDetails; i++) {
-                collectionToWatch.push(vm.orderDetails[i].selectedItem);
+        vm.removeOrderDetail = function (index) {
+            if (vm.orderDetails[index].id == 0) {
+                vm.orderDetails.splice(index, 1);
+            } else {
+                vm.orderDetails[index].isDeleted = true;
             }
-            return collectionToWatch;
-        }, function (newValue, oldValue) {
-            var total = newValue.length;
-            for (var i = 0; i < total; i++) {
-                vm.orderDetails[i].unit = newValue[i].unit;
-                vm.orderDetails[i].price = newValue[i].mainPrice;
+        };
+
+        vm.undoRemove = function (index) {
+            vm.orderDetails[index].isDeleted = false;
+        };
+
+        var computeTotals = function () {
+            var totalAmount = 0;
+            for (var i = 0; i < vm.orderDetails.length; i++) {
+                vm.orderDetails[i].unit = vm.orderDetails[i].selectedItem.unit;
+
+                if (!vm.orderDetails[i].isDeleted) {
+                    var totalPrice = vm.orderDetails[i].quantity * vm.orderDetails[i].price;
+                    vm.orderDetails[i].totalPrice = totalPrice;
+                    totalAmount += totalPrice;
+                }
             }
+
+            var discountAmount = totalAmount * vm.order.discountPercent / 100;
+            vm.order.discountAmount = discountAmount;
+            vm.order.totalAmount = totalAmount - discountAmount;
+        };
+
+        $scope.$watch(function () {
+            return vm.orderDetails;
+        }, function (newVal, oldVal, scope) {
+            computeTotals();
+        }, true);
+
+        $scope.$watch(function () {
+            return vm.order.discountPercent;
+        }, function (newVal, oldVal) {
+            computeTotals();
         });
 
         vm.save = function () {
@@ -44,7 +74,7 @@
         };
 
         vm.reset = function () {
-            alert("REsetting!!");
+            alert("Resetting!!");
         };
 
         vm.customerList = [];

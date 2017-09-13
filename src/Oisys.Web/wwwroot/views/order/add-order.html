@@ -4,7 +4,7 @@
             Save Order Details.
             <small class="text-muted">
                 <i class="fa fa-info-circle text-primary"></i>
-                To add order items, input the details in the table and click the add (+) button.
+                To add new order details, click the <code>New order detail</code> button.
             </small>
         </h3>
     </shell-title>
@@ -31,13 +31,13 @@
                 </div>
             </div>
             <div class="col-md-3 left-padding-none">
-                <div form-input>
-                    <label>Discount</label>
-                    <input type="text" ng-model="ctrl.order.discount" numeric-textbox="{ currencySymbol: '₱ '}" />
+                <div>
+                    <label class="control-label">Discount</label>
+                    <discount-control discount-percent="ctrl.order.discountPercent" discount-amount="ctrl.order.discountAmount"></discount-control>
                 </div>
                 <div form-input>
                     <label>Total Amount</label>
-                    <input type="text" ng-model="ctrl.order.discount" numeric-textbox="{ currencySymbol: '₱ '}" readonly />
+                    <input type="text" ng-model="ctrl.order.totalAmount" numeric-textbox="{ currencySymbol: '₱ '}" readonly />
                 </div>
             </div>
             <div class="col-md-10 left-padding-none">
@@ -45,10 +45,10 @@
                     <thead>
                         <tr>
                             <th style="width: 26%;">Item</th>
-                            <th class="" style="width: 15%;">Quantity</th>
+                            <th style="width: 15%;">Quantity</th>
                             <th style="width: 15%;">Unit</th>
-                            <th class="" style="width: 20%;">Unit Price</th>
-                            <th class="" style="width: 20%;">Total Price</th>
+                            <th style="width: 20%;">Unit Price</th>
+                            <th style="width: 20%;">Total Price</th>
                             <th style="width: 4%;"></th>
                         </tr>
                     </thead>
@@ -62,26 +62,57 @@
                         </tr>
                         <tr ng-repeat="i in ctrl.orderDetails track by $index">
                             <td>
-                                <select class="form-control input-xs" ng-model="i.selectedItem" ng-options="item.codeName for item in ctrl.itemList" focus-me="i.focus"></select>
+                                <div ng-if="!i.isDeleted">
+                                    <select class="form-control input-sm" ng-model="i.selectedItem" ng-options="item.codeName for item in ctrl.itemList" focus-me="i.focus"></select>
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <s>{{ i.selectedItem.codeName }}</s>
+                                </div>
                             </td>
                             <td>
-                                <input class="form-control input-xs " type="number" ng-model="i.quantity" />
+                                <div ng-if="!i.isDeleted">
+                                    <input class="form-control input-sm" type="number" ng-model="i.quantity" />
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <s>{{ i.quantity }}</s>
+                                </div>
                             </td>
                             <td>
-                                <input class="form-control input-xs" ng-model="i.unit" readonly />
+                                <div ng-if="!i.isDeleted">
+                                    <input class="form-control input-sm" ng-model="i.unit" readonly />
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <s>{{ i.unit }}</s>
+                                </div>
                             </td>
                             <td>
-                                <input type="text" class="form-control input-xs " ng-model="i.price"
-                                       numeric-textbox="{ currencySymbol: '₱ '}" />
+                                <div ng-if="!i.isDeleted">
+                                    <price-toggler item="i.selectedItem" selected-price-type="walkInPrice" selected-price="i.price"></price-toggler>
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <s>₱ {{ i.price | number: 2 }}</s>
+                                </div>
                             </td>
                             <td>
-                                <input type="text" class="form-control input-xs " ng-model="i.totalPrice"
-                                       numeric-textbox="{ currencySymbol: '₱ '}" readonly />
+                                <div ng-if="!i.isDeleted">
+                                    <input type="text" class="form-control input-sm" ng-model="i.totalPrice"
+                                           numeric-textbox="{ currencySymbol: '₱ '}" readonly />
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <s>₱ {{ i.totalPrice | number: 2 }}</s>
+                                </div>
                             </td>
                             <td>
-                                <a href="" class="text-danger">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                                <div ng-if="!i.isDeleted">
+                                    <a href="" class="text-danger" ng-click="ctrl.removeOrderDetail($index)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <a href="" class="text-success" ng-click="ctrl.undoRemove($index)">
+                                        <i class="fa fa-undo"></i>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     </tbody>

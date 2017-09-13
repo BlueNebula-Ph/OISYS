@@ -106,7 +106,7 @@ textarea {
 /* Loading control */
 .loading-indicator {
     position: fixed;
-    width: 120px;
+    width: 140px;
     text-align: center;
     left: 40%;
     padding: 4px 8px;

@@ -131,7 +131,7 @@
             foreach (var detail in order.Details)
             {
                 var item = this.context.Items.AsNoTracking().SingleOrDefault(c => c.Id == detail.ItemId);
-                this.adjustmentService.ModifyCurrentQuantity(this.context, item, detail.Quantity, AdjustmentType.Deduct);
+                this.adjustmentService.ModifyCurrentQuantity(item, detail.Quantity, AdjustmentType.Deduct);
             }
 
             await this.context.Deliveries.AddAsync(order);
@@ -176,7 +176,7 @@
 
                     if (oldDetail != null)
                     {
-                        this.adjustmentService.ModifyCurrentQuantity(this.context, oldDetail.Item, oldDetail.Quantity, AdjustmentType.Add);
+                        this.adjustmentService.ModifyCurrentQuantity(oldDetail.Item, oldDetail.Quantity, AdjustmentType.Add);
 
                         if (newDetail.IsDeleted)
                         {
@@ -184,7 +184,7 @@
                         }
                         else
                         {
-                            this.adjustmentService.ModifyCurrentQuantity(this.context, oldDetail.Item, newDetail.Quantity, AdjustmentType.Deduct);
+                            this.adjustmentService.ModifyCurrentQuantity(oldDetail.Item, newDetail.Quantity, AdjustmentType.Deduct);
                         }
                     }
                 }
@@ -225,7 +225,7 @@
 
             foreach (var detail in order.Details)
             {
-                this.adjustmentService.ModifyCurrentQuantity(this.context, detail.Item, detail.Quantity, AdjustmentType.Add);
+                this.adjustmentService.ModifyCurrentQuantity(detail.Item, detail.Quantity, AdjustmentType.Add);
             }
 
             this.context.RemoveRange(order.Details);
