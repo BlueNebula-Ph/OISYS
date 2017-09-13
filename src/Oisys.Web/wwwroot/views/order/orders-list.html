@@ -1,10 +1,11 @@
 ﻿<summary-shell>
     <shell-title>
-        <h3>Orders. <small class="text-muted">Search orders.</small></h3>
+        <h3>Orders Board. <small class="text-muted">Search orders.</small></h3>
     </shell-title>
     <shell-search>
         <input class="form-control input-sm" placeholder="Search..." focus-me="ctrl.focus" ng-model="ctrl.filters.searchTerm" />
         <select class="form-control input-sm" ng-model="ctrl.filters.customerId" ng-options="customer.id as customer.name for customer in ctrl.customerList"></select>
+        <select class="form-control input-sm" ng-model="ctrl.filters.provinceId" ng-options="province.id as province.code for province in ctrl.provinceList"></select>
         <select class="form-control input-sm" ng-model="ctrl.filters.itemId" ng-options="item.id as item.codeName for item in ctrl.itemList"></select>
         <input type="date" class="form-control input-sm" placeholder="Date from" ng-model="ctrl.filters.dateFrom" />
         <input type="date" class="form-control input-sm" placeholder="Date to" ng-model="ctrl.filters.dateTo" />

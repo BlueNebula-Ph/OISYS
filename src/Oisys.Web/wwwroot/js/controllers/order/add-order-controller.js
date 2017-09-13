@@ -70,7 +70,19 @@
         });
 
         vm.save = function () {
-            alert("SAVING!");
+            loadingService.showLoading();
+
+            vm.order.details = vm.orderDetails;
+
+            // Update for edit
+            orderService.saveOrder(0, vm.order)
+                .then(function (response) {
+                    toastr.success("Order saved successfully.", "Success");
+                }, function (error) {
+                    toastr.error("An error has occurred.", "Error");
+                }).finally(function () {
+                    loadingService.hideLoading();
+                });
         };
 
         vm.reset = function () {

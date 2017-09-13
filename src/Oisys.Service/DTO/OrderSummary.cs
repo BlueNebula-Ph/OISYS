@@ -29,6 +29,11 @@
         public DateTime DueDate { get; set; }
 
         /// <summary>
+        /// Gets or sets property total amount.
+        /// </summary>
+        public decimal TotalAmount { get; set; }
+
+        /// <summary>
         /// Gets or sets property Customer navigation property.
         /// </summary>
         public CustomerSummary Customer { get; set; }

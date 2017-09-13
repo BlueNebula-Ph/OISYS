@@ -1,6 +1,6 @@
 ﻿(function (module) {
 
-    var viewOrderController = function (orderService, customerService, inventoryService, loadingService) {
+    var viewOrderController = function (orderService, customerService, inventoryService, referenceService, loadingService) {
 
         var vm = this;
         vm.focus = true;
@@ -10,6 +10,7 @@
             sortDirection: "asc",
             searchTerm: "",
             customerId: 0,
+            provinceId: 0,
             itemId: 0,
             dateFrom: "",
             dateTo: ""
@@ -22,7 +23,7 @@
             { text: "Customer", value: "Customer.Name" },
             { text: "Date", value: "Date" },
             { text: "DueDate", value: "DueDate" },
-            { text: "Total Amount", value: "Amount" },
+            { text: "Total Amount", value: "Amount", class: "text-right" },
             { text: "", value: "" }
         ];
 
@@ -81,9 +82,26 @@
                 });
         };
 
+        vm.provinceList = [];
+        var loadProvinces = function () {
+            loadingService.showLoading();
+
+            referenceService.getReferenceLookup(3)
+                .then(function (response) {
+                    angular.copy(response.data, vm.provinceList);
+                    vm.provinceList.splice(0, 0, { id: 0, code: "Filter by province.." });
+                }, function (error) {
+                    console.log(error);
+                }).finally(function () {
+                    loadingService.hideLoading();
+                });
+
+        };
+
         $(function () {
             loadCustomers();
             loadItems();
+            loadProvinces();
 
             vm.fetchOrders();
         });
@@ -91,6 +109,6 @@
         return vm;
     };
 
-    module.controller("viewOrderController", ["orderService", "customerService", "inventoryService", "loadingService", viewOrderController]);
+    module.controller("viewOrderController", ["orderService", "customerService", "inventoryService", "referenceService", "loadingService", viewOrderController]);
 
 })(angular.module("oisys-app"));
