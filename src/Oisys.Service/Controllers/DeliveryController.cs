@@ -193,7 +193,7 @@
                         }
 
                         // Deduct the correct amount from the item's current quantity
-                        this.adjustmentService.ModifyCurrentQuantity(deliveryDetailItem, updatedDeliveryDetail.Quantity, AdjustmentType.Deduct);
+                        this.adjustmentService.ModifyActualQuantity(deliveryDetailItem, updatedDeliveryDetail.Quantity, AdjustmentType.Deduct);
                     }
                 }
 
