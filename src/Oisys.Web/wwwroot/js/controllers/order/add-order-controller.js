@@ -40,9 +40,11 @@
             vm.orderDetails[index].isDeleted = false;
         };
 
-        var computeTotals = function () {
+        var assignValuesAndComputeTotals = function () {
             var totalAmount = 0;
             for (var i = 0; i < vm.orderDetails.length; i++) {
+                // Assign the correct id and unit to the row
+                vm.orderDetails[i].itemId = vm.orderDetails[i].selectedItem.id;
                 vm.orderDetails[i].unit = vm.orderDetails[i].selectedItem.unit;
 
                 if (!vm.orderDetails[i].isDeleted) {
@@ -60,13 +62,13 @@
         $scope.$watch(function () {
             return vm.orderDetails;
         }, function (newVal, oldVal, scope) {
-            computeTotals();
+            assignValuesAndComputeTotals();
         }, true);
 
         $scope.$watch(function () {
             return vm.order.discountPercent;
         }, function (newVal, oldVal) {
-            computeTotals();
+            assignValuesAndComputeTotals();
         });
 
         vm.save = function () {
@@ -114,7 +116,6 @@
                 .then(function (response) {
                     var data = response.data;
                     angular.copy(data, vm.itemList);
-                    //vm.itemList.splice(0, 0, { id: 0, codeName: "-- Select Item --" });
                 }, function (error) {
                     console.log(error);
                     toastr.error("There was an error processing your request.", "Error");

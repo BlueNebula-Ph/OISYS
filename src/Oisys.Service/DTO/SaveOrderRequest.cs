@@ -35,9 +35,14 @@
         public DateTime? DueDate { get; set; }
 
         /// <summary>
-        /// Gets or sets property Discount.
+        /// Gets or sets property DiscountPercent.
         /// </summary>
-        public decimal Discount { get; set; }
+        public decimal DiscountPercent { get; set; }
+
+        /// <summary>
+        /// Gets or sets property DiscountAmount.
+        /// </summary>
+        public decimal DiscountAmount { get; set; }
 
         /// <summary>
         /// Gets or sets property TotalAmount.

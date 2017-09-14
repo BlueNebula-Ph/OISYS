@@ -131,7 +131,9 @@
                 })
                 .state("orders.detail", {
                     url: "/detail/{id}",
-                    template: "<div>Order details</div>"
+                    templateUrl: "/views/order/order-details.html",
+                    controller: "orderDetailsController",
+                    controllerAs: "ctrl"
                 })
                 .state("orders.add-quotation", {
                     url: "/quotation/add",
