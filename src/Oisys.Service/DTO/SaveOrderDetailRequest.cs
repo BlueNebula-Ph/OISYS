@@ -1,10 +1,10 @@
 ﻿namespace Oisys.Service.DTO
 {
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using Newtonsoft.Json;
     using Oisys.Service.Helpers;
     using Oisys.Service.Models;
-    using System.ComponentModel;
 
     /// <summary>
     /// <see cref="OrderDetail"/> class represents the child of Order object.
@@ -39,6 +39,11 @@
         /// </summary>
         [Required]
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets the TotalPrice. Quantity * Price.
+        /// </summary>
+        public decimal TotalPrice { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether order detail is deleted.

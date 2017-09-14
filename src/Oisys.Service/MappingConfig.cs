@@ -54,7 +54,9 @@
             this.CreateMap<SaveOrderRequest, Order>();
 
             // Order Detail
-            this.CreateMap<OrderDetail, OrderDetailSummary>();
+            this.CreateMap<OrderDetail, OrderDetailSummary>()
+                .ForMember(d => d.Item, s => s.MapFrom(o => $"{o.Item.Code} - {o.Item.Name}"))
+                .ForMember(d => d.Unit, s => s.MapFrom(o => o.Item.Unit));
 
             this.CreateMap<SaveOrderDetailRequest, OrderDetail>();
 

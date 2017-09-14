@@ -4,14 +4,13 @@
     </shell-title>
     <shell-search>
         <input class="form-control input-sm" placeholder="Search..." focus-me="ctrl.focus" ng-model="ctrl.filters.searchTerm" />
-        <select class="form-control input-sm">
-            <option class="text-muted" label="Filter by city..." value="0"></option>
-        </select>
-        <select class="form-control input-sm">
-            <option class="text-muted" label="Filter by province..." value="0"></option>
-        </select>
-        <button class="btn btn-default btn-sm" ng-click="ctrl.fetchCustomers()">
+        <select class="form-control input-sm" ng-model="ctrl.filters.cityId" ng-options="city.id as city.code for city in ctrl.cityList"></select>
+        <select class="form-control input-sm" ng-model="ctrl.filters.provinceId" ng-options="province.id as province.code for province in ctrl.provinceList"></select>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchCustomers()">
             <i class="fa fa-search"></i>
+        </button>
+        <button class="btn btn-default btn-sm" ng-click="ctrl.clearFilter()">
+            <i class="fa fa-times"></i>
         </button>
     </shell-search>
     <shell-table>

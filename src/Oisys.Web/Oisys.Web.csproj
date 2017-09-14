@@ -31,11 +31,13 @@
     <Content Include="wwwroot\js\controllers\manage\view-category-controller.js" />
     <Content Include="wwwroot\js\controllers\manage\view-city-controller.js" />
     <Content Include="wwwroot\js\controllers\order\manage-order-controller.js" />
+    <Content Include="wwwroot\js\controllers\order\order-details-controller.js" />
     <Content Include="wwwroot\js\controllers\order\view-order-controller.js" />
     <Content Include="wwwroot\js\controllers\reference\reference-controller.js" />
     <Content Include="wwwroot\js\directives\add-edit-shell.js" />
     <Content Include="wwwroot\js\directives\column-header.js" />
     <Content Include="wwwroot\js\directives\details-shell.js" />
+    <Content Include="wwwroot\js\directives\discount-control.js" />
     <Content Include="wwwroot\js\directives\focus-me.js" />
     <Content Include="wwwroot\js\directives\form-controls.js" />
     <Content Include="wwwroot\js\directives\form-input.js" />
@@ -44,6 +46,7 @@
     <Content Include="wwwroot\js\directives\no-records.js" />
     <Content Include="wwwroot\js\directives\numeric-textbox.js" />
     <Content Include="wwwroot\js\directives\pager.js" />
+    <Content Include="wwwroot\js\directives\price-toggler.js" />
     <Content Include="wwwroot\js\directives\sidebar.js" />
     <Content Include="wwwroot\js\directives\summary-controls.js" />
     <Content Include="wwwroot\js\directives\summary-shell.js" />
@@ -63,6 +66,7 @@
     <Content Include="wwwroot\views\common\add-edit-shell.html" />
     <Content Include="wwwroot\views\common\column-header.html" />
     <Content Include="wwwroot\views\common\details-shell.html" />
+    <Content Include="wwwroot\views\common\discount-control.html" />
     <Content Include="wwwroot\views\common\form-control.html" />
     <Content Include="wwwroot\views\common\index.html" />
     <Content Include="wwwroot\views\common\loading-indicator.html" />
@@ -70,6 +74,7 @@
     <Content Include="wwwroot\views\common\navigation.html" />
     <Content Include="wwwroot\views\common\no-records.html" />
     <Content Include="wwwroot\views\common\pager.html" />
+    <Content Include="wwwroot\views\common\price-toggler.html" />
     <Content Include="wwwroot\views\common\sidebar.html" />
     <Content Include="wwwroot\views\common\summary-controls.html" />
     <Content Include="wwwroot\views\common\summary-shell.html" />
@@ -85,6 +90,7 @@
     <Content Include="wwwroot\views\manage\category-list.html" />
     <Content Include="wwwroot\views\manage\cities-list.html" />
     <Content Include="wwwroot\views\order\add-order.html" />
+    <Content Include="wwwroot\views\order\order-details.html" />
     <Content Include="wwwroot\views\order\orders-list.html" />
     <Content Include="wwwroot\views\user\index.html" />
   </ItemGroup>

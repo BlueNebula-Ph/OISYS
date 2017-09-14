@@ -101,7 +101,7 @@
                 .AsNoTracking()
                 .Include(c => c.Customer)
                 .Include(c => c.Details)
-                .Include("Details.Item")
+                    .ThenInclude(d => d.Item)
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)

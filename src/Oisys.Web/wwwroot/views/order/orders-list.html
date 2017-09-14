@@ -1,14 +1,19 @@
 ﻿<summary-shell>
     <shell-title>
-        <h3>Orders. <small class="text-muted">Search orders.</small></h3>
+        <h3>Orders Board. <small class="text-muted">Search orders.</small></h3>
     </shell-title>
     <shell-search>
         <input class="form-control input-sm" placeholder="Search..." focus-me="ctrl.focus" ng-model="ctrl.filters.searchTerm" />
-        <select class="form-control input-sm">
-            <option class="text-muted" label="Filter by customer..." value="0"></option>
-        </select>
-        <button class="btn btn-default btn-sm" ng-click="">
+        <select class="form-control input-sm" ng-model="ctrl.filters.customerId" ng-options="customer.id as customer.name for customer in ctrl.customerList"></select>
+        <select class="form-control input-sm" ng-model="ctrl.filters.provinceId" ng-options="province.id as province.code for province in ctrl.provinceList"></select>
+        <select class="form-control input-sm" ng-model="ctrl.filters.itemId" ng-options="item.id as item.codeName for item in ctrl.itemList"></select>
+        <input type="date" class="form-control input-sm" placeholder="Date from" ng-model="ctrl.filters.dateFrom" />
+        <input type="date" class="form-control input-sm" placeholder="Date to" ng-model="ctrl.filters.dateTo" />
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchOrders()">
             <i class="fa fa-search"></i>
+        </button>
+        <button class="btn btn-default btn-sm" ng-click="ctrl.clearFilter()">
+            <i class="fa fa-times"></i>
         </button>
     </shell-search>
     <shell-table>
@@ -25,9 +30,9 @@
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
                     <td>{{ c.code }}</td>
-                    <td>{{ c.code }}</td>
-                    <td>{{ c.code }}</td>
-                    <td>{{ c.code }}</td>
+                    <td>{{ c.customer.name }}</td>
+                    <td>{{ c.date | date:'MM/dd/yyyy' }}</td>
+                    <td>{{ c.dueDate | date:'MM/dd/yyyy' }}</td>
                     <td class="text-right">₱ {{ c.totalAmount | number: 2 }}</td>
                     <td class="text-center">
                         <summary-controls show-details="true" details-state="orders.detail({ id: {{ c.id }} })" details-title="View order details."
@@ -36,7 +41,7 @@
                         </summary-controls>
                     </td>
                 </tr>
-                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="5"></tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="6"></tr>
             </tbody>
         </table>
     </shell-table>

@@ -6,24 +6,19 @@
     public class OrderDetailSummary : DTOBase
     {
         /// <summary>
-        /// Gets or sets property OrderId.
-        /// </summary>
-        public int OrderId { get; set; }
-
-        /// <summary>
         /// Gets or sets property Quanity.
         /// </summary>
         public decimal Quantity { get; set; }
 
         /// <summary>
-        /// Gets or sets property ItemId.
+        /// Gets or sets property Item.
         /// </summary>
-        public int ItemId { get; set; }
+        public string Unit { get; set; }
 
         /// <summary>
-        /// Gets or sets property DeliveryId.
+        /// Gets or sets property Item.
         /// </summary>
-        public int DeliveryId { get; set; }
+        public string Item { get; set; }
 
         /// <summary>
         /// Gets or sets property Price.
@@ -31,8 +26,8 @@
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Gets or sets ItemSummary navigation property.
+        /// Gets or sets property total price.
         /// </summary>
-        public ItemSummary Item { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

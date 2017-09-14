@@ -4,11 +4,12 @@
     </shell-title>
     <shell-search>
         <input class="form-control input-sm" placeholder="Search..." focus-me="ctrl.focus" ng-model="ctrl.filters.searchTerm" />
-        <select class="form-control input-sm">
-            <option class="text-muted" label="Filter by category..." value="0"></option>
-        </select>
-        <button class="btn btn-default btn-sm" ng-click="ctrl.fetchItems()">
+        <select class="form-control input-sm" ng-model="ctrl.filters.categoryId" ng-options="category.id as category.code for category in ctrl.categoryList"></select>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchItems()">
             <i class="fa fa-search"></i>
+        </button>
+        <button class="btn btn-default btn-sm" ng-click="ctrl.clearFilter()">
+            <i class="fa fa-times"></i>
         </button>
     </shell-search>
     <shell-table>

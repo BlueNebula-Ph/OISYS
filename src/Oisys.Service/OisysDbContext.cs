@@ -160,17 +160,18 @@
             {
                 context.Customers.Add(new Customer
                 {
-                    Code = "A",
-                    Name = "A",
-                    Email = "a@a.com",
-                    ContactNumber = "a",
-                    ContactPerson = "a",
-                    Address = "A",
-                    CityId = 1,
+                    Code = "10001",
+                    Name = "Mickey Mouse",
+                    Email = "mickey@disney.com",
+                    ContactNumber = "399-39-39",
+                    ContactPerson = "Mr. Mickey",
+                    Address = "Disneyland Tokyo",
+                    CityId = 4,
                     ProvinceId = 1,
                     Terms = "term1",
                     Discount = "discount1",
-                    PriceList = "A",
+                    PriceList = "Main Price",
+                    Tag = "Mickey Mouse",
                     Transactions = new List<CustomerTransaction>
                     {
                         new CustomerTransaction { Date = new DateTime(2017, 8, 1), Description = "Order", Debit = 5000m, Credit = 0m, RunningBalance = 5000m },
@@ -183,17 +184,18 @@
 
                 context.Customers.Add(new Customer
                 {
-                    Code = "B",
-                    Name = "B",
-                    Email = "b@b.com",
-                    ContactNumber = "b",
-                    ContactPerson = "b",
-                    Address = "B",
-                    CityId = 1,
-                    ProvinceId = 1,
+                    Code = "10002",
+                    Name = "Mario Cart",
+                    Email = "mario@nintendo.com",
+                    ContactNumber = "383-33-00",
+                    ContactPerson = "Mr. Luigi",
+                    Address = "Japan Nintendo Park",
+                    CityId = 5,
+                    ProvinceId = 2,
                     Terms = "term2",
                     Discount = "discount2",
-                    PriceList = "B",
+                    PriceList = "Walk-In Price",
+                    Tag = "Mario Cart, Mr. Luigi",
                     Transactions = new List<CustomerTransaction>
                     {
                         new CustomerTransaction { Date = new DateTime(2016, 12, 1), Description = "Order", Debit = 5000m, Credit = 0m, RunningBalance = 5000m },

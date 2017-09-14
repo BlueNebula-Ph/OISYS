@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// View model for the order entity.
@@ -27,6 +28,29 @@
         /// Gets or sets property DueDate.
         /// </summary>
         public DateTime DueDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Discount Percent.
+        /// </summary>
+        public decimal DiscountPercent { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Discount Amount.
+        /// </summary>
+        public decimal DiscountAmount { get; set; }
+
+        /// <summary>
+        /// Gets property gross amount.
+        /// </summary>
+        public decimal GrossAmount
+        {
+            get { return this.Details.Sum(c => c.TotalPrice); }
+        }
+
+        /// <summary>
+        /// Gets or sets property total amount.
+        /// </summary>
+        public decimal TotalAmount { get; set; }
 
         /// <summary>
         /// Gets or sets property Customer navigation property.

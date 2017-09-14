@@ -36,6 +36,21 @@
         public DateTime? DueDate { get; set; }
 
         /// <summary>
+        /// Gets or sets property DiscountPercent.
+        /// </summary>
+        public decimal DiscountPercent { get; set; }
+
+        /// <summary>
+        /// Gets or sets property DiscountAmount.
+        /// </summary>
+        public decimal DiscountAmount { get; set; }
+
+        /// <summary>
+        /// Gets or sets property TotalAmount.
+        /// </summary>
+        public decimal TotalAmount { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.
         /// </summary>
         [DefaultValue(false)]
