@@ -1,7 +1,5 @@
 ﻿(function (module) {
-
-    var viewItemController = function (inventoryService, referenceService, loadingService) {
-
+    var viewItemController = function (inventoryService, referenceService, loadingService, $q) {
         var vm = this;
         vm.focus = true;
         vm.currentPage = 1;
@@ -9,7 +7,8 @@
             sortBy: "Name",
             sortDirection: "asc",
             searchTerm: "",
-            categoryId: 0
+            categoryId: 0,
+            pageIndex: vm.currentPage
         };
         vm.summaryResult = {
             items: []
@@ -29,17 +28,9 @@
         vm.fetchItems = function () {
             loadingService.showLoading();
 
-            vm.filters.pageIndex = vm.currentPage;
-
             inventoryService.fetchItems(vm.filters)
-                .then(function (response) {
-                    angular.copy(response.data, vm.summaryResult);
-                }, function (error) {
-                    console.log(error);
-                })
-                .finally(function () {
-                    loadingService.hideLoading();
-                });
+                .then(processItemList, onFetchError)
+                .finally(hideLoading);
         };
 
         vm.clearFilter = function () {
@@ -50,29 +41,47 @@
         };
 
         vm.categoryList = [];
-        var loadCategories = function () {
+        var processCategoryFilter = function (response) {
+            angular.copy(response.data, vm.categoryList);
+            vm.categoryList.splice(0, 0, { id: 0, code: "Filter by category.." });
+        };
+
+        var processItemList = function (response) {
+            angular.copy(response.data, vm.summaryResult);
+        };
+
+        var onFetchError = function (error) {
+            toastr.error("There was an error processing your request.", "Error");
+            console.log(error);
+        };
+
+        var hideLoading = function () {
+            loadingService.hideLoading();
+        };
+
+        var loadAll = function () {
             loadingService.showLoading();
 
-            referenceService.getReferenceLookup(1)
-                .then(function (response) {
-                    angular.copy(response.data, vm.categoryList);
-                    vm.categoryList.splice(0, 0, { id: 0, code: "Filter by category.." });
-                }, function (error) {
-                    console.log(error);
-                }).finally(function () {
-                    loadingService.hideLoading();
-                });
+            var requests = {
+                category: referenceService.getReferenceLookup(1),
+                item: inventoryService.fetchItems(vm.filters)
+            };
+
+            $q.all(requests)
+                .then((responses) => {
+                    processCategoryFilter(responses.category);
+                    processItemList(responses.item);
+                }, onFetchError)
+                .finally(hideLoading);
         };
 
         $(function () {
-            loadCategories();
-
-            vm.fetchItems();
+            loadAll();
         });
 
         return vm;
     };
 
-    module.controller("viewItemController", ["inventoryService", "referenceService", "loadingService", viewItemController]);
+    module.controller("viewItemController", ["inventoryService", "referenceService", "loadingService", "$q", viewItemController]);
 
 })(angular.module("oisys-app"));

@@ -1,6 +1,5 @@
 ﻿(function (module) {
-
-    var viewCustomerController = function (customerService, referenceService, loadingService) {
+    var viewCustomerController = function (customerService, referenceService, loadingService, $q) {
         var vm = this;
         vm.focus = true;
         vm.currentPage = 1;
@@ -9,7 +8,8 @@
             sortDirection: "asc",
             searchTerm: "",
             provinceId: 0,
-            cityId: 0
+            cityId: 0,
+            pageIndex: vm.currentPage
         };
         vm.summaryResult = {
             items: []
@@ -28,16 +28,9 @@
         vm.fetchCustomers = function () {
             loadingService.showLoading();
 
-            vm.filters.pageIndex = vm.currentPage;
-
             customerService.fetchCustomers(vm.filters)
-                .then(function (response) {
-                    angular.copy(response.data, vm.summaryResult);
-                }, function (error) {
-                    console.log(error);
-                }).finally(function () {
-                    loadingService.hideLoading();
-                });
+                .then(processCustomerList, onFetchError)
+                .finally(hideLoading);
         };
 
         vm.clearFilter = function () {
@@ -48,40 +41,51 @@
             vm.focus = true;
         };
 
-        var fetchReferences = function (referenceTypeId, copyTo, defaultText) {
+        vm.cityList = [];
+        vm.provinceList = [];
+        var processFilters = function (response, copyTo, defaultText) {
+            angular.copy(response.data, copyTo);
+            copyTo.splice(0, 0, { id: 0, code: defaultText });
+        };
+
+        var processCustomerList = function (response) {
+            angular.copy(response.data, vm.summaryResult);
+        };
+
+        var onFetchError = function (error) {
+            toastr.error("There was an error processing your requests.", "error");
+            console.log(error);
+        };
+
+        var hideLoading = function () {
+            loadingService.hideLoading();
+        };
+
+        var loadAll = function () {
             loadingService.showLoading();
 
-            referenceService.getReferenceLookup(referenceTypeId)
-                .then(function (response) {
-                    angular.copy(response.data, copyTo);
-                    copyTo.splice(0, 0, { id: 0, code: defaultText });
-                }, function (error) {
-                    console.log(error);
-                }).finally(function () {
-                    loadingService.hideLoading();
-                });
-        };
+            var requests = {
+                city: referenceService.getReferenceLookup(2),
+                province: referenceService.getReferenceLookup(3),
+                customer: customerService.fetchCustomers(vm.filters)
+            };
 
-        vm.cityList = [];
-        var loadCities = function () {
-            fetchReferences(2, vm.cityList, "Filter by city..");
-        };
-
-        vm.provinceList = [];
-        var loadProvinces = function () {
-            fetchReferences(3, vm.provinceList, "Filter by province..");
+            $q.all(requests)
+                .then((responses) => {
+                    processFilters(responses.city, vm.cityList, "Filter by city..");
+                    processFilters(responses.province, vm.provinceList, "Filter by province..");
+                    processCustomerList(responses.customer);
+                }, onFetchError)
+                .finally(hideLoading);
         };
 
         $(function () {
-            loadCities();
-            loadProvinces();
-
-            vm.fetchCustomers();
+            loadAll();
         });
 
         return vm;
     };
 
-    module.controller("viewCustomerController", ["customerService", "referenceService", "loadingService", viewCustomerController]);
+    module.controller("viewCustomerController", ["customerService", "referenceService", "loadingService", "$q", viewCustomerController]);
 
 })(angular.module("oisys-app"));
