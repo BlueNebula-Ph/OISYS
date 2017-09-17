@@ -49,7 +49,8 @@
             this.CreateMap<SaveItemRequest, Item>();
 
             // Order
-            this.CreateMap<Order, OrderSummary>();
+            this.CreateMap<Order, OrderSummary>()
+                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Customer.Province.Code));
 
             this.CreateMap<SaveOrderRequest, Order>();
 

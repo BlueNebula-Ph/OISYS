@@ -31,5 +31,10 @@
         /// Gets or sets property Item.
         /// </summary>
         public int? ItemId { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Province Id.
+        /// </summary>
+        public int? ProvinceId { get; set; }
     }
 }
