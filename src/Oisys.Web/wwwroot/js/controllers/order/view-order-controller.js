@@ -47,9 +47,13 @@
         vm.customerList = [];
         vm.itemList = [];
         vm.provinceList = [];
-        var processFilterList = function (response, copyTo, defaultText) {
+        var processFilterList = function (response, copyTo, prop, defaultText) {
             angular.copy(response.data, copyTo);
-            copyTo.splice(0, 0, { id: 0, code: defaultText });
+
+            var defaultItem = { id: 0 };
+            defaultItem[prop] = defaultText;
+
+            copyTo.splice(0, 0, defaultItem);
         };
 
         var processOrders = function (response) {
@@ -77,9 +81,9 @@
 
             $q.all(requests)
                 .then((responses) => {
-                    processFilterList(responses.customer, vm.customerList, "Filter by customer..");
-                    processFilterList(responses.item, vm.itemList, "Filter by item..");
-                    processFilterList(responses.province, vm.provinceList.customerList, "Filter by province..");
+                    processFilterList(responses.customer, vm.customerList, "name", "Filter by customer..");
+                    processFilterList(responses.item, vm.itemList, "codeName", "Filter by item..");
+                    processFilterList(responses.province, vm.provinceList, "code", "Filter by province..");
                     processOrders(responses.order);
                 }, onFetchError)
                 .finally(hideLoading);

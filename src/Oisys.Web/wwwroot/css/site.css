@@ -129,6 +129,10 @@ textarea {
             color: #fefefe;
         }
 
+shell-search div {
+    margin-bottom: 5px;
+}
+
 .active-page a {
     background-color: #6faced !important;
     color: #fefefe !important;

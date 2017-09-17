@@ -3,9 +3,12 @@
         <h3>Categories. <small class="text-muted">Search categories.</small></h3>
     </shell-title>
     <shell-search>
-        <input class="form-control input-sm" placeholder="Search Category..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
-        <button class="btn btn-default btn-sm" ng-click="ctrl.fetchCategories()">
-            <i class="fa fa-search"></i>
+        <div search-input>
+            <span title="Search categories via keyword"><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search Category..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchCategories()">
+            <i class="fa fa-search"></i> Search
         </button>
     </shell-search>
     <shell-table>

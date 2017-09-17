@@ -47,6 +47,7 @@
     <Content Include="wwwroot\js\directives\numeric-textbox.js" />
     <Content Include="wwwroot\js\directives\pager.js" />
     <Content Include="wwwroot\js\directives\price-toggler.js" />
+    <Content Include="wwwroot\js\directives\search-input.js" />
     <Content Include="wwwroot\js\directives\sidebar.js" />
     <Content Include="wwwroot\js\directives\summary-controls.js" />
     <Content Include="wwwroot\js\directives\summary-shell.js" />
