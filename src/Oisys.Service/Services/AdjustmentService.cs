@@ -30,13 +30,16 @@
         {
             if (item != null)
             {
-                if (adjustmentType == AdjustmentType.Deduct)
+                switch (adjustmentType)
                 {
-                    item.ActualQuantity = item.ActualQuantity - adjustmentQuantity;
-                }
-                else
-                {
-                    item.ActualQuantity = item.ActualQuantity + adjustmentQuantity;
+                    case AdjustmentType.Add:
+                        item.ActualQuantity = item.ActualQuantity + adjustmentQuantity;
+                        break;
+                    case AdjustmentType.Deduct:
+                        item.ActualQuantity = item.ActualQuantity - adjustmentQuantity;
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -51,13 +54,16 @@
         {
             if (item != null)
             {
-                if (adjustmentType == AdjustmentType.Deduct)
+                switch (adjustmentType)
                 {
-                    item.CurrentQuantity = item.CurrentQuantity - adjustmentQuantity;
-                }
-                else
-                {
-                    item.CurrentQuantity = item.CurrentQuantity + adjustmentQuantity;
+                    case AdjustmentType.Add:
+                        item.CurrentQuantity = item.CurrentQuantity + adjustmentQuantity;
+                        break;
+                    case AdjustmentType.Deduct:
+                        item.CurrentQuantity = item.CurrentQuantity - adjustmentQuantity;
+                        break;
+                    default:
+                        break;
                 }
             }
         }
