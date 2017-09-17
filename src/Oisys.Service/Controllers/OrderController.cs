@@ -58,6 +58,13 @@
                 list = list.Where(c => c.Code.Contains(filter.SearchTerm));
             }
 
+            if (!(filter?.ProvinceId).IsNullOrZero())
+            {
+                list = list
+                        .Include(c => c.Customer)
+                        .Where(c => c.Customer.ProvinceId == filter.ProvinceId);
+            }
+
             if (!(filter?.CustomerId).IsNullOrZero())
             {
                 list = list.Where(c => c.CustomerId == filter.CustomerId);
