@@ -205,5 +205,42 @@
 
             return new NoContentResult();
         }
+
+        /// <summary>
+        /// Adjusts the actual and current quantity a specific <see cref="Item"/>.
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <param name="entity"><see cref="SaveItemAdjustmentRequest"/></param>
+        /// <returns>None</returns>
+        [HttpPost("{id}/adjust")]
+        public async Task<IActionResult> AdjustItem(long id, [FromBody]SaveItemAdjustmentRequest entity)
+        {
+            if (entity == null || entity.Id == 0 || id == 0 || !this.ModelState.IsValid)
+            {
+                return this.BadRequest();
+            }
+
+            var item = await this.context.Items
+                .SingleOrDefaultAsync(c => c.Id == id);
+
+            if (item == null)
+            {
+                return this.NotFound(id);
+            }
+
+            try
+            {
+                this.adjustmentService.ModifyActualQuantity(item, entity.AdjustmentQuantity, entity.AdjustmentType);
+                this.adjustmentService.ModifyCurrentQuantity(item, entity.AdjustmentQuantity, entity.AdjustmentType);
+
+                await this.context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex);
+            }
+
+            return this.Ok();
+        }
     }
 }
