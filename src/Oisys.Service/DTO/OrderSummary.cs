@@ -53,12 +53,17 @@
         public decimal TotalAmount { get; set; }
 
         /// <summary>
-        /// Gets or sets property Customer navigation property.
+        /// Gets or sets Customer navigation property.
         /// </summary>
         public CustomerSummary Customer { get; set; }
 
         /// <summary>
-        /// Gets or sets property Details navigation property.
+        /// Gets or sets Province name property.
+        /// </summary>
+        public string ProvinceName { get; set; }
+
+        /// <summary>
+        /// Gets or sets Details navigation property.
         /// </summary>
         public IEnumerable<OrderDetailSummary> Details { get; set; }
     }

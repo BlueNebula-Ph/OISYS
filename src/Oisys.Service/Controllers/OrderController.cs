@@ -49,6 +49,7 @@
         {
             // get list of active orders (not deleted)
             var list = this.context.Orders
+                .Include(c => c.Customer)
                 .AsNoTracking()
                 .Where(c => !c.IsDeleted);
 
@@ -56,6 +57,11 @@
             if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
                 list = list.Where(c => c.Code.Contains(filter.SearchTerm));
+            }
+
+            if (!(filter?.ProvinceId).IsNullOrZero())
+            {
+                list = list.Where(c => c.Customer.ProvinceId == filter.ProvinceId);
             }
 
             if (!(filter?.CustomerId).IsNullOrZero())
