@@ -1,7 +1,5 @@
 ﻿(function (module) {
-
     var viewDeliveryController = function (loadingService) {
-
         var vm = this;
         vm.focus = true;
         vm.currentPage = 1;

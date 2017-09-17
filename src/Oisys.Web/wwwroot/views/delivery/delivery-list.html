@@ -3,12 +3,18 @@
         <h3>Deliveries. <small class="text-muted">Search deliveries.</small></h3>
     </shell-title>
     <shell-search>
-        <input class="form-control input-sm" placeholder="Search..." focus-me="ctrl.focus" ng-model="ctrl.filters.searchTerm" />
-        <select class="form-control input-sm">
-            <option class="text-muted" label="Filter by customer..." value="0"></option>
-        </select>
-        <button class="btn btn-default btn-sm" ng-click="">
-            <i class="fa fa-search"></i>
+        <div search-input>
+            <span><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search..." focus-me="ctrl.focus" ng-model="ctrl.filters.searchTerm" />
+        </div>
+        <div search-input>
+            <span><i class="fa fa-address-card-o fa-fw"></i></span>
+            <select class="form-control input-sm">
+                <option class="text-muted" label="Filter by customer..." value="0"></option>
+            </select>
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="">
+            <i class="fa fa-search"></i> Search
         </button>
     </shell-search>
     <shell-table>
