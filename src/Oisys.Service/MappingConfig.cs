@@ -74,6 +74,19 @@
             this.CreateMap<ReferenceType, ReferenceTypeSummary>();
 
             this.CreateMap<SaveReferenceTypeRequest, ReferenceType>();
+
+            // Sales Quote
+            this.CreateMap<SalesQuote, SalesQuoteSummary>()
+                .ForMember(d => d.CustomerName, s => s.MapFrom(o => o.Customer.Name))
+                .ForMember(d => d.CustomerAddress, s => s.MapFrom(o => $"{o.Customer.Address}, {o.Customer.City.Code} {o.Customer.Province.Code}"));
+
+            this.CreateMap<SaveSalesQuoteRequest, SalesQuote>();
+
+            // Sales Quote Detail
+            this.CreateMap<SalesQuoteDetail, SalesQuoteDetailSummary>()
+                .ForMember(d => d.Item, s => s.MapFrom(o => $"{o.Item.Code} - {o.Item.Name}"));
+
+            this.CreateMap<SaveSalesQuoteDetailRequest, SalesQuoteDetail>();
         }
     }
 }

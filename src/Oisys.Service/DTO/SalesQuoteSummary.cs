@@ -1,0 +1,46 @@
+﻿namespace Oisys.Service.DTO
+{
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// View model for the Sales Quote entity.
+    /// </summary>
+    public class SalesQuoteSummary : DTOBase
+    {
+        /// <summary>
+        /// Gets or sets property Code.
+        /// </summary>
+        public string Code { get; set; }
+
+        /// <summary>
+        /// Gets or sets property CustomerId.
+        /// </summary>
+        public int? CustomerId { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Customer Name.
+        /// </summary>
+        public string CustomerName { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Customer Address.
+        /// </summary>
+        public string CustomerAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Date.
+        /// </summary>
+        public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Gets or sets property DeliveryFee.
+        /// </summary>
+        public decimal DeliveryFee { get; set; }
+
+        /// <summary>
+        /// Gets or sets collection of SalesQuoteDetailSummary navigation property.
+        /// </summary>
+        public IEnumerable<SalesQuoteDetailSummary> Details { get; set; }
+    }
+}
