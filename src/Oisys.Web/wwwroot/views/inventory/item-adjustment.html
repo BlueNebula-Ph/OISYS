@@ -1,0 +1,32 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Adjust Item Quantity. <small class="text-muted">Please input the details of the adjustment.</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="addAdjustmentForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="item">Item</label>
+                    <select ng-model="ctrl.adjustment.id" ng-options="item.id as item.codeName for item in ctrl.itemList" ng-change="ctrl.onChange()"></select>
+                    <span class="help-block small left-margin-sm">Current Quantity: {{ ctrl.quantities.current }} | Actual Quantity: {{ ctrl.quantities.actual }}</span>
+                </div>
+                <div form-input>
+                    <label for="adjustmentType">Adjustment Type</label>
+                    <select name="adjustmentType" ng-model="ctrl.adjustment.adjustmentType">
+                        <option value="-1">Select adjustment to make..</option>
+                        <option value="0">Add</option>
+                        <option value="1">Deduct</option>
+                    </select>
+                </div>
+                <div form-input>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" min="0" ng-model="ctrl.adjustment.adjustmentQuantity" />
+                </div>
+                <div form-input>
+                    <label for="remarks">Remarks</label>
+                    <textarea rows="5" ng-model="ctrl.adjustment.remarks"></textarea>
+                </div>
+            </div>
+        </form>
+    </shell-form>
+</add-edit-shell>

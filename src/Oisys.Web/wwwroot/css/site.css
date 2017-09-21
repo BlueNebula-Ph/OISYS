@@ -26,6 +26,10 @@ html, body {
     margin-bottom: 0;
 }
 
+.left-margin-sm {
+    margin-left: 10px;
+}
+
 .bottom-margin-sm {
     margin-bottom: 10px;
 }

@@ -93,12 +93,14 @@
                     templateUrl: "/views/common/index.html",
                     controller: "manageInventoryController",
                     controllerAs: "ctrl"
-                }).state("inventory.list", {
+                })
+                .state("inventory.list", {
                     url: "/list",
                     templateUrl: "/views/inventory/items-list.html",
                     controller: "viewItemController",
                     controllerAs: "ctrl"
-                }).state("inventory.add", {
+                })
+                .state("inventory.add", {
                     url: "/add/{id}",
                     templateUrl: "/views/inventory/add-item.html",
                     controller: "addItemController",
@@ -108,6 +110,12 @@
                     url: "/detail/{id}",
                     templateUrl: "/views/inventory/item-details.html",
                     controller: "itemDetailsController",
+                    controllerAs: "ctrl"
+                })
+                .state("inventory.adjustment", {
+                    url: "/adjustment",
+                    templateUrl: "/views/inventory/item-adjustment.html",
+                    controller: "itemAdjustmentController",
                     controllerAs: "ctrl"
                 })
 

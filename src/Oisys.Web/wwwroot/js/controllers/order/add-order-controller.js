@@ -1,6 +1,6 @@
 ﻿(function (module) {
 
-    var addOrderController = function (customerService, inventoryService, orderService, loadingService, $stateParams, $scope) {
+    var addOrderController = function (customerService, inventoryService, orderService, loadingService, $stateParams, $scope, $q) {
         var vm = this;
 
         vm.defaultFocus = true;
@@ -78,60 +78,60 @@
 
             // Update for edit
             orderService.saveOrder(0, vm.order)
-                .then(function (response) {
-                    toastr.success("Order saved successfully.", "Success");
-                }, function (error) {
-                    toastr.error("An error has occurred.", "Error");
-                }).finally(function () {
-                    loadingService.hideLoading();
-                });
+                .then((response) => { toastr.success("Order saved successfully.", "Success"); }, onProcessingError)
+                .finally(hideLoading);
         };
 
         vm.reset = function () {
             alert("Resetting!!");
         };
 
-        vm.customerList = [];
-        var loadCustomers = function () {
-            loadingService.showLoading();
-
-            customerService.getCustomerLookup()
-                .then(function (response) {
-                    var data = response.data;
-                    angular.copy(data, vm.customerList);
-                    vm.customerList.splice(0, 0, { id: 0, name: "-- Select Customer --" });
-                }, function (error) {
-                    console.log(error);
-                    toastr.error("There was an error processing your request.", "Error");
-                }).finally(function () {
-                    loadingService.hideLoading();
-                });
+        var hideLoading = function () {
+            loadingService.hideLoading();
         };
 
+        vm.customerList = [];
         vm.itemList = [];
-        var loadItems = function () {
+        var populateDropdown = function (response, copyTo, prop, defaultText) {
+            var data = response.data;
+            angular.copy(data, copyTo);
+
+            if (defaultText != "") {
+                var defaultItem = { id: 0 };
+                defaultItem[prop] = defaultText;
+
+                copyTo.splice(0, 0, defaultItem);
+            }
+        }; 
+
+        var onProcessingError = function (error) {
+            toastr.error("There was an error processing your request.", "Error");
+            console.log(error);
+        };
+
+        var initialLoad = function () {
             loadingService.showLoading();
 
-            inventoryService.getItemLookup()
-                .then(function (response) {
-                    var data = response.data;
-                    angular.copy(data, vm.itemList);
-                }, function (error) {
-                    console.log(error);
-                    toastr.error("There was an error processing your request.", "Error");
-                }).finally(function () {
-                    loadingService.hideLoading();
-                });
+            var requests = {
+                customer: customerService.getCustomerLookup(),
+                item: inventoryService.getItemLookup()
+            };
+
+            $q.all(requests)
+                .then((responses) => {
+                    populateDropdown(responses.customer, vm.customerList, "name", "-- Select Customer --");
+                    populateDropdown(responses.item, vm.itemList, "", "");
+                }, onProcessingError)
+                .finally(hideLoading);
         };
 
         $(function () {
-            loadCustomers();
-            loadItems();
+            initialLoad();
         });
 
         return vm;
     };
 
-    module.controller("addOrderController", ["customerService", "inventoryService", "orderService", "loadingService", "$stateParams", "$scope", addOrderController]);
+    module.controller("addOrderController", ["customerService", "inventoryService", "orderService", "loadingService", "$stateParams", "$scope", "$q", addOrderController]);
 
 })(angular.module("oisys-app"));
