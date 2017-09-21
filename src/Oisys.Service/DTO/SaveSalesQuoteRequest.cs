@@ -1,14 +1,13 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Service.DTO
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// <see cref="SalesQuote"/> class represents SalesQuote created in the application.
+    /// <see cref="SaveSalesQuoteRequest"/> class Create/Update SalesQuote object.
     /// </summary>
-    public class SalesQuote : ModelBase
+    public class SaveSalesQuoteRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets property Code.
@@ -34,19 +33,8 @@
         public decimal DeliveryFee { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
-        /// </summary>
-        [DefaultValue(false)]
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
         /// Gets or sets collection of SalesQuoteDetails navigation property.
         /// </summary>
-        public ICollection<SalesQuoteDetail> Details { get; set; }
-
-        /// <summary>
-        /// Gets or sets Customer navigation property.
-        /// </summary>
-        public Customer Customer { get; set; }
+        public IEnumerable<SaveSalesQuoteDetailRequest> Details { get; set; }
     }
 }
