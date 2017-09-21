@@ -26,6 +26,10 @@ html, body {
     margin-bottom: 0;
 }
 
+.left-margin-sm {
+    margin-left: 10px;
+}
+
 .bottom-margin-sm {
     margin-bottom: 10px;
 }
@@ -128,6 +132,10 @@ textarea {
         .summary-table th a, .summary-table th span {
             color: #fefefe;
         }
+
+shell-search div {
+    margin-bottom: 5px;
+}
 
 .active-page a {
     background-color: #6faced !important;

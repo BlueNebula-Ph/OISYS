@@ -22,6 +22,7 @@
     <Content Include="wwwroot\js\controllers\customer\view-customer-controller.js" />
     <Content Include="wwwroot\js\controllers\delivery\view-delivery-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\add-item-controller.js" />
+    <Content Include="wwwroot\js\controllers\inventory\item-adjustment-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\item-details-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\manage-inventory-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\view-item-controller.js" />
@@ -47,6 +48,7 @@
     <Content Include="wwwroot\js\directives\numeric-textbox.js" />
     <Content Include="wwwroot\js\directives\pager.js" />
     <Content Include="wwwroot\js\directives\price-toggler.js" />
+    <Content Include="wwwroot\js\directives\search-input.js" />
     <Content Include="wwwroot\js\directives\sidebar.js" />
     <Content Include="wwwroot\js\directives\summary-controls.js" />
     <Content Include="wwwroot\js\directives\summary-shell.js" />
@@ -55,6 +57,7 @@
     <Content Include="wwwroot\js\services\auth-service.js" />
     <Content Include="wwwroot\js\services\current-user.js" />
     <Content Include="wwwroot\js\services\customer-service.js" />
+    <Content Include="wwwroot\js\services\delivery-service.js" />
     <Content Include="wwwroot\js\services\form-encode.js" />
     <Content Include="wwwroot\js\services\inventory-service.js" />
     <Content Include="wwwroot\js\services\item-service.js" />
@@ -83,6 +86,7 @@
     <Content Include="wwwroot\views\customer\customers-list.html" />
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />
+    <Content Include="wwwroot\views\inventory\item-adjustment.html" />
     <Content Include="wwwroot\views\inventory\item-details.html" />
     <Content Include="wwwroot\views\inventory\items-list.html" />
     <Content Include="wwwroot\views\manage\add-category.html" />

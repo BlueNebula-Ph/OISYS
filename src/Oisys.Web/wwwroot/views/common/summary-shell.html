@@ -1,19 +1,24 @@
 ﻿<loading-indicator></loading-indicator>
 <div ng-transclude="title"></div>
-<div class="form-inline bottom-margin-sm">
-    <div class="pull-left" ng-transclude="search"></div>
+<div class="col-md-2 side-padding-none" style="">
+    <!--<div style="background: #6faced; color: white; font-weight: bold; padding: 4px 6px;">
+        <i class="fa fa-search"></i> Search
+    </div>-->
+        <div style="margin-bottom: 5px;" ng-transclude="search"></div>
+</div>
+<div class="col-md-10" style="margin-top: -35px;">
     <div class="pull-right">
         <pager current-page="ctrl.currentPage" total-pages="ctrl.summaryResult.totalPages"
                has-previous-page="ctrl.summaryResult.hasPreviousPage" has-next-page="ctrl.summaryResult.hasNextPage"
                on-page-change="ctrl.fetchCategories()"></pager>
     </div>
-</div>
-<div ng-transclude="table"></div>
-<span>
-    Displaying page {{ ctrl.currentPage }} of {{ ctrl.summaryResult.totalPages }}.
-</span>
-<div class="pull-right">
-    <pager current-page="ctrl.currentPage" total-pages="ctrl.summaryResult.totalPages"
-           has-previous-page="ctrl.summaryResult.hasPreviousPage" has-next-page="ctrl.summaryResult.hasNextPage"
-           on-page-change="ctrl.fetchCategories()"></pager>
+    <div ng-transclude="table"></div>
+    <span>
+        Displaying page {{ ctrl.currentPage }} of {{ ctrl.summaryResult.totalPages }}.
+    </span>
+    <div class="pull-right">
+        <pager current-page="ctrl.currentPage" total-pages="ctrl.summaryResult.totalPages"
+               has-previous-page="ctrl.summaryResult.hasPreviousPage" has-next-page="ctrl.summaryResult.hasNextPage"
+               on-page-change="ctrl.fetchCategories()"></pager>
+    </div>
 </div>

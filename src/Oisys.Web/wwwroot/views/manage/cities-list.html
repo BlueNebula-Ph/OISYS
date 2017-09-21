@@ -3,9 +3,12 @@
         <h3>Provinces / Cities. <small class="text-muted">Search province / city.</small></h3>
     </shell-title>
     <shell-search>
-        <input class="form-control input-sm" placeholder="Search province or city..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
-        <button class="btn btn-default btn-sm" ng-click="ctrl.fetchCities()">
-            <i class="fa fa-search"></i>
+        <div search-input>
+            <span title="Search cities via keyword."><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search province or city..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchCities()">
+            <i class="fa fa-search"></i> Search
         </button>
     </shell-search>
     <shell-table>

@@ -20,18 +20,23 @@
             return $http.get(url);
         };
 
-        dataFactory.saveItem = function (id, customer) {
+        dataFactory.saveItem = function (id, item) {
             if (id === 0) {
-                return $http.post(urlBase, customer);
+                return $http.post(urlBase, item);
             } else {
                 var url = urlBase + "/" + id;
-                return $http.put(url, customer);
+                return $http.put(url, item);
             }
         };
 
         dataFactory.deletItem = function (id) {
             var url = urlBase + "/" + id;
             return $http.delete(url);
+        };
+
+        dataFactory.adjustItemQuantity = function (id, adjustment) {
+            var url = urlBase + "/" + id + "/adjust";
+            return $http.post(url, adjustment);
         };
 
         return dataFactory;

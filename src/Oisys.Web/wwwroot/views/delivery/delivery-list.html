@@ -3,12 +3,19 @@
         <h3>Deliveries. <small class="text-muted">Search deliveries.</small></h3>
     </shell-title>
     <shell-search>
-        <input class="form-control input-sm" placeholder="Search..." focus-me="ctrl.focus" ng-model="ctrl.filters.searchTerm" />
-        <select class="form-control input-sm">
-            <option class="text-muted" label="Filter by customer..." value="0"></option>
-        </select>
-        <button class="btn btn-default btn-sm" ng-click="">
-            <i class="fa fa-search"></i>
+        <div search-input>
+            <span><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search..." focus-me="ctrl.focus" ng-model="ctrl.filters.searchTerm" />
+        </div>
+        <div search-input>
+            <span><i class="fa fa-address-card-o fa-fw"></i></span>
+            <select ng-model="ctrl.filters.customerId" ng-options="customer.id as customer.name for customer in ctrl.customerList"></select>
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchDeliveries()">
+            <i class="fa fa-search"></i> Search
+        </button>
+        <button class="btn btn-default btn-sm" ng-click="ctrl.clearFilter()">
+            <i class="fa fa-times"></i> Clear
         </button>
     </shell-search>
     <shell-table>
@@ -25,13 +32,12 @@
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
                     <td>{{ c.code }}</td>
-                    <td>{{ c.code }}</td>
-                    <td>{{ c.code }}</td>
-                    <td>{{ c.code }}</td>
-                    <td class="text-right">₱ {{ c.totalAmount | number: 2 }}</td>
+                    <td>{{ c.customer }}</td>
+                    <td>{{ c.date | date:'MM/dd/yyyy' }}</td>
+                    <td>{{ c.driver }}</td>
                     <td class="text-center">
-                        <summary-controls show-details="true" details-state="deliveries.detail({ id: {{ c.id }} })" details-title="View order details."
-                                          show-edit="true" edit-state="deliveries.add({ id: {{ c.id }} })" edit-title="Edit this order."
+                        <summary-controls show-details="true" details-state="deliveries.detail({ id: {{ c.id }} })" details-title="View delivery details."
+                                          show-edit="true" edit-state="deliveries.add({ id: {{ c.id }} })" edit-title="Edit this delivery."
                                           show-delete="true" delete-title="Delete this order.">
                         </summary-controls>
                     </td>
