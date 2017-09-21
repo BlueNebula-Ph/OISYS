@@ -56,6 +56,7 @@
     <Content Include="wwwroot\js\services\auth-service.js" />
     <Content Include="wwwroot\js\services\current-user.js" />
     <Content Include="wwwroot\js\services\customer-service.js" />
+    <Content Include="wwwroot\js\services\delivery-service.js" />
     <Content Include="wwwroot\js\services\form-encode.js" />
     <Content Include="wwwroot\js\services\inventory-service.js" />
     <Content Include="wwwroot\js\services\item-service.js" />
