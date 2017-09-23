@@ -35,6 +35,6 @@
         /// <summary>
         /// Gets or sets Item navigation property.
         /// </summary>
-        public ItemSummary Item { get; set; }
+        public string Item { get; set; }
     }
 }
