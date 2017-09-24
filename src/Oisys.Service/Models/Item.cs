@@ -43,12 +43,12 @@
         /// <summary>
         /// Gets or sets property Weight.
         /// </summary>
-        public decimal Weight { get; set; }
+        public string Weight { get; set; }
 
         /// <summary>
         /// Gets or sets property Thickness.
         /// </summary>
-        public decimal Thickness { get; set; }
+        public string Thickness { get; set; }
 
         /// <summary>
         /// Gets or sets property Unit.

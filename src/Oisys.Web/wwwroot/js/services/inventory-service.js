@@ -1,7 +1,5 @@
 ﻿(function (module) {
-
     var inventoryService = function ($http, env) {
-
         var urlBase = env.baseUrl + "/api/item";
         var dataFactory = {};
 

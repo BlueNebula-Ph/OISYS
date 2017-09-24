@@ -60,7 +60,6 @@
     <Content Include="wwwroot\js\services\delivery-service.js" />
     <Content Include="wwwroot\js\services\form-encode.js" />
     <Content Include="wwwroot\js\services\inventory-service.js" />
-    <Content Include="wwwroot\js\services\item-service.js" />
     <Content Include="wwwroot\js\services\loading-service.js" />
     <Content Include="wwwroot\js\services\login-redirect.js" />
     <Content Include="wwwroot\js\services\reference-service.js" />

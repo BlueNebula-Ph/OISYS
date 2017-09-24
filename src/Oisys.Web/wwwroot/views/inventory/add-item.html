@@ -7,21 +7,16 @@
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="itemCode">Item Code</label>
-                    <input type="text" name="itemCode" placeholder="This field is auto-generated." readonly
+                    <input type="text" name="itemCode" placeholder="Item code" focus-me="ctrl.defaultFocus"
                            ng-model="ctrl.item.code" />
                 </div>
                 <div form-input>
                     <label for="itemName">Item Name</label>
-                    <input type="text" name="itemName" placeholder="" focus-me="defaultFocus"
-                           ng-model="ctrl.item.name" />
+                    <input type="text" name="itemName" placeholder="" ng-model="ctrl.item.name" />
                 </div>
                 <div form-input>
                     <label for="category">Category</label>
-                    <select name="category" ng-model="ctrl.item.categoryId">
-                        <option value="1">Manila</option>
-                        <option value="1">Makati</option>
-                        <option value="1">Malabon</option>
-                    </select>
+                    <select ng-model="ctrl.item.categoryId" ng-options="category.id as category.code for category in ctrl.categoryList"></select>
                 </div>
                 <div form-input>
                     <label for="description">Description</label>
@@ -43,15 +38,15 @@
                 </div>
                 <div form-input>
                     <label for="walkInPrice">Walk-In Price</label>
-                    <input name="walkInPrice" numeric-textbox="{ aSign: '₱ '}" class="text-right" ng-model="ctrl.item.walkInPrice" />
+                    <input name="walkInPrice" numeric-textbox="{ currencySymbol: '₱ '}" class="text-right" ng-model="ctrl.item.walkInPrice" />
                 </div>
                 <div form-input>
                     <label for="mainPrice">Main Price</label>
-                    <input name="mainPrice" numeric-textbox="{ aSign: '₱ '}" class="text-right" ng-model="ctrl.item.mainPrice" />
+                    <input name="mainPrice" numeric-textbox="{ currencySymbol: '₱ '}" class="text-right" ng-model="ctrl.item.mainPrice" />
                 </div>
                 <div form-input>
                     <label for="nePrice">N.E. Price</label>
-                    <input name="nePrice" numeric-textbox="{ aSign: '₱ '}" class="text-right" ng-model="ctrl.item.nePrice" />
+                    <input name="nePrice" numeric-textbox="{ currencySymbol: '₱ '}" class="text-right" ng-model="ctrl.item.nePrice" />
                 </div>
                 <div form-input>
                     <label for="weight">Weight</label>
