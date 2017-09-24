@@ -45,5 +45,46 @@
             /// </summary>
             public const string Delivery = "Delivery";
         }
+
+        /// <summary>
+        /// Common remarks for adjustments
+        /// </summary>
+        public static class AdjustmentRemarks
+        {
+            /// <summary>
+            /// The initial quantity text.
+            /// </summary>
+            public const string InitialQuantity = "Initial Quantity";
+
+            /// <summary>
+            /// The order created text.
+            /// </summary>
+            public const string OrderCreated = "Order Created";
+
+            /// <summary>
+            /// The order updated text.
+            /// </summary>
+            public const string OrderUpdated = "Order Updated";
+
+            /// <summary>
+            /// The order deleted text.
+            /// </summary>
+            public const string OrderDeleted = "Order Deleted";
+
+            /// <summary>
+            /// The delivery created text.
+            /// </summary>
+            public const string DeliveryCreated = "Delivery Created";
+
+            /// <summary>
+            /// The delivery updated text.
+            /// </summary>
+            public const string DeliveryUpdated = "Delivery Updated";
+
+            /// <summary>
+            /// The delivery deleted text.
+            /// </summary>
+            public const string DeliveryDeleted = "Delivery Deleted";
+        }
     }
 }

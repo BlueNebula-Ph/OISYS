@@ -138,7 +138,7 @@
             foreach (var detail in order.Details)
             {
                 var item = await this.context.Items.FindAsync(detail.ItemId);
-                this.adjustmentService.ModifyCurrentQuantity(item, detail.Quantity, AdjustmentType.Deduct);
+                this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.OrderCreated);
             }
 
             await this.context.Orders.AddAsync(order);
@@ -192,7 +192,7 @@
                         if (oldDetail != null)
                         {
                             updatedOrderDetail.State = ObjectState.Modified;
-                            this.adjustmentService.ModifyCurrentQuantity(orderDetailItem, oldDetail.Quantity, AdjustmentType.Add);
+                            this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, orderDetailItem, oldDetail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.OrderUpdated);
 
                             // If a delete is issued to the order detail, remove that order detail
                             // Also, skip modification of current quantities
@@ -208,7 +208,7 @@
                         }
 
                         // Deduct the correct amount from the item's current quantity
-                        this.adjustmentService.ModifyCurrentQuantity(orderDetailItem, updatedOrderDetail.Quantity, AdjustmentType.Deduct);
+                        this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, orderDetailItem, updatedOrderDetail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.OrderUpdated);
                     }
                 }
 
@@ -250,7 +250,7 @@
 
             foreach (var detail in order.Details)
             {
-                this.adjustmentService.ModifyCurrentQuantity(detail.Item, detail.Quantity, AdjustmentType.Add);
+                this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, detail.Item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.OrderDeleted);
             }
 
             this.context.RemoveRange(order.Details);

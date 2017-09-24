@@ -19,5 +19,10 @@
         /// </summary>
         [Required]
         public decimal AdjustmentQuantity { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Remarks.
+        /// </summary>
+        public string Remarks { get; set; }
     }
 }

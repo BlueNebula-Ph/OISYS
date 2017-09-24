@@ -23,6 +23,11 @@
         }
 
         /// <summary>
+        /// Gets or sets the adjustments db set.
+        /// </summary>
+        public DbSet<Adjustment> Adjustments { get; set; }
+
+        /// <summary>
         /// Gets or sets property creditMemo <see cref="CreditMemo"/> class.
         /// </summary>
         public DbSet<CreditMemo> CreditMemos { get; set; }
@@ -114,6 +119,12 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Item Adjustments
+            modelBuilder.Entity<Adjustment>()
+                .HasOne<Item>(d => d.Item)
+                .WithMany(p => p.Adjustments)
+                .HasForeignKey(p => p.ItemId);
 
             // Credit Memo Detail
             modelBuilder.Entity<CreditMemoDetail>()

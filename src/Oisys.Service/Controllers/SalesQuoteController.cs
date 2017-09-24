@@ -22,7 +22,6 @@ namespace Oisys.Service.Controllers
         private readonly OisysDbContext context;
         private readonly IMapper mapper;
         private readonly ISummaryListBuilder<SalesQuote, SalesQuoteSummary> builder;
-        private readonly IAdjustmentService adjustmentService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SalesQuoteController"/> class.
@@ -30,17 +29,15 @@ namespace Oisys.Service.Controllers
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
-        /// <param name="adjustmentService">Adjustment Service</param>
-        public SalesQuoteController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<SalesQuote, SalesQuoteSummary> builder, IAdjustmentService adjustmentService)
+        public SalesQuoteController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<SalesQuote, SalesQuoteSummary> builder)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
-            this.adjustmentService = adjustmentService;
         }
 
         /// <summary>
-        /// Returns list of active <see cref="Order"/>
+        /// Returns list of active <see cref="SalesQuote"/>
         /// </summary>
         /// <param name="filter"><see cref="SalesQuoteFilterRequest"/></param>
         /// <returns>List of SalesQuote</returns>

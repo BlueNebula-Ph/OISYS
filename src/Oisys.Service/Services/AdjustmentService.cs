@@ -1,5 +1,6 @@
 ﻿namespace Oisys.Service.Services
 {
+    using System;
     using Oisys.Service.Helpers;
     using Oisys.Service.Models;
     using Oisys.Service.Services.Interfaces;
@@ -21,51 +22,63 @@
         }
 
         /// <summary>
-        /// Method to adjust item current quantity when transaction is an order transaction
+        /// Method to adjust item quantities
         /// </summary>
+        /// <param name="quantityType">
+        /// The quantity type. Current quantity for order transactions, actual quantity for delivery transactions
+        /// </param>
         /// <param name="item"><see cref="Item"/></param>
         /// <param name="adjustmentQuantity">Adjustment Quantity</param>
         /// <param name="adjustmentType">Adjustment Type</param>
-        public void ModifyActualQuantity(Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType)
+        /// <param name="remarks">Remarks</param>
+        public void ModifyQuantity(QuantityType quantityType, Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType, string remarks)
         {
             if (item != null)
             {
                 switch (adjustmentType)
                 {
                     case AdjustmentType.Add:
-                        item.ActualQuantity = item.ActualQuantity + adjustmentQuantity;
+                        if (quantityType == QuantityType.CurrentQuantity)
+                        {
+                            item.CurrentQuantity = item.CurrentQuantity + adjustmentQuantity;
+                        }
+                        else if (quantityType == QuantityType.ActualQuantity)
+                        {
+                            item.ActualQuantity = item.ActualQuantity + adjustmentQuantity;
+                        }
+
                         break;
                     case AdjustmentType.Deduct:
-                        item.ActualQuantity = item.ActualQuantity - adjustmentQuantity;
+                        if (quantityType == QuantityType.CurrentQuantity)
+                        {
+                            item.CurrentQuantity = item.CurrentQuantity - adjustmentQuantity;
+                        }
+                        else if (quantityType == QuantityType.ActualQuantity)
+                        {
+                            item.ActualQuantity = item.ActualQuantity - adjustmentQuantity;
+                        }
+
                         break;
                     default:
                         break;
                 }
+
+                this.SaveAdjustment(item, adjustmentQuantity, adjustmentType, remarks);
             }
         }
 
-        /// <summary>
-        /// Method to adjust item actual quantity when transaction is a delivery transaction
-        /// </summary>
-        /// <param name="item"><see cref="Item"/></param>
-        /// <param name="adjustmentQuantity">Adjustment Quantity</param>
-        /// <param name="adjustmentType">Adjustment Type</param>
-        public void ModifyCurrentQuantity(Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType)
+        private void SaveAdjustment(Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType, string remarks)
         {
-            if (item != null)
+            var adjustment = new Adjustment
             {
-                switch (adjustmentType)
-                {
-                    case AdjustmentType.Add:
-                        item.CurrentQuantity = item.CurrentQuantity + adjustmentQuantity;
-                        break;
-                    case AdjustmentType.Deduct:
-                        item.CurrentQuantity = item.CurrentQuantity - adjustmentQuantity;
-                        break;
-                    default:
-                        break;
-                }
-            }
+                ItemId = item.Id,
+                AdjustmentDate = DateTime.Today,
+                AdjustmentType = Enum.GetName(typeof(AdjustmentType), adjustmentType),
+                Quantity = adjustmentQuantity,
+                Remarks = remarks,
+            };
+
+            this.context.Add(adjustment);
         }
     }
 }

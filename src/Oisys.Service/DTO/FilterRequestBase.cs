@@ -27,6 +27,7 @@
         /// <summary>
         /// Gets or sets property SortDirection.
         /// </summary>
+        [DefaultValue("asc")]
         public string SortDirection { get; set; }
 
         /// <summary>
