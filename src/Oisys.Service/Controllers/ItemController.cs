@@ -140,8 +140,8 @@
 
             var item = this.mapper.Map<Item>(entity);
 
-            this.adjustmentService.ModifyActualQuantity(item, entity.Quantity, AdjustmentType.Add);
-            this.adjustmentService.ModifyCurrentQuantity(item, entity.Quantity, AdjustmentType.Add);
+            this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, item, entity.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.InitialQuantity);
+            this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, item, entity.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.InitialQuantity);
 
             await this.context.Items.AddAsync(item);
             await this.context.SaveChangesAsync();
@@ -230,8 +230,8 @@
 
             try
             {
-                this.adjustmentService.ModifyActualQuantity(item, entity.AdjustmentQuantity, entity.AdjustmentType);
-                this.adjustmentService.ModifyCurrentQuantity(item, entity.AdjustmentQuantity, entity.AdjustmentType);
+                this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, item, entity.AdjustmentQuantity, entity.AdjustmentType, entity.Remarks);
+                this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, item, entity.AdjustmentQuantity, entity.AdjustmentType, entity.Remarks);
 
                 await this.context.SaveChangesAsync();
             }

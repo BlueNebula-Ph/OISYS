@@ -11,17 +11,11 @@
         /// <summary>
         /// Method to adjust item current quantity when transaction is an order transaction
         /// </summary>
+        /// <param name="quantityType">Quantity Type</param>
         /// <param name="item"><see cref="Item"/></param>
         /// <param name="adjustmentQuantity">Adjustment Quantity</param>
         /// <param name="adjustmentType">Adjustment Type</param>
-        void ModifyCurrentQuantity(Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType);
-
-        /// <summary>
-        /// Method to adjust item actual quantity when transaction is a delivery transaction
-        /// </summary>
-        /// <param name="item"><see cref="Item"/></param>
-        /// <param name="adjustmentQuantity">Adjustment Quantity</param>
-        /// <param name="adjustmentType">Adjustment Type</param>
-        void ModifyActualQuantity(Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType);
+        /// <param name="remarks">Remarks</param>
+        void ModifyQuantity(QuantityType quantityType, Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType, string remarks);
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace Oisys.Service.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
@@ -85,5 +86,10 @@
         /// Gets or sets property Category.
         /// </summary>
         public Reference Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adjustments collection.
+        /// </summary>
+        public ICollection<Adjustment> Adjustments { get; set; }
     }
 }

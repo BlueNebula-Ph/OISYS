@@ -133,7 +133,7 @@
             foreach (var detail in delivery.Details)
             {
                 var item = await this.context.Items.FindAsync(detail.ItemId);
-                this.adjustmentService.ModifyActualQuantity(item, detail.Quantity, AdjustmentType.Deduct);
+                this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.DeliveryCreated);
             }
 
             await this.context.Deliveries.AddAsync(delivery);
@@ -183,7 +183,7 @@
                         // If the order detail exists, return the old quantities back
                         if (oldDetail != null)
                         {
-                            this.adjustmentService.ModifyActualQuantity(deliveryDetailItem, oldDetail.Quantity, AdjustmentType.Add);
+                            this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, deliveryDetailItem, oldDetail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.DeliveryUpdated);
 
                             // If DeliveryId is set to 0, do not re-add the actual quantity
                             if (updatedDeliveryDetail.DeliveryId == 0)
@@ -193,7 +193,7 @@
                         }
 
                         // Deduct the correct amount from the item's current quantity
-                        this.adjustmentService.ModifyActualQuantity(deliveryDetailItem, updatedDeliveryDetail.Quantity, AdjustmentType.Deduct);
+                        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, deliveryDetailItem, updatedDeliveryDetail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.DeliveryUpdated);
                     }
                 }
 
@@ -234,7 +234,7 @@
 
             foreach (var detail in delivery.Details)
             {
-                this.adjustmentService.ModifyActualQuantity(detail.Item, detail.Quantity, AdjustmentType.Add);
+                this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, detail.Item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.DeliveryDeleted);
                 detail.DeliveryId = 0;
             }
 
@@ -243,4 +243,4 @@
             return new NoContentResult();
         }
     }
-}
+} 
