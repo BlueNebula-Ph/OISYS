@@ -1,0 +1,50 @@
+﻿<summary-shell>
+    <shell-title>
+        <h3>Customer Transactions. <small class="text-muted">Search transactions per customer.</small></h3>
+    </shell-title>
+    <shell-search>
+        <div search-input>
+            <span><i class="fa fa-address-card-o fa-fw"></i></span>
+            <select ng-model="ctrl.filters.customerId" ng-options="customer.id as customer.name for customer in ctrl.customerList"
+                    focus-me="ctrl.focus"></select>
+        </div>
+        <div search-input>
+            <span title="Date from"><i class="fa fa-calendar-o fa-fw"></i></span>
+            <input type="date" style="width: 152px;" placeholder="Date from" ng-model="ctrl.filters.dateFrom" />
+        </div>
+        <div search-input>
+            <span title="Date to"><i class="fa fa-calendar-o fa-fw"></i></span>
+            <input type="date" style="width: 152px;" placeholder="Date to" ng-model="ctrl.filters.dateTo" />
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchTransactions()">
+            <i class="fa fa-search"></i> Search
+        </button>
+        <button class="btn btn-default btn-sm" ng-click="ctrl.clearFilter()">
+            <i class="fa fa-times"></i> Clear
+        </button>
+    </shell-search>
+    <shell-table>
+        <table class="table table-condensed table-striped summary-table">
+            <thead>
+                <tr>
+                    <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
+                        <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
+                                       sort-direction="ctrl.filters.sortDirection"
+                                       fetch-call-back="ctrl.fetchTransactions()"></column-header>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
+                    <td>{{ c.customer }}</td>
+                    <td class="text-center">{{ c.date | date:'MM/dd/yyyy' }}</td>
+                    <td>{{ c.description }}</td>
+                    <td class="text-right">₱ {{ c.debit | number:2 }}</td>
+                    <td class="text-right">₱ {{ c.credit | number:2 }}</td>
+                    <td class="text-right">₱ {{ c.runningBalance | number:2 }}</td>
+                </tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="6"></tr>
+            </tbody>
+        </table>
+    </shell-table>
+</summary-shell>

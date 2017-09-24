@@ -8,13 +8,18 @@
     public class CustomerTransactionFilterRequest : FilterRequestBase
     {
         /// <summary>
+        /// Gets or sets property Customer Id
+        /// </summary>
+        public int CustomerId { get; set; }
+
+        /// <summary>
         /// Gets or sets property Date From
         /// </summary>
-        public DateTime DateFrom { get; set; }
+        public DateTime? DateFrom { get; set; }
 
         /// <summary>
         /// Gets or sets property Date To
         /// </summary>
-        public DateTime DateTo { get; set; }
+        public DateTime? DateTo { get; set; }
     }
 }

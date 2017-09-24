@@ -37,7 +37,8 @@
             // TODO: Create method to compute running balance
             this.CreateMap<SaveCustomerTrxRequest, CustomerTransaction>();
 
-            this.CreateMap<CustomerTransaction, CustomerTransactionSummary>();
+            this.CreateMap<CustomerTransaction, CustomerTransactionSummary>()
+                .ForMember(d => d.Customer, s => s.MapFrom(o => o.Customer.Name));
 
             // Delivery
             this.CreateMap<Delivery, DeliverySummary>();

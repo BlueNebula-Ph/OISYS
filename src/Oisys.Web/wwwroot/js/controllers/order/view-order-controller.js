@@ -21,7 +21,7 @@
             { text: "Code", value: "Code" },
             { text: "Customer", value: "Customer.Name" },
             { text: "Date", value: "Date" },
-            { text: "DueDate", value: "DueDate" },
+            { text: "Due Date", value: "DueDate" },
             { text: "Total Amount", value: "Amount", class: "text-right" },
             { text: "", value: "" }
         ];
@@ -40,6 +40,7 @@
             vm.filters.dateTo = "";
             vm.filters.customerId = 0;
             vm.filters.itemId = 0;
+            vm.filters.provinceId = 0;
 
             vm.focus = true;
         };

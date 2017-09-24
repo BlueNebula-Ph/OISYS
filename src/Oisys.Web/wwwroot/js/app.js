@@ -85,7 +85,9 @@
                 })
                 .state("customers.transactions", {
                     url: "/transactions",
-                    template: "<h3>Transactions</h3>"
+                    templateUrl: "/views/customer/customer-transactions.html",
+                    controller: "customerTransactionsController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("inventory", {

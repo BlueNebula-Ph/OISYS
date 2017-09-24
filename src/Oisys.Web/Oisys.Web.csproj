@@ -18,6 +18,7 @@
     <Content Include="wwwroot\js\controllers\common\login-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\add-customer-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\customer-details-controller.js" />
+    <Content Include="wwwroot\js\controllers\customer\customer-transactions-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\manage-customer-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\view-customer-controller.js" />
     <Content Include="wwwroot\js\controllers\delivery\view-delivery-controller.js" />
@@ -82,6 +83,7 @@
     <Content Include="wwwroot\views\common\summary-shell.html" />
     <Content Include="wwwroot\views\customer\add-customer.html" />
     <Content Include="wwwroot\views\customer\customer-details.html" />
+    <Content Include="wwwroot\views\customer\customer-transactions.html" />
     <Content Include="wwwroot\views\customer\customers-list.html" />
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />

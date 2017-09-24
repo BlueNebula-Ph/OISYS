@@ -34,7 +34,7 @@
 
         return {
             restrict: 'E',
-            templateUrl: '/views/common/column-header.html',
+            templateUrl: '/views/common/column-header.html?' + $.now(),
             scope: {
                 headerText: '@',
                 headerValue: '@',

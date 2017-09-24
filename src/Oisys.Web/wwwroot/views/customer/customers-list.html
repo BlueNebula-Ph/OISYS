@@ -26,7 +26,7 @@
         <table class="table table-condensed table-striped summary-table">
             <thead>
                 <tr>
-                    <th ng-repeat="header in ctrl.headers track by $index">
+                    <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
                         <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
                                        sort-direction="ctrl.filters.sortDirection"
                                        fetch-call-back="ctrl.fetchCustomers()"></column-header>

@@ -8,9 +8,9 @@
     public class CustomerTransactionSummary : DTOBase
     {
         /// <summary>
-        /// Gets or sets property Customer Id.
+        /// Gets or sets property Customer.
         /// </summary>
-        public int CustomerId { get; set; }
+        public string Customer { get; set; }
 
         /// <summary>
         /// Gets or sets property Date.

@@ -22,7 +22,7 @@
         /// <summary>
         /// Both quantities
         /// </summary>
-        [Display(Name = "Both Quantities")]
+        [Display(Name = "Current & Actual Quantities")]
         Both,
     }
 }
