@@ -111,14 +111,22 @@
         public async Task<IActionResult> GetById(long id)
         {
             var entity = await this.context.Items
-                .AsNoTracking()
                 .Include(c => c.Category)
+                .Include(c => c.Adjustments)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
             {
                 return this.NotFound(id);
             }
+
+            // Sort the adjusments by date desc
+            // Hacky! Find better solution if possible
+            entity.Adjustments = entity.Adjustments
+                .OrderByDescending(t => t.AdjustmentDate)
+                .Select(adjustment => adjustment)
+                .ToList();
 
             var mappedEntity = this.mapper.Map<ItemSummary>(entity);
 
@@ -140,8 +148,7 @@
 
             var item = this.mapper.Map<Item>(entity);
 
-            this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, item, entity.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.InitialQuantity);
-            this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, item, entity.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.InitialQuantity);
+            this.adjustmentService.ModifyQuantity(QuantityType.Both, item, entity.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.InitialQuantity);
 
             await this.context.Items.AddAsync(item);
             await this.context.SaveChangesAsync();
@@ -230,8 +237,7 @@
 
             try
             {
-                this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, item, entity.AdjustmentQuantity, entity.AdjustmentType, entity.Remarks);
-                this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, item, entity.AdjustmentQuantity, entity.AdjustmentType, entity.Remarks);
+                this.adjustmentService.ModifyQuantity(QuantityType.Both, item, entity.AdjustmentQuantity, entity.AdjustmentType, entity.Remarks);
 
                 await this.context.SaveChangesAsync();
             }

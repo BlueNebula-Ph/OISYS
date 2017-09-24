@@ -28,6 +28,11 @@
         public string AdjustmentType { get; set; }
 
         /// <summary>
+        /// Gets or sets the quantity type property.
+        /// </summary>
+        public string QuantityType { get; set; }
+
+        /// <summary>
         /// Gets or sets the adjustment date property
         /// </summary>
         public DateTime AdjustmentDate { get; set; }

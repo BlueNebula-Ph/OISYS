@@ -60,25 +60,23 @@
         </div>
         <div class="clearfix"></div>
         <h4>Inventory Movement.</h4>
-        <!--<table class="table table-condensed table-bordered table-striped details-table">
+        <table class="table table-condensed table-bordered table-striped details-table">
             <thead>
                 <tr>
                     <th class="text-center">Date</th>
-                    <th>Description</th>
-                    <th class="text-right">Debit Amount</th>
-                    <th class="text-right">Credit Amount</th>
-                    <th class="text-right">Running Balance</th>
+                    <th>Movement</th>
+                    <th class="text-right">Quantity</th>
+                    <th>Remarks</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="tr in ctrl.itemDetails.transactions track by $index">
-                    <td class="text-center">{{ tr.date | date:'MM/dd/yyyy' }}</td>
-                    <td>{{ tr.description }}</td>
-                    <td class="text-right">₱ {{ tr.debit | number:2 }}</td>
-                    <td class="text-right">₱ {{ tr.credit | number:2 }}</td>
-                    <td class="text-right">₱ {{ tr.runningBalance | number:2 }}</td>
+                <tr ng-repeat="tr in ctrl.itemDetails.adjustments track by $index">
+                    <td class="text-center">{{ tr.adjustmentDate | date:'MM/dd/yyyy' }}</td>
+                    <td>{{ tr.adjustmentType }}</td>
+                    <td class="text-right">{{ tr.quantity | number:0 }}</td>
+                    <td>{{ tr.remarks }}</td>
                 </tr>
             </tbody>
-        </table>-->
+        </table>
     </shell-details>
 </details-shell>

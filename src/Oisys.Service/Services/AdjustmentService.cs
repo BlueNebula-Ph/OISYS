@@ -35,45 +35,46 @@
         {
             if (item != null)
             {
-                switch (adjustmentType)
+                switch (quantityType)
                 {
-                    case AdjustmentType.Add:
-                        if (quantityType == QuantityType.CurrentQuantity)
-                        {
-                            item.CurrentQuantity = item.CurrentQuantity + adjustmentQuantity;
-                        }
-                        else if (quantityType == QuantityType.ActualQuantity)
-                        {
-                            item.ActualQuantity = item.ActualQuantity + adjustmentQuantity;
-                        }
-
+                    case QuantityType.CurrentQuantity:
+                        this.AdjustCurrentQuantity(item, adjustmentType, adjustmentQuantity);
                         break;
-                    case AdjustmentType.Deduct:
-                        if (quantityType == QuantityType.CurrentQuantity)
-                        {
-                            item.CurrentQuantity = item.CurrentQuantity - adjustmentQuantity;
-                        }
-                        else if (quantityType == QuantityType.ActualQuantity)
-                        {
-                            item.ActualQuantity = item.ActualQuantity - adjustmentQuantity;
-                        }
-
+                    case QuantityType.ActualQuantity:
+                        this.AdjustActualQuantity(item, adjustmentType, adjustmentQuantity);
                         break;
                     default:
+                        this.AdjustCurrentQuantity(item, adjustmentType, adjustmentQuantity);
+                        this.AdjustActualQuantity(item, adjustmentType, adjustmentQuantity);
                         break;
                 }
 
-                this.SaveAdjustment(item, adjustmentQuantity, adjustmentType, remarks);
+                this.SaveAdjustment(item, adjustmentQuantity, quantityType, adjustmentType, remarks);
             }
         }
 
-        private void SaveAdjustment(Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType, string remarks)
+        private void AdjustCurrentQuantity(Item item, AdjustmentType adjustmentType, decimal adjustmentQuantity)
+        {
+            item.CurrentQuantity = adjustmentType == AdjustmentType.Add ?
+                            item.CurrentQuantity + adjustmentQuantity :
+                            item.CurrentQuantity - adjustmentQuantity;
+        }
+
+        private void AdjustActualQuantity(Item item, AdjustmentType adjustmentType, decimal adjustmentQuantity)
+        {
+            item.ActualQuantity = adjustmentType == AdjustmentType.Add ?
+                            item.ActualQuantity + adjustmentQuantity :
+                            item.ActualQuantity - adjustmentQuantity;
+        }
+
+        private void SaveAdjustment(Item item, decimal adjustmentQuantity, QuantityType quantityType, AdjustmentType adjustmentType, string remarks)
         {
             var adjustment = new Adjustment
             {
                 ItemId = item.Id,
-                AdjustmentDate = DateTime.Today,
-                AdjustmentType = Enum.GetName(typeof(AdjustmentType), adjustmentType),
+                AdjustmentDate = DateTime.Now,
+                AdjustmentType = adjustmentType.GetDisplayName(),
+                QuantityType = quantityType.GetDisplayName(),
                 Quantity = adjustmentQuantity,
                 Remarks = remarks,
             };

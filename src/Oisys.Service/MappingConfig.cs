@@ -15,6 +15,11 @@
         /// </summary>
         public MappingConfig()
         {
+            // Adjustment
+            this.CreateMap<Adjustment, ItemAdjustmentSummary>()
+                .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name))
+                .ForMember(d => d.AdjustmentType, s => s.MapFrom(o => $"{o.AdjustmentType} - {o.QuantityType}"));
+
             // TODO: Change LastUpdatedBy value
             // Customer
             this.CreateMap<Customer, CustomerLookup>();
