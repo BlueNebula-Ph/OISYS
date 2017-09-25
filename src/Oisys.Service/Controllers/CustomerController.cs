@@ -22,6 +22,7 @@ namespace Oisys.Service.Controllers
         private readonly OisysDbContext context;
         private readonly IMapper mapper;
         private readonly ISummaryListBuilder<Customer, CustomerSummary> builder;
+        private readonly ISummaryListBuilder<CustomerTransaction, CustomerTransactionSummary> transactionListBuilder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerController"/> class.
@@ -29,11 +30,17 @@ namespace Oisys.Service.Controllers
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
-        public CustomerController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Customer, CustomerSummary> builder)
+        /// <param name="transactionListBuilder">Transaction List Builder</param>
+        public CustomerController(
+            OisysDbContext context,
+            IMapper mapper,
+            ISummaryListBuilder<Customer, CustomerSummary> builder,
+            ISummaryListBuilder<CustomerTransaction, CustomerTransactionSummary> transactionListBuilder)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
+            this.transactionListBuilder = transactionListBuilder;
         }
 
         /// <summary>
@@ -235,34 +242,42 @@ namespace Oisys.Service.Controllers
         /// <summary>
         /// Gets all transactions of a customer
         /// </summary>
-        /// <param name="customerId">Customer Id</param>
         /// <param name="filter">Filter values</param>
         /// <returns>Returns list of <see cref="CustomerTransactionSummary"/></returns>
-        [HttpPost("{customerId}/gettransactions")]
-        public async Task<IActionResult> GetCustomerTransactions(long customerId, [FromBody] CustomerTransactionFilterRequest filter)
+        [HttpPost("getTransactions")]
+        public async Task<IActionResult> GetCustomerTransactions([FromBody] CustomerTransactionFilterRequest filter)
         {
-            if (customerId == 0 || !this.ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            var customer = await this.context.Customers
-                .Include(c => c.Transactions)
-                .SingleOrDefaultAsync(c => c.Id == customerId);
+            var transactions = this.context.CustomerTransactions
+                .AsNoTracking();
 
-            if (filter.DateFrom == null || filter.DateFrom == DateTime.MinValue)
+            if (!(filter?.CustomerId).IsNullOrZero())
             {
-                filter.DateFrom = DateTime.Now;
+                transactions = transactions.Where(c => c.CustomerId == filter.CustomerId);
             }
 
-            if (filter.DateTo == null || filter.DateTo == DateTime.MinValue)
+            if (filter?.DateFrom != null || filter?.DateTo != null)
             {
-                filter.DateTo = DateTime.Now;
+                filter.DateFrom = filter.DateFrom == null || filter.DateFrom == DateTime.MinValue ? DateTime.Today : filter.DateFrom;
+                filter.DateTo = filter.DateTo == null || filter.DateTo == DateTime.MinValue ? DateTime.Today : filter.DateTo;
+
+                transactions = transactions.Where(c => c.Date >= filter.DateFrom && c.Date < filter.DateTo.Value.AddDays(1));
             }
 
-            var transactions = customer.Transactions.Where(c => c.Date >= filter.DateFrom && c.Date <= filter.DateTo);
+            // sort
+            var ordering = $"Date {Constants.DefaultSortDirection}";
+            if (!string.IsNullOrEmpty(filter?.SortBy))
+            {
+                ordering = $"{filter.SortBy} {filter.SortDirection}";
+            }
 
-            var mappedTransactions = transactions.AsQueryable().ProjectTo<CustomerTransactionSummary>();
+            transactions = transactions.OrderBy(ordering);
+
+            var mappedTransactions = await this.transactionListBuilder.BuildAsync(transactions, filter);
 
             return this.Ok(mappedTransactions);
         }

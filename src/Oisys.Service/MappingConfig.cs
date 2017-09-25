@@ -15,6 +15,11 @@
         /// </summary>
         public MappingConfig()
         {
+            // Adjustment
+            this.CreateMap<Adjustment, ItemAdjustmentSummary>()
+                .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name))
+                .ForMember(d => d.AdjustmentType, s => s.MapFrom(o => $"{o.AdjustmentType} - {o.QuantityType}"));
+
             // TODO: Change LastUpdatedBy value
             // Customer
             this.CreateMap<Customer, CustomerLookup>();
@@ -32,7 +37,8 @@
             // TODO: Create method to compute running balance
             this.CreateMap<SaveCustomerTrxRequest, CustomerTransaction>();
 
-            this.CreateMap<CustomerTransaction, CustomerTransactionSummary>();
+            this.CreateMap<CustomerTransaction, CustomerTransactionSummary>()
+                .ForMember(d => d.Customer, s => s.MapFrom(o => o.Customer.Name));
 
             // Delivery
             this.CreateMap<Delivery, DeliverySummary>();

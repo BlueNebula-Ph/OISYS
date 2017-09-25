@@ -1,5 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// View model for the Item entity.
     /// </summary>
@@ -38,12 +40,12 @@
         /// <summary>
         /// Gets or sets property Weight.
         /// </summary>
-        public decimal Weight { get; set; }
+        public string Weight { get; set; }
 
         /// <summary>
         /// Gets or sets property Thickness.
         /// </summary>
-        public decimal Thickness { get; set; }
+        public string Thickness { get; set; }
 
         /// <summary>
         /// Gets or sets property Unit.
@@ -64,5 +66,10 @@
         /// Gets or sets property Quantity.
         /// </summary>
         public decimal CurrentQuantity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adjustments collection.
+        /// </summary>
+        public IEnumerable<ItemAdjustmentSummary> Adjustments { get; set; }
     }
 }

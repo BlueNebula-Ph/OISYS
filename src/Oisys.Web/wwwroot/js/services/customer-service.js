@@ -34,6 +34,11 @@
             return $http.delete(url);
         };
 
+        dataFactory.fetchCustomerTransactions = function (filters) {
+            var url = urlBase + "/getTransactions";
+            return $http.post(url, filters);
+        };
+
         return dataFactory;
     };
 
