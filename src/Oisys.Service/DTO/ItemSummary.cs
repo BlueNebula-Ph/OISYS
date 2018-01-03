@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
     using System.Collections.Generic;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// View model for the Item entity.

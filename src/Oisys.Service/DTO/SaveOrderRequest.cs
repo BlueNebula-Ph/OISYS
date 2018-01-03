@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using BlueNebula.Common.DTOs;
     using Newtonsoft.Json;
     using Oisys.Service.Helpers;
 

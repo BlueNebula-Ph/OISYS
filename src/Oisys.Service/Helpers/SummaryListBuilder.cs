@@ -5,8 +5,8 @@
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper.QueryableExtensions;
+    using BlueNebula.Common.DTOs;
     using Microsoft.EntityFrameworkCore;
-    using Oisys.Service.DTO;
 
     /// <summary>
     /// The summary list builder

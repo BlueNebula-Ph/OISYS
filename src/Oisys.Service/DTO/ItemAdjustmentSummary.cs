@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
     using System;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// <see cref="ItemAdjustmentSummary"/> class for displaying item adjustments.

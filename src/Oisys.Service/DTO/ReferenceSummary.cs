@@ -1,5 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
+    using BlueNebula.Common.DTOs;
+
     /// <summary>
     /// <see cref="ReferenceSummary"/> class represents common values that would be used throughout the application.
     /// </summary>

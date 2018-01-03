@@ -1,5 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
+    using BlueNebula.Common.DTOs;
+
     /// <summary>
     /// <see cref="ItemFilterRequest"/> class represents basic Item filter for displaying data.
     /// </summary>

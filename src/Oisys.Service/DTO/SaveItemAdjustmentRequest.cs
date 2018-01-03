@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
     using System.ComponentModel.DataAnnotations;
+    using BlueNebula.Common.DTOs;
     using Oisys.Service.Helpers;
 
     /// <summary>
