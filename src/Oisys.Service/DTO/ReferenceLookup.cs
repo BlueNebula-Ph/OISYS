@@ -1,5 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
+    using BlueNebula.Common.DTOs;
+
     /// <summary>
     /// <see cref="ReferenceLookup"/> class represents data for dropdowns.
     /// </summary>

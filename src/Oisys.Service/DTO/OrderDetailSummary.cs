@@ -1,5 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
+    using BlueNebula.Common.DTOs;
+
     /// <summary>
     /// <see cref="OrderDetailSummary"/> class represents the child of OrderSummary object.
     /// </summary>

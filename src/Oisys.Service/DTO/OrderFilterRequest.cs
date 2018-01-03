@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
     using System;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// <see cref="OrderFilterRequest"/> class represents basic Order filter for displaying data.

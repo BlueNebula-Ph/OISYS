@@ -1,5 +1,6 @@
 ﻿namespace Oisys.Service.DTO
 {
+    using BlueNebula.Common.DTOs;
     using Oisys.Service.Models;
 
     /// <summary>

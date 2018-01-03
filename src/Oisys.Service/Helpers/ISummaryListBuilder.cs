@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using Oisys.Service.DTO;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// Interface for summary list builder

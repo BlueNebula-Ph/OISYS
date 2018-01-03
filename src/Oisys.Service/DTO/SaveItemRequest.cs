@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
     using System.ComponentModel.DataAnnotations;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// <see cref="SaveItemRequest"/> class Create/Update Item object.

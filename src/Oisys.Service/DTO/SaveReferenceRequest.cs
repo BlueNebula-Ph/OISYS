@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
     using System.ComponentModel.DataAnnotations;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// <see cref="SaveReferenceRequest"/> class Create/Update Reference object.

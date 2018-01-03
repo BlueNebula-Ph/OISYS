@@ -2,6 +2,7 @@
 {
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using BlueNebula.Common.DTOs;
     using Newtonsoft.Json;
     using Oisys.Service.Helpers;
     using Oisys.Service.Models;

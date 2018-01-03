@@ -1,5 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
+    using BlueNebula.Common.DTOs;
+
     /// <summary>
     /// <see cref="ReferenceTypeSummary"/> class will be used for referenceType display.
     /// </summary>

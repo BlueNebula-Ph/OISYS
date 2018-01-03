@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Service.DTO
 {
     using System;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// <see cref="SalesQuoteFilterRequest"/> class represents basic SalesQuote filter for displaying data.

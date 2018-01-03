@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// View model for the Sales Quote entity.
