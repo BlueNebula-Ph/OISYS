@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Order and Inventory Management System - Ace Plastic Center</title>
 
-    <environment names="Development">
+    <environment names="Development,Staging">
         <link rel="stylesheet" href="~/lib/bootswatch/spacelab/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="~/lib/toastr/toastr.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
-    <environment names="Staging,Production">
+    <environment names="Production">
         <link rel="stylesheet" href="~/lib/bootswatch/spacelab/bootstrap.min.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" href="~/lib/toastr/toastr.min.css" />
@@ -24,15 +24,20 @@
     @this.RenderBody()
 
     <environment names="Development">
+        <script src="~/js/env.js"></script>
+    </environment>
+    <environment names="Staging">
+        <script src="~/js/env.staging.js"></script>
+    </environment>
+    <environment names="Development,Staging">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/angular/angular.js"></script>
         <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
         <script src="~/lib/autoNumeric/dist/autoNumeric.js"></script>
         <script src="~/lib/toastr/toastr.js"></script>
-        <script src="~/js/env.js"></script>
         <script src="~/js/app.js" asp-append-version="true"></script>
-        
+
         <script src="~/js/services/loading-service.js"></script>
         <script src="~/js/services/customer-service.js"></script>
         <script src="~/js/services/reference-service.js"></script>
@@ -44,7 +49,7 @@
         <script src="~/js/services/form-encode.js"></script>
         <script src="~/js/services/login-redirect.js"></script>
         <script src="~/js/services/token-service.js"></script>
-        
+
         <script src="~/js/directives/navigation.js"></script>
         <script src="~/js/directives/sidebar.js"></script>
         <script src="~/js/directives/loading-inidicator.js"></script>

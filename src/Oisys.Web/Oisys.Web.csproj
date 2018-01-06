@@ -116,6 +116,7 @@
     </Content>
     <Content Include="wwwroot\js\env.js" />
     <Content Include="wwwroot\js\env.prod.js" />
+    <Content Include="wwwroot\js\env.staging.js" />
     <Content Include="wwwroot\js\services\auth-service.js" />
     <Content Include="wwwroot\js\services\current-user.js" />
     <Content Include="wwwroot\js\services\customer-service.js" />
