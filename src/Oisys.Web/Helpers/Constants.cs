@@ -1,10 +1,15 @@
-﻿namespace Oisys.Service.Helpers
+﻿namespace Oisys.Web.Helpers
 {
     /// <summary>
     /// <see cref="Constants"/> class to hold commonly used values object.
     /// </summary>
     public static class Constants
     {
+        /// <summary>
+        /// Sets the error message key
+        /// </summary>
+        public const string ErrorMessage = "ErrorMessage";
+
         /// <summary>
         /// Sets the sort direction ascending value
         /// </summary>

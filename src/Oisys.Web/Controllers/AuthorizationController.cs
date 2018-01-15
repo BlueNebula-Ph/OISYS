@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Controllers
+﻿namespace Oisys.Web.Controllers
 {
     using System;
     using System.Security.Claims;

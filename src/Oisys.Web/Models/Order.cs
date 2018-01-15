@@ -1,11 +1,11 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Web.Models
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Oisys.Service.Helpers;
+    using Oisys.Web.Helpers;
 
     /// <summary>
     /// <see cref="Order"/> class represents the Order object.

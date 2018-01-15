@@ -1,4 +1,4 @@
-namespace Oisys.Service.Controllers
+namespace Oisys.Web.Controllers
 {
     using System;
     using System.Linq;
@@ -9,14 +9,16 @@ namespace Oisys.Service.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
-    using Oisys.Service.DTO;
-    using Oisys.Service.Helpers;
+    using Oisys.Web.DTO;
+    using Oisys.Web.Filters;
+    using Oisys.Web.Helpers;
 
     /// <summary>
     /// <see cref="CustomerController"/> class handles Customer basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [ValidateModel]
     public class CustomerController : Controller
     {
         private readonly OisysDbContext context;
@@ -148,11 +150,6 @@ namespace Oisys.Service.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SaveCustomerRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var customer = this.mapper.Map<Customer>(entity);
             await this.context.Customers.AddAsync(customer);
             await this.context.SaveChangesAsync();
@@ -171,11 +168,6 @@ namespace Oisys.Service.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody] SaveCustomerRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
-            {
-                return this.BadRequest();
-            }
-
             var customer = await this.context.Customers.SingleOrDefaultAsync(t => t.Id == id);
             if (customer == null)
             {

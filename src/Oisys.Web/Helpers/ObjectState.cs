@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Helpers
+﻿namespace Oisys.Web.Helpers
 {
     /// <summary>
     /// Values to define different object states

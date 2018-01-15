@@ -1,11 +1,11 @@
-﻿namespace Oisys.Service.DTO
+﻿namespace Oisys.Web.DTO
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
     using Newtonsoft.Json;
-    using Oisys.Service.Helpers;
+    using Oisys.Web.Helpers;
 
     /// <summary>
     /// <see cref="SaveDeliveryRequest"/> class Create/Update Delivery object.

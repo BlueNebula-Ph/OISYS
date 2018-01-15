@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service
+﻿namespace Oisys.Web
 {
     using System.IO;
     using AutoMapper;
@@ -10,9 +10,9 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
-    using Oisys.Service.Helpers;
-    using Oisys.Service.Services;
-    using Oisys.Service.Services.Interfaces;
+    using Oisys.Web.Helpers;
+    using Oisys.Web.Services;
+    using Oisys.Web.Services.Interfaces;
     using Swashbuckle.AspNetCore.Swagger;
 
     /// <summary>
@@ -92,7 +92,7 @@
 
                     // Set comments path for swagger
                     var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                    var xmlPath = Path.Combine(basePath, "Oisys.Service.xml");
+                    var xmlPath = Path.Combine(basePath, "Oisys.Web.xml");
                     opt.IncludeXmlComments(xmlPath);
                 });
 

@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Controllers
+﻿namespace Oisys.Web.Controllers
 {
     using System;
     using System.Linq;
@@ -9,15 +9,17 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
-    using Oisys.Service.DTO;
-    using Oisys.Service.Helpers;
-    using Oisys.Service.Services.Interfaces;
+    using Oisys.Web.DTO;
+    using Oisys.Web.Filters;
+    using Oisys.Web.Helpers;
+    using Oisys.Web.Services.Interfaces;
 
     /// <summary>
     /// <see cref="ItemController"/> class handles Item basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [ValidateModel]
     public class ItemController : Controller
     {
         private readonly OisysDbContext context;
@@ -141,11 +143,6 @@
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]SaveItemRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var item = this.mapper.Map<Item>(entity);
 
             this.adjustmentService.ModifyQuantity(QuantityType.Both, item, entity.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.InitialQuantity);
@@ -167,11 +164,6 @@
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveItemRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
-            {
-                return this.BadRequest();
-            }
-
             var item = await this.context.Items.SingleOrDefaultAsync(t => t.Id == id);
             if (item == null)
             {

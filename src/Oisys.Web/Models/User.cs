@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Web.Models
 {
     /// <summary>
     /// <see cref="User"/> class represents User of application.

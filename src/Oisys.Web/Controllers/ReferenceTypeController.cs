@@ -1,4 +1,4 @@
-namespace Oisys.Service.Controllers
+namespace Oisys.Web.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -11,8 +11,8 @@ namespace Oisys.Service.Controllers
     using CsvHelper;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using Oisys.Service.DTO;
-    using Oisys.Service.Models;
+    using Oisys.Web.DTO;
+    using Oisys.Web.Models;
 
     /// <summary>
     /// <see cref="ReferenceTypeController"/> class handles ReferenceType basic add, edit, delete and get.
@@ -155,7 +155,7 @@ namespace Oisys.Service.Controllers
         public async Task<IActionResult> SeedReferenceType()
         {
             Assembly assembly = Assembly.GetEntryAssembly();
-            string resourceName = "Oisys.Service.SeedData.ReferenceTypes.csv";
+            string resourceName = "Oisys.Web.SeedData.ReferenceTypes.csv";
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
                 using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))

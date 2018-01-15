@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service
+﻿namespace Oisys.Web
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Oisys.Service.Models;
+    using Oisys.Web.Models;
 
     /// <summary>
     /// <see cref="OisysDbContext"/> class DbContext.

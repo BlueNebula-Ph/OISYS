@@ -1,8 +1,8 @@
-﻿namespace Oisys.Service.DTO
+﻿namespace Oisys.Web.DTO
 {
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
-    using Oisys.Service.Models;
+    using Oisys.Web.Models;
 
     /// <summary>
     /// <see cref="SalesQuoteDetail"/> class represents the child of SalesQuote object.

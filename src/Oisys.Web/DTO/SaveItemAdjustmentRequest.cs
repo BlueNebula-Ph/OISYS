@@ -1,8 +1,8 @@
-﻿namespace Oisys.Service.DTO
+﻿namespace Oisys.Web.DTO
 {
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
-    using Oisys.Service.Helpers;
+    using Oisys.Web.Helpers;
 
     /// <summary>
     /// <see cref="SaveItemAdjustmentRequest"/> class Adjust Item object.

@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Controllers
+﻿namespace Oisys.Web.Controllers
 {
     using System;
     using System.Linq;
@@ -8,15 +8,17 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
-    using Oisys.Service.DTO;
-    using Oisys.Service.Helpers;
-    using Oisys.Service.Services.Interfaces;
+    using Oisys.Web.DTO;
+    using Oisys.Web.Filters;
+    using Oisys.Web.Helpers;
+    using Oisys.Web.Services.Interfaces;
 
     /// <summary>
     /// <see cref="OrderController"/> class handles Order basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [ValidateModel]
     public class OrderController : Controller
     {
         private readonly OisysDbContext context;
@@ -128,11 +130,6 @@
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]SaveOrderRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var order = this.mapper.Map<Order>(entity);
 
             foreach (var detail in order.Details)
@@ -159,11 +156,6 @@
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveOrderRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0 || id != entity.Id)
-            {
-                return this.BadRequest();
-            }
-
             var orderExists = await this.context.Orders
                 .AnyAsync(c => c.Id == id);
 

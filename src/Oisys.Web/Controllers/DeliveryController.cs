@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Controllers
+﻿namespace Oisys.Web.Controllers
 {
     using System;
     using System.Linq;
@@ -8,15 +8,17 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
-    using Oisys.Service.DTO;
-    using Oisys.Service.Helpers;
-    using Oisys.Service.Services.Interfaces;
+    using Oisys.Web.DTO;
+    using Oisys.Web.Filters;
+    using Oisys.Web.Helpers;
+    using Oisys.Web.Services.Interfaces;
 
     /// <summary>
     /// <see cref="DeliveryController"/> class handles Delivery basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [ValidateModel]
     public class DeliveryController : Controller
     {
         private readonly OisysDbContext context;
@@ -123,11 +125,6 @@
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]SaveDeliveryRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var delivery = this.mapper.Map<Delivery>(entity);
 
             foreach (var detail in delivery.Details)
@@ -154,11 +151,6 @@
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveDeliveryRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0 || id != entity.Id)
-            {
-                return this.BadRequest();
-            }
-
             var deliveryExists = await this.context.Deliveries
                 .AnyAsync(c => c.Id == id);
 
@@ -243,4 +235,4 @@
             return new NoContentResult();
         }
     }
-} 
+}

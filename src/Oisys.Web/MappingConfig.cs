@@ -1,9 +1,9 @@
-﻿namespace Oisys.Service
+﻿namespace Oisys.Web
 {
     using System;
     using AutoMapper;
-    using Oisys.Service.DTO;
-    using Oisys.Service.Models;
+    using Oisys.Web.DTO;
+    using Oisys.Web.Models;
 
     /// <summary>
     /// <see cref="MappingConfig"/> class Mapping configuration.

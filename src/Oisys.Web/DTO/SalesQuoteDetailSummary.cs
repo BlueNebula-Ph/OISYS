@@ -1,7 +1,7 @@
-﻿namespace Oisys.Service.DTO
+﻿namespace Oisys.Web.DTO
 {
     using BlueNebula.Common.DTOs;
-    using Oisys.Service.Models;
+    using Oisys.Web.Models;
 
     /// <summary>
     /// View model for the <see cref="SalesQuoteDetail"/> entity.

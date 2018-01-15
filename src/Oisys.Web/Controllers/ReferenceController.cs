@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Controllers
+﻿namespace Oisys.Web.Controllers
 {
     using System;
     using System.Linq;
@@ -9,8 +9,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
-    using Oisys.Service.DTO;
-    using Oisys.Service.Helpers;
+    using Oisys.Web.DTO;
+    using Oisys.Web.Helpers;
 
     /// <summary>
     /// <see cref="ReferenceController"/> class handles Reference basic add, edit, delete and get.
