@@ -1,8 +1,8 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Web.Models
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Oisys.Service.Helpers;
+    using Oisys.Web.Helpers;
 
     /// <summary>
     /// <see cref="OrderDetail"/> class represents the child of Order object.

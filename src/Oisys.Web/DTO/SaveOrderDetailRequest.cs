@@ -1,11 +1,11 @@
-﻿namespace Oisys.Service.DTO
+﻿namespace Oisys.Web.DTO
 {
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
     using Newtonsoft.Json;
-    using Oisys.Service.Helpers;
-    using Oisys.Service.Models;
+    using Oisys.Web.Helpers;
+    using Oisys.Web.Models;
 
     /// <summary>
     /// <see cref="OrderDetail"/> class represents the child of Order object.

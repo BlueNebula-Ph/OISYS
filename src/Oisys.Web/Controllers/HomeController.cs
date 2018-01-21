@@ -1,4 +1,4 @@
-namespace Oisys.Service.Controllers
+namespace Oisys.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
 

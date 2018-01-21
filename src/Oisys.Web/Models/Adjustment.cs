@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Web.Models
 {
     using System;
 

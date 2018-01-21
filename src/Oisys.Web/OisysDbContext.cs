@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service
+﻿namespace Oisys.Web
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Oisys.Service.Models;
+    using Oisys.Web.Models;
 
     /// <summary>
     /// <see cref="OisysDbContext"/> class DbContext.
@@ -28,52 +28,67 @@
         public DbSet<Adjustment> Adjustments { get; set; }
 
         /// <summary>
-        /// Gets or sets property creditMemo <see cref="CreditMemo"/> class.
+        /// Gets or sets the categories db set.
+        /// </summary>
+        public DbSet<Category> Categories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cities db set.
+        /// </summary>
+        public DbSet<City> Cities { get; set; }
+
+        /// <summary>
+        /// Gets or sets the credit memos db set.
         /// </summary>
         public DbSet<CreditMemo> CreditMemos { get; set; }
 
         /// <summary>
-        /// Gets or sets property Credit Memo details <see cref="CreditMemoDetail"/> class.
+        /// Gets or sets the credit memo details db set.
         /// </summary>
         public DbSet<CreditMemoDetail> CreditMemoDetails { get; set; }
 
         /// <summary>
-        /// Gets or sets property Customers <see cref="Customer"/> class.
+        /// Gets or sets the customers db set.
         /// </summary>
         public DbSet<Customer> Customers { get; set; }
 
         /// <summary>
-        /// Gets or sets property Customers <see cref="CustomerTransaction"/> class.
+        /// Gets or sets the customer transactions db set.
         /// </summary>
         public DbSet<CustomerTransaction> CustomerTransactions { get; set; }
 
         /// <summary>
-        /// Gets or sets property Deliveries <see cref="Delivery"/> class.
+        /// Gets or sets the deliveries db set.
         /// </summary>
         public DbSet<Delivery> Deliveries { get; set; }
 
         /// <summary>
-        /// Gets or sets property Items <see cref="Item"/> class.
+        /// Gets or sets the items db set.
         /// </summary>
         public DbSet<Item> Items { get; set; }
 
         /// <summary>
-        /// Gets or sets property Orders <see cref="Order"/> class.
+        /// Gets or sets the orders db set.
         /// </summary>
         public DbSet<Order> Orders { get; set; }
 
         /// <summary>
-        /// Gets or sets property Order Details <see cref="OrderDetail"/> class.
+        /// Gets or sets the order details db set.
         /// </summary>
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
         /// <summary>
-        /// Gets or sets property Sales Quotes <see cref="SalesQuote"/> class.
+        /// Gets or sets the provinces db set.
+        /// </summary>
+        public DbSet<Province> Provinces { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sales quotes db set.
         /// </summary>
         public DbSet<SalesQuote> SalesQuotes { get; set; }
 
         /// <summary>
-        /// Gets or sets property Sales Quote details <see cref="SalesQuoteDetail"/> class.
+        /// Gets or sets the sales quote details db set.
         /// </summary>
         public DbSet<SalesQuoteDetail> SalesQuoteDetails { get; set; }
 
@@ -83,12 +98,12 @@
         public DbSet<User> Users { get; set; }
 
         /// <summary>
-        /// Gets or sets property Users <see cref="ReferenceType"/> class.
+        /// Gets or sets the reference types db set.
         /// </summary>
         public DbSet<ReferenceType> ReferenceTypes { get; set; }
 
         /// <summary>
-        /// Gets or sets property Users <see cref="Reference"/> class.
+        /// Gets or sets the references db set.
         /// </summary>
         public DbSet<Reference> References { get; set; }
 
@@ -103,9 +118,10 @@
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
 
-                SeedCustomer(context);
+                SeedProvincesAndCities(context);
                 SeedReferenceTypes(context);
                 SeedReferences(context);
+                SeedCustomer(context);
                 SeedItems(context);
 
                 context.SaveChanges();
@@ -171,7 +187,6 @@
             {
                 context.Customers.Add(new Customer
                 {
-                    Code = "10001",
                     Name = "Mickey Mouse",
                     Email = "mickey@disney.com",
                     ContactNumber = "399-39-39",
@@ -180,9 +195,8 @@
                     CityId = 4,
                     ProvinceId = 1,
                     Terms = "term1",
-                    Discount = "discount1",
-                    PriceList = "Main Price",
-                    Tag = "Mickey Mouse",
+                    Discount = 10m,
+                    PriceListId = 1,
                     Transactions = new List<CustomerTransaction>
                     {
                         new CustomerTransaction { Date = new DateTime(2017, 8, 1), Description = "Order", Debit = 5000m, Credit = 0m, RunningBalance = 5000m },
@@ -195,7 +209,6 @@
 
                 context.Customers.Add(new Customer
                 {
-                    Code = "10002",
                     Name = "Mario Cart",
                     Email = "mario@nintendo.com",
                     ContactNumber = "383-33-00",
@@ -204,9 +217,8 @@
                     CityId = 5,
                     ProvinceId = 2,
                     Terms = "term2",
-                    Discount = "discount2",
-                    PriceList = "Walk-In Price",
-                    Tag = "Mario Cart, Mr. Luigi",
+                    Discount = 5m,
+                    PriceListId = 2,
                     Transactions = new List<CustomerTransaction>
                     {
                         new CustomerTransaction { Date = new DateTime(2016, 12, 1), Description = "Order", Debit = 5000m, Credit = 0m, RunningBalance = 5000m },
@@ -222,9 +234,7 @@
             {
                 var referenceTypes = new List<ReferenceType>
                 {
-                    new ReferenceType { Code = "Category" },
-                    new ReferenceType { Code = "City" },
-                    new ReferenceType { Code = "Province" },
+                    new ReferenceType { Code = "Price List" },
                 };
                 context.ReferenceTypes.AddRange(referenceTypes);
             }
@@ -236,42 +246,68 @@
             {
                 var references = new List<Reference>
                 {
-                    new Reference { ReferenceTypeId = 3, Code = "NCR" },
-                    new Reference { ReferenceTypeId = 3, Code = "Quezon" },
-                    new Reference { ReferenceTypeId = 3, Code = "Cavite" },
-                    new Reference { ReferenceTypeId = 2, ParentReferenceId = 1, Code = "Manila" },
-                    new Reference { ReferenceTypeId = 2, ParentReferenceId = 2, Code = "Makati" },
-                    new Reference { ReferenceTypeId = 2, ParentReferenceId = 1, Code = "Malabon" },
-                    new Reference { ReferenceTypeId = 1, Code = "Category 1" },
-                    new Reference { ReferenceTypeId = 1, Code = "Cellphones" },
-                    new Reference { ReferenceTypeId = 1, Code = "Computers" },
-                    new Reference { ReferenceTypeId = 1, Code = "Devices" },
-                    new Reference { ReferenceTypeId = 1, Code = "Keyboards" },
-                    new Reference { ReferenceTypeId = 1, Code = "Mobile Phones" },
-                    new Reference { ReferenceTypeId = 1, Code = "Mouse" },
-                    new Reference { ReferenceTypeId = 1, Code = "Category 2" },
-                    new Reference { ReferenceTypeId = 1, Code = "Cellphones Case" },
-                    new Reference { ReferenceTypeId = 1, Code = "Computers Case" },
-                    new Reference { ReferenceTypeId = 1, Code = "Devices Case" },
-                    new Reference { ReferenceTypeId = 1, Code = "Keyboards Case" },
-                    new Reference { ReferenceTypeId = 1, Code = "Mobile Phones Case" },
-                    new Reference { ReferenceTypeId = 1, Code = "Mouse Case" },
-                    new Reference { ReferenceTypeId = 1, Code = "Category 3" },
-                    new Reference { ReferenceTypeId = 1, Code = "Cellphones Drive" },
-                    new Reference { ReferenceTypeId = 1, Code = "Computers Drive" },
-                    new Reference { ReferenceTypeId = 1, Code = "Devices Drive" },
-                    new Reference { ReferenceTypeId = 1, Code = "Keyboards Drive" },
-                    new Reference { ReferenceTypeId = 1, Code = "Mobile Phones Drive" },
-                    new Reference { ReferenceTypeId = 1, Code = "Mouse Drive" },
-                    new Reference { ReferenceTypeId = 1, Code = "Category 4" },
-                    new Reference { ReferenceTypeId = 1, Code = "Cellphones Battery" },
-                    new Reference { ReferenceTypeId = 1, Code = "Computers Battery" },
-                    new Reference { ReferenceTypeId = 1, Code = "Devices Battery" },
-                    new Reference { ReferenceTypeId = 1, Code = "Keyboards Battery" },
-                    new Reference { ReferenceTypeId = 1, Code = "Mobile Phones Battery" },
-                    new Reference { ReferenceTypeId = 1, Code = "Mouse Battery" },
+                    new Reference { ReferenceTypeId = 1, Code = "Main Price" },
+                    new Reference { ReferenceTypeId = 1, Code = "Walk-In Price" },
+                    new Reference { ReferenceTypeId = 1, Code = "N.E. Price" },
                 };
                 context.References.AddRange(references);
+            }
+        }
+
+        private static void SeedProvincesAndCities(OisysDbContext context)
+        {
+            if (!context.Provinces.Any())
+            {
+                var provinces = new List<Province>
+                {
+                    new Province
+                    {
+                        Name = "NCR",
+                        Cities = new List<City>
+                        {
+                            new City { Name = "Manila" },
+                            new City { Name = "Makati" },
+                            new City { Name = "Las Pinas" },
+                            new City { Name = "Paranaque" },
+                        },
+                    },
+                    new Province
+                    {
+                        Name = "Cavite",
+                        Cities = new List<City>
+                        {
+                            new City { Name = "Tanza" },
+                            new City { Name = "Indang" },
+                            new City { Name = "Gen Trias" },
+                        },
+                    },
+                    new Province
+                    {
+                        Name = "Bulacan",
+                        Cities = new List<City>
+                        {
+                            new City { Name = "Malolos" },
+                            new City { Name = "Bocaue" },
+                            new City { Name = "Obando" },
+                        },
+                    },
+                };
+                context.Provinces.AddRange(provinces);
+            }
+        }
+
+        private static void SeedCategories(OisysDbContext context)
+        {
+            if (!context.Categories.Any())
+            {
+                var categories = new List<Category>
+                {
+                    new Category { Name = "Material" },
+                    new Category { Name = "Lead" },
+                    new Category { Name = "Paint" },
+                    new Category { Name = "Tubes" },
+                };
+                context.Categories.AddRange(categories);
             }
         }
 
@@ -281,12 +317,12 @@
             {
                 var items = new List<Item>
                 {
-                    new Item { Code = "Itm10001", Name = "Item Number 1", CategoryId = 8, Description = "Item 1. This is item 1", CurrentQuantity = 100, ActualQuantity = 100, Unit = "pcs.", MainPrice = 1919.99m, NEPrice = 2929.99m, WalkInPrice = 3939.39m },
-                    new Item { Code = "Itm10002", Name = "Item Number 2", CategoryId = 9, Description = "Item 2. This is item 2", CurrentQuantity = 100, ActualQuantity = 95, Unit = "stacks", MainPrice = 919.99m, NEPrice = 929.99m, WalkInPrice = 939.39m },
-                    new Item { Code = "Itm10003", Name = "Item Number 3", CategoryId = 10, Description = "Item 3. This is item 3", CurrentQuantity = 100, ActualQuantity = 47, Unit = "makes", MainPrice = 111m, NEPrice = 222m, WalkInPrice = 333m },
-                    new Item { Code = "Itm10004", Name = "Item Number 4", CategoryId = 11, Description = "Item 4. This is item 4", CurrentQuantity = 100, ActualQuantity = 952, Unit = "pc", MainPrice = 12.50m, NEPrice = 29.50m, WalkInPrice = 39.50m },
-                    new Item { Code = "Itm10005", Name = "Item Number 5", CategoryId = 12, Description = "Item 5. This is item 5", CurrentQuantity = 100, ActualQuantity = 20, Unit = "shards", MainPrice = 400m, NEPrice = 500m, WalkInPrice = 600m },
-                    new Item { Code = "Itm10006", Name = "Item Number 6", CategoryId = 13, Description = "Item 6. This is item 6", CurrentQuantity = 100, ActualQuantity = 320, Unit = "rolls", MainPrice = 1211m, NEPrice = 1222m, WalkInPrice = 1233m },
+                    new Item { Name = "Item Number 1", CategoryId = 1, Description = "Item 1. This is item 1", CurrentQuantity = 100, ActualQuantity = 100, Unit = "pcs.", MainPrice = 1919.99m, NEPrice = 2929.99m, WalkInPrice = 3939.39m },
+                    new Item { Name = "Item Number 2", CategoryId = 2, Description = "Item 2. This is item 2", CurrentQuantity = 100, ActualQuantity = 95, Unit = "stacks", MainPrice = 919.99m, NEPrice = 929.99m, WalkInPrice = 939.39m },
+                    new Item { Name = "Item Number 3", CategoryId = 1, Description = "Item 3. This is item 3", CurrentQuantity = 100, ActualQuantity = 47, Unit = "makes", MainPrice = 111m, NEPrice = 222m, WalkInPrice = 333m },
+                    new Item { Name = "Item Number 4", CategoryId = 3, Description = "Item 4. This is item 4", CurrentQuantity = 100, ActualQuantity = 952, Unit = "pc", MainPrice = 12.50m, NEPrice = 29.50m, WalkInPrice = 39.50m },
+                    new Item { Name = "Item Number 5", CategoryId = 4, Description = "Item 5. This is item 5", CurrentQuantity = 100, ActualQuantity = 20, Unit = "shards", MainPrice = 400m, NEPrice = 500m, WalkInPrice = 600m },
+                    new Item { Name = "Item Number 6", CategoryId = 4, Description = "Item 6. This is item 6", CurrentQuantity = 100, ActualQuantity = 320, Unit = "rolls", MainPrice = 1211m, NEPrice = 1222m, WalkInPrice = 1233m },
                 };
                 context.Items.AddRange(items);
             }

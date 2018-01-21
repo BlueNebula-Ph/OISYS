@@ -1,9 +1,9 @@
-﻿namespace Oisys.Service.Services
+﻿namespace Oisys.Web.Services
 {
     using System;
-    using Oisys.Service.Helpers;
-    using Oisys.Service.Models;
-    using Oisys.Service.Services.Interfaces;
+    using Oisys.Web.Helpers;
+    using Oisys.Web.Models;
+    using Oisys.Web.Services.Interfaces;
 
     /// <summary>
     /// Class for inventory adjustments

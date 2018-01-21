@@ -1,4 +1,4 @@
-namespace Oisys.Service.Controllers
+namespace Oisys.Web.Controllers
 {
     using System;
     using System.Linq;
@@ -7,16 +7,17 @@ namespace Oisys.Service.Controllers
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using Oisys.Service.DTO;
-    using Oisys.Service.Helpers;
-    using Oisys.Service.Models;
-    using Oisys.Service.Services.Interfaces;
+    using Oisys.Web.DTO;
+    using Oisys.Web.Filters;
+    using Oisys.Web.Helpers;
+    using Oisys.Web.Models;
 
     /// <summary>
     /// <see cref="SalesQuoteController"/> class handles SalesQuote basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
     [Route("api/SalesQuote")]
+    [ValidateModel]
     public class SalesQuoteController : Controller
     {
         private readonly OisysDbContext context;
@@ -53,7 +54,7 @@ namespace Oisys.Service.Controllers
             // filter
             if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
-                list = list.Where(c => c.Code.Contains(filter.SearchTerm));
+                list = list.Where(c => c.QuoteNumber.Contains(filter.SearchTerm));
             }
 
             if (!(filter?.ProvinceId).IsNullOrZero())
@@ -125,11 +126,6 @@ namespace Oisys.Service.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]SaveSalesQuoteRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var salesQuote = this.mapper.Map<SalesQuote>(entity);
 
             await this.context.SalesQuotes.AddAsync(salesQuote);
@@ -150,11 +146,6 @@ namespace Oisys.Service.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveSalesQuoteRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0 || id != entity.Id)
-            {
-                return this.BadRequest();
-            }
-
             var salesQuote = await this.context.SalesQuotes.SingleOrDefaultAsync(t => t.Id == id);
             if (salesQuote == null)
             {

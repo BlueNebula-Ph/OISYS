@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Models
+﻿namespace Oisys.Web.Models
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -12,10 +12,5 @@
         /// </summary>
         [Required]
         public string Code { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
-        /// </summary>
-        public bool IsDeleted { get; set; }
     }
 }

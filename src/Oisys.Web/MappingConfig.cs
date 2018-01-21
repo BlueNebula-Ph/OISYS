@@ -1,9 +1,9 @@
-﻿namespace Oisys.Service
+﻿namespace Oisys.Web
 {
     using System;
     using AutoMapper;
-    using Oisys.Service.DTO;
-    using Oisys.Service.Models;
+    using Oisys.Web.DTO;
+    using Oisys.Web.Models;
 
     /// <summary>
     /// <see cref="MappingConfig"/> class Mapping configuration.
@@ -25,8 +25,8 @@
             this.CreateMap<Customer, CustomerLookup>();
 
             this.CreateMap<Customer, CustomerSummary>()
-                .ForMember(d => d.CityName, s => s.MapFrom(o => o.City.Code))
-                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Code));
+                .ForMember(d => d.CityName, s => s.MapFrom(o => o.City.Name))
+                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Name));
 
             this.CreateMap<SaveCustomerRequest, Customer>()
                 .ForMember(d => d.LastUpdatedDate, s => s.MapFrom(o => DateTime.Now))
@@ -47,7 +47,7 @@
 
             // Item
             this.CreateMap<Item, ItemLookup>()
-                .ForMember(d => d.CodeName, s => s.MapFrom(o => $"{o.Code} - {o.Name}"));
+                .ForMember(d => d.CodeName, s => s.MapFrom(o => o.Name));
 
             this.CreateMap<Item, ItemSummary>()
                 .ForMember(d => d.CategoryCode, s => s.MapFrom(o => o.Category.Code));
@@ -56,13 +56,13 @@
 
             // Order
             this.CreateMap<Order, OrderSummary>()
-                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Customer.Province.Code));
+                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Customer.Province.Name));
 
             this.CreateMap<SaveOrderRequest, Order>();
 
             // Order Detail
             this.CreateMap<OrderDetail, OrderDetailSummary>()
-                .ForMember(d => d.Item, s => s.MapFrom(o => $"{o.Item.Code} - {o.Item.Name}"))
+                .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name))
                 .ForMember(d => d.Unit, s => s.MapFrom(o => o.Item.Unit));
 
             this.CreateMap<SaveOrderDetailRequest, OrderDetail>();
@@ -71,7 +71,6 @@
             this.CreateMap<Reference, ReferenceLookup>();
 
             this.CreateMap<Reference, ReferenceSummary>()
-                .ForMember(d => d.ParentCode, s => s.MapFrom(o => o.ParentReference.Code))
                 .ForMember(d => d.ReferenceTypeCode, s => s.MapFrom(o => o.ReferenceType.Code));
 
             this.CreateMap<SaveReferenceRequest, Reference>();
@@ -84,13 +83,13 @@
             // Sales Quote
             this.CreateMap<SalesQuote, SalesQuoteSummary>()
                 .ForMember(d => d.CustomerName, s => s.MapFrom(o => o.Customer.Name))
-                .ForMember(d => d.CustomerAddress, s => s.MapFrom(o => $"{o.Customer.Address}, {o.Customer.City.Code} {o.Customer.Province.Code}"));
+                .ForMember(d => d.CustomerAddress, s => s.MapFrom(o => $"{o.Customer.Address}, {o.Customer.City.Name} {o.Customer.Province.Name}"));
 
             this.CreateMap<SaveSalesQuoteRequest, SalesQuote>();
 
             // Sales Quote Detail
             this.CreateMap<SalesQuoteDetail, SalesQuoteDetailSummary>()
-                .ForMember(d => d.Item, s => s.MapFrom(o => $"{o.Item.Code} - {o.Item.Name}"));
+                .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name));
 
             this.CreateMap<SaveSalesQuoteDetailRequest, SalesQuoteDetail>();
         }

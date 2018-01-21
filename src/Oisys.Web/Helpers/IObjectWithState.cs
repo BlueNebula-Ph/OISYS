@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Helpers
+﻿namespace Oisys.Web.Helpers
 {
     /// <summary>
     /// Used to keep track of the entity states

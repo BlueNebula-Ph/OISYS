@@ -1,7 +1,7 @@
-﻿namespace Oisys.Service.Services.Interfaces
+﻿namespace Oisys.Web.Services.Interfaces
 {
-    using Oisys.Service.Helpers;
-    using Oisys.Service.Models;
+    using Oisys.Web.Helpers;
+    using Oisys.Web.Models;
 
     /// <summary>
     /// Defines the structure for AdjustmentService

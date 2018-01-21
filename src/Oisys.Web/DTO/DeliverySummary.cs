@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.DTO
+﻿namespace Oisys.Web.DTO
 {
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service
+﻿namespace Oisys.Web
 {
     using System.IO;
     using Microsoft.AspNetCore.Builder;

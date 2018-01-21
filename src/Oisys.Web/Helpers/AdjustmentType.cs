@@ -1,4 +1,4 @@
-﻿namespace Oisys.Service.Helpers
+﻿namespace Oisys.Web.Helpers
 {
     using System.ComponentModel.DataAnnotations;
 
