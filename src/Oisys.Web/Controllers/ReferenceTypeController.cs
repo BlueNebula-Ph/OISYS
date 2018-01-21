@@ -140,7 +140,6 @@ namespace Oisys.Web.Controllers
                 return this.NotFound(id);
             }
 
-            entity.IsDeleted = true;
             this.context.Update(entity);
             await this.context.SaveChangesAsync();
 

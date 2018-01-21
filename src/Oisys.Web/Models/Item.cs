@@ -10,12 +10,6 @@
     public class Item : ModelBase
     {
         /// <summary>
-        /// Gets or sets property Code.
-        /// </summary>
-        [Required]
-        public string Code { get; set; }
-
-        /// <summary>
         /// Gets or sets property Name.
         /// </summary>
         public string Name { get; set; }
@@ -32,6 +26,7 @@
 
         /// <summary>
         /// Gets or sets property NEPrice.
+        /// Also known as Nueva Ecija Price.
         /// </summary>
         public decimal? NEPrice { get; set; }
 
@@ -76,11 +71,6 @@
         /// </summary>
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Tag.
-        /// </summary>
-        public string Tag { get; set; }
 
         /// <summary>
         /// Gets or sets property Category.

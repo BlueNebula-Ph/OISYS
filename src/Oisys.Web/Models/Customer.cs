@@ -10,16 +10,21 @@
     public class Customer : ModelBase
     {
         /// <summary>
-        /// Gets or sets property Code.
-        /// </summary>
-        [Required]
-        public string Code { get; set; }
-
-        /// <summary>
         /// Gets or sets property Name.
         /// </summary>
         [Required]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Phone Number.
+        /// </summary>
+        [DataType(DataType.PhoneNumber)]
+        public string ContactNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Contact Person.
+        /// </summary>
+        public string ContactPerson { get; set; }
 
         /// <summary>
         /// Gets or sets property Email.
@@ -28,22 +33,8 @@
         public string Email { get; set; }
 
         /// <summary>
-        /// Gets or sets property Phone Number.
-        /// </summary>
-        [DataType(DataType.PhoneNumber)]
-        [Required]
-        public string ContactNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Contact Person.
-        /// </summary>
-        [Required]
-        public string ContactPerson { get; set; }
-
-        /// <summary>
         /// Gets or sets property Address.
         /// </summary>
-        [Required]
         public string Address { get; set; }
 
         /// <summary>
@@ -66,13 +57,14 @@
         /// <summary>
         /// Gets or sets property Discount.
         /// </summary>
-        public string Discount { get; set; }
+        public decimal Discount { get; set; }
 
         /// <summary>
-        /// Gets or sets property Price List.
+        /// Gets or sets property Price List Id.
+        /// This property is derived from the reference table.
+        /// See <see cref="PriceList"/> navigation property.
         /// </summary>
-        [Required]
-        public string PriceList { get; set; }
+        public int PriceListId { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.
@@ -81,19 +73,20 @@
         public bool IsDeleted { get; set; }
 
         /// <summary>
-        /// Gets or sets property Tag.
-        /// </summary>
-        public string Tag { get; set; }
-
-        /// <summary>
         /// Gets or sets property City.
         /// </summary>
-        public Reference City { get; set; }
+        public City City { get; set; }
 
         /// <summary>
         /// Gets or sets property Province.
         /// </summary>
-        public Reference Province { get; set; }
+        public Province Province { get; set; }
+
+        /// <summary>
+        /// Gets or sets the pricelist navigation property.
+        /// Possible values: Main Price, N.E. Price, Walk-In Price
+        /// </summary>
+        public Reference PriceList { get; set; }
 
         /// <summary>
         /// Gets or sets property Customer transactions.

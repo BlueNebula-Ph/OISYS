@@ -54,7 +54,7 @@ namespace Oisys.Web.Controllers
             // filter
             if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
-                list = list.Where(c => c.Code.Contains(filter.SearchTerm));
+                list = list.Where(c => c.QuoteNumber.Contains(filter.SearchTerm));
             }
 
             if (!(filter?.ProvinceId).IsNullOrZero())
