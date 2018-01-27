@@ -97,7 +97,7 @@
                 });
 
             // Add application services
-            services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
+            services.AddTransient(typeof(BlueNebula.Common.Helpers.ISummaryListBuilder<,>), typeof(BlueNebula.Common.Helpers.SummaryListBuilder<,>));
 
             // Add adjustment service
             services.AddScoped<IAdjustmentService, AdjustmentService>();

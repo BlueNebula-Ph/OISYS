@@ -20,6 +20,12 @@
                 .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name))
                 .ForMember(d => d.AdjustmentType, s => s.MapFrom(o => $"{o.AdjustmentType} - {o.QuantityType}"));
 
+            // City
+            this.CreateMap<City, CitySummary>()
+                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Name));
+
+            this.CreateMap<SaveCityRequest, City>();
+
             // TODO: Change LastUpdatedBy value
             // Customer
             this.CreateMap<Customer, CustomerLookup>();
@@ -66,6 +72,11 @@
                 .ForMember(d => d.Unit, s => s.MapFrom(o => o.Item.Unit));
 
             this.CreateMap<SaveOrderDetailRequest, OrderDetail>();
+
+            // Province
+            this.CreateMap<Province, ProvinceSummary>();
+
+            this.CreateMap<SaveProvinceRequest, Province>();
 
             // Reference
             this.CreateMap<Reference, ReferenceLookup>();

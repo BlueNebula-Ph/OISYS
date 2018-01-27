@@ -16,6 +16,11 @@
         public int ProvinceId { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
+        /// </summary>
+        public bool IsDeleted { get; set; }
+
+        /// <summary>
         /// Gets or sets the province navigation property.
         /// </summary>
         public Province Province { get; set; }
