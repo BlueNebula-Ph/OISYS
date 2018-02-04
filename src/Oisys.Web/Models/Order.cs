@@ -5,7 +5,7 @@
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Oisys.Web.Helpers;
+    using BlueNebula.Common.Helpers;
 
     /// <summary>
     /// <see cref="Order"/> class represents the Order object.

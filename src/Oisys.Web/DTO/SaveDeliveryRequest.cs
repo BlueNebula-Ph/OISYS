@@ -4,13 +4,13 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
+    using BlueNebula.Common.Helpers;
     using Newtonsoft.Json;
-    using Oisys.Web.Helpers;
 
     /// <summary>
     /// <see cref="SaveDeliveryRequest"/> class Create/Update Delivery object.
     /// </summary>
-    public class SaveDeliveryRequest : DTOBase
+    public class SaveDeliveryRequest : DTOBase, IObjectWithState
     {
         /// <summary>
         /// Gets or sets property Code.

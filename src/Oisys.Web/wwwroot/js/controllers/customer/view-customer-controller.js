@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var viewCustomerController = function (customerService, referenceService, loadingService, $q) {
+    var viewCustomerController = function (customerService, referenceService, loadingService, $q, utils) {
         var vm = this;
         vm.focus = true;
         vm.currentPage = 1;
@@ -15,7 +15,6 @@
             items: []
         };
         vm.headers = [
-            { text: "Code", value: "Code" },
             { text: "Customer Name", value: "Name" },
             { text: "Email", value: "Email" },
             { text: "City", value: "City.Code" },
@@ -26,11 +25,11 @@
         ];
 
         vm.fetchCustomers = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             customerService.fetchCustomers(vm.filters)
-                .then(processCustomerList, onFetchError)
-                .finally(hideLoading);
+                .then(processCustomerList, utils.onError)
+                .finally(utils.hideLoading);
         };
 
         vm.clearFilter = function () {
@@ -52,31 +51,22 @@
             angular.copy(response.data, vm.summaryResult);
         };
 
-        var onFetchError = function (error) {
-            toastr.error("There was an error processing your requests.", "error");
-            console.log(error);
-        };
-
-        var hideLoading = function () {
-            loadingService.hideLoading();
-        };
-
         var loadAll = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             var requests = {
-                city: referenceService.getReferenceLookup(2),
-                province: referenceService.getReferenceLookup(3),
+                //city: referenceService.getReferenceLookup(2),
+                //province: referenceService.getReferenceLookup(3),
                 customer: customerService.fetchCustomers(vm.filters)
             };
 
             $q.all(requests)
                 .then((responses) => {
-                    processFilters(responses.city, vm.cityList, "Filter by city..");
-                    processFilters(responses.province, vm.provinceList, "Filter by province..");
+                    //processFilters(responses.city, vm.cityList, "Filter by city..");
+                    //processFilters(responses.province, vm.provinceList, "Filter by province..");
                     processCustomerList(responses.customer);
-                }, onFetchError)
-                .finally(hideLoading);
+                }, utils.onError)
+                .finally(utils.hideLoading);
         };
 
         $(function () {
@@ -86,6 +76,6 @@
         return vm;
     };
 
-    module.controller("viewCustomerController", ["customerService", "referenceService", "loadingService", "$q", viewCustomerController]);
+    module.controller("viewCustomerController", ["customerService", "referenceService", "loadingService", "$q", "utils", viewCustomerController]);
 
 })(angular.module("oisys-app"));

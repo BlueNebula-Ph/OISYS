@@ -14,7 +14,6 @@
             items: []
         };
         vm.headers = [
-            { text: "Code", value: "Code" },
             { text: "Name", value: "Name" },
             { text: "Category", value: "Category.Code" },
             { text: "Current Qty", value: "CurrentQuantity", class: "text-right" },
