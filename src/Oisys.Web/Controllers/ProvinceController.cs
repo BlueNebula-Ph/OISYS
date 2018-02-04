@@ -50,6 +50,7 @@ namespace Oisys.Web.Controllers
             // get list of active sales quote (not deleted)
             var list = this.context.Provinces
                 .AsNoTracking()
+                .Include(c => c.Cities)
                 .Where(c => !c.IsDeleted);
 
             // filter
@@ -104,6 +105,7 @@ namespace Oisys.Web.Controllers
         {
             var entity = await this.context.Provinces
                 .AsNoTracking()
+                .Include(c => c.Cities)
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
@@ -144,16 +146,19 @@ namespace Oisys.Web.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveProvinceRequest entity)
         {
-            var city = await this.context.Provinces.SingleOrDefaultAsync(t => t.Id == id);
-            if (city == null)
+            var province = await this.context.Provinces
+                .AsNoTracking()
+                .SingleOrDefaultAsync(t => t.Id == id);
+
+            if (province == null)
             {
                 return this.NotFound(id);
             }
 
             try
             {
-                this.mapper.Map(entity, city);
-                this.context.Update(city);
+                this.mapper.Map(entity, province);
+                this.context.Update(province);
                 await this.context.SaveChangesAsync();
             }
             catch (Exception ex)
