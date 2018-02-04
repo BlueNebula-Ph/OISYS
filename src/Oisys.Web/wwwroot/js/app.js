@@ -52,11 +52,15 @@
                 })
                 .state("system.add-user", {
                     url: "/add/user/{id}",
-                    template: "<h3>Add New User</h3>"
+                    templateUrl: "/views/manage/add-user.html",
+                    controller: "addUserController",
+                    controllerAs: "ctrl"
                 })
                 .state("system.list-users", {
                     url: "/list/users",
-                    template: "<h3>Search Users</h3>"
+                    templateUrl: "/views/manage/user-list.html",
+                    controller: "viewUsersController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("customers", {

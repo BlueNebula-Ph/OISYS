@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
@@ -66,8 +67,6 @@
                 list = list.Where(c => c.CategoryId == filter.CategoryId);
             }
 
-            // TODO: filter price
-
             // sort
             var ordering = $"Code {Constants.DefaultSortDirection}";
             if (!string.IsNullOrEmpty(filter?.SortBy))
@@ -95,7 +94,7 @@
                 .Where(c => !c.IsDeleted);
 
             // sort
-            var ordering = $"Code {Constants.DefaultSortDirection}";
+            var ordering = $"Name {Constants.DefaultSortDirection}";
 
             list = list.OrderBy(ordering);
 

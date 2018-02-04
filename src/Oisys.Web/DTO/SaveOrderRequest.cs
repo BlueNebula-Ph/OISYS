@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
+    using BlueNebula.Common.Helpers;
     using Newtonsoft.Json;
-    using Oisys.Web.Helpers;
 
     /// <summary>
     /// <see cref="SaveOrderRequest"/> class Create/Update Order object.
