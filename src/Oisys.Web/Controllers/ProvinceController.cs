@@ -5,11 +5,13 @@ namespace Oisys.Web.Controllers
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Oisys.Web.DTO;
     using Oisys.Web.Filters;
+    using Oisys.Web.Helpers;
     using Oisys.Web.Models;
 
     /// <summary>
@@ -66,6 +68,28 @@ namespace Oisys.Web.Controllers
             list = list.OrderBy(ordering);
 
             var entities = await this.builder.BuildAsync(list, filter);
+
+            return this.Ok(entities);
+        }
+
+        /// <summary>
+        /// Returns list of active <see cref="Province"/>
+        /// </summary>
+        /// <returns>List of Provinces</returns>
+        [HttpGet("lookup", Name = "GetProvinceLookup")]
+        public IActionResult GetLookup()
+        {
+            // get list of active items (not deleted)
+            var list = this.context.Provinces
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted);
+
+            // sort
+            var ordering = $"Name {Constants.DefaultSortDirection}";
+
+            list = list.OrderBy(ordering);
+
+            var entities = list.ProjectTo<ProvinceLookup>();
 
             return this.Ok(entities);
         }

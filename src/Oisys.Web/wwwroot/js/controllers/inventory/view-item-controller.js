@@ -40,10 +40,6 @@
         };
 
         vm.categoryList = [];
-        var processCategoryFilter = function (response) {
-            utils.populateDropdownlist(response, vm.categoryList, "name", "Filter by category..");
-        };
-
         var processItemList = function (response) {
             angular.copy(response.data, vm.summaryResult);
         };
@@ -58,7 +54,7 @@
 
             $q.all(requests)
                 .then((responses) => {
-                    processCategoryFilter(responses.category);
+                    utils.populateDropdownlist(responses.category, vm.categoryList, "name", "Filter by category..");
                     processItemList(responses.item);
                 }, utils.onError)
                 .finally(utils.hideLoading);

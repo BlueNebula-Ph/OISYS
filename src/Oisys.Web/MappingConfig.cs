@@ -28,7 +28,6 @@
             // City
             this.CreateMap<City, CitySummary>()
                 .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Name));
-
             this.CreateMap<SaveCityRequest, City>();
 
             // TODO: Change LastUpdatedBy value
@@ -80,7 +79,7 @@
 
             // Province
             this.CreateMap<Province, ProvinceSummary>();
-
+            this.CreateMap<Province, ProvinceLookup>();
             this.CreateMap<SaveProvinceRequest, Province>();
 
             // Reference
@@ -109,7 +108,6 @@
 
             this.CreateMap<SaveSalesQuoteDetailRequest, SalesQuoteDetail>();
 
-            // User
             // User
             this.CreateMap<User, UserSummary>()
                 .ForMember(d => d.Admin, o => o.MapFrom(s => s.AccessRights.Contains("admin")))
