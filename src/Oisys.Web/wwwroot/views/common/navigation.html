@@ -1,4 +1,4 @@
-﻿<nav class="navbar navbar-inverse navbar-fixed-top">
+﻿<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -8,7 +8,11 @@
                 <span class="icon-bar"></span>
             </button>
             <a asp-controller="Home" asp-action="Index" class="navbar-brand">
-                <span class="logo">Ace Plastic Center</span>
+                <img class="img-responsive img-rounded right-margin-sm pull-left" src="/images/logo-trans.png" width="40" height="40" />
+                <ul class="list-unstyled pull-left">
+                    <li><span class="logo">Ace Plastic Center</span></li>
+                    <li><small>Orders &amp; Inventory Manager</small></li>
+                </ul>
             </a>
         </div>
         <div class="navbar-collapse collapse">
@@ -40,7 +44,7 @@
                 </li>
                 <li ui-sref-active="nav-active">
                     <a ui-sref="system">
-                        <i class="fa fa-cogs"></i> System Management
+                        <i class="fa fa-cogs"></i> System
                     </a>
                 </li>
             </ul>

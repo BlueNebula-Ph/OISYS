@@ -26,16 +26,16 @@
                     controller: "manageSystemController",
                     controllerAs: "ctrl"
                 })
-                .state("system.add-city", {
-                    url: "/add/city/{id}",
-                    templateUrl: "/views/manage/add-cities.html",
-                    controller: "addCityController",
+                .state("system.add-province", {
+                    url: "/add/province/{id}",
+                    templateUrl: "/views/manage/add-province.html",
+                    controller: "addProvinceController",
                     controllerAs: "ctrl"
                 })
-                .state("system.list-cities", {
-                    url: "/list/cities",
-                    templateUrl: "/views/manage/cities-list.html",
-                    controller: "viewCityController",
+                .state("system.list-provinces", {
+                    url: "/list/provinces",
+                    templateUrl: "/views/manage/provinces-list.html",
+                    controller: "viewProvincesController",
                     controllerAs: "ctrl"
                 })
                 .state("system.add-category", {
@@ -52,11 +52,15 @@
                 })
                 .state("system.add-user", {
                     url: "/add/user/{id}",
-                    template: "<h3>Add New User</h3>"
+                    templateUrl: "/views/manage/add-user.html",
+                    controller: "addUserController",
+                    controllerAs: "ctrl"
                 })
                 .state("system.list-users", {
                     url: "/list/users",
-                    template: "<h3>Search Users</h3>"
+                    templateUrl: "/views/manage/user-list.html",
+                    controller: "viewUsersController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("customers", {

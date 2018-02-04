@@ -1,0 +1,44 @@
+﻿<summary-shell>
+    <shell-title>
+        <h3>Users List. <small class="text-muted">Search users.</small></h3>
+    </shell-title>
+    <shell-search>
+        <div search-input>
+            <span title="Search by keyword"><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search User..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchUsers()">
+            <i class="fa fa-search"></i> Search
+        </button>
+    </shell-search>
+    <shell-table>
+        <table class="table table-condensed table-striped summary-table">
+            <thead>
+                <tr>
+                    <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
+                        <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
+                                       sort-direction="ctrl.filters.sortDirection"
+                                       fetch-call-back="ctrl.fetchUsers()"></column-header>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
+                    <td>{{ c.username }}</td>
+                    <td>{{ c.firstname }} {{ c.lastname }}</td>
+                    <td class="text-center"><input type="checkbox" ng-checked="c.admin" readonly disabled /></td>
+                    <td class="text-center"><input type="checkbox" ng-checked="c.canView" readonly disabled /></td>
+                    <td class="text-center"><input type="checkbox" ng-checked="c.canWrite" readonly disabled /></td>
+                    <td class="text-center"><input type="checkbox" ng-checked="c.canDelete" readonly disabled /></td>
+                    <td class="text-center">
+                        <summary-controls show-details="false"
+                                          show-edit="true" edit-state="system.add-user({ id: {{ c.id }} })" edit-title="Edit this user."
+                                          show-delete="true" on-delete="ctrl.delete(c.id)" delete-title="Delete this user.">
+                        </summary-controls>
+                    </td>
+                </tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="7"></tr>
+            </tbody>
+        </table>
+    </shell-table>
+</summary-shell>

@@ -5,6 +5,7 @@ namespace Oisys.Web.Controllers
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
+    using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Oisys.Web.DTO;

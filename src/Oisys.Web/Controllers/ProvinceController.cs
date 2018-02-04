@@ -5,6 +5,7 @@ namespace Oisys.Web.Controllers
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,7 @@ namespace Oisys.Web.Controllers
             // get list of active sales quote (not deleted)
             var list = this.context.Provinces
                 .AsNoTracking()
+                .Include(c => c.Cities)
                 .Where(c => !c.IsDeleted);
 
             // filter
@@ -71,6 +73,25 @@ namespace Oisys.Web.Controllers
         }
 
         /// <summary>
+        /// Gets a lookup of provinces.
+        /// </summary>
+        /// <returns>The list of provinces</returns>
+        [HttpGet("lookup", Name = "GetCategoryLookup")]
+        public IActionResult GetCategoryLookup()
+        {
+            // get list of active categorys (not deleted)
+            var list = this.context.Provinces
+                .AsNoTracking()
+                .Include(c => c.Cities)
+                .Where(c => !c.IsDeleted)
+                .OrderBy(c => c.Name);
+
+            var entities = list.ProjectTo<ProvinceSummary>();
+
+            return this.Ok(entities);
+        }
+
+        /// <summary>
         /// Gets a specific <see cref="Province"/>.
         /// </summary>
         /// <param name="id">id</param>
@@ -80,6 +101,7 @@ namespace Oisys.Web.Controllers
         {
             var entity = await this.context.Provinces
                 .AsNoTracking()
+                .Include(c => c.Cities)
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
@@ -120,16 +142,19 @@ namespace Oisys.Web.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveProvinceRequest entity)
         {
-            var city = await this.context.Provinces.SingleOrDefaultAsync(t => t.Id == id);
-            if (city == null)
+            var province = await this.context.Provinces
+                .AsNoTracking()
+                .SingleOrDefaultAsync(t => t.Id == id);
+
+            if (province == null)
             {
                 return this.NotFound(id);
             }
 
             try
             {
-                this.mapper.Map(entity, city);
-                this.context.Update(city);
+                this.mapper.Map(entity, province);
+                this.context.Update(province);
                 await this.context.SaveChangesAsync();
             }
             catch (Exception ex)

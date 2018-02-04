@@ -1,0 +1,38 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Save User. <small class="text-muted">Please input user details.</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="ctrl.addUserForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="name">Username</label>
+                    <input type="text" name="name" ng-model="ctrl.user.username" focus-me="ctrl.defaultFocus" required />
+                </div>
+                <div form-input>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" ng-model="ctrl.user.password" required />
+                </div>
+                <div form-input>
+                    <label for="firstname">Firstname</label>
+                    <input type="text" name="firstname" ng-model="ctrl.user.firstname" required />
+                </div>
+                <div form-input>
+                    <label for="lastname">Lastname</label>
+                    <input type="text" name="lastname" ng-model="ctrl.user.lastname" required />
+                </div>
+                <div>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="c in ctrl.accessRights track by $index">
+                            <input type="checkbox" value="{{ c.value }}" ng-model="c.selected" /> {{ c.text }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </shell-form>
+    <shell-controls>
+        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
+                      save-enabled="!ctrl.addUserForm.$pristine && ctrl.addUserForm.$valid && ctrl.saveEnabled"></form-control>
+    </shell-controls>
+</add-edit-shell>

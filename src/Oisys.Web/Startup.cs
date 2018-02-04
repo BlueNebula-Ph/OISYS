@@ -2,6 +2,7 @@
 {
     using System.IO;
     using AutoMapper;
+    using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,6 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
-    using Oisys.Web.Helpers;
     using Oisys.Web.Services;
     using Oisys.Web.Services.Interfaces;
     using Swashbuckle.AspNetCore.Swagger;
@@ -97,7 +97,7 @@
                 });
 
             // Add application services
-            services.AddTransient(typeof(BlueNebula.Common.Helpers.ISummaryListBuilder<,>), typeof(BlueNebula.Common.Helpers.SummaryListBuilder<,>));
+            services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
 
             // Add adjustment service
             services.AddScoped<IAdjustmentService, AdjustmentService>();

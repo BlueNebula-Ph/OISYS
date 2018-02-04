@@ -13,6 +13,11 @@
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
+        /// </summary>
+        public bool IsDeleted { get; set; }
+
+        /// <summary>
         /// Gets or sets the province name of the city.
         /// </summary>
         public string ProvinceName { get; set; }

@@ -3,8 +3,8 @@
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
+    using BlueNebula.Common.Helpers;
     using Newtonsoft.Json;
-    using Oisys.Web.Helpers;
     using Oisys.Web.Models;
 
     /// <summary>
