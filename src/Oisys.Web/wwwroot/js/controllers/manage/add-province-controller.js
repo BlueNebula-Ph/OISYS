@@ -29,7 +29,7 @@
 
         vm.addCity = function () {
             var newCity = { id: 0, name: "", focus: true };
-            vm.province.cities.push(newSub);
+            vm.province.cities.push(newCity);
         };
 
         vm.removeCity = function ($index) {

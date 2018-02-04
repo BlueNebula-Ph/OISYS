@@ -25,10 +25,10 @@
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
                     <td>{{ c.name }}</td>
-                    <td>{{ c.cities }}</td>
+                    <td>{{ c.cties }}</td>
                     <td class="text-center">
                         <summary-controls show-details="false"
-                                          show-edit="true" edit-state="system.add-city({ id: {{ c.id }} })" edit-title="Edit this province."
+                                          show-edit="true" edit-state="system.add-province({ id: {{ c.id }} })" edit-title="Edit this province."
                                           show-delete="true" on-delete="ctrl.delete(c.id)" delete-title="Delete this province.">
                         </summary-controls>
                     </td>

@@ -51,7 +51,7 @@
 
         var processProvinceList = function (response) {
             response.data.items.map((item) => {
-                item.cities = item.cities.map((sc) => sc.name).join(', ');
+                item.cties = item.cities.map((sc) => sc.name).join(', ');
             });
 
             angular.copy(response.data, vm.summaryResult);
