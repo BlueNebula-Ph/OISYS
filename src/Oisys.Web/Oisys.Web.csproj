@@ -58,14 +58,10 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\js\controllers\manage\add-category-controller.js" />
-    <Content Include="wwwroot\js\controllers\manage\add-city-controller.js" />
     <Content Include="wwwroot\js\controllers\manage\manage-system-controller.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\js\controllers\manage\view-category-controller.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\js\controllers\manage\view-city-controller.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\js\controllers\order\add-order-controller.js">
@@ -1396,13 +1392,9 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\views\manage\add-category.html" />
-    <Content Include="wwwroot\views\manage\add-cities.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\views\manage\category-list.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\views\manage\cities-list.html" />
     <Content Include="wwwroot\views\order\add-order.html" />
     <Content Include="wwwroot\views\order\order-details.html" />
     <Content Include="wwwroot\views\order\orders-list.html">

@@ -4,9 +4,9 @@
         var vm = this;
 
         vm.sidebarItems = [
-            { text: "Cities / Provinces", isHeader: true, isItem: false, icon: "fa-map-o" },
-            { text: "Add New City", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-city({ id: 0 })" },
-            { text: "Search Cities", isHeader: false, isItem: true, icon: "fa-search", link: ".list-cities" },
+            { text: "Provinces", isHeader: true, isItem: false, icon: "fa-map-o" },
+            { text: "Add Province", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-province({ id: 0 })" },
+            { text: "Search Provinces", isHeader: false, isItem: true, icon: "fa-search", link: ".list-provinces" },
             { text: "Categories", isHeader: true, isItem: false, icon: "fa-file-o" },
             { text: "Add New Category", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-category({ id: 0 })" },
             { text: "Search Categories", isHeader: false, isItem: true, icon: "fa-search", link: ".list-categories" },

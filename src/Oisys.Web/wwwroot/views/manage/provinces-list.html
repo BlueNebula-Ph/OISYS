@@ -1,13 +1,13 @@
 ﻿<summary-shell>
     <shell-title>
-        <h3>Provinces / Cities. <small class="text-muted">Search province / city.</small></h3>
+        <h3>Provinces. <small class="text-muted">Search provinces.</small></h3>
     </shell-title>
     <shell-search>
         <div search-input>
-            <span title="Search cities via keyword."><i class="fa fa-search fa-fw"></i></span>
-            <input placeholder="Search province or city..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
+            <span title="Search provinces via keyword"><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search Province..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
         </div>
-        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchCities()">
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchProvinces()">
             <i class="fa fa-search"></i> Search
         </button>
     </shell-search>
@@ -15,21 +15,21 @@
         <table class="table table-condensed table-striped summary-table">
             <thead>
                 <tr>
-                    <th ng-repeat="header in ctrl.headers track by $index">
+                    <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
                         <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
                                        sort-direction="ctrl.filters.sortDirection"
-                                       fetch-call-back="ctrl.fetchCities()"></column-header>
+                                       fetch-call-back="ctrl.fetchProvinces()"></column-header>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
-                    <td>{{ c.code }}</td>
-                    <td>{{ c.parentCode }}</td>
+                    <td>{{ c.name }}</td>
+                    <td>{{ c.cities }}</td>
                     <td class="text-center">
                         <summary-controls show-details="false"
-                                          show-edit="true" edit-state="system.add-city({ id: {{ c.id }} })" edit-title="Edit this city."
-                                          show-delete="true" delete-title="Delete this city.">
+                                          show-edit="true" edit-state="system.add-city({ id: {{ c.id }} })" edit-title="Edit this province."
+                                          show-delete="true" on-delete="ctrl.delete(c.id)" delete-title="Delete this province.">
                         </summary-controls>
                     </td>
                 </tr>

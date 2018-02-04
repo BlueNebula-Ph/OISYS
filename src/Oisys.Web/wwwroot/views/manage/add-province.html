@@ -1,0 +1,37 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Save Province. <small class="text-muted">Please input province details.</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="ctrl.addProvinceForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="province">Province</label>
+                    <input type="text" name="province" ng-model="ctrl.province.name" focus-me="ctrl.defaultFocus" required />
+                </div>
+                <ul class="list-unstyled" ng-show="ctrl.province.cities.length > 0">
+                    <li>
+                        <b>Cities</b>
+                    </li>
+                    <li ng-repeat="c in ctrl.province.cities track by $index">
+                        <div class="input-group input-group-sm bottom-margin-sm">
+                            <input class="form-control input-sm wide" type="text" name="city" ng-model="c.name" focus-me="c.focus" required />
+                            <span class="input-group-btn">
+                                <button ng-click="ctrl.removeCity($index)" class="btn btn-sm">
+                                    <i class="fa fa-times text-danger"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-sm btn-primary" ng-click="ctrl.addCity()">
+                    <i class="fa fa-plus"></i> Add city
+                </button>
+            </div>
+        </form>
+    </shell-form>
+    <shell-controls>
+        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
+                      save-enabled="!ctrl.addProvinceForm.$pristine && ctrl.addProvinceForm.$valid && ctrl.saveEnabled"></form-control>
+    </shell-controls>
+</add-edit-shell>
