@@ -123,6 +123,7 @@
     <Content Include="wwwroot\js\env.js" />
     <Content Include="wwwroot\js\env.prod.js" />
     <Content Include="wwwroot\js\services\auth-service.js" />
+    <Content Include="wwwroot\js\services\category-service.js" />
     <Content Include="wwwroot\js\services\current-user.js" />
     <Content Include="wwwroot\js\services\customer-service.js" />
     <Content Include="wwwroot\js\services\delivery-service.js">
@@ -1400,9 +1401,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\views\manage\add-category.html" />
-    <Content Include="wwwroot\views\manage\category-list.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\views\manage\add-cities.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

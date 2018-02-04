@@ -75,7 +75,7 @@
         /// <summary>
         /// Gets or sets property Category.
         /// </summary>
-        public Reference Category { get; set; }
+        public Category Category { get; set; }
 
         /// <summary>
         /// Gets or sets the adjustments collection.

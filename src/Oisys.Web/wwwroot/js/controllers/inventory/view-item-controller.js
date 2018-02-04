@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var viewItemController = function (inventoryService, referenceService, loadingService, $q) {
+    var viewItemController = function ($q, inventoryService, categoryService, utils) {
         var vm = this;
         vm.focus = true;
         vm.currentPage = 1;
@@ -15,7 +15,7 @@
         };
         vm.headers = [
             { text: "Name", value: "Name" },
-            { text: "Category", value: "Category.Code" },
+            { text: "Category", value: "Category.Name" },
             { text: "Current Qty", value: "CurrentQuantity", class: "text-right" },
             { text: "Actual Qty", value: "ActualQuantity", class: "text-right" },
             { text: "Main Price", value: "MainPrice", class: "text-right" },
@@ -25,11 +25,11 @@
         ];
 
         vm.fetchItems = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             inventoryService.fetchItems(vm.filters)
-                .then(processItemList, onFetchError)
-                .finally(hideLoading);
+                .then(processItemList, utils.onError)
+                .finally(utils.hideLoading);
         };
 
         vm.clearFilter = function () {
@@ -41,28 +41,18 @@
 
         vm.categoryList = [];
         var processCategoryFilter = function (response) {
-            angular.copy(response.data, vm.categoryList);
-            vm.categoryList.splice(0, 0, { id: 0, code: "Filter by category.." });
+            utils.populateDropdownlist(response, vm.categoryList, "name", "Filter by category..");
         };
 
         var processItemList = function (response) {
             angular.copy(response.data, vm.summaryResult);
         };
 
-        var onFetchError = function (error) {
-            toastr.error("There was an error processing your request.", "Error");
-            console.log(error);
-        };
-
-        var hideLoading = function () {
-            loadingService.hideLoading();
-        };
-
         var loadAll = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             var requests = {
-                category: referenceService.getReferenceLookup(1),
+                category: categoryService.getCategoryLookup(),
                 item: inventoryService.fetchItems(vm.filters)
             };
 
@@ -70,8 +60,8 @@
                 .then((responses) => {
                     processCategoryFilter(responses.category);
                     processItemList(responses.item);
-                }, onFetchError)
-                .finally(hideLoading);
+                }, utils.onError)
+                .finally(utils.hideLoading);
         };
 
         $(function () {
@@ -81,6 +71,6 @@
         return vm;
     };
 
-    module.controller("viewItemController", ["inventoryService", "referenceService", "loadingService", "$q", viewItemController]);
+    module.controller("viewItemController", ["$q", "inventoryService", "categoryService", "utils", viewItemController]);
 
 })(angular.module("oisys-app"));

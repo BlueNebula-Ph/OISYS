@@ -5,6 +5,7 @@
     using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -32,12 +33,18 @@
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             this.Configuration = builder.Build();
+            this.HostingEnvironment = env;
         }
 
         /// <summary>
         /// Gets read-only property configuration <see cref="IConfigurationRoot"/> class.
         /// </summary>
         public IConfigurationRoot Configuration { get; }
+
+        /// <summary>
+        /// Gets or sets the hosting environment
+        /// </summary>
+        public IHostingEnvironment HostingEnvironment { get; set; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -69,24 +76,18 @@
             services.AddDbContext<OisysDbContext>(opt =>
             {
                 opt.UseInMemoryDatabase();
-
-                opt.UseOpenIddict();
             });
 
-            services.AddOpenIddict(opt =>
+            // Add application services
+            services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
+            services.AddTransient(typeof(IPasswordHasher<>), typeof(PasswordHasher<>));
+
+            // Add adjustment service
+            services.AddScoped<IAdjustmentService, AdjustmentService>();
+
+            if (this.HostingEnvironment.IsDevelopment())
             {
-                opt.AddEntityFrameworkCoreStores<OisysDbContext>();
-
-                opt.AddMvcBinders();
-
-                opt.EnableTokenEndpoint("/connect/token");
-
-                opt.AllowPasswordFlow();
-
-                opt.DisableHttpsRequirement();
-            });
-
-            services.AddSwaggerGen(opt =>
+                services.AddSwaggerGen(opt =>
                 {
                     opt.SwaggerDoc("v1", new Info { Title = "OISYS API", Version = "v1", Description = "Order and Inventory System API" });
 
@@ -95,12 +96,7 @@
                     var xmlPath = Path.Combine(basePath, "Oisys.Web.xml");
                     opt.IncludeXmlComments(xmlPath);
                 });
-
-            // Add application services
-            services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
-
-            // Add adjustment service
-            services.AddScoped<IAdjustmentService, AdjustmentService>();
+            }
         }
 
         /// <summary>
@@ -116,21 +112,21 @@
 
             app.UseCors("OisysCorsPolicy");
 
-            app.UseOpenIddict();
-
             app.UseStaticFiles();
 
             app.UseMvcWithDefaultRoute();
 
-            app.UseSwagger();
-
-            app.UseSwaggerUI(opt =>
+            if (env.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(opt =>
                 {
                     opt.SwaggerEndpoint("/swagger/v1/swagger.json", "OISYS API V1");
                     opt.RoutePrefix = "info";
                 });
 
-            OisysDbContext.Seed(app);
+                OisysDbContext.Seed(app);
+            }
         }
     }
 }
