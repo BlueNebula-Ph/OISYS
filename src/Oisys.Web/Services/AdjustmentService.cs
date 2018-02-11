@@ -72,7 +72,7 @@
         {
             var adjustment = new Adjustment
             {
-                ItemId = item.Id,
+                Item = item,
                 AdjustmentDate = DateTime.Now,
                 AdjustmentType = adjustmentType.GetDisplayName(),
                 QuantityType = quantityType.GetDisplayName(),

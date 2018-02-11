@@ -12,6 +12,7 @@
         /// <summary>
         /// Gets or sets property Name.
         /// </summary>
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
@@ -59,12 +60,14 @@
         /// <summary>
         /// Gets or sets property Actual quantity or physical quantity of the item.
         /// </summary>
-        public decimal? ActualQuantity { get; set; }
+        [DefaultValue(0)]
+        public decimal ActualQuantity { get; set; }
 
         /// <summary>
         /// Gets or sets property Current quantity or Actual quantity - order quantity.
         /// </summary>
-        public decimal? CurrentQuantity { get; set; }
+        [DefaultValue(0)]
+        public decimal CurrentQuantity { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.

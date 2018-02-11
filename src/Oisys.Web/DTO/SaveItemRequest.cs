@@ -9,14 +9,9 @@
     public class SaveItemRequest : DTOBase
     {
         /// <summary>
-        /// Gets or sets property Code.
-        /// </summary>
-        [Required]
-        public string Code { get; set; }
-
-        /// <summary>
         /// Gets or sets property Name.
         /// </summary>
+        [Required(ErrorMessage = "Item name is required.")]
         public string Name { get; set; }
 
         /// <summary>
@@ -65,10 +60,5 @@
         /// </summary>
         [Required]
         public decimal Quantity { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Tag.
-        /// </summary>
-        public string Tag { get; set; }
     }
 }

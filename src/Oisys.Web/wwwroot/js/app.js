@@ -151,7 +151,13 @@
                 })
                 .state("orders.add-quotation", {
                     url: "/quotation/add",
-                    template: "<p>Quotation</p>"
+                    templateUrl: "/views/order/make-quotation.html",
+                    controller: "addQuotationController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.view-quotations", {
+                    url: "/quotations/view",
+                    template: "<div>View quotations</div>"
                 })
 
                 .state("deliveries", {

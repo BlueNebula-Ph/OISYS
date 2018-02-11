@@ -7,6 +7,11 @@ html, body {
     min-height: 100%;
 }
 
+hr {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
 /* Common: paddings and margins */
 .side-padding-none {
     padding-left: 0;
@@ -34,7 +39,11 @@ html, body {
     margin-bottom: 10px;
 }
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
+/* Overrides */
+.form-control, .input-group, .input-group-addon {
+    border-radius: 0 !important;
+}
+
 input,
 select,
 textarea {
@@ -176,7 +185,7 @@ shell-search div {
 }
 
     .input-details-table th {
-        background-color: #6faced;
+        background-color: #00b3b3;
         color: #fff;
     }
 

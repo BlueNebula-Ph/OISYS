@@ -3,28 +3,27 @@
         <h3>Save Item Details. <small class="text-muted">Please input item details.</small></h3>
     </shell-title>
     <shell-form>
-        <form name="addItemForm">
+        <form name="ctrl.addItemForm">
             <div class="col-md-3 left-padding-none">
                 <div form-input>
-                    <label for="itemCode">Item Code</label>
-                    <input type="text" name="itemCode" placeholder="Item code" focus-me="ctrl.defaultFocus"
-                           ng-model="ctrl.item.code" />
-                </div>
-                <div form-input>
-                    <label for="itemName">Item Name</label>
-                    <input type="text" name="itemName" placeholder="" ng-model="ctrl.item.name" />
+                    <label for="itemName">Item</label>
+                    <input type="text" ng-model="ctrl.item.name" focus-me="ctrl.defaultFocus" />
                 </div>
                 <div form-input>
                     <label for="category">Category</label>
-                    <select ng-model="ctrl.item.categoryId" ng-options="category.id as category.code for category in ctrl.categoryList"></select>
+                    <select ng-model="ctrl.item.categoryId" ng-options="category.id as category.name for category in ctrl.categoryList"></select>
                 </div>
                 <div form-input>
                     <label for="description">Description</label>
                     <textarea name="description" rows="5" ng-model="ctrl.item.description" />
                 </div>
                 <div form-input>
-                    <label for="Tags">Tags</label>
-                    <input name="Tags" ng-model="ctrl.item.tags" />
+                    <label for="weight">Weight</label>
+                    <input name="weight" ng-model="ctrl.item.weight" />
+                </div>
+                <div form-input>
+                    <label for="thickness">Thickness</label>
+                    <input name="thickness" ng-model="ctrl.item.thickness" />
                 </div>
             </div>
             <div class="col-md-2 left-padding-none">
@@ -47,14 +46,6 @@
                 <div form-input>
                     <label for="nePrice">N.E. Price</label>
                     <input name="nePrice" numeric-textbox="{ currencySymbol: '₱ '}" class="text-right" ng-model="ctrl.item.nePrice" />
-                </div>
-                <div form-input>
-                    <label for="weight">Weight</label>
-                    <input name="weight" ng-model="ctrl.item.weight" />
-                </div>
-                <div form-input>
-                    <label for="thickness">Thickness</label>
-                    <input name="thickness" ng-model="ctrl.item.thickness" />
                 </div>
             </div>
         </form>
