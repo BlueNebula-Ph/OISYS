@@ -7,7 +7,7 @@
     <link rel="shortcut icon" type="image/png" sizes="32x32" href="~/images/favicon.png">
     <title>Order and Inventory Management System - Ace Plastic Center</title>
 
-    <environment names="Development">
+    <environment names="Development,Heroku">
         <link rel="stylesheet" href="~/lib/bootswatch/spacelab/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="~/lib/toastr/toastr.css" />
@@ -25,15 +25,20 @@
     @this.RenderBody()
 
     <environment names="Development">
+        <script src="~/js/env.js"></script>
+    </environment>
+    <environment names="Heroku">
+        <script src="~/js/env.heroku.js"></script>
+    </environment>
+    <environment names="Development,Heroku">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/angular/angular.js"></script>
         <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
         <script src="~/lib/autoNumeric/dist/autoNumeric.js"></script>
         <script src="~/lib/toastr/toastr.js"></script>
-        <script src="~/js/env.js"></script>
         <script src="~/js/app.js" asp-append-version="true"></script>
-        
+
         <script src="~/js/services/loading-service.js"></script>
         <script src="~/js/services/customer-service.js"></script>
         <script src="~/js/services/reference-service.js"></script>
@@ -49,7 +54,7 @@
         <script src="~/js/services/utility-service.js"></script>
         <script src="~/js/services/province-service.js"></script>
         <script src="~/js/services/category-service.js"></script>
-        
+
         <script src="~/js/directives/navigation.js"></script>
         <script src="~/js/directives/sidebar.js"></script>
         <script src="~/js/directives/loading-inidicator.js"></script>
