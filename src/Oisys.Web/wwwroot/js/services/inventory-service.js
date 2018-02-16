@@ -19,7 +19,7 @@
         };
 
         dataFactory.saveItem = function (id, item) {
-            if (id === 0) {
+            if (id == 0) {
                 return $http.post(urlBase, item);
             } else {
                 var url = urlBase + "/" + id;

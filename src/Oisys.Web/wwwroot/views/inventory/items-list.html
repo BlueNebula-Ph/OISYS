@@ -9,7 +9,7 @@
         </div>
         <div search-input>
             <span title="Filter by category"><i class="fa fa-file-o fa-fw"></i></span>
-            <select ng-model="ctrl.filters.categoryId" ng-options="category.id as category.code for category in ctrl.categoryList"></select>
+            <select ng-model="ctrl.filters.categoryId" ng-options="category.id as category.name for category in ctrl.categoryList"></select>
         </div>
         <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchItems()">
             <i class="fa fa-search"></i> Search
@@ -31,7 +31,6 @@
             </thead>
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
-                    <td>{{ c.code }}</td>
                     <td>{{ c.name }}</td>
                     <td>{{ c.categoryCode }}</td>
                     <td class="text-right">{{ c.currentQuantity | number: 0 }} {{ c.unit }}</td>

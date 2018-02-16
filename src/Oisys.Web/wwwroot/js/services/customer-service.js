@@ -21,7 +21,7 @@
         };
 
         dataFactory.saveCustomer = function (id, customer) {
-            if (id === 0) {
+            if (id == 0) {
                 return $http.post(urlBase, customer);
             } else {
                 var url = urlBase + "/" + id;

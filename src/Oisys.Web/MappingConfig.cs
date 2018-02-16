@@ -20,10 +20,14 @@
                 .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name))
                 .ForMember(d => d.AdjustmentType, s => s.MapFrom(o => $"{o.AdjustmentType} - {o.QuantityType}"));
 
+            // Category
+            this.CreateMap<Category, CategorySummary>();
+            this.CreateMap<Category, CategoryLookup>();
+            this.CreateMap<SaveCategoryRequest, Category>();
+
             // City
             this.CreateMap<City, CitySummary>()
                 .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Name));
-
             this.CreateMap<SaveCityRequest, City>();
 
             // TODO: Change LastUpdatedBy value
@@ -56,7 +60,7 @@
                 .ForMember(d => d.CodeName, s => s.MapFrom(o => o.Name));
 
             this.CreateMap<Item, ItemSummary>()
-                .ForMember(d => d.CategoryCode, s => s.MapFrom(o => o.Category.Code));
+                .ForMember(d => d.CategoryCode, s => s.MapFrom(o => o.Category.Name));
 
             this.CreateMap<SaveItemRequest, Item>();
 
@@ -75,7 +79,7 @@
 
             // Province
             this.CreateMap<Province, ProvinceSummary>();
-
+            this.CreateMap<Province, ProvinceLookup>();
             this.CreateMap<SaveProvinceRequest, Province>();
 
             // Reference
@@ -103,6 +107,16 @@
                 .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name));
 
             this.CreateMap<SaveSalesQuoteDetailRequest, SalesQuoteDetail>();
+
+            // User
+            this.CreateMap<User, UserSummary>()
+                .ForMember(d => d.Admin, o => o.MapFrom(s => s.AccessRights.Contains("admin")))
+                .ForMember(d => d.CanView, o => o.MapFrom(s => s.AccessRights.Contains("canView")))
+                .ForMember(d => d.CanWrite, o => o.MapFrom(s => s.AccessRights.Contains("canWrite")))
+                .ForMember(d => d.CanDelete, o => o.MapFrom(s => s.AccessRights.Contains("canDelete")));
+
+            this.CreateMap<SaveUserRequest, User>()
+                .ForMember(d => d.PasswordHash, o => o.Ignore());
         }
     }
 }

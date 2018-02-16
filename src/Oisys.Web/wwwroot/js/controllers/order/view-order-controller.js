@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var viewOrderController = function (orderService, customerService, inventoryService, referenceService, loadingService, $q) {
+    var viewOrderController = function ($q, orderService, customerService, inventoryService, provinceService, utils) {
         var vm = this;
         vm.focus = true;
         vm.currentPage = 1;
@@ -27,7 +27,7 @@
         ];
 
         vm.fetchOrders = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             orderService.fetchOrders(vm.filters)
                 .then(processOrders, onFetchError)
@@ -48,46 +48,28 @@
         vm.customerList = [];
         vm.itemList = [];
         vm.provinceList = [];
-        var processFilterList = function (response, copyTo, prop, defaultText) {
-            angular.copy(response.data, copyTo);
-
-            var defaultItem = { id: 0 };
-            defaultItem[prop] = defaultText;
-
-            copyTo.splice(0, 0, defaultItem);
-        };
-
         var processOrders = function (response) {
             angular.copy(response.data, vm.summaryResult);
         };
 
-        var onFetchError = function (error) {
-            toastr.error("There was an error processing your request.", "Error");
-            console.log(error);
-        };
-
-        var hideLoading = function () {
-            loadingService.hideLoading();
-        };
-
         var loadAll = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             var requests = {
                 customer: customerService.getCustomerLookup(),
                 item: inventoryService.getItemLookup(),
-                province: referenceService.getReferenceLookup(3),
+                province: provinceService.getProvinceLookup(),
                 order: orderService.fetchOrders(vm.filters)
             };
 
             $q.all(requests)
                 .then((responses) => {
-                    processFilterList(responses.customer, vm.customerList, "name", "Filter by customer..");
-                    processFilterList(responses.item, vm.itemList, "codeName", "Filter by item..");
-                    processFilterList(responses.province, vm.provinceList, "code", "Filter by province..");
+                    utils.populateDropdownlist(responses.customer, vm.customerList, "name", "Filter by customer..");
+                    utils.populateDropdownlist(responses.item, vm.itemList, "codeName", "Filter by item..");
+                    utils.populateDropdownlist(responses.province, vm.provinceList, "name", "Filter by province..");
                     processOrders(responses.order);
-                }, onFetchError)
-                .finally(hideLoading);
+                }, utils.onError)
+                .finally(utils.hideLoading);
         };
 
         $(function () {
@@ -97,6 +79,6 @@
         return vm;
     };
 
-    module.controller("viewOrderController", ["orderService", "customerService", "inventoryService", "referenceService", "loadingService", "$q", viewOrderController]);
+    module.controller("viewOrderController", ["$q", "orderService", "customerService", "inventoryService", "provinceService", "utils", viewOrderController]);
 
 })(angular.module("oisys-app"));

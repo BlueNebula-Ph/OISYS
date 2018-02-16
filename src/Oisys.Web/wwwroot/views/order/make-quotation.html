@@ -1,0 +1,124 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Make a Quotation.</h3>
+    </shell-title>
+    <shell-form>
+        <form name="ctrl.quotationForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Quote Number</label>
+                    <input type="text" ng-model="ctrl.order.code" focus-me="ctrl.defaultFocus" />
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Customer</label>
+                    <input type="text" ng-model="ctrl.order.code" />
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Contact Number</label>
+                    <input type="text" ng-model="ctrl.order.code" />
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Address</label>
+                    <input type="text" ng-model="ctrl.order.code" />
+                </div>
+            </div>
+            <hr style="width: 100%;" />
+            <div>
+                <label>Items</label>
+                <table class="table table-condensed table-bordered input-details-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 26%;">Item</th>
+                            <th style="width: 15%;">Quantity</th>
+                            <th style="width: 15%;">Unit</th>
+                            <th style="width: 20%;">Unit Price</th>
+                            <th style="width: 20%;">Total Price</th>
+                            <th style="width: 4%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">
+                                <button class="btn btn-primary btn-xs" ng-click="ctrl.addOrderDetail()">
+                                    <i class="fa fa-plus"></i> New order detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="i in ctrl.orderDetails track by $index">
+                            <td>
+                                <div ng-if="!i.isDeleted">
+                                    <select class="form-control input-sm" ng-model="i.selectedItem" ng-options="item.codeName for item in ctrl.itemList" focus-me="i.focus"></select>
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <s>{{ i.selectedItem.codeName }}</s>
+                                </div>
+                            </td>
+                            <td>
+                                <div ng-if="!i.isDeleted">
+                                    <input class="form-control input-sm" type="number" ng-model="i.quantity" />
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <s>{{ i.quantity }}</s>
+                                </div>
+                            </td>
+                            <td>
+                                <div ng-if="!i.isDeleted">
+                                    <input class="form-control input-sm" ng-model="i.unit" readonly />
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <s>{{ i.unit }}</s>
+                                </div>
+                            </td>
+                            <td>
+                                <div ng-if="!i.isDeleted">
+                                    <price-toggler item="i.selectedItem" selected-price-type="walkInPrice" selected-price="i.price"></price-toggler>
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <s>₱ {{ i.price | number: 2 }}</s>
+                                </div>
+                            </td>
+                            <td>
+                                <div ng-if="!i.isDeleted">
+                                    <input type="text" class="form-control input-sm" ng-model="i.totalPrice"
+                                           numeric-textbox="{ currencySymbol: '₱ '}" readonly />
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <s>₱ {{ i.totalPrice | number: 2 }}</s>
+                                </div>
+                            </td>
+                            <td>
+                                <div ng-if="!i.isDeleted">
+                                    <a href="" class="text-danger" ng-click="ctrl.removeOrderDetail($index)">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                                <div ng-if="i.isDeleted">
+                                    <a href="" class="text-success" ng-click="ctrl.undoRemove($index)">
+                                        <i class="fa fa-undo"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </shell-form>
+    <shell-controls>
+        <button class="btn btn-sm btn-primary">
+            <i class="fa fa-save"></i> Save
+        </button>
+        <button class="btn btn-sm btn-primary">
+            <i class="fa fa-print"></i> Save &amp; Print
+        </button>
+        <button class="btn btn-sm btn-default">
+            <i class="fa fa-times"></i> Reset
+        </button>
+    </shell-controls>
+</add-edit-shell>

@@ -17,7 +17,7 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets collection of subcategories property.
+        /// Gets or sets collection of cities.
         /// </summary>
         public IEnumerable<CitySummary> Cities
         {

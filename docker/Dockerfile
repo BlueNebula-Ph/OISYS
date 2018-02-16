@@ -1,0 +1,8 @@
+FROM microsoft/aspnetcore:1.1.2
+
+COPY ./OISYS.Web /OISYS
+WORKDIR /OISYS
+
+EXPOSE 5000
+ENV ASPNETCORE_ENVIRONMENT=Heroku
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Oisys.Web.dll

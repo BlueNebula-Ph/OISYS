@@ -58,7 +58,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\js\controllers\manage\add-category-controller.js" />
-    <Content Include="wwwroot\js\controllers\manage\add-city-controller.js" />
     <Content Include="wwwroot\js\controllers\manage\add-user-controller.js" />
     <Content Include="wwwroot\js\controllers\manage\manage-system-controller.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -66,13 +65,11 @@
     <Content Include="wwwroot\js\controllers\manage\view-category-controller.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\js\controllers\manage\view-city-controller.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\js\controllers\manage\view-users-controller.js" />
     <Content Include="wwwroot\js\controllers\order\add-order-controller.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\js\controllers\order\add-quotation-controller.js" />
     <Content Include="wwwroot\js\controllers\order\manage-order-controller.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -120,9 +117,11 @@
     <Content Include="wwwroot\js\directives\summary-shell.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\js\env.heroku.js" />
     <Content Include="wwwroot\js\env.js" />
     <Content Include="wwwroot\js\env.prod.js" />
     <Content Include="wwwroot\js\services\auth-service.js" />
+    <Content Include="wwwroot\js\services\category-service.js" />
     <Content Include="wwwroot\js\services\current-user.js" />
     <Content Include="wwwroot\js\services\customer-service.js" />
     <Content Include="wwwroot\js\services\delivery-service.js">
@@ -1400,19 +1399,13 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\views\manage\add-category.html" />
-    <Content Include="wwwroot\views\manage\category-list.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\views\manage\add-cities.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\views\manage\add-user.html" />
     <Content Include="wwwroot\views\manage\category-list.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\views\manage\cities-list.html" />
     <Content Include="wwwroot\views\manage\user-list.html" />
     <Content Include="wwwroot\views\order\add-order.html" />
+    <Content Include="wwwroot\views\order\make-quotation.html" />
     <Content Include="wwwroot\views\order\order-details.html" />
     <Content Include="wwwroot\views\order\orders-list.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

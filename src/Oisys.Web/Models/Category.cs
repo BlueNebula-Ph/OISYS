@@ -9,5 +9,10 @@
         /// Gets or sets the category name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the category is deleted.
+        /// </summary>
+        public bool IsDeleted { get; set; }
     }
 }

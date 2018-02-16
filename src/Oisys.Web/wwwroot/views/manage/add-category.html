@@ -3,10 +3,10 @@
         <h3>Save Category. <small class="text-muted">Please input category.</small></h3>
     </shell-title>
     <shell-form>
-        <form name="addCategoryForm" novalidate>
+        <form name="ctrl.addCategoryForm" novalidate>
             <div form-input>
                 <label for="category">Category Name</label>
-                <input name="category" placeholder="Category Name." ng-model="ctrl.reference.code" required focus-me="ctrl.focus" />
+                <input name="category" placeholder="Category Name." ng-model="ctrl.category.name" required focus-me="ctrl.defaultFocus" />
             </div>
         </form>
     </shell-form>

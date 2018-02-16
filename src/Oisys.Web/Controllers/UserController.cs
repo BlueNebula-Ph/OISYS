@@ -6,7 +6,6 @@ namespace Oisys.Web.Controllers
     using System.Threading.Tasks;
     using AutoMapper;
     using BlueNebula.Common.Helpers;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;

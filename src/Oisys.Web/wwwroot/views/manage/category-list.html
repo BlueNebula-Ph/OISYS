@@ -16,7 +16,7 @@
             <thead>
                 <tr>
                     <th>
-                        <column-header header-text="Category Name" header-value="Code" sort="ctrl.filters.sortBy"
+                        <column-header header-text="Category Name" header-value="Name" sort="ctrl.filters.sortBy"
                                        sort-direction="ctrl.filters.sortDirection" fetch-call-back="ctrl.fetchCategories()"></column-header>
                     </th>
                     <th></th>
@@ -24,11 +24,11 @@
             </thead>
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
-                    <td>{{ c.code }}</td>
+                    <td>{{ c.name }}</td>
                     <td class="text-center">
                         <summary-controls show-details="false"
                                           show-edit="true" edit-state="system.add-category({ id: {{ c.id }} })" edit-title="Edit this category."
-                                          show-delete="true" delete-title="Delete this category.">
+                                          show-delete="true" delete-title="Delete this category." on-delete="ctrl.delete(c.id)">
                         </summary-controls>
                     </td>
                 </tr>

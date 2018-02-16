@@ -118,6 +118,7 @@
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
 
+                SeedCategories(context);
                 SeedProvincesAndCities(context);
                 SeedReferenceTypes(context);
                 SeedReferences(context);
