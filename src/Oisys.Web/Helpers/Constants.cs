@@ -90,6 +90,21 @@
             /// The delivery deleted text.
             /// </summary>
             public const string DeliveryDeleted = "Delivery Deleted";
+
+            /// <summary>
+            /// The creditmemo created text.
+            /// </summary>
+            public const string CreditMemoCreated = "Credit Memo Created";
+
+            /// <summary>
+            /// The creditmemo updated text.
+            /// </summary>
+            public const string CreditMemoUpdated = "Credit Memo Updated";
+
+            /// <summary>
+            /// The delivery deleted text.
+            /// </summary>
+            public const string CreditMemoDeleted = "Credit Memo Deleted";
         }
     }
 }

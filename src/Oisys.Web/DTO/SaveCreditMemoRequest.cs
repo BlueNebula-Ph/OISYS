@@ -1,16 +1,16 @@
-﻿namespace Oisys.Web.Models
+﻿namespace Oisys.Web.DTO
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+    using BlueNebula.Common.DTOs;
     using BlueNebula.Common.Helpers;
+    using Newtonsoft.Json;
 
     /// <summary>
-    /// <see cref="CreditMemo"/> class CreditMemo object.
+    /// <see cref="SaveCreditMemoRequest"/> class Create/Update CreditMemo object.
     /// </summary>
-    public class CreditMemo : ModelBase, IObjectWithState
+    public class SaveCreditMemoRequest : DTOBase, IObjectWithState
     {
         /// <summary>
         /// Gets or sets property Code.
@@ -35,25 +35,14 @@
         public int CustomerId { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
-        /// </summary>
-        [DefaultValue(false)]
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
         /// Gets or sets property Details.
         /// </summary>
-        public ICollection<CreditMemoDetail> Details { get; set; }
+        public ICollection<SaveCreditMemoDetailRequest> Details { get; set; }
 
         /// <summary>
-        /// Gets or sets property Customer.
+        /// Gets or sets the state property
         /// </summary>
-        public Customer Customer { get; set; }
-
-        /// <summary>
-        /// Gets or sets the objectstate property
-        /// </summary>
-        [NotMapped]
+        [JsonIgnore]
         public ObjectState State { get; set; }
     }
 }

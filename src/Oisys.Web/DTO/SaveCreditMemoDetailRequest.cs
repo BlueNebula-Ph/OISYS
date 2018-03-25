@@ -1,13 +1,15 @@
-﻿namespace Oisys.Web.Models
+﻿namespace Oisys.Web.DTO
 {
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+    using BlueNebula.Common.DTOs;
     using BlueNebula.Common.Helpers;
+    using Newtonsoft.Json;
 
     /// <summary>
-    /// <see cref="CreditMemoDetail"/> class CreditMemodetail object.
+    /// <see cref="SaveCreditMemoDetailRequest"/> class represents the child of CreditMemo object.
     /// </summary>
-    public class CreditMemoDetail : ModelBase, IObjectWithState
+    public class SaveCreditMemoDetailRequest : DTOBase, IObjectWithState
     {
         /// <summary>
         /// Gets or sets property CreditMemoId.
@@ -28,25 +30,25 @@
         public decimal Quantity { get; set; }
 
         /// <summary>
-        /// Gets or sets property OrderDetailId.
+        /// Gets or sets a value indicating whether gets or sets property whether to put back the returned item to inventory.
         /// </summary>
-        [Required]
+        public bool ShouldAddBackToInventory { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value the orderdetailid
+        /// </summary>
         public int OrderDetailId { get; set; }
 
         /// <summary>
-        /// Gets or sets property Item.
+        /// Gets or sets a value indicating whether order detail is deleted.
         /// </summary>
-        public Item Item { get; set; }
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
 
         /// <summary>
-        /// Gets or sets property CreditMemo.
+        /// Gets or sets the state property
         /// </summary>
-        public CreditMemo CreditMemo { get; set; }
-
-        /// <summary>
-        /// Gets or sets the objectstate property
-        /// </summary>
-        [NotMapped]
+        [JsonIgnore]
         public ObjectState State { get; set; }
     }
 }
