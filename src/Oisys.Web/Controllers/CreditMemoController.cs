@@ -206,6 +206,7 @@
             try
             {
                 entity.State = ObjectState.Modified;
+
                 // Adjust current quantities accordingly
                 foreach (var detail in cm.Details)
                 {
@@ -218,6 +219,7 @@
                     if (updatedCM != null)
                     {
                         detail.State = ObjectState.Modified;
+
                         // Deduct items from Inventory
                         this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, detail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
                         this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, detail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
