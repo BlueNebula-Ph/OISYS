@@ -15,7 +15,7 @@
     using Oisys.Web.Services.Interfaces;
 
     /// <summary>
-    /// <see cref="CityController"/> class handles CreditMemo basic add, edit, delete and get.
+    /// <see cref="CreditMemoController"/> class handles CreditMemo basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -112,6 +112,7 @@
             var entity = await this.context.CreditMemos
                 .AsNoTracking()
                 .Include(c => c.Customer)
+                .Include(c => c.CustomerTransaction)
                 .Include(c => c.Details)
                     .ThenInclude(d => d.Item)
                 .SingleOrDefaultAsync(c => c.Id == id);
@@ -134,31 +135,49 @@
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]SaveCreditMemoRequest entity)
         {
-            var creditMemo = this.mapper.Map<CreditMemo>(entity);
-
-            foreach (var detail in entity.Details)
+            try
             {
-                var item = await this.context.Items.FindAsync(detail.ItemId);
+                var creditMemo = this.mapper.Map<CreditMemo>(entity);
+                decimal totalAmountReturned = 0;
 
-                var orderDetail = await this.context.OrderDetails.FindAsync(detail.OrderDetailId);
-
-                // add back to inventory
-                if (detail.ShouldAddBackToInventory)
+                foreach (var detail in entity.Details)
                 {
-                    this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoCreated);
+                    var item = await this.context.Items.FindAsync(detail.ItemId);
+
+                    var orderDetail = await this.context.OrderDetails.FindAsync(detail.OrderDetailId);
+
+                    // add back to inventory
+                    if (detail.ShouldAddBackToInventory)
+                    {
+                        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoCreated);
+                    }
+
+                    // total amount to deduct from customer's balance
+                    totalAmountReturned = totalAmountReturned + (orderDetail.Price * detail.Quantity);
                 }
 
-                // credit amount to customer account
-                this.AddCustomerTransaction(entity.CustomerId, AdjustmentType.Add, orderDetail.Price, detail.Quantity, Constants.AdjustmentRemarks.CreditMemoCreated);
+                // Add customer transaction
+                this.customerService.AddCustomerTransaction(entity.CustomerId, creditMemo, AdjustmentType.Deduct, totalAmountReturned, Constants.AdjustmentRemarks.CreditMemoCreated);
+
+                // Deduct amount from customer balance
+                var customer = await this.context.Customers.FindAsync(entity.CustomerId);
+                if (customer != null)
+                {
+                    customer.Balance = customer.Balance - totalAmountReturned;
+                }
+
+                await this.context.CreditMemos.AddAsync(creditMemo);
+
+                await this.context.SaveChangesAsync();
+
+                var mappedCreditMemo = this.mapper.Map<CreditMemoSummary>(creditMemo);
+
+                return this.CreatedAtRoute("GetCreditMemo", new { id = creditMemo.Id }, mappedCreditMemo);
             }
-
-            await this.context.CreditMemos.AddAsync(creditMemo);
-
-            await this.context.SaveChangesAsync();
-
-            var mappedCreditMemo = this.mapper.Map<CreditMemoSummary>(creditMemo);
-
-            return this.CreatedAtRoute("GetCreditMemo", new { id = creditMemo.Id }, mappedCreditMemo);
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex);
+            }
         }
 
         /// <summary>
@@ -170,8 +189,14 @@
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveCreditMemoRequest entity)
         {
+            // get credit memo
             var creditMemoExists = await this.context.CreditMemos
+                .AsNoTracking()
+                .Include(c => c.CustomerTransaction)
                 .AnyAsync(c => c.Id == id);
+
+            var customer = await this.context.Customers
+                .SingleOrDefaultAsync(c => c.Id == entity.CustomerId);
 
             if (!creditMemoExists)
             {
@@ -182,6 +207,8 @@
             {
                 // Set the state to modified
                 entity.State = ObjectState.Modified;
+                decimal totalAmountToDeduct = 0;
+                decimal totalAmountToAdd = 0;
 
                 // Adjust current quantities accordingly
                 foreach (var updatedCreditMemoDetail in entity.Details)
@@ -203,10 +230,10 @@
                             updatedCreditMemoDetail.State = ObjectState.Modified;
 
                             // Deduct items from Inventory
-                            this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, creditMemoDetailItem, oldDetail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                            this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, creditMemoDetailItem, oldDetail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
 
-                            // Deduct amount from Customer Account
-                            this.AddCustomerTransaction(entity.CustomerId, AdjustmentType.Deduct, orderDetail.Price, oldDetail.Quantity, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                            // Amount to add to customer balance
+                            totalAmountToAdd = totalAmountToAdd + (oldDetail.Quantity * orderDetail.Price);
 
                             // If a delete is issued to the creditMemo detail, remove that creditMemo detail
                             // Also, skip modification of current quantities
@@ -222,18 +249,26 @@
                         }
 
                         // Add the correct amount from the item's current quantity
-                        this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, creditMemoDetailItem, updatedCreditMemoDetail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, creditMemoDetailItem, updatedCreditMemoDetail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoUpdated);
 
-                        // Add amount to Customer Account
-                        this.AddCustomerTransaction(entity.CustomerId, AdjustmentType.Add, orderDetail.Price, updatedCreditMemoDetail.Quantity, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                        // Deduct amount from Customer Account
+                        totalAmountToDeduct = totalAmountToDeduct + (orderDetail.Price * updatedCreditMemoDetail.Quantity);
                     }
                 }
 
                 // Map the entity to an creditMemo object
-                var creditMemo = this.mapper.Map<CreditMemo>(entity);
+                var updatedCreditMemo = this.mapper.Map<CreditMemo>(entity);
 
                 // Allow EF to track the creditMemo object and set the entity state to it's appropriate state
-                this.context.ChangeTracker.TrackGraph(creditMemo, node => ChangeTrackingHelpers.ConvertStateOfNode(node));
+                this.context.ChangeTracker.TrackGraph(updatedCreditMemo, node => ChangeTrackingHelpers.ConvertStateOfNode(node));
+
+                this.customerService.ModifyCustomerTransaction(updatedCreditMemo.CustomerTransactionId, AdjustmentType.Deduct, totalAmountToDeduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
+
+                if (customer != null)
+                {
+                    customer.Balance = customer.Balance + totalAmountToAdd;
+                    customer.Balance = customer.Balance - totalAmountToDeduct;
+                }
 
                 await this.context.SaveChangesAsync();
             }
@@ -254,6 +289,8 @@
         public async Task<IActionResult> Delete(long id)
         {
             var creditMemo = await this.context.CreditMemos
+                .Include(c => c.Customer)
+                .Include(c => c.CustomerTransaction)
                 .Include(c => c.Details)
                 .Include("Details.Item")
                 .SingleOrDefaultAsync(c => c.Id == id);
@@ -263,54 +300,47 @@
                 return this.NotFound(id);
             }
 
-            OrderDetail orderDetail = null;
-
-            creditMemo.IsDeleted = true;
-
-            foreach (var detail in creditMemo.Details)
+            try
             {
-                orderDetail = await this.context.OrderDetails.FindAsync(detail.OrderDetailId);
+                OrderDetail orderDetail = null;
 
-                this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, detail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDeleted);
+                // Delete credit memo
+                creditMemo.IsDeleted = true;
+                decimal totalAmountReturnedToBalance = 0;
 
-                // Deduct amount from Customer Account
-                this.AddCustomerTransaction(creditMemo.CustomerId, AdjustmentType.Deduct, orderDetail.Price, orderDetail.Quantity, Constants.AdjustmentRemarks.CreditMemoDeleted);
+                foreach (var detail in creditMemo.Details)
+                {
+                    orderDetail = await this.context.OrderDetails.FindAsync(detail.OrderDetailId);
+
+                    this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, detail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDeleted);
+
+                    // compute amount to add to customer's balance
+                    totalAmountReturnedToBalance = totalAmountReturnedToBalance + (orderDetail.Price * detail.Quantity);
+                }
+
+                // Remove credit memo details
+                this.context.RemoveRange(creditMemo.Details);
+
+                // Delete customer transaction attached to credit memo
+                this.customerService.DeleteCustomerTransaction(creditMemo.CustomerTransaction);
+
+                var customer = await this.context.Customers
+                        .SingleOrDefaultAsync(c => c.Id == creditMemo.CustomerId);
+
+                // Update customer's balance
+                if (customer != null)
+                {
+                    creditMemo.Customer.Balance = creditMemo.Customer.Balance + totalAmountReturnedToBalance;
+                }
+
+                await this.context.SaveChangesAsync();
+
+                return new NoContentResult();
             }
-
-            this.context.RemoveRange(creditMemo.Details);
-
-            await this.context.SaveChangesAsync();
-
-            return new NoContentResult();
-        }
-
-        /// <summary>
-        /// Method to add customer transaction using CustomerService
-        /// </summary>
-        /// <param name="customerId">Customer Id</param>
-        /// <param name="adjustmentType">Adjusment type</param>
-        /// <param name="odItemPrice">Order Detail Item Price</param>
-        /// <param name="odItemQuantity">Order detail Quantity</param>
-        /// <param name="remarks">Credit Memo remarks</param>
-        private void AddCustomerTransaction(int customerId, AdjustmentType adjustmentType, decimal? odItemPrice, decimal? odItemQuantity, string remarks)
-        {
-            var credit = adjustmentType == AdjustmentType.Add ? odItemPrice * odItemQuantity : null;
-            var debit = adjustmentType == AdjustmentType.Deduct ? odItemPrice * odItemQuantity : null;
-            var runningBalance = this.customerService.ComputeRunningBalance(customerId, credit, debit);
-
-            var trx = new CustomerTransaction()
+            catch (Exception ex)
             {
-                CustomerId = customerId,
-                Date = DateTime.Now.ToUniversalTime(),
-                Credit = credit,
-                Debit = debit,
-                TransactionType = remarks,
-                Description = remarks,
-                RunningBalance = runningBalance,
-            };
-
-            this.context.CustomerTransactions.AddAsync(trx);
-            this.context.SaveChanges();
+                return this.BadRequest(ex);
+            }
         }
     }
 }

@@ -35,6 +35,11 @@
         public int CustomerId { get; set; }
 
         /// <summary>
+        /// Gets or sets property CustomerTransactionId.
+        /// </summary>
+        public int CustomerTransactionId { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.
         /// </summary>
         [DefaultValue(false)]
@@ -49,6 +54,11 @@
         /// Gets or sets property Customer.
         /// </summary>
         public Customer Customer { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Customer.
+        /// </summary>
+        public CustomerTransaction CustomerTransaction { get; set; }
 
         /// <summary>
         /// Gets or sets the objectstate property

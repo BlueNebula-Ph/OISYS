@@ -1,6 +1,9 @@
 ﻿namespace Oisys.Web.Services
 {
+    using System;
     using System.Linq;
+    using Oisys.Web.Helpers;
+    using Oisys.Web.Models;
     using Oisys.Web.Services.Interfaces;
 
     /// <summary>
@@ -20,24 +23,62 @@
         }
 
         /// <summary>
-        /// Method to compute runinng balance
+        /// Delete customer transaction
+        /// </summary>
+        /// <param name="transaction">trnsaction to delete</param>
+        public void DeleteCustomerTransaction(CustomerTransaction transaction)
+        {
+            transaction.IsDeleted = true;
+        }
+
+        /// <summary>
+        /// Modify customer transaction when returning an item
+        /// </summary>
+        /// <param name="customerTransactionId">transaction to modify</param>
+        /// <param name="adjustmentType">Adjustment type</param>
+        /// <param name="totalAmount">Total amount</param>
+        /// <param name="remarks">Remarks</param>
+        public void ModifyCustomerTransaction(int customerTransactionId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks)
+        {
+            var transaction = this.context.CustomerTransactions.SingleOrDefault(c => c.Id == customerTransactionId);
+
+            var credit = adjustmentType == AdjustmentType.Add ? totalAmount : null;
+            var debit = adjustmentType == AdjustmentType.Deduct ? totalAmount : null;
+
+            if (transaction != null)
+            {
+                transaction.Credit = credit;
+                transaction.Debit = debit;
+                transaction.Description = remarks;
+            }
+        }
+
+        /// <summary>
+        /// Method to add customer transaction using CustomerService
         /// </summary>
         /// <param name="customerId">Customer Id</param>
-        /// <param name="credit">Credit</param>
-        /// <param name="debit">Debit</param>
-        /// <returns>Balance</returns>
-        public decimal ComputeRunningBalance(long customerId, decimal? credit, decimal? debit)
+        /// <param name="creditMemo">Credit Memo created</param>
+        /// <param name="adjustmentType">Adjusment type</param>
+        /// <param name="totalAmount">Total amount</param>
+        /// <param name="remarks">Credit Memo remarks</param>
+        public void AddCustomerTransaction(int customerId, CreditMemo creditMemo, AdjustmentType adjustmentType, decimal? totalAmount, string remarks)
         {
-            decimal runningBalance = 0;
+            var credit = adjustmentType == AdjustmentType.Add ? totalAmount : null;
+            var debit = adjustmentType == AdjustmentType.Deduct ? totalAmount : null;
 
-            var recentTransaction = this.context.CustomerTransactions.OrderByDescending(c => c.Date).FirstOrDefault(c => c.CustomerId == customerId);
+            var customerTransaction = new CustomerTransaction()
+                {
+                    CustomerId = customerId,
+                    Date = DateTime.Now.ToUniversalTime(),
+                    Credit = credit,
+                    Debit = debit,
+                    TransactionType = remarks,
+                    Description = remarks,
+                };
 
-            if (recentTransaction != null)
-            {
-                runningBalance = recentTransaction.RunningBalance + (credit.HasValue ? credit.Value : 0) - (debit.HasValue ? debit.Value : 0);
-            }
+            this.context.CustomerTransactions.AddAsync(customerTransaction);
 
-            return runningBalance;
+            creditMemo.CustomerTransaction = customerTransaction;
         }
     }
 }

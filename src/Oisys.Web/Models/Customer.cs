@@ -73,6 +73,11 @@
         public bool IsDeleted { get; set; }
 
         /// <summary>
+        /// Gets or sets property RunningBalance.
+        /// </summary>
+        public decimal Balance { get; set; }
+
+        /// <summary>
         /// Gets or sets property City.
         /// </summary>
         public City City { get; set; }
