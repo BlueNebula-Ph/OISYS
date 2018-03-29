@@ -25,9 +25,11 @@
         /// <summary>
         /// Delete customer transaction
         /// </summary>
-        /// <param name="transaction">trnsaction to delete</param>
-        public void DeleteCustomerTransaction(CustomerTransaction transaction)
+        /// <param name="customerTransactionId">trnsaction to delete</param>
+        public void DeleteCustomerTransaction(int customerTransactionId)
         {
+            var transaction = this.context.CustomerTransactions.SingleOrDefault(c => c.Id == customerTransactionId);
+
             transaction.IsDeleted = true;
         }
 
@@ -78,7 +80,7 @@
 
             this.context.CustomerTransactions.AddAsync(customerTransaction);
 
-            creditMemo.CustomerTransaction = customerTransaction;
+            creditMemo.CustomerTransactionId = customerTransaction.Id;
         }
     }
 }

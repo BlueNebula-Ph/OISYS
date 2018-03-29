@@ -11,8 +11,8 @@
         /// <summary>
         /// Delete customer transaction
         /// </summary>
-        /// <param name="transaction">transaction to delete</param>
-        void DeleteCustomerTransaction(CustomerTransaction transaction);
+        /// <param name="customerTransactionId">transaction to modify</param>
+        void DeleteCustomerTransaction(int customerTransactionId);
 
         /// <summary>
         /// Modify customer transaction when returning an item

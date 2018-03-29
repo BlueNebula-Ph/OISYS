@@ -56,11 +56,6 @@
         public Customer Customer { get; set; }
 
         /// <summary>
-        /// Gets or sets property Customer.
-        /// </summary>
-        public CustomerTransaction CustomerTransaction { get; set; }
-
-        /// <summary>
         /// Gets or sets the objectstate property
         /// </summary>
         [NotMapped]
