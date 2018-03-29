@@ -190,7 +190,7 @@
             var cm = this.context.CreditMemos
                         .Include(c => c.Customer)
                         .Include(c => c.Details)
-                        .AsNoTracking()
+                        .Include("Details.Item")
                         .SingleOrDefault(c => c.Id == id);
 
             if (cm == null)
@@ -199,37 +199,37 @@
             }
 
             OrderDetail od = null;
-            CreditMemoDetail oldCmd = null;
+            SaveCreditMemoDetailRequest updatedCM = null;
             decimal totalAmountToDeduct = 0;
             decimal totalAmountToAdd = 0;
 
             try
             {
+                entity.State = ObjectState.Modified;
                 // Adjust current quantities accordingly
-                foreach (var detail in entity.Details)
+                foreach (var detail in cm.Details)
                 {
                     od = this.context.OrderDetails
                             .AsNoTracking()
                             .SingleOrDefault(c => c.Id == detail.OrderDetailId);
 
-                    oldCmd = cm.Details.SingleOrDefault(c => c.Id == detail.Id);
+                    updatedCM = entity.Details.SingleOrDefault(c => c.Id == detail.Id);
 
-                    if (oldCmd != null)
+                    if (updatedCM != null)
                     {
                         detail.State = ObjectState.Modified;
-
                         // Deduct items from Inventory
-                        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, oldCmd.Item, oldCmd.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
-                        this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, oldCmd.Item, oldCmd.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, detail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                        this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, detail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
 
                         // Amount to add to customer balance
-                        totalAmountToAdd = totalAmountToAdd + (od.Price * oldCmd.Quantity);
+                        totalAmountToAdd = totalAmountToAdd + (od.Price * detail.Quantity);
 
                         // If a delete is issued to the creditMemo detail, remove that creditMemo detail
                         // Also, skip modification of current quantities
-                        if (detail.IsDeleted)
+                        if (updatedCM.IsDeleted)
                         {
-                            detail.State = ObjectState.Deleted;
+                            cm.Details.Remove(detail);
                             continue;
                         }
                     }
@@ -239,24 +239,31 @@
                     }
 
                     // Add the correct amount from the item's current quantity
-                    this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, oldCmd.Item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoUpdated);
-                    this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, oldCmd.Item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                    this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, detail.Item, updatedCM.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                    this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, detail.Item, updatedCM.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoUpdated);
 
                     // Deduct amount from Customer Account
-                    totalAmountToDeduct = totalAmountToDeduct + (od.Price * detail.Quantity);
+                    totalAmountToDeduct = totalAmountToDeduct + (od.Price * updatedCM.Quantity);
+
+                    detail.Quantity = updatedCM.Quantity;
                 }
 
-                var updatedCreditMemo = this.mapper.Map<CreditMemo>(entity);
-                updatedCreditMemo.State = ObjectState.Modified;
+                cm.Driver = entity.Driver;
+                cm.Code = entity.Code;
+
+                // Modify customer transaction attached to credit memo
+                this.customerService.ModifyCustomerTransaction(cm.CustomerTransactionId, AdjustmentType.Deduct, totalAmountToDeduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
+
                 // Deduct amount from customer balance
-                //updatedCreditMemo.Customer = this.context.Customers.AsNoTracking().SingleOrDefault(c => c.Id == entity.CustomerId);
-                //updatedCreditMemo.Customer.Balance = updatedCreditMemo.Customer.Balance + totalAmountToAdd;
-                //updatedCreditMemo.Customer.Balance = updatedCreditMemo.Customer.Balance - totalAmountToDeduct;
-                //updatedCreditMemo.State = ObjectState.Modified;
+                var customer = await this.context.Customers
+                        .SingleOrDefaultAsync(c => c.Id == entity.CustomerId);
 
-                //this.context.ChangeTracker.TrackGraph(updatedCreditMemo, node => ChangeTrackingHelpers.ConvertStateOfNode(node));
-
-                //this.context.ChangeTracker.AcceptAllChanges();
+                // Update customer's balance
+                if (customer != null)
+                {
+                    customer.Balance = customer.Balance + totalAmountToAdd;
+                    customer.Balance = customer.Balance - totalAmountToDeduct;
+                }
 
                 await this.context.SaveChangesAsync();
                 return new NoContentResult();
