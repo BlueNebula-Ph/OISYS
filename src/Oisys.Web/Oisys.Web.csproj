@@ -70,6 +70,7 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\js\controllers\order\add-quotation-controller.js" />
+    <Content Include="wwwroot\js\controllers\order\add-returns-controller.js" />
     <Content Include="wwwroot\js\controllers\order\manage-order-controller.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -77,6 +78,7 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\js\controllers\order\view-order-controller.js" />
+    <Content Include="wwwroot\js\controllers\order\view-quotation-controller.js" />
     <Content Include="wwwroot\js\controllers\reference\reference-controller.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -95,6 +97,7 @@
     <Content Include="wwwroot\js\directives\form-input.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\js\directives\form-subheader.js" />
     <Content Include="wwwroot\js\directives\loading-inidicator.js" />
     <Content Include="wwwroot\js\directives\navigation.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -140,6 +143,7 @@
     <Content Include="wwwroot\js\services\order-service.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\js\services\quotation-service.js" />
     <Content Include="wwwroot\js\services\reference-service.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -1358,6 +1362,7 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\views\common\form-control.html" />
+    <Content Include="wwwroot\views\common\form-subheader.html" />
     <Content Include="wwwroot\views\common\index.html" />
     <Content Include="wwwroot\views\common\loading-indicator.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -1405,11 +1410,14 @@
     </Content>
     <Content Include="wwwroot\views\manage\user-list.html" />
     <Content Include="wwwroot\views\order\add-order.html" />
+    <Content Include="wwwroot\views\order\add-return.html" />
     <Content Include="wwwroot\views\order\make-quotation.html" />
     <Content Include="wwwroot\views\order\order-details.html" />
     <Content Include="wwwroot\views\order\orders-list.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\views\order\quotation-list.html" />
+    <Content Include="wwwroot\views\order\quotations-list.html" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.Validation" Version="1.0.0" />

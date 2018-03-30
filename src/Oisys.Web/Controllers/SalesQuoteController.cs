@@ -17,7 +17,7 @@ namespace Oisys.Web.Controllers
     /// <see cref="SalesQuoteController"/> class handles SalesQuote basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
-    [Route("api/SalesQuote")]
+    [Route("api/[controller]")]
     [ValidateModel]
     public class SalesQuoteController : Controller
     {
@@ -81,7 +81,7 @@ namespace Oisys.Web.Controllers
             }
 
             // sort
-            var ordering = $"Code {Constants.DefaultSortDirection}";
+            var ordering = $"QuoteNumber {Constants.DefaultSortDirection}";
             if (!string.IsNullOrEmpty(filter?.SortBy))
             {
                 ordering = $"{filter.SortBy} {filter.SortDirection}";

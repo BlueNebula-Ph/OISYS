@@ -1,6 +1,5 @@
 ﻿(function (module) {
-
-    var addOrderController = function (customerService, inventoryService, orderService, loadingService, $stateParams, $scope, $q) {
+    var addOrderController = function (customerService, inventoryService, orderService, utils, $stateParams, $scope, $q) {
         var vm = this;
 
         vm.defaultFocus = true;
@@ -72,7 +71,7 @@
         });
 
         vm.save = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             vm.order.details = vm.orderDetails;
 
@@ -86,31 +85,11 @@
             alert("Resetting!!");
         };
 
-        var hideLoading = function () {
-            loadingService.hideLoading();
-        };
-
         vm.customerList = [];
         vm.itemList = [];
-        var populateDropdown = function (response, copyTo, prop, defaultText) {
-            var data = response.data;
-            angular.copy(data, copyTo);
-
-            if (defaultText != "") {
-                var defaultItem = { id: 0 };
-                defaultItem[prop] = defaultText;
-
-                copyTo.splice(0, 0, defaultItem);
-            }
-        }; 
-
-        var onProcessingError = function (error) {
-            toastr.error("There was an error processing your request.", "Error");
-            console.log(error);
-        };
 
         var initialLoad = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             var requests = {
                 customer: customerService.getCustomerLookup(),
@@ -119,10 +98,10 @@
 
             $q.all(requests)
                 .then((responses) => {
-                    populateDropdown(responses.customer, vm.customerList, "name", "-- Select Customer --");
-                    populateDropdown(responses.item, vm.itemList, "", "");
-                }, onProcessingError)
-                .finally(hideLoading);
+                    utils.populateDropdownlist(responses.customer, vm.customerList, "name", "-- Select Customer --");
+                    utils.populateDropdownlist(responses.item, vm.itemList, "codename", "-- Select Item --");
+                }, utils.onError)
+                .finally(utils.hideLoading);
         };
 
         $(function () {
@@ -132,6 +111,6 @@
         return vm;
     };
 
-    module.controller("addOrderController", ["customerService", "inventoryService", "orderService", "loadingService", "$stateParams", "$scope", "$q", addOrderController]);
+    module.controller("addOrderController", ["customerService", "inventoryService", "orderService", "utils", "$stateParams", "$scope", "$q", addOrderController]);
 
 })(angular.module("oisys-app"));

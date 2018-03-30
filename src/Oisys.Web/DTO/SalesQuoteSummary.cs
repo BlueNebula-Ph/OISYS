@@ -12,7 +12,7 @@
         /// <summary>
         /// Gets or sets property Code.
         /// </summary>
-        public string Code { get; set; }
+        public string QuoteNumber { get; set; }
 
         /// <summary>
         /// Gets or sets property CustomerId.

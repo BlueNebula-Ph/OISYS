@@ -12,6 +12,14 @@ hr {
     margin-bottom: 10px;
 }
 
+label {
+    font-weight: normal !important;
+}
+
+h4 {
+    margin-top: 0;
+}
+
 /* Common: paddings and margins */
 .side-padding-none {
     padding-left: 0;
@@ -29,6 +37,10 @@ hr {
 .vertical-margin-none {
     margin-top: 0;
     margin-bottom: 0;
+}
+
+.top-margin-sm {
+    margin-top: 10px;
 }
 
 .left-margin-sm {
@@ -184,13 +196,17 @@ shell-search div {
     background: #fff;
 }
 
-    .input-details-table th {
+    /*.input-details-table th {
         background-color: #00b3b3;
         color: #fff;
-    }
+    }*/
 
     .input-details-table tbody tr:first-child {
         background-color: #f8f8f8;
+    }
+
+    .input-details-table tbody tr td {
+        line-height: 2;
     }
 
 .input-xs {

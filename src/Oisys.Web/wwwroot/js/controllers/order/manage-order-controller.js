@@ -9,7 +9,10 @@
             { text: "Search Orders", isHeader: false, isItem: true, icon: "fa-search", link: ".list" },
             { text: "Quotations", isHeader: true, isItem: false, icon: "fa-files-o" },
             { text: "Make Quotation", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-quotation" },
-            { text: "View Quotations", isHeader: false, isItem: true, icon: "fa-search", link: ".view-quotations" }
+            { text: "View Quotations", isHeader: false, isItem: true, icon: "fa-search", link: ".view-quotations" },
+            { text: "Returns", isHeader: true, isItem: false, icon: "fa-undo" },
+            { text: "Return Items", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-returns" },
+            { text: "View Returns", isHeader: false, isItem: true, icon: "fa-search", link: ".view-returns" }
         ];
 
         $(function () {

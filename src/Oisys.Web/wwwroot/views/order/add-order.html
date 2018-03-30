@@ -1,15 +1,10 @@
 ﻿<add-edit-shell>
     <shell-title>
-        <h3>
-            Save Order Details.
-            <small class="text-muted">
-                <i class="fa fa-info-circle text-primary"></i>
-                To add new order details, click the <code>New order detail</code> button.
-            </small>
-        </h3>
+        <h3>Save Order Details.</h3>
     </shell-title>
     <shell-form>
         <form name="addOrderForm">
+            <form-subheader header-text="Order Information."></form-subheader>
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label>Order Number</label>
@@ -40,6 +35,8 @@
                     <input type="text" ng-model="ctrl.order.totalAmount" numeric-textbox="{ currencySymbol: '₱ '}" readonly />
                 </div>
             </div>
+            <div class="clearfix"></div>
+            <form-subheader header-text="Order Details."></form-subheader>
             <div class="col-md-10 left-padding-none">
                 <table class="table table-condensed input-details-table">
                     <thead>

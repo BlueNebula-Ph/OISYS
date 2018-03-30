@@ -67,7 +67,7 @@
             };
 
             if ($stateParams.id != 0) {
-                requests.item = inventoryService.getItemById($stateParams.id);
+                requests.item = inventoryService.getItem($stateParams.id);
             }
 
             $q.all(requests)

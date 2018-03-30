@@ -157,7 +157,19 @@
                 })
                 .state("orders.view-quotations", {
                     url: "/quotations/view",
-                    template: "<div>View quotations</div>"
+                    templateUrl: "/views/order/quotations-list.html",
+                    controller: "viewQuotationController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.add-returns", {
+                    url: "/returns/add",
+                    templateUrl: "/views/order/add-return.html",
+                    controller: "addReturnsController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.view-returns", {
+                    url: "/returns/view",
+                    template: "<div>View returns</div>"
                 })
 
                 .state("deliveries", {

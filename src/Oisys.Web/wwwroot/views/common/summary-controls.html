@@ -1,12 +1,12 @@
-﻿<a ng-if="showDetails" class="btn btn-primary btn-xs" title="{{ detailsTitle }}"
+﻿<button ng-if="showDetails" class="text-info" title="{{ detailsTitle }}"
    ui-sref="{{ detailsState }}">
     <i class="fa fa-file-o fa-fw"></i>
-</a>
-<a ng-if="showEdit" class="btn btn-primary btn-xs" title="{{ editTitle }}"
+</button>
+<button ng-if="showEdit" class="text-info" title="{{ editTitle }}"
    ui-sref="{{ editState }}">
     <i class="fa fa-edit fa-fw"></i>
-</a>
-<button ng-if="showDelete" class="btn btn-danger btn-xs" title="{{ deleteTitle }}"
+</button>
+<button ng-if="showDelete" class="text-danger" title="{{ deleteTitle }}"
         ng-click="onDelete()">
     <i class="fa fa-trash-o fa-fw"></i>
 </button>
