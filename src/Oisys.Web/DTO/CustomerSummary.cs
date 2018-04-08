@@ -69,6 +69,11 @@
         public string Tags { get; set; }
 
         /// <summary>
+        /// Gets or sets property RunningBalance.
+        /// </summary>
+        public decimal Balance { get; set; }
+
+        /// <summary>
         /// Gets or sets property Customer transactions.
         /// </summary>
         public IEnumerable<CustomerTransactionSummary> Transactions { get; set; }

@@ -43,6 +43,16 @@
         public bool IsDeleted { get; set; }
 
         /// <summary>
+        /// Gets or sets property CreditMemoId.
+        /// </summary>
+        public int CreditMemoId { get; set; }
+
+        /// <summary>
+        /// Gets or sets property InvoiceId.
+        /// </summary>
+        public int InvoiceId { get; set; }
+
+        /// <summary>
         /// Gets or sets property Transaction type.
         /// </summary>
         [Required]

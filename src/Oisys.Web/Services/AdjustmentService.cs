@@ -72,7 +72,7 @@
         {
             var adjustment = new Adjustment
             {
-                Item = item,
+                ItemId = item.Id,
                 AdjustmentDate = DateTime.Now,
                 AdjustmentType = adjustmentType.GetDisplayName(),
                 QuantityType = quantityType.GetDisplayName(),
@@ -80,6 +80,7 @@
                 Remarks = remarks,
             };
 
+            this.context.Update(item);
             this.context.Add(adjustment);
         }
     }

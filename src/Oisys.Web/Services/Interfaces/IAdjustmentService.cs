@@ -1,5 +1,6 @@
 ﻿namespace Oisys.Web.Services.Interfaces
 {
+    using Microsoft.EntityFrameworkCore;
     using Oisys.Web.Helpers;
     using Oisys.Web.Models;
 

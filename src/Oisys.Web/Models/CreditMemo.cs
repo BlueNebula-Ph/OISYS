@@ -35,11 +35,6 @@
         public int CustomerId { get; set; }
 
         /// <summary>
-        /// Gets or sets property CustomerTransactionId.
-        /// </summary>
-        public int CustomerTransactionId { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.
         /// </summary>
         [DefaultValue(false)]

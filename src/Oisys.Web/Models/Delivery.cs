@@ -22,6 +22,12 @@
         public DateTime Date { get; set; }
 
         /// <summary>
+        /// Gets or sets property CustomerId.
+        /// </summary>
+        [Required]
+        public int CustomerId { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.
         /// </summary>
         public bool IsDeleted { get; set; }

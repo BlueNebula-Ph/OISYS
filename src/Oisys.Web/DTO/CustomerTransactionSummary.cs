@@ -34,11 +34,6 @@
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets property RunningBalance.
-        /// </summary>
-        public decimal RunningBalance { get; set; }
-
-        /// <summary>
         /// Gets or sets property Transaction type.
         /// </summary>
         public string TransactionType { get; set; }

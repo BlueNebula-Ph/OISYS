@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Linq.Dynamic.Core;
     using Oisys.Web.Helpers;
     using Oisys.Web.Models;
     using Oisys.Web.Services.Interfaces;
@@ -25,8 +26,9 @@
         /// <summary>
         /// Delete customer transaction
         /// </summary>
+        /// <param name="customerId">customer id</param>
         /// <param name="customerTransactionId">trnsaction to delete</param>
-        public void DeleteCustomerTransaction(int customerTransactionId)
+        public void DeleteCustomerTransaction(int customerId, int customerTransactionId)
         {
             var transaction = this.context.CustomerTransactions.SingleOrDefault(c => c.Id == customerTransactionId);
 
@@ -36,38 +38,43 @@
         /// <summary>
         /// Modify customer transaction when returning an item
         /// </summary>
+        /// <param name="customerId">customer id</param>
         /// <param name="customerTransactionId">transaction to modify</param>
         /// <param name="adjustmentType">Adjustment type</param>
         /// <param name="totalAmount">Total amount</param>
         /// <param name="remarks">Remarks</param>
-        public void ModifyCustomerTransaction(int customerTransactionId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks)
+        public void ModifyCustomerTransaction(int customerId, int customerTransactionId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks)
         {
             var transaction = this.context.CustomerTransactions.SingleOrDefault(c => c.Id == customerTransactionId);
 
             var credit = adjustmentType == AdjustmentType.Add ? totalAmount : null;
             var debit = adjustmentType == AdjustmentType.Deduct ? totalAmount : null;
 
+            // update transaction
             if (transaction != null)
             {
                 transaction.Credit = credit;
                 transaction.Debit = debit;
                 transaction.Description = remarks;
             }
+
+            this.UpdateCustomerBalance(customerId, adjustmentType, totalAmount);
         }
 
         /// <summary>
         /// Method to add customer transaction using CustomerService
         /// </summary>
         /// <param name="customerId">Customer Id</param>
-        /// <param name="creditMemo">Credit Memo created</param>
         /// <param name="adjustmentType">Adjusment type</param>
         /// <param name="totalAmount">Total amount</param>
         /// <param name="remarks">Credit Memo remarks</param>
-        public void AddCustomerTransaction(int customerId, CreditMemo creditMemo, AdjustmentType adjustmentType, decimal? totalAmount, string remarks)
+        /// <returns>Customer Transaction</returns>
+        public CustomerTransaction AddCustomerTransaction(int customerId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks)
         {
             var credit = adjustmentType == AdjustmentType.Add ? totalAmount : null;
             var debit = adjustmentType == AdjustmentType.Deduct ? totalAmount : null;
 
+            // Add Customer transaction
             var customerTransaction = new CustomerTransaction()
                 {
                     CustomerId = customerId,
@@ -78,9 +85,23 @@
                     Description = remarks,
                 };
 
-            this.context.CustomerTransactions.AddAsync(customerTransaction);
+            this.context.Add(customerTransaction);
 
-            creditMemo.CustomerTransactionId = customerTransaction.Id;
+            this.UpdateCustomerBalance(customerId, adjustmentType, totalAmount);
+
+            return customerTransaction;
+        }
+
+        private void UpdateCustomerBalance(int customerId, AdjustmentType adjustmentType, decimal? totalAmount)
+        {
+            // Update Customer balance
+            var customer = this.context.Customers
+                                .SingleOrDefault(c => c.Id == customerId);
+
+            if (customer != null)
+            {
+                customer.Balance = adjustmentType == AdjustmentType.Deduct ? customer.Balance + totalAmount.Value : customer.Balance - totalAmount.Value;
+            }
         }
     }
 }

@@ -26,6 +26,7 @@
         private readonly IMapper mapper;
         private readonly ISummaryListBuilder<Delivery, DeliverySummary> builder;
         private readonly IAdjustmentService adjustmentService;
+        private readonly ICustomerService customerService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeliveryController"/> class.
@@ -34,12 +35,14 @@
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
         /// <param name="adjustmentService">Adjustment Service</param>
-        public DeliveryController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Delivery, DeliverySummary> builder, IAdjustmentService adjustmentService)
+        /// <param name="customerService">Customer Service</param>
+        public DeliveryController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<Delivery, DeliverySummary> builder, IAdjustmentService adjustmentService, ICustomerService customerService)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
             this.adjustmentService = adjustmentService;
+            this.customerService = customerService;
         }
 
         /// <summary>
@@ -128,11 +131,16 @@
         {
             var delivery = this.mapper.Map<Delivery>(entity);
 
+            decimal totalAmount = 0;
             foreach (var detail in delivery.Details)
             {
                 var item = await this.context.Items.FindAsync(detail.ItemId);
                 this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.DeliveryCreated);
+                totalAmount = totalAmount + (detail.Quantity * detail.Price);
             }
+
+            // Add customer transaction
+            this.customerService.AddCustomerTransaction(entity.CustomerId, AdjustmentType.Add, totalAmount, Constants.AdjustmentRemarks.DeliveryCreated);
 
             await this.context.Deliveries.AddAsync(delivery);
 

@@ -16,12 +16,6 @@
         public int CreditMemoId { get; set; }
 
         /// <summary>
-        /// Gets or sets property ItemId.
-        /// </summary>
-        [Required]
-        public int ItemId { get; set; }
-
-        /// <summary>
         /// Gets or sets property Quantity.
         /// </summary>
         [Required]
@@ -34,9 +28,9 @@
         public int OrderDetailId { get; set; }
 
         /// <summary>
-        /// Gets or sets property Item.
+        /// Gets or sets property OrderDetail.
         /// </summary>
-        public Item Item { get; set; }
+        public OrderDetail OrderDetail { get; set; }
 
         /// <summary>
         /// Gets or sets property CreditMemo.
