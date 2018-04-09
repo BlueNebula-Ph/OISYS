@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Web.Models
 {
     using System;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
@@ -36,9 +37,20 @@
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets property RunningBalance.
+        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
         /// </summary>
-        public decimal RunningBalance { get; set; }
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
+
+        /// <summary>
+        /// Gets or sets property CreditMemoId.
+        /// </summary>
+        public int CreditMemoId { get; set; }
+
+        /// <summary>
+        /// Gets or sets property InvoiceId.
+        /// </summary>
+        public int InvoiceId { get; set; }
 
         /// <summary>
         /// Gets or sets property Transaction type.

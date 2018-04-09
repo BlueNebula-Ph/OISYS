@@ -148,6 +148,7 @@ namespace Oisys.Web.Controllers
         public async Task<IActionResult> Update(long id, [FromBody]SaveSalesQuoteRequest entity)
         {
             var salesQuote = await this.context.SalesQuotes.SingleOrDefaultAsync(t => t.Id == id);
+
             if (salesQuote == null)
             {
                 return this.NotFound(id);

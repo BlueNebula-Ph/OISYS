@@ -1,46 +1,43 @@
-﻿namespace Oisys.Web.Models
+﻿namespace Oisys.Web.DTO
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
-    /// <see cref="Delivery"/> class Delivery object.
+    /// View model for the credit memo entity.
     /// </summary>
-    public class Delivery : ModelBase
+    public class CreditMemoSummary : DTOBase
     {
         /// <summary>
         /// Gets or sets property Code.
         /// </summary>
-        [Required]
         public string Code { get; set; }
 
         /// <summary>
         /// Gets or sets property Date.
         /// </summary>
-        [Required]
         public DateTime Date { get; set; }
-
-        /// <summary>
-        /// Gets or sets property CustomerId.
-        /// </summary>
-        [Required]
-        public int CustomerId { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
-        /// </summary>
-        public bool IsDeleted { get; set; }
 
         /// <summary>
         /// Gets or sets property Driver.
         /// </summary>
-        [Required]
         public string Driver { get; set; }
+
+        /// <summary>
+        /// Gets or sets property CustomerId.
+        /// </summary>
+        public int CustomerId { get; set; }
 
         /// <summary>
         /// Gets or sets property Details.
         /// </summary>
-        public ICollection<OrderDetail> Details { get; set; }
+        public ICollection<CreditMemoDetailSummary> Details { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Customer.
+        /// </summary>
+        public CustomerSummary Customer { get; set; }
     }
 }

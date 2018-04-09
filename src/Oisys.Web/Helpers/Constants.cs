@@ -59,37 +59,72 @@
             /// <summary>
             /// The initial quantity text.
             /// </summary>
-            public const string InitialQuantity = "Initial Quantity";
+            public const string InitialQuantity = "Initial quantity";
 
             /// <summary>
             /// The order created text.
             /// </summary>
-            public const string OrderCreated = "Order Created";
+            public const string OrderCreated = "Order created";
 
             /// <summary>
             /// The order updated text.
             /// </summary>
-            public const string OrderUpdated = "Order Updated";
+            public const string OrderUpdated = "Order updated";
 
             /// <summary>
             /// The order deleted text.
             /// </summary>
-            public const string OrderDeleted = "Order Deleted";
+            public const string OrderDeleted = "Order deleted";
+
+            /// <summary>
+            /// The order detail created text.
+            /// </summary>
+            public const string OrderDetailCreated = "Order detail added";
+
+            /// <summary>
+            /// The order detail created text.
+            /// </summary>
+            public const string OrderDetailDeleted = "Order detail deleted";
 
             /// <summary>
             /// The delivery created text.
             /// </summary>
-            public const string DeliveryCreated = "Delivery Created";
+            public const string DeliveryCreated = "Delivery created";
 
             /// <summary>
             /// The delivery updated text.
             /// </summary>
-            public const string DeliveryUpdated = "Delivery Updated";
+            public const string DeliveryUpdated = "Delivery updated";
 
             /// <summary>
             /// The delivery deleted text.
             /// </summary>
-            public const string DeliveryDeleted = "Delivery Deleted";
+            public const string DeliveryDeleted = "Delivery deleted";
+
+            /// <summary>
+            /// The creditmemo created text.
+            /// </summary>
+            public const string CreditMemoCreated = "Credit Memo created";
+
+            /// <summary>
+            /// The creditmemo detail created text.
+            /// </summary>
+            public const string CreditMemoDetailCreated = "Credit Memo detail created";
+
+            /// <summary>
+            /// The creditmemo updated text.
+            /// </summary>
+            public const string CreditMemoUpdated = "Credit Memo updated";
+
+            /// <summary>
+            /// The creditmemo deleted text.
+            /// </summary>
+            public const string CreditMemoDeleted = "Credit Memo deleted";
+
+            /// <summary>
+            /// The creditmemo detail deleted text.
+            /// </summary>
+            public const string CreditMemoDetailDeleted = "Credit Memo detail deleted";
         }
     }
 }
