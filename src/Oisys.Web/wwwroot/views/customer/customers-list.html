@@ -9,11 +9,11 @@
         </div>
         <div search-input>
             <span><i class="fa fa-map-o fa-fw"></i></span>
-            <select ng-model="ctrl.filters.cityId" ng-options="city.id as city.code for city in ctrl.cityList"></select>
+            <select ng-model="ctrl.filters.provinceId" ng-options="province.id as province.name for province in ctrl.provinceList"></select>
         </div>
         <div search-input>
             <span><i class="fa fa-map-o fa-fw"></i></span>
-            <select ng-model="ctrl.filters.provinceId" ng-options="province.id as province.code for province in ctrl.provinceList"></select>
+            <select ng-model="ctrl.filters.cityId" ng-options="city.id as city.name for city in ctrl.cityList"></select>
         </div>
         <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchCustomers()">
             <i class="fa fa-search"></i> Search
@@ -44,7 +44,7 @@
                     <td class="text-center">
                         <summary-controls show-details="true" details-state="customers.detail({ id: {{ c.id }} })" details-title="View customer details."
                                           show-edit="true" edit-state="customers.add({ id: {{ c.id }} })" edit-title="Edit this customer." 
-                                          show-delete="true" delete-title="Delete this customer.">
+                                          show-delete="true" on-delete="ctrl.delete(c)" delete-title="Delete this customer.">
                         </summary-controls>
                     </td>
                 </tr>

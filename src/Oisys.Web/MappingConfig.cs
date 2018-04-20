@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Web
 {
     using System;
+    using System.Linq;
     using AutoMapper;
     using Oisys.Web.DTO;
     using Oisys.Web.Models;
@@ -36,12 +37,11 @@
 
             this.CreateMap<Customer, CustomerSummary>()
                 .ForMember(d => d.CityName, s => s.MapFrom(o => o.City.Name))
-                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Name));
+                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Name))
+                .ForMember(d => d.PriceList, s => s.MapFrom(o => o.PriceList.Code))
+                .ForMember(d => d.PriceListId, s => s.MapFrom(o => o.ProvinceId.ToString()));
 
-            this.CreateMap<SaveCustomerRequest, Customer>()
-                .ForMember(d => d.LastUpdatedDate, s => s.MapFrom(o => DateTime.Now))
-                .ForMember(d => d.LastUpdatedBy, s => s.MapFrom(o => 1))
-                .ForMember(d => d.CreatedBy, s => s.MapFrom(o => 1));
+            this.CreateMap<SaveCustomerRequest, Customer>();
 
             // Customer Transaction
             // TODO: Create method to compute running balance
@@ -79,7 +79,8 @@
 
             // Province
             this.CreateMap<Province, ProvinceSummary>();
-            this.CreateMap<Province, ProvinceLookup>();
+            this.CreateMap<Province, ProvinceLookup>()
+                .ForMember(d => d.Cities, s => s.MapFrom(o => o.Cities.OrderBy(c => c.Name)));
             this.CreateMap<SaveProvinceRequest, Province>();
 
             // Reference

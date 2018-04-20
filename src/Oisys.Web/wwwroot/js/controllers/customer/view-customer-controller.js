@@ -1,6 +1,7 @@
 ﻿(function (module) {
-    var viewCustomerController = function (customerService, referenceService, loadingService, $q, utils) {
+    var viewCustomerController = function ($scope, $q, customerService, provinceService, utils) {
         var vm = this;
+
         vm.focus = true;
         vm.currentPage = 1;
         vm.filters = {
@@ -24,6 +25,7 @@
             { text: "", value: "" }
         ];
 
+        // Public Methods
         vm.fetchCustomers = function () {
             utils.showLoading();
 
@@ -40,13 +42,27 @@
             vm.focus = true;
         };
 
-        vm.cityList = [];
+        vm.cityList = [{ id: 0, name: "Filter by city.." }];
         vm.provinceList = [];
-        var processFilters = function (response, copyTo, defaultText) {
-            angular.copy(response.data, copyTo);
-            copyTo.splice(0, 0, { id: 0, code: defaultText });
+
+        vm.delete = function (customer) {
+            if (!confirm("Are you sure you want to delete this customer?")) {
+                return;
+            }
+
+            customerService.deleteCustomer(customer.id)
+                .then((response) => { vm.fetchCustomers() }, utils.onError)
         };
 
+        // Watchers
+        $scope.$watch(function () {
+            return vm.filters.provinceId;
+        }, function (newVal, oldVal) {
+            var selectedProvince = vm.provinceList.find(function (elem) { return elem.id == newVal; });
+            utils.populateDropdownlist({ data: selectedProvince.cities }, vm.cityList, "name", "Filter by city..");
+        }, true);
+
+        // Private Methods
         var processCustomerList = function (response) {
             angular.copy(response.data, vm.summaryResult);
         };
@@ -55,15 +71,13 @@
             utils.showLoading();
 
             var requests = {
-                //city: referenceService.getReferenceLookup(2),
-                //province: referenceService.getReferenceLookup(3),
+                province: provinceService.getProvinceLookup(),
                 customer: customerService.fetchCustomers(vm.filters)
             };
 
             $q.all(requests)
                 .then((responses) => {
-                    //processFilters(responses.city, vm.cityList, "Filter by city..");
-                    //processFilters(responses.province, vm.provinceList, "Filter by province..");
+                    utils.populateDropdownlist(responses.province, vm.provinceList, "name", "Filter by province..");
                     processCustomerList(responses.customer);
                 }, utils.onError)
                 .finally(utils.hideLoading);
@@ -76,6 +90,6 @@
         return vm;
     };
 
-    module.controller("viewCustomerController", ["customerService", "referenceService", "loadingService", "$q", "utils", viewCustomerController]);
+    module.controller("viewCustomerController", ["$scope", "$q", "customerService", "provinceService", "utils", viewCustomerController]);
 
 })(angular.module("oisys-app"));

@@ -9,11 +9,6 @@
     public class CustomerSummary : DTOBase
     {
         /// <summary>
-        /// Gets or sets property Code.
-        /// </summary>
-        public string Code { get; set; }
-
-        /// <summary>
         /// Gets or sets property Name.
         /// </summary>
         public string Name { get; set; }
@@ -39,9 +34,19 @@
         public string Address { get; set; }
 
         /// <summary>
+        /// Gets or sets property city id.
+        /// </summary>
+        public int CityId { get; set; }
+
+        /// <summary>
         /// Gets or sets property City Name.
         /// </summary>
         public string CityName { get; set; }
+
+        /// <summary>
+        /// Gets or sets property province id.
+        /// </summary>
+        public int ProvinceId { get; set; }
 
         /// <summary>
         /// Gets or sets property Province Name.
@@ -59,14 +64,14 @@
         public string Discount { get; set; }
 
         /// <summary>
-        /// Gets or sets property Price List.
+        /// Gets or sets property Price List id.
         /// </summary>
-        public string PriceList { get; set; }
+        public string PriceListId { get; set; }
 
         /// <summary>
-        /// Gets or sets property Tags.
+        /// Gets or sets property price list.
         /// </summary>
-        public string Tags { get; set; }
+        public string PriceList { get; set; }
 
         /// <summary>
         /// Gets or sets property Customer transactions.

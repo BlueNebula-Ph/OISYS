@@ -3,69 +3,59 @@
         <h3>Save Customer Details. <small class="text-muted">Please input customer details.</small></h3>
     </shell-title>
     <shell-form>
-        <form name="addCustomerForm">
+        <form name="ctrl.addCustomerForm">
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="customerName">Customer Name</label>
-                    <input type="text" name="customerName" placeholder="Ex. Alice" ng-model="ctrl.customer.name"
-                           focus-me="ctrl.defaultFocus" />
+                    <input type="text" name="customerName" ng-model="ctrl.customer.name" focus-me="ctrl.defaultFocus" required />
                 </div>
                 <div form-input>
                     <label for="email">Email</label>
-                    <input type="email" name="email" placeholder="Ex. Alice@gmail.com" ng-model="ctrl.customer.email" />
+                    <input type="email" name="email" ng-model="ctrl.customer.email" required />
                 </div>
                 <div form-input>
                     <label for="contactNumber">Contact Number</label>
-                    <input name="contactNumber" placeholder="Ex. (900)-911-5555" ng-model="ctrl.customer.contactNumber" />
+                    <input name="contactNumber" ng-model="ctrl.customer.contactNumber" required />
                 </div>
                 <div form-input>
                     <label for="contactPerson">Contact Person</label>
-                    <input name="contactPerson" placeholder="Ex. Bob" ng-model="ctrl.customer.contactPerson" />
+                    <input name="contactPerson" ng-model="ctrl.customer.contactPerson" required />
                 </div>
                 <div form-input>
                     <label for="address">Address</label>
-                    <textarea name="address" rows="5" ng-model="ctrl.customer.address" />
+                    <textarea name="address" rows="5" ng-model="ctrl.customer.address" required />
                 </div>
             </div>
             <div class="col-md-3 left-padding-none">
-                <div form-input style="margin-top: -2px;">
-                    <label for="cityDropdown">City</label>
-                    <select name="cityDropdown" ng-model="ctrl.customer.cityId">
-                        <option value="1">Manila</option>
-                        <option value="1">Makati</option>
-                        <option value="1">Malabon</option>
-                    </select>
-                </div>
                 <div form-input>
                     <label for="provinceDropdown">Province</label>
-                    <select name="provinceDropdown" ng-model="ctrl.customer.provinceId">
-                        <option value="1">Manila</option>
-                        <option value="1">Makati</option>
-                        <option value="1">Malabon</option>
-                    </select>
+                    <select name="provinceDropdown" ng-options="province.id as province.name for province in ctrl.provinceList"
+                            ng-model="ctrl.customer.provinceId" required></select>
+                </div>
+                <div form-input>
+                    <label for="cityDropdown">City</label>
+                    <select name="cityDropdown" ng-options="city.id as city.name for city in ctrl.citiesList" ng-model="ctrl.customer.cityId"
+                            required></select>
                 </div>
                 <div form-input>
                     <label for="terms">Terms</label>
-                    <input name="terms" ng-model="ctrl.customer.terms" />
+                    <input name="terms" ng-model="ctrl.customer.terms" required />
                 </div>
                 <div form-input>
                     <label for="discount">Discount</label>
-                    <input name="discount" ng-model="ctrl.customer.discount" />
+                    <input name="discount" ng-model="ctrl.customer.discount" numeric-textbox="{ currencySymbol: ' %', currencySymbolPlacement: 's' }" required />
                 </div>
-                <div form-input>
+                <div>
                     <label for="pricelistoptions">Price List</label>
-                    <div>
-                        <label class="radio-inline">
-                            <input type="radio" name="pricelistoptions" value="Walk-In Price"
-                                   checked ng-model="ctrl.customer.priceList"> Walk-In Price
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="pricelistoptions" value="Mainstream Price"
-                                   ng-model="ctrl.customer.priceList"> Mainstream Price
-                        </label>
+                    <div ng-repeat="price in ctrl.priceList track by price.id">
+                        <input type="radio" name="pricelistoptions" value="{{ price.id }}"
+                               ng-model="ctrl.customer.priceListId"> {{ price.text }}
                     </div>
                 </div>
             </div>
         </form>
     </shell-form>
+    <shell-controls>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="ctrl.addCustomerForm.$pristine || !ctrl.addCustomerForm.$valid"></save-button>
+    </shell-controls>
 </add-edit-shell>

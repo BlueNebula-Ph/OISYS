@@ -6,8 +6,6 @@
         <h4>Customer Information.</h4>
         <div class="col-md-6">
             <dl class="dl-horizontal">
-                <dt>Customer Code</dt>
-                <dd>{{ ctrl.customerDetails.code }}</dd>
                 <dt>Customer Name</dt>
                 <dd>{{ ctrl.customerDetails.name }}</dd>
                 <dt>Email</dt>
@@ -16,24 +14,22 @@
                 <dd>{{ ctrl.customerDetails.contactNumber }}</dd>
                 <dt>Contact Person</dt>
                 <dd>{{ ctrl.customerDetails.contactPerson }}</dd>
-                <dt>Tags</dt>
-                <dd>{{ ctrl.customerDetails.tags }}</dd>
+                <dt>Address</dt>
+                <dd>{{ ctrl.customerDetails.address }}</dd>
             </dl>
         </div>
         <div class="col-md-6">
             <dl class="dl-horizontal">
-                <dt>Address</dt>
-                <dd>{{ ctrl.customerDetails.address }}</dd>
                 <dt>Province</dt>
                 <dd>{{ ctrl.customerDetails.provinceName }}</dd>
                 <dt>City</dt>
                 <dd>{{ ctrl.customerDetails.cityName }}</dd>
-                <dt>Price List</dt>
-                <dd>{{ ctrl.customerDetails.priceList }}</dd>
-                <dt>Discount</dt>
-                <dd>{{ ctrl.customerDetails.discount }}</dd>
                 <dt>Terms</dt>
                 <dd>{{ ctrl.customerDetails.terms }}</dd>
+                <dt>Discount</dt>
+                <dd>{{ ctrl.customerDetails.discount | number: 2 }} %</dd>
+                <dt>Price List</dt>
+                <dd>{{ ctrl.customerDetails.priceList }}</dd>
             </dl>
         </div>
         <div class="clearfix"></div>
