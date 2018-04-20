@@ -1,5 +1,4 @@
 ﻿(function (module) {
-
     var noRecords = function () {
         return {
             restrict: "A",

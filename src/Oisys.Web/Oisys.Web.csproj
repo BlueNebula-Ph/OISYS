@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <None Remove="SeedData\ReferenceTypes.csv" />
+    <None Remove="wwwroot\views\customer\add-customer.html~RF530933.TMP" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,9 +4,6 @@
 <div class="col-md-12 bottom-margin-sm left-padding-none right-padding-none">
     <div ng-transclude="form"></div>
 </div>
-<div class="col-md-12 left-padding-none" ng-if="!ctrl.overrideDefaultControls">
-    <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"></form-control>
-</div>
-<div class="col-md-12 left-padding-none" ng-if="ctrl.overrideDefaultControls">
+<div class="col-md-12 left-padding-none">
     <div ng-transclude="controls"></div>
 </div>

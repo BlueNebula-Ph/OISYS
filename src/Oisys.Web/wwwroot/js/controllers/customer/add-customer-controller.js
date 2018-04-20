@@ -25,15 +25,6 @@
             //    });
         };
 
-        vm.reset = function (form) {
-            form.$setPristine();
-            form.$setUntouched();
-
-            vm.defaultFocus = true;
-
-            console.log(form);
-        };
-
         return vm;
     };
 

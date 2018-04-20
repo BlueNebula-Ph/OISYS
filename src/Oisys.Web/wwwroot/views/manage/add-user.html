@@ -3,7 +3,7 @@
         <h3>Save User. <small class="text-muted">Please input user details.</small></h3>
     </shell-title>
     <shell-form>
-        <form name="ctrl.addUserForm">
+        <form name="ctrl.addUserForm" novalidate>
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="name">Username</label>
@@ -23,7 +23,7 @@
                 </div>
                 <div>
                     <ul class="list-unstyled">
-                        <li ng-repeat="c in ctrl.accessRights track by $index">
+                        <li ng-repeat="c in ctrl.user.accessList track by $index">
                             <input type="checkbox" value="{{ c.value }}" ng-model="c.selected" /> {{ c.text }}
                         </li>
                     </ul>
@@ -32,7 +32,6 @@
         </form>
     </shell-form>
     <shell-controls>
-        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
-                      save-enabled="!ctrl.addUserForm.$pristine && ctrl.addUserForm.$valid && ctrl.saveEnabled"></form-control>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="ctrl.addUserForm.$pristine || !ctrl.addUserForm.$valid"></save-button>
     </shell-controls>
 </add-edit-shell>

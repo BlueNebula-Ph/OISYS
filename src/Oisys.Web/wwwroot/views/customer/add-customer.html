@@ -6,11 +6,6 @@
         <form name="addCustomerForm">
             <div class="col-md-3 left-padding-none">
                 <div form-input>
-                    <label for="customerCode">Customer Code</label>
-                    <input type="text" name="customerCode" placeholder="This field is auto-generated." readonly
-                           ng-model="ctrl.customer.code" />
-                </div>
-                <div form-input>
                     <label for="customerName">Customer Name</label>
                     <input type="text" name="customerName" placeholder="Ex. Alice" ng-model="ctrl.customer.name"
                            focus-me="ctrl.defaultFocus" />
@@ -27,12 +22,12 @@
                     <label for="contactPerson">Contact Person</label>
                     <input name="contactPerson" placeholder="Ex. Bob" ng-model="ctrl.customer.contactPerson" />
                 </div>
-            </div>
-            <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="address">Address</label>
                     <textarea name="address" rows="5" ng-model="ctrl.customer.address" />
                 </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
                 <div form-input style="margin-top: -2px;">
                     <label for="cityDropdown">City</label>
                     <select name="cityDropdown" ng-model="ctrl.customer.cityId">
@@ -53,15 +48,9 @@
                     <label for="terms">Terms</label>
                     <input name="terms" ng-model="ctrl.customer.terms" />
                 </div>
-            </div>
-            <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="discount">Discount</label>
                     <input name="discount" ng-model="ctrl.customer.discount" />
-                </div>
-                <div form-input>
-                    <label for="tags">Tags</label>
-                    <input name="tags" ng-model="ctrl.customer.tags" />
                 </div>
                 <div form-input>
                     <label for="pricelistoptions">Price List</label>

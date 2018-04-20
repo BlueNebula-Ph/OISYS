@@ -3,35 +3,40 @@
         <h3>Save Province. <small class="text-muted">Please input province details.</small></h3>
     </shell-title>
     <shell-form>
-        <form name="ctrl.addProvinceForm">
+        <form name="ctrl.addProvinceForm" novalidate>
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="province">Province</label>
                     <input type="text" name="province" ng-model="ctrl.province.name" focus-me="ctrl.defaultFocus" required />
                 </div>
-                <ul class="list-unstyled" ng-show="ctrl.province.cities.length > 0">
-                    <li>
-                        <b>Cities</b>
-                    </li>
-                    <li ng-repeat="c in ctrl.province.cities track by $index">
-                        <div class="input-group input-group-sm bottom-margin-sm">
-                            <input class="form-control input-sm wide" type="text" name="city" ng-model="c.name" focus-me="c.focus" required />
-                            <span class="input-group-btn">
-                                <button ng-click="ctrl.removeCity($index)" class="btn btn-sm">
-                                    <i class="fa fa-times text-danger"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </li>
-                </ul>
-                <button class="btn btn-sm btn-primary" ng-click="ctrl.addCity()">
-                    <i class="fa fa-plus"></i> Add city
-                </button>
+                <table class="table table-condensed input-details-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="header-actions">
+                                <button ng-click="ctrl.addCity()" class="header-action-button"><i class="fa fa-plus"></i> City</button>
+                            </th>
+                        </tr>
+                        <tr class="header">
+                            <th width="90%">City</th>
+                            <th width="10%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="city in ctrl.province.cities track by $index" ng-if="!city.isDeleted" ng-include="'edit'"></tr>
+                        <tr no-records ng-if="ctrl.province.cities.length == 0" colspan="2"></tr>
+                    </tbody>
+                </table>
             </div>
         </form>
     </shell-form>
     <shell-controls>
-        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
-                      save-enabled="!ctrl.addProvinceForm.$pristine && ctrl.addProvinceForm.$valid && ctrl.saveEnabled"></form-control>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.addProvinceForm.$valid || ctrl.addProvinceForm.$pristine"></save-button>
     </shell-controls>
 </add-edit-shell>
+
+<script type="text/ng-template" id="edit">
+    <td><input type="text" ng-model="city.name" class="form-control input-xs" focus-me="city.focus" /></td>
+    <td>
+        <button ng-click="ctrl.removeCity(city)" class="table-action-button red"><i class="fa fa-trash"></i></button>
+    </td>
+</script>
