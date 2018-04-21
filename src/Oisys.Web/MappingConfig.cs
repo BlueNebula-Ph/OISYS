@@ -60,7 +60,7 @@
                 .ForMember(d => d.CodeName, s => s.MapFrom(o => o.Name));
 
             this.CreateMap<Item, ItemSummary>()
-                .ForMember(d => d.CategoryCode, s => s.MapFrom(o => o.Category.Name));
+                .ForMember(d => d.CategoryName, s => s.MapFrom(o => o.Category.Name));
 
             this.CreateMap<SaveItemRequest, Item>();
 

@@ -45,13 +45,13 @@
         vm.cityList = [{ id: 0, name: "Filter by city.." }];
         vm.provinceList = [];
 
-        vm.delete = function (customer) {
+        vm.delete = function (id) {
             if (!confirm("Are you sure you want to delete this customer?")) {
                 return;
             }
 
-            customerService.deleteCustomer(customer.id)
-                .then((response) => { vm.fetchCustomers() }, utils.onError)
+            customerService.deleteCustomer(id)
+                .then((response) => { vm.fetchCustomers() }, utils.onError);
         };
 
         // Watchers

@@ -1,62 +1,55 @@
 ﻿(function (module) {
-    var itemAdjustmentController = function (inventoryService, loadingService, $q, $scope) {
+    var itemAdjustmentController = function (inventoryService, utils, Adjustment) {
         var vm = this;
+        vm.itemList = [];
+        vm.adjustment = new Adjustment();
 
-        vm.adjustment = {
-            id: 0,
-            adjustmentType: "-1"
-        };
-
-        vm.quantities = {
-            current: 0,
-            actual: 0
-        };
+        // Helper properties
+        vm.defaultFocus = true;
+        vm.isSaving = false;
 
         vm.onChange = function () {
             var idx = vm.itemList.map((element) => element.id).indexOf(vm.adjustment.id);
-            vm.quantities.current = vm.itemList[idx].currentQuantity;
-            vm.quantities.actual = vm.itemList[idx].actualQuantity;
+            vm.adjustment.current = vm.itemList[idx].currentQuantity;
+            vm.adjustment.actual = vm.itemList[idx].actualQuantity;
         };
 
         vm.save = function () {
-            loadingService.showLoading();
+            vm.isSaving = true;
 
             inventoryService.adjustItemQuantity(vm.adjustment.id, vm.adjustment)
-                .then((response) => { toastr.success("Adjustment successfully processed.", "Success"); }, onProcessingError)
-                .finally(hideLoading);
+                .then(onSaveSuccessful, utils.onError)
+                .finally(onSaveComplete);
         };
 
-        vm.reset = function () {
-
+        var onSaveSuccessful = function (response) {
+            toastr.success("Adjustment saved successfully.", "Success");
+            initialLoad();
         };
 
-        var hideLoading = function () {
-            loadingService.hideLoading();
+        var onSaveComplete = function () {
+            vm.isSaving = false;
         };
-
-        vm.itemList = [];
+        
         var processItemList = function (response) {
-            angular.copy(response.data, vm.itemList);
+            utils.populateDropdownlist(response, vm.itemList, "", "");
             vm.itemList.splice(0, 0, { id: 0, codeName: "Select an item to adjust..", currentQuantity: 0, actualQuantity: 0 });
+
+            resetForm();
         };
 
-        var onProcessingError = function (error) {
-            toastr.error("There was an error processing your request.", "Error");
-            console.log(error);
+        var resetForm = function () {
+            vm.adjustment = new Adjustment();
+            vm.addAdjustmentForm.$setPristine();
+            vm.defaultFocus = true;
         };
 
         var initialLoad = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
-            var requests = {
-                item: inventoryService.getItemLookup()
-            };
-
-            $q.all(requests)
-                .then((responses) => {
-                    processItemList(responses.item);
-                }, onProcessingError)
-                .finally(hideLoading);
+            inventoryService.getItemLookup()
+                .then(processItemList, utils.onError)
+                .finally(utils.hideLoading);
         };
 
         $(function () {
@@ -66,6 +59,6 @@
         return vm;
     };
 
-    module.controller("itemAdjustmentController", ["inventoryService", "loadingService", "$q", "$scope", itemAdjustmentController]);
+    module.controller("itemAdjustmentController", ["inventoryService", "utils", "Adjustment", itemAdjustmentController]);
 
 })(angular.module("oisys-app"));

@@ -58,6 +58,14 @@ textarea {
         background: rgba(0,128,128,1);
     }
 
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background: #fff;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+    background: #f9f9f9;
+}
+
 /* Front page logo */
 .logo {
     font-size: larger;
@@ -201,6 +209,7 @@ shell-search div {
     background: 0;
     padding: 0 4px;
 }
+
     .table-action-button.center-align {
         vertical-align: middle;
     }
@@ -242,10 +251,13 @@ dd {
     margin-top: 2px;
 }
 
-.details-table th {
-    background: #fafafa;
-    /*color: #fff;*/
+.details-table {
+    border: 1px solid #ccc;
 }
+
+    .details-table th {
+        background: #fafafa;
+    }
 
 .details-box {
     border: 1px solid #aaa;
@@ -253,14 +265,14 @@ dd {
 }
 
     .details-box .top {
-        background: #ffffe5;
+        background: #fafafa;
         text-align: center;
         font-weight: bold;
         padding: 4px 0;
     }
 
     .details-box .bottom {
-        background: #fefefe;
+        background: #fff;
         text-align: center;
         border-top: 1px solid #aaa;
         padding: 6px 0;

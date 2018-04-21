@@ -1,27 +1,21 @@
 ﻿(function (module) {
-    var addItemController = function ($q, $stateParams, inventoryService, categoryService, utils) {
+    var addItemController = function ($q, $stateParams, inventoryService, categoryService, utils, Item, modelTransformer) {
         var vm = this;
-        var defaultItem = {
-            categoryId: 0,
-            quantity: 1,
-            walkInPrice: 0,
-            nePrice: 0,
-            mainPrice: 0
-        };
+        vm.item = new Item();
+
+        // Helper properties
         vm.defaultFocus = true;
-        vm.item = {};
+        vm.isSaving = false;
+
+        // Lists
+        vm.categoryList = [];
 
         vm.save = function () {
-            utils.showLoading();
-            vm.saveEnabled = false;
+            vm.isSaving = true;
 
             inventoryService.saveItem($stateParams.id, vm.item)
                 .then(saveSuccessful, utils.onError)
                 .finally(onSaveComplete);
-        };
-
-        vm.reset = function (form) {
-            form.$setPristine();
         };
 
         // Private methods
@@ -29,34 +23,34 @@
             utils.showSuccessMessage("Item saved successfully.");
 
             // If edit, update the default values
-            if ($stateParams.id != 0) {
-                angular.copy(vm.item, defaultItem);
+            if ($stateParams.id == 0) {
+                vm.item = new Item();
             }
 
             resetForm();
         };
 
         var onSaveComplete = function () {
-            utils.hideLoading();
-            vm.saveEnabled = true;
+            vm.isSaving = false;
         };
 
         var resetForm = function () {
-            angular.copy(defaultItem, vm.item);
+            vm.addItemForm.$setPristine();
             vm.defaultFocus = true;
-            if (vm.addItemForm) {
-                vm.addItemForm.$setPristine();
-            }
         };
 
-        vm.categoryList = [];
+        var processItem = function (response) {
+            vm.item = modelTransformer.transform(response.data, Item);
+            vm.item.setQuantity();
+            resetForm();
+        }
+        
         var processResponses = function (responses) {
-            utils.populateDropdownlist(responses.category, vm.categoryList, "name", "-- Select category --");
+            utils.populateDropdownlist(responses.category, vm.categoryList, "", "");
 
             if (responses.item) {
-                angular.copy(responses.item.data, defaultItem);
+                processItem(responses.item);
             }
-            resetForm();
         };
 
         var initialLoad = function () {
@@ -67,7 +61,7 @@
             };
 
             if ($stateParams.id != 0) {
-                requests.item = inventoryService.getItemById($stateParams.id);
+                requests.item = inventoryService.getItem($stateParams.id);
             }
 
             $q.all(requests)
@@ -82,6 +76,6 @@
         return vm;
     };
 
-    module.controller("addItemController", ["$q", "$stateParams", "inventoryService", "categoryService", "utils", addItemController]);
+    module.controller("addItemController", ["$q", "$stateParams", "inventoryService", "categoryService", "utils", "Item", "modelTransformer", addItemController]);
 
 })(angular.module("oisys-app"));

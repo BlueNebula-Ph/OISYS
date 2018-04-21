@@ -24,11 +24,8 @@
         $scope.$watch(function () {
             return vm.customer.provinceId;
         }, function (newVal, oldVal) {
-            var selectedProvince = vm.provinceList.find(function (elem) { return elem.id == newVal; });
-
-            if (selectedProvince) {
-                vm.citiesList = selectedProvince.cities;
-            }
+            var idx = vm.provinceList.map((element) => element.id).indexOf(vm.customer.provinceId);
+            vm.citiesList = vm.provinceList[idx].cities;
         }, true);
 
         // Private methods
@@ -58,6 +55,14 @@
             resetForm();
         };
 
+        var processResponses = function (responses) {
+            utils.populateDropdownlist(responses.province, vm.provinceList, "", "");
+
+            if (responses.customer) {
+                processCustomer(responses.customer);
+            }
+        };
+
         var initialLoad = function () {
             utils.showLoading();
 
@@ -70,14 +75,7 @@
             }
 
             $q.all(requests)
-                .then((responses) => {
-                    utils.populateDropdownlist(responses.province, vm.provinceList, "", "");
-
-                    if (responses.customer) {
-                        processCustomer(responses.customer);
-                    }
-                    
-                }, utils.onError)
+                .then(processResponses, utils.onError)
                 .finally(utils.hideLoading);
         };
 

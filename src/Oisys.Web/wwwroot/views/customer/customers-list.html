@@ -44,7 +44,7 @@
                     <td class="text-center">
                         <summary-controls show-details="true" details-state="customers.detail({ id: {{ c.id }} })" details-title="View customer details."
                                           show-edit="true" edit-state="customers.add({ id: {{ c.id }} })" edit-title="Edit this customer." 
-                                          show-delete="true" on-delete="ctrl.delete(c)" delete-title="Delete this customer.">
+                                          show-delete="true" on-delete="ctrl.delete(c.id)" delete-title="Delete this customer.">
                         </summary-controls>
                     </td>
                 </tr>
