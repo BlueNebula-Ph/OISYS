@@ -66,7 +66,9 @@
 
             // Order
             this.CreateMap<Order, OrderSummary>()
-                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Customer.Province.Name));
+                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Customer.Province.Name))
+                .ForMember(d => d.Date, s => s.MapFrom(o => o.Date.ToString("d")))
+                .ForMember(d => d.DueDate, s => s.MapFrom(o => o.DueDate.HasValue ? o.DueDate.Value.ToString("d") : string.Empty));
 
             this.CreateMap<SaveOrderRequest, Order>();
 

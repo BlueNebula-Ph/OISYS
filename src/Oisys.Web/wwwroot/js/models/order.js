@@ -8,22 +8,42 @@
             this.dueDate = dueDate || new Date();
             this.discountPercent = discountPercent || 0;
             this.details = details || [];
+
+            this.grossAmount = 0;
+            this.totalAmount = 0;
+            this.discountAmount = 0;
+
+            this.selectedCustomer = undefined;
         };
+
         Order.prototype = {
-            get discountAmount() {
-                return this.totalAmount * this.discountPercent / 100;
-            },
-            get totalAmount() {
+            update: function () {
+                // Get customerId
+                var priceListId = 1;
+
+                if (this.selectedCustomer) {
+                    this.customerId = this.selectedCustomer.id;
+                    this.discountPercent = this.selectedCustomer.discount;
+                    priceListId = this.selectedCustomer.priceListId;
+                }
+                
                 var total = 0;
                 if (this.details) {
                     this.details.forEach(function (elem) {
-                        if (elem.totalPrice) {
-                            total += elem.totalPrice;
+                        if (!elem.isDeleted) {
+                            elem.setupDetail(priceListId);
+
+                            if (elem.totalPrice) {
+                                total += elem.totalPrice;
+                            }
                         }
                     });
                 }
-                return total;
-            },
+
+                this.grossAmount = total;
+                this.discountAmount = total * this.discountPercent / 100;
+                this.totalAmount = total - this.discountAmount;
+            }
         };
 
         return Order;

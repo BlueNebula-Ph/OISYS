@@ -1,8 +1,6 @@
 ﻿(function (module) {
-    var addOrderController = function (customerService, inventoryService, orderService, utils, $stateParams, $scope, $q, Order, OrderDetail) {
+    var addOrderController = function (customerService, inventoryService, orderService, utils, $stateParams, $scope, $q, Order, OrderDetail, modelTransformer) {
         var vm = this;
-
-        // Main properties
         vm.order = new Order();
 
         // Lists
@@ -11,8 +9,7 @@
 
         // Helper properties
         vm.defaultFocus = true;
-        vm.saveEnabled = true;
-        vm.overrideDefaultControls = true;
+        vm.isSaving = false;
 
         // Public methods
         vm.addOrderDetail = function () {
@@ -21,43 +18,76 @@
         };
 
         vm.save = function () {
-            utils.showLoading();
-            vm.saveEnabled = false;
+            vm.isSaving = true;
 
-            // Update for edit
-            orderService.saveOrder(0, vm.order)
+            orderService.saveOrder($stateParams.id, vm.order)
                 .then(onSaveSuccess, utils.onError)
                 .finally(onSaveComplete);
         };
 
-        vm.editDetail = function (detail) {
-            detail.showEdit = true;
-        };
-
-        vm.saveDetail = function (detail) {
-            detail.showEdit = false;
-        }
-
         vm.deleteDetail = function (detail) {
-            //vm.order.details.splice(index);
-            detail.isDeleted = true;
+            if (confirm("Are you sure you want to delete this order detail?")) {
+                if (detail.id != 0) {
+                    detail.isDeleted = true;
+                    vm.addOrderForm.$setDirty();
+                } else {
+                    var idx = vm.order.details.indexOf(detail);
+                    vm.order.details.splice(idx, 1);
+                }
+            }
         };
 
-        vm.undoDelete = function (detail) {
-            detail.isDeleted = false;
-        };
+        // Watchers
+        $scope.$watch(function () {
+            return vm.order;
+        }, function (newVal, oldVal) {
+            vm.order.update();
+        }, true);
 
         // Private methods
+        var resetForm = function () {
+            vm.addOrderForm.$setPristine();
+            vm.defaultFocus = true;
+        };
+
         var onSaveSuccess = function (response) {
             utils.showSuccessMessage("Order saved successfully.");
+
+            if ($stateParams.id == 0) {
+                vm.order = new Order();
+            }
+
+            resetForm();
         };
 
         var onSaveComplete = function () {
-            vm.saveEnabled = true;
-            utils.hideLoading();
+            vm.isSaving = false;
+        };
 
-            vm.order = new Order();
-            console.log(vm.order);
+        var processOrder = function (response) {
+            var orderDetails = modelTransformer.transform(response.data.details, OrderDetail);
+            orderDetails.forEach(function (elem) {
+                var idx = vm.itemList.map((element) => element.id).indexOf(elem.itemId);
+                elem.selectedItem = vm.itemList[idx];
+            });
+
+            response.data.date = new Date(response.data.date);
+            response.data.dueDate = new Date(response.data.dueDate);
+
+            vm.order = modelTransformer.transform(response.data, Order);
+            var customerIdx = vm.customerList.map((element) => element.id).indexOf(vm.order.customerId);
+            vm.order.selectedCustomer = vm.customerList[customerIdx];
+
+            vm.order.details = orderDetails;
+        };
+
+        var processResponses = function (responses) {
+            utils.populateDropdownlist(responses.customer, vm.customerList, "", "");
+            utils.populateDropdownlist(responses.item, vm.itemList, "", "");
+
+            if (responses.order) {
+                processOrder(responses.order);
+            }
         };
         
         var initialLoad = function () {
@@ -68,11 +98,12 @@
                 item: inventoryService.getItemLookup()
             };
 
+            if ($stateParams.id != 0) {
+                requests.order = orderService.getOrder($stateParams.id);
+            }
+
             $q.all(requests)
-                .then((responses) => {
-                    utils.populateDropdownlist(responses.customer, vm.customerList, "name", "-- Select Customer --");
-                    utils.populateDropdownlist(responses.item, vm.itemList, "", "");
-                }, utils.onError)
+                .then(processResponses, utils.onError)
                 .finally(utils.hideLoading);
         };
 
@@ -83,6 +114,6 @@
         return vm;
     };
 
-    module.controller("addOrderController", ["customerService", "inventoryService", "orderService", "utils", "$stateParams", "$scope", "$q", "Order", "OrderDetail", addOrderController]);
+    module.controller("addOrderController", ["customerService", "inventoryService", "orderService", "utils", "$stateParams", "$scope", "$q", "Order", "OrderDetail", "modelTransformer", addOrderController]);
 
 })(angular.module("oisys-app"));

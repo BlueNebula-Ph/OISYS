@@ -3,15 +3,15 @@
         <h3>Save Order.</h3>
     </shell-title>
     <shell-form>
-        <form name="addOrderForm">
+        <form name="ctrl.addOrderForm" novalidate>
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label>Order Number</label>
-                    <input type="text" ng-model="ctrl.order.code" focus-me="ctrl.defaultFocus" />
+                    <input type="text" ng-model="ctrl.order.code" focus-me="ctrl.defaultFocus" required />
                 </div>
                 <div form-input>
                     <label>Customer</label>
-                    <select ng-model="ctrl.order.customerId" ng-options="customer.id as customer.name for customer in ctrl.customerList"></select>
+                    <select ng-model="ctrl.order.selectedCustomer" ng-options="customer.name for customer in ctrl.customerList" required></select>
                 </div>
             </div>
             <div class="col-md-3 left-padding-none">
@@ -30,9 +30,8 @@
                     <discount-control discount-percent="ctrl.order.discountPercent" discount-amount="ctrl.order.discountAmount"></discount-control>
                 </div>
                 <div form-input>
-                    <label>Total Amount</label>
-                    <!--<input type="text" ng-model="ctrl.order.totalAmount" numeric-textbox="{ currencySymbol: '₱ '}" readonly />-->
-                    <input ng-model="ctrl.order.totalAmount" />
+                    <label>Total Discounted Amount</label>
+                    <input type="text" ng-model="ctrl.order.totalAmount" numeric-textbox="{ currencySymbol: '₱ '}" readonly />
                 </div>
             </div>
             <div class="col-md-9 left-padding-none">
@@ -44,59 +43,43 @@
                         <tr class="header">
                             <th class="text-right" style="width: 10%;">Qty</th>
                             <th style="width: 10%;">Unit</th>
-                            <th style="width: 25%;">Item</th>
-                            <th class="text-right" style="width: 20%;">Unit Price</th>
-                            <th class="text-right" style="width: 20%;">Total Price</th>
-                            <th style="width: 15%;"></th>
+                            <th style="width: 30%;">Item</th>
+                            <th class="text-right" style="width: 22%;">Unit Price</th>
+                            <th class="text-right" style="width: 22%;">Total Price</th>
+                            <th style="width: 6%;"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="detail in ctrl.order.details track by $index" ng-include="detail.showEdit ? 'edit' : detail.isDeleted ? 'delete' : 'detail'"></tr>
-                        <tr ng-if="ctrl.order.details.length == 0"><no-records colspan="6"></no-records></tr>
+                        <tr ng-repeat="detail in ctrl.order.details track by $index" ng-if="!detail.isDeleted" ng-include="'edit'"></tr>
+                        <tr no-records ng-if="ctrl.order.details.length == 0" colspan="6"></tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="text-right" colspan="5">Gross Amount : ₱ {{ ctrl.order.grossAmount | number: 2 }}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </form>
     </shell-form>
     <shell-controls>
-        <button type="submit" class="btn btn-primary btn-sm" ng-disabled="!ctrl.saveEnabled" ng-click="ctrl.save()">
-            <i class="fa fa-save"></i> Save
-        </button>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.addOrderForm.$valid || ctrl.addOrderForm.$pristine"></save-button>
     </shell-controls>
 </add-edit-shell>
 
 <script type="text/ng-template" id="edit">
     <td><input type="number" ng-model="detail.quantity" class="form-control input-xs text-right" min="1" focus-me="detail.focus" /></td>
     <td><input class="form-control input-xs" ng-model="detail.unit" readonly /></td>
-    <td>
+    <td ng-if="detail.id == 0">
         <select class="form-control input-xs" ng-model="detail.selectedItem" ng-options="item.codeName for item in ctrl.itemList"></select>
     </td>
-    <td><input class="form-control input-xs text-right" numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.unitPrice" readonly /></td>
+    <td ng-if="detail.id != 0">
+        <input class="form-control input-xs" ng-model="detail.item" readonly />
+    </td>
+    <td><input class="form-control input-xs text-right" numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.price" readonly /></td>
     <td><input class="form-control input-xs text-right"numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.totalPrice" readonly /></td>
     <td class="text-center">
-        <button ng-click="ctrl.saveDetail(detail)" class="table-action-button teal center-align"><i class="fa fa-save"></i></button>
-    </td>
-</script>
-
-<script type="text/ng-template" id="detail">
-    <td class="text-right">{{ detail.quantity }}</td>
-    <td>{{ detail.unit }}</td>
-    <td>{{ detail.selectedItem.codeName }}</td>
-    <td class="text-right">₱ {{ detail.unitPrice | number: 2 }}</td>
-    <td class="text-right">₱ {{ detail.totalPrice | number: 2 }}</td>
-    <td class="text-center">
-        <button ng-click="ctrl.editDetail(detail)" class="table-action-button teal"><i class="fa fa-pencil"></i></button>
-        <button ng-click="ctrl.deleteDetail(detail)" class="table-action-button red"><i class="fa fa-times"></i></button>
-    </td>
-</script>
-
-<script type="text/ng-template" id="delete">
-    <td class="text-right "><s>{{ detail.quantity }}</s></td>
-    <td><s>{{ detail.unit }}</s></td>
-    <td><s>{{ detail.selectedItem.codeName }}</s></td>
-    <td class="text-right"><s>₱ {{ detail.unitPrice | number: 2 }}</s></td>
-    <td class="text-right"><s>₱ {{ detail.totalPrice | number: 2 }}</s></td>
-    <td class="text-center">
-        <button ng-click="ctrl.undoDelete(detail)" class="table-action-button teal"><i class="fa fa-undo"></i></button>
+        <button ng-click="ctrl.deleteDetail(detail)" class="table-action-button red"><i class="fa fa-trash"></i></button>
     </td>
 </script>

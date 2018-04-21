@@ -13,9 +13,14 @@
         public decimal Quantity { get; set; }
 
         /// <summary>
-        /// Gets or sets property Item.
+        /// Gets or sets property Unit.
         /// </summary>
         public string Unit { get; set; }
+
+        /// <summary>
+        /// Gets or sets property ItemId.
+        /// </summary>
+        public int ItemId { get; set; }
 
         /// <summary>
         /// Gets or sets property Item.
@@ -28,7 +33,7 @@
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Gets or sets property total price.
+        /// Gets or sets property TotalPrice.
         /// </summary>
         public decimal TotalPrice { get; set; }
     }

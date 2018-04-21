@@ -1,31 +1,41 @@
 ﻿(function (module) {
     module.factory("OrderDetail", [function () {
-        function OrderDetail(id, quantity, itemId, selectedItem, showEdit, isDeleted, focus) {
+        function OrderDetail(id, quantity, selectedItem, isDeleted, focus) {
             this.id = id || 0;
             this.quantity = quantity || 1;
-            this.selectedItem = selectedItem || {};
-            this.showEdit = showEdit || true;
+            this.selectedItem = selectedItem || undefined;
+
             this.isDeleted = isDeleted || false;
             this.focus = focus || true;
+
+            this.unit = "";
+            this.itemId = 0;
+            this.price = 0;
+            this.totalPrice = 0;
         };
+
         OrderDetail.prototype = {
-            get unit() {
+            setupDetail: function (priceList) {
                 if (this.selectedItem) {
-                    return this.selectedItem.unit;
+                    this.itemId = this.selectedItem.id;
+                    this.unit = this.selectedItem.unit;
+
+                    switch (priceList) {
+                        case 1:
+                            this.price = this.selectedItem.mainPrice;
+                            break;
+                        case 2:
+                            this.price = this.selectedItem.walkInPrice;
+                            break;
+                        case 3:
+                            this.price = this.selectedItem.nePrice;
+                            break;
+                        default:
+                            this.price = this.selectedItem.mainPrice;
+                    }
+
+                    this.totalPrice = this.quantity * this.price;
                 }
-            },
-            get itemId() {
-                if (this.selectedItem) {
-                    return this.selectedItem.id;
-                }
-            },
-            get unitPrice() {
-                if (this.selectedItem) {
-                    return this.selectedItem.mainPrice;
-                }
-            },
-            get totalPrice() {
-                return this.quantity * this.unitPrice;
             },
         };
 
