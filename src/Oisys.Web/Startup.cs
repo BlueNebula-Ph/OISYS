@@ -84,6 +84,7 @@
 
             // Add adjustment service
             services.AddScoped<IAdjustmentService, AdjustmentService>();
+            services.AddScoped<ICustomerService, CustomerService>();
 
             if (this.HostingEnvironment.IsDevelopment())
             {

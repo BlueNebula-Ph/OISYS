@@ -31,6 +31,12 @@
         public string Driver { get; set; }
 
         /// <summary>
+        /// Gets or sets property CustomerId.
+        /// </summary>
+        [Required]
+        public int CustomerId { get; set; }
+
+        /// <summary>
         /// Gets or sets property Details.
         /// </summary>
         public IEnumerable<SaveOrderDetailRequest> Details { get; set; }

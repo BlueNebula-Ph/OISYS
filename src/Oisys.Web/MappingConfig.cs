@@ -31,6 +31,13 @@
                 .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Name));
             this.CreateMap<SaveCityRequest, City>();
 
+            // Credit Memo
+            this.CreateMap<CreditMemo, CreditMemoSummary>();
+            this.CreateMap<SaveCreditMemoRequest, CreditMemo>();
+            this.CreateMap<CreditMemoDetail, CreditMemoDetailSummary>()
+                .ForMember(d => d.Item, s => s.MapFrom(o => o.OrderDetail.Item.Name));
+            this.CreateMap<SaveCreditMemoDetailRequest, CreditMemoDetail>();
+
             // TODO: Change LastUpdatedBy value
             // Customer
             this.CreateMap<Customer, CustomerLookup>();

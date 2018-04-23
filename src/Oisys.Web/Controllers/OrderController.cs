@@ -133,6 +133,7 @@
         {
             var order = this.mapper.Map<Order>(entity);
 
+            // deduct items to inventory
             foreach (var detail in order.Details)
             {
                 var item = await this.context.Items.FindAsync(detail.ItemId);
@@ -157,59 +158,69 @@
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveOrderRequest entity)
         {
-            var orderExists = await this.context.Orders
-                .AnyAsync(c => c.Id == id);
+            var order = await this.context.Orders
+                    .AsNoTracking()
+                    .Include(c => c.Details)
+                    .Include("Details.Item")
+                    .SingleOrDefaultAsync(t => t.Id == id);
 
-            if (!orderExists)
+            if (order == null)
             {
                 return this.NotFound(id);
             }
 
             try
             {
-                // Set the state to modified
-                entity.State = ObjectState.Modified;
-
-                // Adjust current quantities accordingly
-                foreach (var updatedOrderDetail in entity.Details)
+                foreach (var detail in entity.Details)
                 {
-                    var orderDetailItem = await this.context.Items.FindAsync(updatedOrderDetail.ItemId);
-                    if (orderDetailItem != null)
+                    // if item is delivered, cannot modify order detail
+                    if (detail.DeliveryId > 0)
                     {
-                        // Fetch the old detail as no tracking to not interfere with the context-tracked order detail
-                        var oldDetail = await this.context.OrderDetails
-                            .AsNoTracking()
-                            .SingleOrDefaultAsync(c => c.Id == updatedOrderDetail.Id);
+                        continue;
+                    }
 
-                        // If the order detail exists, return the old quantities back
-                        if (oldDetail != null)
-                        {
-                            updatedOrderDetail.State = ObjectState.Modified;
-                            this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, orderDetailItem, oldDetail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.OrderUpdated);
+                    // get original detail
+                    var oldDetail = this.context.OrderDetails.AsNoTracking().SingleOrDefault(c => c.Id == detail.Id);
 
-                            // If a delete is issued to the order detail, remove that order detail
-                            // Also, skip modification of current quantities
-                            if (updatedOrderDetail.IsDeleted)
-                            {
-                                updatedOrderDetail.State = ObjectState.Deleted;
-                                continue;
-                            }
-                        }
-                        else
+                    if (oldDetail != null)
+                    {
+                        // for existing and deleted details
+                        if (oldDetail.Quantity != detail.Quantity)
                         {
-                            updatedOrderDetail.State = ObjectState.Added;
+                            // deduct original quantity
+                            this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, oldDetail.Item, detail.Quantity, AdjustmentType.Add, detail.IsDeleted ? Constants.AdjustmentRemarks.OrderDetailDeleted : Constants.AdjustmentRemarks.OrderUpdated);
                         }
 
-                        // Deduct the correct amount from the item's current quantity
-                        this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, orderDetailItem, updatedOrderDetail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.OrderUpdated);
+                        // deleted existing detail
+                        if (detail.IsDeleted)
+                        {
+                            detail.State = ObjectState.Deleted;
+                            continue;
+                        }
+
+                        if (oldDetail.Quantity != detail.Quantity)
+                        {
+                            // add new quantity
+                            this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, oldDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.OrderUpdated);
+                        }
+                    }
+
+                    // for added details
+                    else
+                    {
+                        var item = this.context.Items.AsNoTracking().SingleOrDefault(c => c.Id == detail.ItemId);
+
+                        this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.OrderDetailCreated);
                     }
                 }
 
-                // Map the entity to an order object
-                var order = this.mapper.Map<Order>(entity);
+                order = this.mapper.Map<Order>(entity);
 
-                // Allow EF to track the order object and set the entity state to it's appropriate state
-                this.context.ChangeTracker.TrackGraph(order, node => ChangeTrackingHelpers.ConvertStateOfNode(node));
+                this.context.Update(order);
+
+                var deletedDetails = order.Details.Where(a => a.State == ObjectState.Deleted);
+
+                this.context.RemoveRange(deletedDetails);
 
                 await this.context.SaveChangesAsync();
             }
@@ -241,6 +252,7 @@
 
             order.IsDeleted = true;
 
+            // add back items to inventory
             foreach (var detail in order.Details)
             {
                 this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, detail.Item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.OrderDeleted);
