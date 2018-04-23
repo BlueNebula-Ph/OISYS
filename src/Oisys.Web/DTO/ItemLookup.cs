@@ -41,5 +41,10 @@
         /// Gets or sets property Walk-In Price
         /// </summary>
         public decimal WalkInPrice { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Category
+        /// </summary>
+        public string NameCategoryDescription { get; set; }
     }
 }

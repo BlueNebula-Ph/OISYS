@@ -150,14 +150,26 @@
                     controllerAs: "ctrl"
                 })
                 .state("orders.add-quotation", {
-                    url: "/quotation/add",
+                    url: "/quotation/add/{id}",
                     templateUrl: "/views/order/make-quotation.html",
                     controller: "addQuotationController",
                     controllerAs: "ctrl"
                 })
                 .state("orders.view-quotations", {
                     url: "/quotations/view",
-                    template: "<div>View quotations</div>"
+                    templateUrl: "/views/order/quotations-list.html",
+                    controller: "viewQuotationController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.add-return", {
+                    url: "/returns/add/{id}",
+                    templateUrl: "/views/order/add-return.html",
+                    controller: "addReturnController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.view-returns", {
+                    url: "/returns/view",
+                    template: "<div>View returns</div>"
                 })
 
                 .state("deliveries", {

@@ -47,7 +47,7 @@ hr {
 input,
 select,
 textarea {
-    max-width: 300px;
+    max-width: 400px;
 }
 
 .btn-primary {

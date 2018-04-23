@@ -3,122 +3,92 @@
         <h3>Make a Quotation.</h3>
     </shell-title>
     <shell-form>
-        <form name="ctrl.quotationForm">
+        <form name="ctrl.addQuotationForm">
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label>Quote Number</label>
-                    <input type="text" ng-model="ctrl.order.code" focus-me="ctrl.defaultFocus" />
+                    <input type="text" ng-model="ctrl.quotation.quoteNumber" focus-me="ctrl.defaultFocus" />
                 </div>
             </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Date</label>
+                    <input type="date" ng-model="ctrl.quotation.date" />
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Delivery Fee</label>
+                    <input type="text" ng-model="ctrl.quotation.deliveryFee" numeric-textbox="{ currencySymbol: '₱ '}" />
+                </div>
+            </div>
+            <div class="clearfix"></div>
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label>Customer</label>
-                    <input type="text" ng-model="ctrl.order.code" />
-                </div>
-            </div>
-            <div class="col-md-3 left-padding-none">
-                <div form-input>
-                    <label>Contact Number</label>
-                    <input type="text" ng-model="ctrl.order.code" />
+                    <select ng-options="customer.name for customer in ctrl.customerList" ng-model="ctrl.quotation.selectedCustomer"></select>
                 </div>
             </div>
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label>Address</label>
-                    <input type="text" ng-model="ctrl.order.code" />
+                    <input type="text" ng-model="ctrl.quotation.address" readonly />
                 </div>
             </div>
-            <hr style="width: 100%;" />
-            <div>
-                <label>Items</label>
-                <table class="table table-condensed table-bordered input-details-table">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Contact Number</label>
+                    <input type="text" ng-model="ctrl.quotation.contactNumber" readonly />
+                </div>
+            </div>
+            <div class="col-md-9 left-padding-none">
+                <table class="table table-condensed input-details-table">
                     <thead>
                         <tr>
-                            <th style="width: 26%;">Item</th>
-                            <th style="width: 15%;">Quantity</th>
-                            <th style="width: 15%;">Unit</th>
-                            <th style="width: 20%;">Unit Price</th>
-                            <th style="width: 20%;">Total Price</th>
-                            <th style="width: 4%;"></th>
+                            <th colspan="6" class="header-actions">
+                                <button ng-click="ctrl.addDetail()" class="header-action-button"><i class="fa fa-plus"></i> Quotation Items</button>
+                            </th>
+                        </tr>
+                        <tr class="header">
+                            <th class="text-right" style="width: 10%;">Qty</th>
+                            <th style="width: 10%;">Unit</th>
+                            <th style="width: 44%;">Item</th>
+                            <th class="text-right" style="width: 15%;">Unit Price</th>
+                            <th class="text-right" style="width: 15%;">Total Price</th>
+                            <th style="width: 6%;"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="6">
-                                <button class="btn btn-primary btn-xs" ng-click="ctrl.addOrderDetail()">
-                                    <i class="fa fa-plus"></i> New order detail
-                                </button>
-                            </td>
-                        </tr>
-                        <tr ng-repeat="i in ctrl.orderDetails track by $index">
-                            <td>
-                                <div ng-if="!i.isDeleted">
-                                    <select class="form-control input-sm" ng-model="i.selectedItem" ng-options="item.codeName for item in ctrl.itemList" focus-me="i.focus"></select>
-                                </div>
-                                <div ng-if="i.isDeleted">
-                                    <s>{{ i.selectedItem.codeName }}</s>
-                                </div>
-                            </td>
-                            <td>
-                                <div ng-if="!i.isDeleted">
-                                    <input class="form-control input-sm" type="number" ng-model="i.quantity" />
-                                </div>
-                                <div ng-if="i.isDeleted">
-                                    <s>{{ i.quantity }}</s>
-                                </div>
-                            </td>
-                            <td>
-                                <div ng-if="!i.isDeleted">
-                                    <input class="form-control input-sm" ng-model="i.unit" readonly />
-                                </div>
-                                <div ng-if="i.isDeleted">
-                                    <s>{{ i.unit }}</s>
-                                </div>
-                            </td>
-                            <td>
-                                <div ng-if="!i.isDeleted">
-                                    <price-toggler item="i.selectedItem" selected-price-type="walkInPrice" selected-price="i.price"></price-toggler>
-                                </div>
-                                <div ng-if="i.isDeleted">
-                                    <s>₱ {{ i.price | number: 2 }}</s>
-                                </div>
-                            </td>
-                            <td>
-                                <div ng-if="!i.isDeleted">
-                                    <input type="text" class="form-control input-sm" ng-model="i.totalPrice"
-                                           numeric-textbox="{ currencySymbol: '₱ '}" readonly />
-                                </div>
-                                <div ng-if="i.isDeleted">
-                                    <s>₱ {{ i.totalPrice | number: 2 }}</s>
-                                </div>
-                            </td>
-                            <td>
-                                <div ng-if="!i.isDeleted">
-                                    <a href="" class="text-danger" ng-click="ctrl.removeOrderDetail($index)">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </div>
-                                <div ng-if="i.isDeleted">
-                                    <a href="" class="text-success" ng-click="ctrl.undoRemove($index)">
-                                        <i class="fa fa-undo"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+                        <tr ng-repeat="detail in ctrl.quotation.details track by $index" ng-if="!detail.isDeleted" ng-include="'edit'"></tr>
+                        <tr no-records ng-if="ctrl.quotation.details.length == 0" colspan="6"></tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="text-right" colspan="5">Total Amount : ₱ {{ ctrl.quotation.totalAmount | number: 2 }}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
-            </div>
+            </div> 
         </form>
     </shell-form>
     <shell-controls>
-        <button class="btn btn-sm btn-primary">
-            <i class="fa fa-save"></i> Save
-        </button>
-        <button class="btn btn-sm btn-primary">
-            <i class="fa fa-print"></i> Save &amp; Print
-        </button>
-        <button class="btn btn-sm btn-default">
-            <i class="fa fa-times"></i> Reset
-        </button>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.addQuotationForm.$valid || ctrl.addQuotationForm.$pristine"></save-button>
     </shell-controls>
 </add-edit-shell>
+
+<script type="text/ng-template" id="edit">
+    <td><input type="number" ng-model="detail.quantity" class="form-control input-xs text-right" min="1" focus-me="detail.focus" /></td>
+    <td><input class="form-control input-xs" ng-model="detail.unit" readonly /></td>
+    <td ng-if="detail.id == 0">
+        <select class="form-control input-xs" ng-model="detail.selectedItem" ng-options="item.nameCategoryDescription for item in ctrl.itemList"></select>
+    </td>
+    <td ng-if="detail.id != 0">
+        <input class="form-control input-xs" ng-model="detail.item" readonly />
+    </td>
+    <td><input class="form-control input-xs text-right" numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.price" readonly /></td>
+    <td><input class="form-control input-xs text-right" numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.totalPrice" readonly /></td>
+    <td class="text-center">
+        <button ng-click="ctrl.deleteDetail(detail)" class="table-action-button red"><i class="fa fa-trash"></i></button>
+    </td>
+</script>
