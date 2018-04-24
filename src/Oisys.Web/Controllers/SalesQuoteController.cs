@@ -104,9 +104,11 @@ namespace Oisys.Web.Controllers
         {
             var entity = await this.context.SalesQuotes
                 .AsNoTracking()
-                .Include(c => c.Customer)
+                .Include(c => c.Customer).ThenInclude(y => y.Province)
+                .Include(c => c.Customer).ThenInclude(y => y.City)
                 .Include(c => c.Details)
                     .ThenInclude(d => d.Item)
+                        .ThenInclude(f => f.Category)
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)

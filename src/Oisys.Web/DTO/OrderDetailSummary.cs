@@ -36,5 +36,15 @@
         /// Gets or sets property TotalPrice.
         /// </summary>
         public decimal TotalPrice { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Description.
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Category.
+        /// </summary>
+        public string Category { get; set; }
     }
 }

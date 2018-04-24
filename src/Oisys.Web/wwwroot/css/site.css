@@ -277,3 +277,12 @@ dd {
         border-top: 1px solid #aaa;
         padding: 6px 0;
     }
+
+.details-totals {
+    margin-bottom: 0;
+}
+
+    .details-totals li {
+        padding: 5px 0;
+        font-style: italic;
+    }

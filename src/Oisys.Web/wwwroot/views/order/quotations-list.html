@@ -46,13 +46,13 @@
                     <td class="text-right">₱ {{ c.deliveryFee | number: 2 }}</td>
                     <td class="text-right">₱ {{ c.totalAmount | number: 2 }}</td>
                     <td class="text-center">
-                        <summary-controls show-details="true" details-state="orders.detail({ id: {{ c.id }} })" details-title="View quotation details."
+                        <summary-controls show-details="true" details-state="orders.quotation-detail({ id: {{ c.id }} })" details-title="View quotation details."
                                           show-edit="true" edit-state="orders.add-quotation({ id: {{ c.id }} })" edit-title="Edit this quotation."
                                           show-delete="true" delete-title="Delete this quotation.">
                         </summary-controls>
                     </td>
                 </tr>
-                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="6"></tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="7"></tr>
             </tbody>
         </table>
     </shell-table>

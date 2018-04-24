@@ -30,6 +30,11 @@
         public string CustomerAddress { get; set; }
 
         /// <summary>
+        /// Gets or sets property Customer Contact.
+        /// </summary>
+        public string CustomerContact { get; set; }
+
+        /// <summary>
         /// Gets or sets property Date.
         /// </summary>
         public DateTime Date { get; set; }

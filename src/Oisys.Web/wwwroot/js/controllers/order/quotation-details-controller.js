@@ -1,18 +1,18 @@
 ﻿(function (module) {
-    var orderDetailsController = function (orderService, utils, $stateParams) {
+    var quotationDetailsController = function (quotationService, utils, $stateParams) {
         var vm = this;
-        vm.orderInfo = {};
+        vm.quotationInfo = {};
 
         var processOrder = function (response) {
             var data = response.data;
-            angular.copy(data, vm.orderInfo);
+            angular.copy(data, vm.quotationInfo);
         };
 
         // Initialize the details
         $(function () {
             utils.showLoading();
 
-            orderService.getOrder($stateParams.id)
+            quotationService.getQuotation($stateParams.id)
                 .then(processOrder, utils.onError)
                 .finally(utils.hideLoading);
         });
@@ -20,6 +20,6 @@
         return vm;
     };
 
-    module.controller("orderDetailsController", ["orderService", "utils", "$stateParams", orderDetailsController]);
+    module.controller("quotationDetailsController", ["quotationService", "utils", "$stateParams", quotationDetailsController]);
 
 })(angular.module("oisys-app"));

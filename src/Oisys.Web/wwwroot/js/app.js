@@ -161,6 +161,12 @@
                     controller: "viewQuotationController",
                     controllerAs: "ctrl"
                 })
+                .state("orders.quotation-detail", {
+                    url: "/quotation/detail/{id}",
+                    templateUrl: "/views/order/quotation-details.html",
+                    controller: "quotationDetailsController",
+                    controllerAs: "ctrl"
+                })
                 .state("orders.add-return", {
                     url: "/returns/add/{id}",
                     templateUrl: "/views/order/add-return.html",

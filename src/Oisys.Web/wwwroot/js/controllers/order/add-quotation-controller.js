@@ -23,7 +23,7 @@
 
         vm.addDetail = function () {
             var detail = new QuotationDetail();
-            vm.quotation.details.push(detail);
+            vm.quotation.details.splice(0, 0, detail);
         };
 
         vm.deleteDetail = function (detail) {
