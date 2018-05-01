@@ -12,7 +12,10 @@
             { text: "View Quotations", isHeader: false, isItem: true, icon: "fa-search", link: ".view-quotations" },
             { text: "Returns", isHeader: true, isItem: false, icon: "fa-undo" },
             { text: "Return Items", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-return({ id: 0 })" },
-            { text: "View Returns", isHeader: false, isItem: true, icon: "fa-search", link: ".view-returns" }
+            { text: "View Returns", isHeader: false, isItem: true, icon: "fa-search", link: ".view-returns" },
+            { text: "Cash Vouchers", isHeader: true, isItem: false, icon: "fa-file-o" },
+            { text: "Add New Voucher", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-voucher({ id: 0 })" },
+            { text: "View Vouchers", isHeader: false, isItem: true, icon: "fa-search", link: ".view-vouchers" }
         ];
 
         $(function () {

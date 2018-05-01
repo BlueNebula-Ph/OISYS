@@ -12,10 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\ReferenceTypeController.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="SeedData\ReferenceTypes.csv" />
     <None Remove="wwwroot\views\customer\add-customer.html~RF530933.TMP" />
   </ItemGroup>

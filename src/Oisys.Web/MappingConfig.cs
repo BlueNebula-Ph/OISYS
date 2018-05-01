@@ -21,6 +21,10 @@
                 .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name))
                 .ForMember(d => d.AdjustmentType, s => s.MapFrom(o => $"{o.AdjustmentType} - {o.QuantityType}"));
 
+            // Cash Voucher
+            this.CreateMap<CashVoucher, CashVoucherSummary>();
+            this.CreateMap<SaveCashVoucherRequest, CashVoucher>();
+
             // Category
             this.CreateMap<Category, CategorySummary>();
             this.CreateMap<Category, CategoryLookup>();

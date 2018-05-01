@@ -1,17 +1,17 @@
 ﻿(function (module) {
-    var itemDetailsController = function (inventoryService, utils, $stateParams) {
+    var cashVoucherDetailsController = function (cashVoucherService, utils, $stateParams) {
         var vm = this;
 
-        vm.itemDetails = {};
+        vm.cashVoucherDetails = {};
 
         // Initialize the details
         $(function () {
             utils.showLoading();
 
-            inventoryService.getItem($stateParams.id)
+            cashVoucherService.getCashVoucher($stateParams.id)
                 .then(function (response) {
                     var data = response.data;
-                    angular.copy(data, vm.itemDetails);
+                    angular.copy(data, vm.cashVoucherDetails);
                 }, function (error) {
                     console.log(error);
                 })
@@ -23,6 +23,6 @@
         return vm;
     };
 
-    module.controller("itemDetailsController", ["inventoryService", "utils", "$stateParams", itemDetailsController]);
+    module.controller("cashVoucherDetailsController", ["cashVoucherService", "utils", "$stateParams", cashVoucherDetailsController]);
 
 })(angular.module("oisys-app"));

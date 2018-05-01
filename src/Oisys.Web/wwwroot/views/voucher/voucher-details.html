@@ -1,0 +1,26 @@
+﻿<details-shell>
+    <shell-title>
+        <h3>Cash Voucher Details.</h3>
+    </shell-title>
+    <shell-details>
+        <h4>Voucher Information.</h4>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>Voucher Number</dt>
+                <dd>{{ ctrl.cashVoucherDetails.voucherNumber }}</dd>
+                <dt>Date</dt>
+                <dd>{{ ctrl.cashVoucherDetails.date | date:'MM/dd/yyyy' }}</dd>
+                <dt>Pay To</dt>
+                <dd>{{ ctrl.cashVoucherDetails.payTo }}</dd>
+                <dt>Description</dt>
+                <dd>{{ ctrl.cashVoucherDetails.description }}</dd>
+                <dt>Category</dt>
+                <dd>{{ ctrl.cashVoucherDetails.category }}</dd>
+                <dt>Amount</dt>
+                <dd>₱ {{ ctrl.cashVoucherDetails.amount | number:2 }}</dd>
+                <dt>Released By</dt>
+                <dd>{{ ctrl.cashVoucherDetails.releasedBy }}</dd>
+            </dl>
+        </div>
+    </shell-details>
+</details-shell>

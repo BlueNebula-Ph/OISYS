@@ -183,6 +183,24 @@
                     url: "/returns/view",
                     template: "<div>View returns</div>"
                 })
+                .state("orders.add-voucher", {
+                    url: "/voucher/add/{id}",
+                    templateUrl: "/views/voucher/add-voucher.html",
+                    controller: "addCashVoucherController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.view-vouchers", {
+                    url: "/vouchers/list",
+                    templateUrl: "/views/voucher/voucher-list.html",
+                    controller: "viewCashVoucherController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.voucher-detail", {
+                    url: "/vouchers/detail/{id}",
+                    templateUrl: "/views/voucher/voucher-details.html",
+                    controller: "cashVoucherDetailsController",
+                    controllerAs: "ctrl"
+                })
 
                 .state("deliveries", {
                     url: "/deliveries",

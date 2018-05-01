@@ -16,7 +16,7 @@
         /// Gets or sets property Code.
         /// </summary>
         [Required]
-        public string Code { get; set; }
+        public int Code { get; set; }
 
         /// <summary>
         /// Gets or sets property Date.
