@@ -124,6 +124,12 @@
                     controller: "itemAdjustmentController",
                     controllerAs: "ctrl"
                 })
+                .state("inventory.manufacture", {
+                    url: "/manufacture",
+                    templateUrl: "/views/inventory/manufacture-item.html",
+                    controller: "manufactureItemController",
+                    controllerAs: "ctrl"
+                })
 
                 .state("orders", {
                     url: "/orders",

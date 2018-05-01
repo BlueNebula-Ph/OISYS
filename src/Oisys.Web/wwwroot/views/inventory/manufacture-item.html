@@ -1,0 +1,28 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Manufacture Item. <small class="text-muted">Please input item and quantity manufactured.</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="ctrl.manufactureItemForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="item">Item</label>
+                    <select ng-model="ctrl.manufacture.id" ng-options="item.id as item.codeName for item in ctrl.itemList" ng-change="ctrl.onChange()"
+                            focus-me="ctrl.defaultFocus" required></select>
+                    <span class="help-block small left-margin-sm">Current Quantity: {{ ctrl.manufacture.current }} | Actual Quantity: {{ ctrl.manufacture.actual }}</span>
+                </div>
+                <div form-input>
+                    <label for="quantity">Quantity Manufactured</label>
+                    <input type="number" min="0" ng-model="ctrl.manufacture.adjustmentQuantity" />
+                </div>
+                <div form-input>
+                    <label for="remarks">Remarks</label>
+                    <textarea rows="5" ng-model="ctrl.manufacture.remarks"></textarea>
+                </div>
+            </div>
+        </form>
+    </shell-form>
+    <shell-controls>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.manufactureItemForm.$valid || ctrl.manufactureItemForm.$pristine"></save-button>
+    </shell-controls>
+</add-edit-shell>
