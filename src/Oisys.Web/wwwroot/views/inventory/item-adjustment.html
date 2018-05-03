@@ -3,12 +3,13 @@
         <h3>Adjust Item Quantity. <small class="text-muted">Please input the details of the adjustment.</small></h3>
     </shell-title>
     <shell-form>
-        <form name="addAdjustmentForm">
+        <form name="ctrl.addAdjustmentForm">
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="item">Item</label>
-                    <select ng-model="ctrl.adjustment.id" ng-options="item.id as item.codeName for item in ctrl.itemList" ng-change="ctrl.onChange()"></select>
-                    <span class="help-block small left-margin-sm">Current Quantity: {{ ctrl.quantities.current }} | Actual Quantity: {{ ctrl.quantities.actual }}</span>
+                    <select ng-model="ctrl.adjustment.id" ng-options="item.id as item.codeName for item in ctrl.itemList" ng-change="ctrl.onChange()"
+                            focus-me="ctrl.defaultFocus" required></select>
+                    <span class="help-block small left-margin-sm">Current Quantity: {{ ctrl.adjustment.current }} | Actual Quantity: {{ ctrl.adjustment.actual }}</span>
                 </div>
                 <div form-input>
                     <label for="adjustmentType">Adjustment Type</label>
@@ -29,4 +30,7 @@
             </div>
         </form>
     </shell-form>
+    <shell-controls>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.addAdjustmentForm.$valid || ctrl.addAdjustmentForm.$pristine"></save-button>
+    </shell-controls>
 </add-edit-shell>

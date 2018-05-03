@@ -1,0 +1,59 @@
+﻿<summary-shell>
+    <shell-title>
+        <h3>Search Quotations.</h3>
+    </shell-title>
+    <shell-search>
+        <div search-input>
+            <span><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search..." focus-me="ctrl.focus" ng-model="ctrl.filters.searchTerm" />
+        </div>
+        <div search-input>
+            <span><i class="fa fa-address-card-o fa-fw"></i></span>
+            <select ng-model="ctrl.filters.customerId" ng-options="customer.id as customer.name for customer in ctrl.customerList"></select>
+        </div>
+        <div search-input>
+            <span title="Date from"><i class="fa fa-calendar-o fa-fw"></i></span>
+            <input type="date" placeholder="Date from" ng-model="ctrl.filters.dateFrom" />
+        </div>
+        <div search-input>
+            <span title="Date to"><i class="fa fa-calendar-o fa-fw"></i></span>
+            <input type="date" placeholder="Date to" ng-model="ctrl.filters.dateTo" />
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchQuotations()">
+            <i class="fa fa-search"></i> Search
+        </button>
+        <button class="btn btn-default btn-sm" ng-click="ctrl.clearFilter()">
+            <i class="fa fa-times"></i> Clear
+        </button>
+    </shell-search>
+    <shell-table>
+        <table class="table table-condensed table-striped summary-table">
+            <thead>
+                <tr>
+                    <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
+                        <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
+                                       sort-direction="ctrl.filters.sortDirection"
+                                       fetch-call-back="ctrl.fetchQuotations()"></column-header>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
+                    <td>{{ c.quoteNumber }}</td>
+                    <td>{{ c.customerName }}</td>
+                    <td>{{ c.customerAddress }}</td>
+                    <td class="text-center">{{ c.date | date:'MM/dd/yyyy' }}</td>
+                    <td class="text-right">₱ {{ c.deliveryFee | number: 2 }}</td>
+                    <td class="text-right">₱ {{ c.totalAmount | number: 2 }}</td>
+                    <td class="text-center">
+                        <summary-controls show-details="true" details-state="orders.quotation-detail({ id: {{ c.id }} })" details-title="View quotation details."
+                                          show-edit="true" edit-state="orders.add-quotation({ id: {{ c.id }} })" edit-title="Edit this quotation."
+                                          show-delete="true" delete-title="Delete this quotation.">
+                        </summary-controls>
+                    </td>
+                </tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="7"></tr>
+            </tbody>
+        </table>
+    </shell-table>
+</summary-shell>

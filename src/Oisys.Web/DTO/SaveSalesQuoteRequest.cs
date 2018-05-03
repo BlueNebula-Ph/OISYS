@@ -11,10 +11,9 @@
     public class SaveSalesQuoteRequest : DTOBase
     {
         /// <summary>
-        /// Gets or sets property Code.
+        /// Gets or sets property QuoteNumber.
         /// </summary>
-        [Required]
-        public string Code { get; set; }
+        public string QuoteNumber { get; set; }
 
         /// <summary>
         /// Gets or sets property CustomerId.
@@ -32,6 +31,11 @@
         /// </summary>
         [Required]
         public decimal DeliveryFee { get; set; }
+
+        /// <summary>
+        /// Gets or sets property TotalAmount.
+        /// </summary>
+        public decimal TotalAmount { get; set; }
 
         /// <summary>
         /// Gets or sets collection of SalesQuoteDetails navigation property.

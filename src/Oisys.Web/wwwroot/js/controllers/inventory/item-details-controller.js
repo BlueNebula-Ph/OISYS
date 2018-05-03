@@ -1,13 +1,12 @@
 ﻿(function (module) {
-
-    var itemDetailsController = function (inventoryService, loadingService, $stateParams) {
+    var itemDetailsController = function (inventoryService, utils, $stateParams) {
         var vm = this;
 
         vm.itemDetails = {};
 
         // Initialize the details
         $(function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             inventoryService.getItem($stateParams.id)
                 .then(function (response) {
@@ -17,13 +16,13 @@
                     console.log(error);
                 })
                 .finally(function () {
-                    loadingService.hideLoading();
+                    utils.hideLoading();
                 });
         });
 
         return vm;
     };
 
-    module.controller("itemDetailsController", ["inventoryService", "loadingService", "$stateParams", itemDetailsController]);
+    module.controller("itemDetailsController", ["inventoryService", "utils", "$stateParams", itemDetailsController]);
 
 })(angular.module("oisys-app"));

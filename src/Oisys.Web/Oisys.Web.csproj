@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,11 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\ReferenceTypeController.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="SeedData\ReferenceTypes.csv" />
+    <None Remove="wwwroot\views\customer\add-customer.html~RF530933.TMP" />
   </ItemGroup>
 
   <ItemGroup>
@@ -338,15 +336,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\lib\autoNumeric\config\webpack.config.prd.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\autoNumeric\dist\autoNumeric.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\autoNumeric\dist\autoNumeric.min.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\lib\autoNumeric\dist\autoNumeric.min.js.map">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\lib\autoNumeric\Documentation.md">

@@ -9,12 +9,6 @@
     public class SaveCustomerRequest : DTOBase
     {
         /// <summary>
-        /// Gets or sets property Code.
-        /// </summary>
-        [Required]
-        public string Code { get; set; }
-
-        /// <summary>
         /// Gets or sets property Name.
         /// </summary>
         [Required]
@@ -73,6 +67,6 @@
         /// Gets or sets property Price List.
         /// </summary>
         [Required]
-        public string PriceList { get; set; }
+        public int PriceListId { get; set; }
     }
 }

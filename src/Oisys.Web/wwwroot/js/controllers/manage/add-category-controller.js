@@ -1,32 +1,23 @@
 ﻿(function (module) {
-    var addCategoryController = function ($stateParams, categoryService, utils) {
+    var addCategoryController = function ($stateParams, categoryService, utils, Category, modelTransformer) {
         var vm = this;
-
-        // Data
-        var defaultCategory = {};
-        vm.category = {};
+        vm.category = new Category();
 
         // Helper properties
         vm.defaultFocus = true;
-        vm.saveEnabled = true;
+        vm.isSaving = false;
 
         // Public methods
         vm.save = function () {
-            utils.showLoading();
-            vm.saveEnabled = false;
+            vm.isSaving = true;
 
             categoryService.saveCategory($stateParams.id, vm.category)
                 .then(saveSuccessful, utils.onError)
                 .finally(onSaveComplete);
         };
 
-        vm.reset = function () {
-            clearForm();
-        };
-
         // Private methods
-        var clearForm = function () {
-            angular.copy(defaultCategory, vm.category);
+        var resetForm = function () {
             vm.addCategoryForm.$setPristine();
             vm.defaultFocus = true;
         };
@@ -34,23 +25,22 @@
         var saveSuccessful = function (respose) {
             utils.showSuccessMessage("Category saved successfully.");
 
-            // If edit, update the default values
-            if ($stateParams.id != 0) {
-                angular.copy(vm.category, defaultCategory);
+            // If new, clear the form
+            if ($stateParams.id == 0) {
+                vm.category = new Category();
             }
 
-            clearForm();
+            resetForm();
         };
 
         var onSaveComplete = function () {
-            utils.hideLoading();
-            vm.saveEnabled = true;
+            vm.isSaving = false;
         };
 
         // Load
         var processCategory = function (response) {
-            angular.copy(response.data, defaultCategory);
-            clearForm();
+            vm.category = modelTransformer.transform(response.data, Category);
+            resetForm();
         };
 
         var loadCategory = function () {
@@ -70,6 +60,6 @@
         return vm;
     };
 
-    module.controller("addCategoryController", ["$stateParams", "categoryService", "utils", addCategoryController]);
+    module.controller("addCategoryController", ["$stateParams", "categoryService", "utils", "Category", "modelTransformer", addCategoryController]);
 
 })(angular.module("oisys-app"));

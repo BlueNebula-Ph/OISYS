@@ -54,9 +54,14 @@
         public string Unit { get; set; }
 
         /// <summary>
-        /// Gets or sets property CategoryId.
+        /// Gets or sets property category id.
         /// </summary>
-        public string CategoryCode { get; set; }
+        public int CategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets property category name.
+        /// </summary>
+        public string CategoryName { get; set; }
 
         /// <summary>
         /// Gets or sets property Quantity.

@@ -19,8 +19,8 @@
             { text: "Current Qty", value: "CurrentQuantity", class: "text-right" },
             { text: "Actual Qty", value: "ActualQuantity", class: "text-right" },
             { text: "Main Price", value: "MainPrice", class: "text-right" },
-            { text: "N.E. Price", value: "NEPrice", class: "text-right" },
             { text: "Walk-in Price", value: "WalkInPrice", class: "text-right" },
+            { text: "N.E. Price", value: "NEPrice", class: "text-right" },
             { text: "", value: "" }
         ];
 
@@ -37,6 +37,15 @@
             vm.filters.categoryId = 0;
 
             vm.focus = true;
+        };
+
+        vm.deleteItem = function (id) {
+            if (!confirm("Are you sure you want to delete this item?")) {
+                return;
+            }
+
+            inventoryService.deleteItem(id)
+                .then((response) => { vm.fetchItems(); }, utils.onError);
         };
 
         vm.categoryList = [];

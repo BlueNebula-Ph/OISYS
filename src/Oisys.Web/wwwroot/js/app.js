@@ -124,6 +124,12 @@
                     controller: "itemAdjustmentController",
                     controllerAs: "ctrl"
                 })
+                .state("inventory.manufacture", {
+                    url: "/manufacture",
+                    templateUrl: "/views/inventory/manufacture-item.html",
+                    controller: "manufactureItemController",
+                    controllerAs: "ctrl"
+                })
 
                 .state("orders", {
                     url: "/orders",
@@ -150,14 +156,50 @@
                     controllerAs: "ctrl"
                 })
                 .state("orders.add-quotation", {
-                    url: "/quotation/add",
+                    url: "/quotation/add/{id}",
                     templateUrl: "/views/order/make-quotation.html",
                     controller: "addQuotationController",
                     controllerAs: "ctrl"
                 })
                 .state("orders.view-quotations", {
                     url: "/quotations/view",
-                    template: "<div>View quotations</div>"
+                    templateUrl: "/views/order/quotations-list.html",
+                    controller: "viewQuotationController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.quotation-detail", {
+                    url: "/quotation/detail/{id}",
+                    templateUrl: "/views/order/quotation-details.html",
+                    controller: "quotationDetailsController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.add-return", {
+                    url: "/returns/add/{id}",
+                    templateUrl: "/views/order/add-return.html",
+                    controller: "addReturnController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.view-returns", {
+                    url: "/returns/view",
+                    template: "<div>View returns</div>"
+                })
+                .state("orders.add-voucher", {
+                    url: "/voucher/add/{id}",
+                    templateUrl: "/views/voucher/add-voucher.html",
+                    controller: "addCashVoucherController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.view-vouchers", {
+                    url: "/vouchers/list",
+                    templateUrl: "/views/voucher/voucher-list.html",
+                    controller: "viewCashVoucherController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.voucher-detail", {
+                    url: "/vouchers/detail/{id}",
+                    templateUrl: "/views/voucher/voucher-details.html",
+                    controller: "cashVoucherDetailsController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("deliveries", {

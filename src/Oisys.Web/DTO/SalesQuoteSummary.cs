@@ -10,9 +10,9 @@
     public class SalesQuoteSummary : DTOBase
     {
         /// <summary>
-        /// Gets or sets property Code.
+        /// Gets or sets property Quote Number.
         /// </summary>
-        public string Code { get; set; }
+        public string QuoteNumber { get; set; }
 
         /// <summary>
         /// Gets or sets property CustomerId.
@@ -30,6 +30,11 @@
         public string CustomerAddress { get; set; }
 
         /// <summary>
+        /// Gets or sets property Customer Contact.
+        /// </summary>
+        public string CustomerContact { get; set; }
+
+        /// <summary>
         /// Gets or sets property Date.
         /// </summary>
         public DateTime Date { get; set; }
@@ -38,6 +43,11 @@
         /// Gets or sets property DeliveryFee.
         /// </summary>
         public decimal DeliveryFee { get; set; }
+
+        /// <summary>
+        /// Gets or sets property TotalAmount.
+        /// </summary>
+        public decimal TotalAmount { get; set; }
 
         /// <summary>
         /// Gets or sets collection of SalesQuoteDetailSummary navigation property.

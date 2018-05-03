@@ -11,14 +11,14 @@
     public class SalesQuote : ModelBase
     {
         /// <summary>
-        /// Gets or sets property CustomerId.
-        /// </summary>
-        public int? CustomerId { get; set; }
-
-        /// <summary>
         /// Gets or sets property quote number.
         /// </summary>
         public string QuoteNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets property CustomerId.
+        /// </summary>
+        public int? CustomerId { get; set; }
 
         /// <summary>
         /// Gets or sets property Date.
@@ -30,6 +30,11 @@
         /// Gets or sets property DeliveryFee.
         /// </summary>
         public decimal DeliveryFee { get; set; }
+
+        /// <summary>
+        /// Gets or sets property TotalAmount
+        /// </summary>
+        public decimal TotalAmount { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.

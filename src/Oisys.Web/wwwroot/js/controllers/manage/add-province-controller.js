@@ -1,58 +1,40 @@
 ﻿(function (module) {
-    var addProvinceController = function ($stateParams, provinceService, utils) {
+    var addProvinceController = function ($stateParams, provinceService, utils, Province, City, modelTransformer) {
         var vm = this;
-
-        // Data
-        var defaultProvince = {};
-        vm.province = {
-            name: "",
-            cities: []
-        };
+        vm.province = new Province();
 
         // Helper properties
         vm.defaultFocus = true;
-        vm.saveEnabled = true;
+        vm.isSaving = false;
 
         // Public methods
         vm.save = function () {
-            utils.showLoading();
-            vm.saveEnabled = false;
+            vm.isSaving = true;
 
             provinceService.saveProvince($stateParams.id, vm.province)
                 .then(saveSuccessful, utils.onError)
                 .finally(onSaveComplete);
         };
 
-        vm.reset = function () {
-            clearForm();
-        };
-
         vm.addCity = function () {
-            var newCity = { id: 0, name: "", focus: true };
+            var newCity = new City();
             vm.province.cities.push(newCity);
         };
 
-        vm.removeCity = function ($index) {
-            var city = vm.province.cities[$index];
-            if (city && city.id != 0) {
-                if (!confirm("This city has already been saved. Are you sure?")) {
-                    return;
+        vm.removeCity = function (city) {
+            if (confirm("Are you sure you want to delete this city?")) {
+                if (city.id != 0) {
+                    city.isDeleted = true;
+                    vm.addProvinceForm.$setDirty();
+                } else {
+                    var idx = vm.province.cities.indexOf(city);
+                    vm.province.cities.splice(idx, 1);
                 }
-
-                provinceService
-                    .deleteCity($stateParams.id, city.id)
-                    .then(() => {
-                        vm.province.cities.splice($index, 1);
-                        loadProvince();
-                    }, utils.onError);
-            } else {
-                vm.province.cities.splice($index, 1);
             }
         };
 
         // Private methods
-        var clearForm = function () {
-            angular.copy(defaultProvince, vm.province);
+        var resetForm = function () {
             vm.addProvinceForm.$setPristine();
             vm.defaultFocus = true;
         };
@@ -61,21 +43,20 @@
             utils.showSuccessMessage("Province saved successfully.");
 
             if ($stateParams.id == 0) {
-                clearForm();
-            } else {
-                loadProvince();
+                vm.province = new Province();
             }
+
+            resetForm();
         };
 
         var onSaveComplete = function () {
-            utils.hideLoading();
-            vm.saveEnabled = true;
+            vm.isSaving = false;
         };
 
         // Load
         var processProvince = function (response) {
-            angular.copy(response.data, defaultProvince);
-            clearForm();
+            vm.province = modelTransformer.transform(response.data, Province);
+            resetForm();
         };
 
         var loadProvince = function () {
@@ -95,6 +76,6 @@
         return vm;
     };
 
-    module.controller("addProvinceController", ["$stateParams", "provinceService", "utils", addProvinceController]);
+    module.controller("addProvinceController", ["$stateParams", "provinceService", "utils", "Province", "City", "modelTransformer", addProvinceController]);
 
 })(angular.module("oisys-app"));
