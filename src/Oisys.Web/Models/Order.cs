@@ -25,6 +25,11 @@
         public int CustomerId { get; set; }
 
         /// <summary>
+        /// Gets or sets property InvoiceId.
+        /// </summary>
+        public int? InvoiceId { get; set; }
+
+        /// <summary>
         /// Gets or sets property Date.
         /// </summary>
         [Required]

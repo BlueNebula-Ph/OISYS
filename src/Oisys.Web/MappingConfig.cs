@@ -62,6 +62,9 @@
 
             this.CreateMap<SaveDeliveryRequest, Delivery>();
 
+            // Invoice
+            this.CreateMap<Invoice, InvoiceSummary>();
+
             // Item
             this.CreateMap<Item, ItemLookup>()
                 .ForMember(d => d.CodeName, s => s.MapFrom(o => o.Name));

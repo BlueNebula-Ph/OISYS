@@ -45,12 +45,12 @@
         /// <summary>
         /// Gets or sets property CreditMemoId.
         /// </summary>
-        public int CreditMemoId { get; set; }
+        public int? CreditMemoId { get; set; }
 
         /// <summary>
         /// Gets or sets property InvoiceId.
         /// </summary>
-        public int InvoiceId { get; set; }
+        public int? InvoiceId { get; set; }
 
         /// <summary>
         /// Gets or sets property Transaction type.

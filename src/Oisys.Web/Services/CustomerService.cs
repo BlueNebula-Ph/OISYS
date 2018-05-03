@@ -65,11 +65,12 @@
         /// Method to add customer transaction using CustomerService
         /// </summary>
         /// <param name="customerId">Customer Id</param>
+        /// <param name="creditMemoId">Credit Memo Id</param>
+        /// <param name="invoiceId">Invoice Id</param>
         /// <param name="adjustmentType">Adjusment type</param>
         /// <param name="totalAmount">Total amount</param>
         /// <param name="remarks">Credit Memo remarks</param>
-        /// <returns>Customer Transaction</returns>
-        public CustomerTransaction AddCustomerTransaction(int customerId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks)
+        public void AddCustomerTransaction(int customerId, int? creditMemoId, int? invoiceId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks)
         {
             var credit = adjustmentType == AdjustmentType.Add ? totalAmount : null;
             var debit = adjustmentType == AdjustmentType.Deduct ? totalAmount : null;
@@ -83,13 +84,13 @@
                     Debit = debit,
                     TransactionType = remarks,
                     Description = remarks,
+                    CreditMemoId = creditMemoId,
+                    InvoiceId = invoiceId,
                 };
 
             this.context.Add(customerTransaction);
 
             this.UpdateCustomerBalance(customerId, adjustmentType, totalAmount);
-
-            return customerTransaction;
         }
 
         private void UpdateCustomerBalance(int customerId, AdjustmentType adjustmentType, decimal? totalAmount)
@@ -100,7 +101,7 @@
 
             if (customer != null)
             {
-                customer.Balance = adjustmentType == AdjustmentType.Deduct ? customer.Balance + totalAmount.Value : customer.Balance - totalAmount.Value;
+                customer.Balance = adjustmentType == AdjustmentType.Deduct ? customer.Balance - totalAmount.Value : customer.Balance + totalAmount.Value;
             }
         }
     }

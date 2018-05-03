@@ -13,6 +13,11 @@
         public decimal Quantity { get; set; }
 
         /// <summary>
+        /// Gets or sets property Quanity delivered.
+        /// </summary>
+        public decimal QuantityDelivered { get; set; }
+
+        /// <summary>
         /// Gets or sets property Item.
         /// </summary>
         public string Unit { get; set; }

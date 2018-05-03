@@ -22,6 +22,12 @@
         public decimal Quantity { get; set; }
 
         /// <summary>
+        /// Gets or sets property Quanity delivered.
+        /// </summary>
+        [Required]
+        public decimal QuantityDelivered { get; set; }
+
+        /// <summary>
         /// Gets or sets property ItemId.
         /// </summary>
         [Required]

@@ -1,14 +1,14 @@
-﻿namespace Oisys.Web.Models
+﻿namespace Oisys.Web.DTO
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
-    /// <see cref="Invoice"/> class Invoice object.
+    /// <see cref="SaveInvoiceRequest"/> class Create/Update SaveInvoiceRequest object.
     /// </summary>
-    public class Invoice : ModelBase
+    public class SaveInvoiceRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets property CustomerId.
@@ -38,15 +38,5 @@
         /// </summary>
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Orders navigation property.
-        /// </summary>
-        public ICollection<Order> Orders { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Customer.
-        /// </summary>
-        public Customer Customer { get; set; }
     }
 }

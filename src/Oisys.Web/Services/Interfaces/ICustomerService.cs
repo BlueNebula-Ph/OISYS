@@ -29,10 +29,12 @@
         /// Method to add customer transaction using CustomerService
         /// </summary>
         /// <param name="customerId">Customer Id</param>
+        /// <param name="creditMemoId">Credit Memo Id</param>
+        /// <param name="invoiceId">Invoice Id</param>
         /// <param name="adjustmentType">Adjusment type</param>
         /// <param name="totalAmount">Total amount</param>
         /// <param name="remarks">Credit Memo remarks</param>
         /// <returns>Customer Transaction</returns>
-        CustomerTransaction AddCustomerTransaction(int customerId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks);
+        void AddCustomerTransaction(int customerId, int? creditMemoId, int? invoiceId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks);
     }
 }

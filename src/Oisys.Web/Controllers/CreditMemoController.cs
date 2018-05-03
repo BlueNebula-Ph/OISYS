@@ -148,20 +148,17 @@
                     // add back to inventory
                     if (detail.ShouldAddBackToInventory)
                     {
-                        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoCreated);
-                        this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoCreated);
+                        this.adjustmentService.ModifyQuantity(QuantityType.Both, item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoCreated);
                     }
 
                     // total amount to deduct from customer's balance
                     totalAmountReturned = totalAmountReturned + (orderDetail.Price * detail.Quantity);
                 }
 
-                // Add customer transaction
-                var customerTransaction = this.customerService.AddCustomerTransaction(entity.CustomerId, AdjustmentType.Deduct, totalAmountReturned, Constants.AdjustmentRemarks.CreditMemoCreated);
-
                 await this.context.CreditMemos.AddAsync(creditMemo);
 
-                customerTransaction.CreditMemoId = creditMemo.Id;
+                // Add customer transaction, update customer balance
+                this.customerService.AddCustomerTransaction(entity.CustomerId, creditMemo.Id, null, AdjustmentType.Deduct, totalAmountReturned, Constants.AdjustmentRemarks.CreditMemoCreated);
 
                 await this.context.SaveChangesAsync();
 
@@ -215,8 +212,7 @@
                         if (oldDetail.Quantity != detail.Quantity)
                         {
                             // deduct original quantity
-                            this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, oldDetail.OrderDetail.Item, detail.Quantity, AdjustmentType.Deduct, detail.IsDeleted ? Constants.AdjustmentRemarks.CreditMemoDetailDeleted : Constants.AdjustmentRemarks.CreditMemoUpdated);
-                            this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, oldDetail.OrderDetail.Item, detail.Quantity, AdjustmentType.Deduct, detail.IsDeleted ? Constants.AdjustmentRemarks.CreditMemoDetailDeleted : Constants.AdjustmentRemarks.CreditMemoUpdated);
+                            this.adjustmentService.ModifyQuantity(QuantityType.Both, oldDetail.OrderDetail.Item, detail.Quantity, AdjustmentType.Deduct, detail.IsDeleted ? Constants.AdjustmentRemarks.CreditMemoDetailDeleted : Constants.AdjustmentRemarks.CreditMemoUpdated);
 
                             // Amount to add to customer balance
                             totalAmountToAdd = totalAmountToAdd + (oldDetail.OrderDetail.Price * detail.Quantity);
@@ -232,10 +228,9 @@
                         if (oldDetail.Quantity != detail.Quantity)
                         {
                             // add new quantity
-                            this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, oldDetail.OrderDetail.Item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoUpdated);
-                            this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, oldDetail.OrderDetail.Item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                            this.adjustmentService.ModifyQuantity(QuantityType.Both, oldDetail.OrderDetail.Item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoUpdated);
 
-                            // Deduct amount from Customer Account
+                            // Deduct amount from Customer's balance
                             totalAmountToDeduct = totalAmountToDeduct + (oldDetail.OrderDetail.Price * oldDetail.Quantity);
                         }
                     }
@@ -248,8 +243,7 @@
                                                 .AsNoTracking()
                                                 .SingleOrDefault(c => c.Id == detail.OrderDetailId);
 
-                        this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, orderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDetailCreated);
-                        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, orderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDetailCreated);
+                        this.adjustmentService.ModifyQuantity(QuantityType.Both, orderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDetailCreated);
 
                         // Deduct amount from Customer Account
                         totalAmountToDeduct = totalAmountToDeduct + (orderDetail.Price * detail.Quantity);
@@ -264,8 +258,8 @@
                 // update customer transaction record
                 if (customerTransaction != null)
                 {
-                    this.customerService.ModifyCustomerTransaction(cm.CustomerId, cm.Id, AdjustmentType.Add, totalAmountToAdd, Constants.AdjustmentRemarks.CreditMemoUpdated);
-                    this.customerService.ModifyCustomerTransaction(cm.CustomerId, cm.Id, AdjustmentType.Deduct, totalAmountToDeduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                    this.customerService.ModifyCustomerTransaction(cm.CustomerId, customerTransaction.Id, AdjustmentType.Add, totalAmountToAdd, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                    this.customerService.ModifyCustomerTransaction(cm.CustomerId, customerTransaction.Id, AdjustmentType.Deduct, totalAmountToDeduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
                 }
 
                 cm = this.mapper.Map<CreditMemo>(entity);
@@ -314,8 +308,7 @@
 
                 foreach (var detail in creditMemo.Details)
                 {
-                    this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, detail.OrderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDeleted);
-                    this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, detail.OrderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDeleted);
+                    this.adjustmentService.ModifyQuantity(QuantityType.Both, detail.OrderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDeleted);
 
                     // compute amount to add to customer's balance
                     totalAmountReturnedToBalance = totalAmountReturnedToBalance + (detail.OrderDetail.Price * detail.Quantity);
@@ -331,7 +324,7 @@
 
                 if (customerTransaction != null)
                 {
-                    this.customerService.ModifyCustomerTransaction(creditMemo.CustomerId, customerTransaction.Id, AdjustmentType.Deduct, totalAmountReturnedToBalance, Constants.AdjustmentRemarks.CreditMemoDeleted);
+                    this.customerService.ModifyCustomerTransaction(creditMemo.CustomerId, customerTransaction.Id, AdjustmentType.Add, totalAmountReturnedToBalance, Constants.AdjustmentRemarks.CreditMemoDeleted);
                 }
 
                 await this.context.SaveChangesAsync();
