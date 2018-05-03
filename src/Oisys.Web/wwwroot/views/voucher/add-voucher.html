@@ -1,0 +1,42 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Save Cash Voucher. <small class="text-muted">Please input voucher details.</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="ctrl.addVoucherForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="voucherNumber">Voucher Number</label>
+                    <input type="text" ng-model="ctrl.cashVoucher.voucherNumber" focus-me="ctrl.defaultFocus" required />
+                </div>
+                <div form-input>
+                    <label for="date">Date</label>
+                    <input type="date" name="date" ng-model="ctrl.cashVoucher.date" />
+                </div>
+                <div form-input>
+                    <label for="payTo">Pay To</label>
+                    <input type="text" ng-model="ctrl.cashVoucher.payTo" />
+                </div>
+                <div form-input>
+                    <label for="description">Description</label>
+                    <textarea name="description" rows="4" ng-model="ctrl.cashVoucher.description" />
+                </div>
+                <div form-input>
+                    <label for="amount">Amount</label>
+                    <input name="amount" numeric-textbox="{ currencySymbol: '₱ '}" class="text-right" ng-model="ctrl.cashVoucher.amount" />
+                </div>
+                <div form-input>
+                    <label for="category">Category</label>
+                    <select ng-model="ctrl.cashVoucher.category" ng-options="category.code as category.code for category in ctrl.categoryList"></select>
+                </div>
+                <div form-input>
+                    <label for="receivedBy">Released By</label>
+                    <input type="text" ng-model="ctrl.cashVoucher.releasedBy" />
+                </div>
+            </div>
+        </form>
+    </shell-form>
+    <shell-controls>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.addVoucherForm.$valid || ctrl.addVoucherForm.$pristine"></save-button>
+    </shell-controls>
+</add-edit-shell>

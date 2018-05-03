@@ -124,6 +124,7 @@ namespace Oisys.Web.Controllers
                 .Include(c => c.City)
                 .Include(c => c.Province)
                 .Include(c => c.Transactions)
+                .Include(c => c.PriceList)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
@@ -155,9 +156,7 @@ namespace Oisys.Web.Controllers
             await this.context.Customers.AddAsync(customer);
             await this.context.SaveChangesAsync();
 
-            var mappedCustomer = this.mapper.Map<CustomerSummary>(entity);
-
-            return this.CreatedAtRoute("GetCustomer", new { id = customer.Id }, mappedCustomer);
+            return this.CreatedAtRoute("GetCustomer", new { id = customer.Id }, entity);
         }
 
         /// <summary>

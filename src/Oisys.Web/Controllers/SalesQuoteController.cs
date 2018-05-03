@@ -17,7 +17,7 @@ namespace Oisys.Web.Controllers
     /// <see cref="SalesQuoteController"/> class handles SalesQuote basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
-    [Route("api/SalesQuote")]
+    [Route("api/[controller]")]
     [ValidateModel]
     public class SalesQuoteController : Controller
     {
@@ -81,7 +81,7 @@ namespace Oisys.Web.Controllers
             }
 
             // sort
-            var ordering = $"Code {Constants.DefaultSortDirection}";
+            var ordering = $"QuoteNumber {Constants.DefaultSortDirection}";
             if (!string.IsNullOrEmpty(filter?.SortBy))
             {
                 ordering = $"{filter.SortBy} {filter.SortDirection}";
@@ -104,9 +104,11 @@ namespace Oisys.Web.Controllers
         {
             var entity = await this.context.SalesQuotes
                 .AsNoTracking()
-                .Include(c => c.Customer)
+                .Include(c => c.Customer).ThenInclude(y => y.Province)
+                .Include(c => c.Customer).ThenInclude(y => y.City)
                 .Include(c => c.Details)
                     .ThenInclude(d => d.Item)
+                        .ThenInclude(f => f.Category)
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
@@ -147,7 +149,10 @@ namespace Oisys.Web.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveSalesQuoteRequest entity)
         {
-            var salesQuote = await this.context.SalesQuotes.SingleOrDefaultAsync(t => t.Id == id);
+            var salesQuote = await this.context
+                .SalesQuotes
+                .AsNoTracking()
+                .SingleOrDefaultAsync(t => t.Id == id);
 
             if (salesQuote == null)
             {

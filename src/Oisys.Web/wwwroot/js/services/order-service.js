@@ -1,7 +1,5 @@
 ﻿(function (module) {
-
     var orderService = function ($http, env) {
-
         var urlBase = env.baseUrl + "/api/order";
         var dataFactory = {};
 
@@ -16,7 +14,7 @@
         };
 
         dataFactory.saveOrder = function (id, order) {
-            if (id === 0) {
+            if (id == 0) {
                 return $http.post(urlBase, order);
             } else {
                 var url = urlBase + "/" + id;

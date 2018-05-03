@@ -22,13 +22,13 @@
         </div>
         <div class="clearfix"></div>
         <h4>Order Details.</h4>
-        <table class="table table-condensed table-bordered table-striped details-table">
+        <table class="table table-condensed table-striped details-table">
             <thead>
                 <tr>
                     <th class="text-right">Qty</th>
                     <th>Unit</th>
                     <th>Item</th>
-                    <th class="text-right">Price</th>
+                    <th class="text-right">Unit Price</th>
                     <th class="text-right">Total Price</th>
                 </tr>
             </thead>
@@ -36,37 +36,19 @@
                 <tr ng-repeat="detail in ctrl.orderInfo.details track by $index">
                     <td class="text-right">{{ detail.quantity | number: 0 }}</td>
                     <td>{{ detail.unit }}</td>
-                    <td>{{ detail.item }}</td>
+                    <td>{{ detail.item }} - {{ detail.description }} - {{ detail.category }}</td>
                     <td class="text-right">₱ {{ detail.price | number:2 }}</td>
                     <td class="text-right">₱ {{ detail.totalPrice | number:2 }}</td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3"></td>
-                    <td class="text-right">
-                        <b>Gross Amount :</b>
-                    </td>
-                    <td class="text-right">
-                        <b>₱ {{ ctrl.orderInfo.grossAmount | number: 2 }}</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3"></td>
-                    <td class="text-right">
-                        <b>Less ({{ ctrl.orderInfo.discountPercent | number: 2 }} %) :</b>
-                    </td>
-                    <td class="text-right">
-                        <b>₱ {{ ctrl.orderInfo.discountAmount | number: 2 }}</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3"></td>
-                    <td class="text-right">
-                        <b>Total Net Amount :</b>
-                    </td>
-                    <td class="text-right">
-                        <b>₱ {{ ctrl.orderInfo.totalAmount | number: 2 }}</b>
+                    <td class="text-right" colspan="5">
+                        <ul class="list-unstyled details-totals">
+                            <li>Gross Amount: ₱ {{ ctrl.orderInfo.grossAmount | number: 2 }}</li>
+                            <li>Less ({{ ctrl.orderInfo.discountPercent | number: 2 }}%): ₱ {{ ctrl.orderInfo.discountAmount | number: 2 }}</li>
+                            <li>Total Amount: ₱ {{ ctrl.orderInfo.totalAmount | number: 2 }}</li>
+                        </ul>
                     </td>
                 </tr>
             </tfoot>

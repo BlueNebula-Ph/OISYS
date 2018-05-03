@@ -39,6 +39,21 @@
         <script src="~/lib/toastr/toastr.js"></script>
         <script src="~/js/app.js" asp-append-version="true"></script>
 
+        <script src="~/js/models/adjustment.js"></script>
+        <script src="~/js/models/cash-voucher.js"></script>
+        <script src="~/js/models/category.js"></script>
+        <script src="~/js/models/city.js"></script>
+        <script src="~/js/models/customer.js"></script>
+        <script src="~/js/models/item.js"></script>
+        <script src="~/js/models/order.js"></script>
+        <script src="~/js/models/order-detail.js"></script>
+        <script src="~/js/models/province.js"></script>
+        <script src="~/js/models/quotation.js"></script>
+        <script src="~/js/models/quotation-detail.js"></script>
+        <script src="~/js/models/reference.js"></script>
+        <script src="~/js/models/user.js"></script>
+
+        <script src="~/js/services/model-transformer.js"></script>
         <script src="~/js/services/loading-service.js"></script>
         <script src="~/js/services/customer-service.js"></script>
         <script src="~/js/services/reference-service.js"></script>
@@ -54,6 +69,8 @@
         <script src="~/js/services/utility-service.js"></script>
         <script src="~/js/services/province-service.js"></script>
         <script src="~/js/services/category-service.js"></script>
+        <script src="~/js/services/quotation-service.js"></script>
+        <script src="~/js/services/cash-voucher-service.js"></script>
 
         <script src="~/js/directives/navigation.js"></script>
         <script src="~/js/directives/sidebar.js"></script>
@@ -72,6 +89,7 @@
         <script src="~/js/directives/price-toggler.js"></script>
         <script src="~/js/directives/discount-control.js"></script>
         <script src="~/js/directives/search-input.js"></script>
+        <script src="~/js/directives/save-button.js"></script>
 
         <script src="~/js/controllers/common/login-controller.js"></script>
         <script src="~/js/controllers/manage/manage-system-controller.js"></script>
@@ -93,15 +111,23 @@
         <script src="~/js/controllers/inventory/view-item-controller.js"></script>
         <script src="~/js/controllers/inventory/item-details-controller.js"></script>
         <script src="~/js/controllers/inventory/item-adjustment-controller.js"></script>
+        <script src="~/js/controllers/inventory/manufacture-item-controller.js"></script>
 
         <script src="~/js/controllers/order/manage-order-controller.js"></script>
         <script src="~/js/controllers/order/view-order-controller.js"></script>
         <script src="~/js/controllers/order/add-order-controller.js"></script>
         <script src="~/js/controllers/order/order-details-controller.js"></script>
         <script src="~/js/controllers/order/add-quotation-controller.js"></script>
+        <script src="~/js/controllers/order/view-quotation-controller.js"></script>
+        <script src="~/js/controllers/order/add-return-controller.js"></script>
+        <script src="~/js/controllers/order/quotation-details-controller.js"></script>
 
         <script src="~/js/controllers/delivery/manage-delivery-controller.js"></script>
         <script src="~/js/controllers/delivery/view-delivery-controller.js"></script>
+
+        <script src="~/js/controllers/voucher/add-voucher-controller.js"></script>
+        <script src="~/js/controllers/voucher/view-voucher-controller.js"></script>
+        <script src="~/js/controllers/voucher/voucher-details-controller.js"></script>
     </environment>
     <environment names="Production">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>

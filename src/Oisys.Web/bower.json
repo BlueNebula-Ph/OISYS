@@ -1,7 +1,8 @@
-﻿{
+{
   "name": "asp.net",
   "private": true,
   "dependencies": {
+    "autoNumeric": "2.0.13",
     "bootstrap": "3.3.6",
     "jquery": "2.2.0",
     "jquery-validation": "1.14.0",

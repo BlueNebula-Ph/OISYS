@@ -30,8 +30,8 @@
             utils.showLoading();
 
             orderService.fetchOrders(vm.filters)
-                .then(processOrders, onFetchError)
-                .finally(hideLoading);
+                .then(processOrders, utils.onError)
+                .finally(utils.hideLoading);
         };
 
         vm.clearFilter = function () {

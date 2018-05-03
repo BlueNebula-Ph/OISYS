@@ -1,78 +1,45 @@
 ﻿(function (module) {
-    var addUserController = function ($stateParams, userService, utils) {
+    var addUserController = function ($stateParams, userService, utils, User, modelTransformer) {
         var vm = this;
-        var defaultUser = {
-            canView: true
-        };
-
-        // Data
-        vm.user = {};
+        vm.user = new User();
 
         // Helper properties
         vm.defaultFocus = true;
-        vm.saveEnabled = true;
-        vm.accessRights = [
-            { text: "Administrator", value: "admin", selected: false },
-            { text: "Can View", value: "canView", selected: true },
-            { text: "Can Write", value: "canWrite", selected: false },
-            { text: "Can Delete", value: "canDelete", selected: false }];
+        vm.isSaving = false;
 
         // Public methods
         vm.save = function () {
-            utils.showLoading();
-            vm.saveEnabled = false;
+            vm.isSaving = true;
+            vm.user.setAccessRights();
 
-            var accessRights = [];
-            vm.accessRights.forEach((val, idx) => {
-                if (val.selected) {
-                    accessRights.push(val.value);
-                }
-                vm.user[val.value] = val.selected;
-            });
-            vm.user.accessRights = accessRights.join(',');
-
-            userService
-                .saveUser($stateParams.id, vm.user)
+            userService.saveUser($stateParams.id, vm.user)
                 .then(saveSuccessful, utils.onError)
                 .finally(onSaveComplete);
         };
 
-        vm.reset = function () {
-            resetForm();
-        };
-
         // Private methods
         var resetForm = function () {
-            angular.copy(defaultUser, vm.user);
+            vm.addUserForm.$setPristine();
             vm.defaultFocus = true;
-
-            vm.accessRights.forEach((val, idx) => {
-                val.selected = defaultUser[val.value];
-            });
-
-            if (vm.addUserForm) {
-                vm.addUserForm.$setPristine();
-            }
         };
 
         var saveSuccessful = function (respose) {
             utils.showSuccessMessage("User saved successfully.");
 
-            // If edit, set defaultItem to newly saved item
-            if ($stateParams.id != 0) {
-                angular.copy(vm.user, defaultUser);
+            if ($stateParams.id == 0) {
+                vm.user = new User();
             }
 
             resetForm();
         };
 
         var onSaveComplete = function () {
-            utils.hideLoading();
-            vm.saveEnabled = true;
+            vm.isSaving = false;
         };
 
         var processUser = function (response) {
-            angular.copy(response.data, defaultUser);
+            vm.user = modelTransformer.transform(response.data, User);
+            vm.user.refreshAccessList();
             resetForm();
         };
 
@@ -94,6 +61,6 @@
         return vm;
     };
 
-    module.controller("addUserController", ["$stateParams", "userService", "utils", addUserController]);
+    module.controller("addUserController", ["$stateParams", "userService", "utils", "User", "modelTransformer", addUserController]);
 
 })(angular.module("oisys-app"));

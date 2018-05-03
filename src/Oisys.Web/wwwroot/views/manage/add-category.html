@@ -10,4 +10,7 @@
             </div>
         </form>
     </shell-form>
+    <shell-controls>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.addCategoryForm.$valid || ctrl.addCategoryForm.$pristine"></save-button>
+    </shell-controls>
 </add-edit-shell>

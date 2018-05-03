@@ -23,12 +23,12 @@
         /// <summary>
         /// Gets or sets property Date.
         /// </summary>
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         /// <summary>
         /// Gets or sets property DueDate.
         /// </summary>
-        public DateTime DueDate { get; set; }
+        public string DueDate { get; set; }
 
         /// <summary>
         /// Gets or sets property Discount Percent.

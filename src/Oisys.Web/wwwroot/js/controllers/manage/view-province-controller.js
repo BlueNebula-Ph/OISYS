@@ -45,8 +45,7 @@
             if (!utils.showConfirmMessage("Are you sure you want to delete this province?")) { return; }
 
             provinceService.deleteProvince(id)
-                .then((response) => { vm.fetchProvinces(); }, utils.onError)
-                .finally(utils.hideLoading);
+                .then((response) => { vm.fetchProvinces(); }, utils.onError);
         };
 
         var processProvinceList = function (response) {

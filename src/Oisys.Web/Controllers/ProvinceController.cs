@@ -157,7 +157,7 @@ namespace Oisys.Web.Controllers
 
             try
             {
-                this.mapper.Map(entity, province);
+                province = this.mapper.Map<Province>(entity);
                 this.context.Update(province);
                 await this.context.SaveChangesAsync();
             }

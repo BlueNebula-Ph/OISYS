@@ -128,6 +128,10 @@
 
                 OisysDbContext.Seed(app);
             }
+            else
+            {
+                OisysDbContext.SeedRequired(app);
+            }
         }
     }
 }

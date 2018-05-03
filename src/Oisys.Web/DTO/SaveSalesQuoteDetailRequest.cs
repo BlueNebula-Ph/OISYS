@@ -28,14 +28,15 @@
         public int ItemId { get; set; }
 
         /// <summary>
-        /// Gets or sets property Description.
-        /// </summary>
-        public string Description { get; set; }
-
-        /// <summary>
         /// Gets or sets property Price.
         /// </summary>
         [Required]
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets property TotalPrice.
+        /// </summary>
+        public decimal TotalPrice { get; set; }
+
     }
 }

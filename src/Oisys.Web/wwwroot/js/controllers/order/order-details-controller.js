@@ -1,29 +1,25 @@
 ﻿(function (module) {
-
-    var orderDetailsController = function (orderService, loadingService, $stateParams) {
+    var orderDetailsController = function (orderService, utils, $stateParams) {
         var vm = this;
-
         vm.orderInfo = {};
+
+        var processOrder = function (response) {
+            var data = response.data;
+            angular.copy(data, vm.orderInfo);
+        };
 
         // Initialize the details
         $(function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             orderService.getOrder($stateParams.id)
-                .then(function (response) {
-                    var data = response.data;
-                    angular.copy(data, vm.orderInfo);
-                }, function (error) {
-                    console.log(error);
-                })
-                .finally(function () {
-                    loadingService.hideLoading();
-                });
+                .then(processOrder, utils.onError)
+                .finally(utils.hideLoading);
         });
 
         return vm;
     };
 
-    module.controller("orderDetailsController", ["orderService", "loadingService", "$stateParams", orderDetailsController]);
+    module.controller("orderDetailsController", ["orderService", "utils", "$stateParams", orderDetailsController]);
 
 })(angular.module("oisys-app"));

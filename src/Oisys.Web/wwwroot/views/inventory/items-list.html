@@ -32,16 +32,16 @@
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
                     <td>{{ c.name }}</td>
-                    <td>{{ c.categoryCode }}</td>
+                    <td>{{ c.categoryName }}</td>
                     <td class="text-right">{{ c.currentQuantity | number: 0 }} {{ c.unit }}</td>
                     <td class="text-right">{{ c.actualQuantity | number: 0 }} {{ c.unit }}</td>
                     <td class="text-right">₱ {{ c.mainPrice | number: 2 }}</td>
-                    <td class="text-right">₱ {{ c.nePrice | number: 2 }}</td>
                     <td class="text-right">₱ {{ c.walkInPrice | number: 2 }}</td>
+                    <td class="text-right">₱ {{ c.nePrice | number: 2 }}</td>
                     <td class="text-center">
                         <summary-controls show-details="true" details-state="inventory.detail({ id: {{ c.id }} })" details-title="View item details."
                                           show-edit="true" edit-state="inventory.add({ id: {{ c.id }} })" edit-title="Edit this item."
-                                          show-delete="true" delete-title="Delete this item.">
+                                          show-delete="true" on-delete="ctrl.delete(c.id)" delete-title="Delete this item.">
                         </summary-controls>
                     </td>
                 </tr>

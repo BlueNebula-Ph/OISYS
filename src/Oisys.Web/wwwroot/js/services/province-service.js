@@ -32,11 +32,6 @@
             return $http.delete(url);
         };
 
-        dataFactory.deleteCity = function (id, cityId) {
-            var url = urlBase + "/" + id + "/city/" + cityId;
-            return $http.delete(url);
-        };
-
         return dataFactory;
     };
 

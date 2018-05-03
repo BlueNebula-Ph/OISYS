@@ -111,6 +111,7 @@
                 .Include(c => c.Customer)
                 .Include(c => c.Details)
                     .ThenInclude(d => d.Item)
+                        .ThenInclude(e => e.Category)
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
