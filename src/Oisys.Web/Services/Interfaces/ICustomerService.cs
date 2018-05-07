@@ -34,7 +34,6 @@
         /// <param name="adjustmentType">Adjusment type</param>
         /// <param name="totalAmount">Total amount</param>
         /// <param name="remarks">Credit Memo remarks</param>
-        /// <returns>Customer Transaction</returns>
         void AddCustomerTransaction(int customerId, int? creditMemoId, int? invoiceId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks);
     }
 }

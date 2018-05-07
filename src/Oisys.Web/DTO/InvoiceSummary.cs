@@ -1,7 +1,7 @@
 ﻿namespace Oisys.Web.DTO
 {
-    using BlueNebula.Common.DTOs;
     using System;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// View model for the Invoice entity.

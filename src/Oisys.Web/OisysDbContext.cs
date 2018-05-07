@@ -68,6 +68,11 @@
         public DbSet<Delivery> Deliveries { get; set; }
 
         /// <summary>
+        /// Gets or sets the invoices db set.
+        /// </summary>
+        public DbSet<Invoice> Invoices { get; set; }
+
+        /// <summary>
         /// Gets or sets the items db set.
         /// </summary>
         public DbSet<Item> Items { get; set; }
