@@ -15,7 +15,6 @@
         /// <summary>
         /// Gets or sets property Code.
         /// </summary>
-        [Required]
         public string Code { get; set; }
 
         /// <summary>
@@ -32,6 +31,7 @@
         /// <summary>
         /// Gets or sets property CustomerId.
         /// </summary>
+        [Required]
         public int CustomerId { get; set; }
 
         /// <summary>

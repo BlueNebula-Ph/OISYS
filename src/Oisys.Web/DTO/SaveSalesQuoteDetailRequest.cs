@@ -37,6 +37,5 @@
         /// Gets or sets property TotalPrice.
         /// </summary>
         public decimal TotalPrice { get; set; }
-
     }
 }

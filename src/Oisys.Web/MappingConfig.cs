@@ -1,6 +1,5 @@
 ﻿namespace Oisys.Web
 {
-    using System;
     using System.Linq;
     using AutoMapper;
     using Oisys.Web.DTO;
@@ -36,10 +35,12 @@
             this.CreateMap<SaveCityRequest, City>();
 
             // Credit Memo
-            this.CreateMap<CreditMemo, CreditMemoSummary>();
+            this.CreateMap<CreditMemo, CreditMemoSummary>()
+                .ForMember(d => d.Customer, s => s.MapFrom(o => o.Customer.Name));
             this.CreateMap<SaveCreditMemoRequest, CreditMemo>();
             this.CreateMap<CreditMemoDetail, CreditMemoDetailSummary>()
-                .ForMember(d => d.Item, s => s.MapFrom(o => o.OrderDetail.Item.Name));
+                .ForMember(d => d.Item, s => s.MapFrom(o => o.OrderDetail.Item.Name))
+                .ForMember(d => d.Price, s => s.MapFrom(o => o.OrderDetail.Price));
             this.CreateMap<SaveCreditMemoDetailRequest, CreditMemoDetail>();
 
             // TODO: Change LastUpdatedBy value
@@ -84,6 +85,8 @@
 
             this.CreateMap<SaveOrderRequest, Order>();
 
+            this.CreateMap<Order, OrderLookup>();
+
             // Order Detail
             this.CreateMap<OrderDetail, OrderDetailSummary>()
                 .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name))
@@ -92,6 +95,10 @@
                 .ForMember(d => d.Category, s => s.MapFrom(o => o.Item.Category.Name));
 
             this.CreateMap<SaveOrderDetailRequest, OrderDetail>();
+
+            this.CreateMap<OrderDetail, OrderDetailLookup>()
+                .ForMember(d => d.ItemName, s => s.MapFrom(o => o.Item.Name))
+                .ForMember(d => d.Unit, s => s.MapFrom(o => o.Item.Unit));
 
             // Province
             this.CreateMap<Province, ProvinceSummary>();
