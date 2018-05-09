@@ -118,12 +118,13 @@
         /// <param name="app">The application builder.</param>
         public static void Seed(IApplicationBuilder app)
         {
-            SeedRequired(app);
-
             using (var context = app.ApplicationServices.GetRequiredService<OisysDbContext>())
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
+
+                SeedReferenceTypes(context);
+                SeedReferences(context);
 
                 SeedCategories(context);
                 SeedProvincesAndCities(context);

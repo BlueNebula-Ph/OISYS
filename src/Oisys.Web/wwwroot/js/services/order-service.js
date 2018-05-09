@@ -8,6 +8,11 @@
             return $http.post(url, filters);
         };
 
+        dataFactory.getOrderLookup = function (customerId) {
+            var url = urlBase + "/" + customerId + "/lookup";
+            return $http.get(url);
+        };
+
         dataFactory.getOrder = function (id) {
             var url = urlBase + "/" + id;
             return $http.get(url);

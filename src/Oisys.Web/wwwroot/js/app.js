@@ -157,31 +157,39 @@
                 })
                 .state("orders.add-quotation", {
                     url: "/quotation/add/{id}",
-                    templateUrl: "/views/order/make-quotation.html",
+                    templateUrl: "/views/quotation/make-quotation.html",
                     controller: "addQuotationController",
                     controllerAs: "ctrl"
                 })
                 .state("orders.view-quotations", {
                     url: "/quotations/view",
-                    templateUrl: "/views/order/quotations-list.html",
+                    templateUrl: "/views/quotation/quotations-list.html",
                     controller: "viewQuotationController",
                     controllerAs: "ctrl"
                 })
                 .state("orders.quotation-detail", {
                     url: "/quotation/detail/{id}",
-                    templateUrl: "/views/order/quotation-details.html",
+                    templateUrl: "/views/quotation/quotation-details.html",
                     controller: "quotationDetailsController",
                     controllerAs: "ctrl"
                 })
-                .state("orders.add-return", {
-                    url: "/returns/add/{id}",
-                    templateUrl: "/views/order/add-return.html",
-                    controller: "addReturnController",
+                .state("orders.add-creditmemo", {
+                    url: "/creditmemo/add/{id}",
+                    templateUrl: "/views/creditmemo/add-credit-memo.html",
+                    controller: "addCreditMemoController",
                     controllerAs: "ctrl"
                 })
-                .state("orders.view-returns", {
-                    url: "/returns/view",
-                    template: "<div>View returns</div>"
+                .state("orders.view-creditmemo", {
+                    url: "/creditmemo/view",
+                    templateUrl: "/views/creditmemo/credit-memo-list.html",
+                    controller: "viewCreditMemoController",
+                    controllerAs: "ctrl"
+                })
+                .state("orders.creditmemo-detail", {
+                    url: "/creditmemo/detail/{id}",
+                    templateUrl: "/views/creditmemo/credit-memo-details.html",
+                    controller: "creditMemoDetailsController",
+                    controllerAs: "ctrl"
                 })
                 .state("orders.add-voucher", {
                     url: "/voucher/add/{id}",

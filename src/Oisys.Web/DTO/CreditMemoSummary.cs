@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using BlueNebula.Common.DTOs;
 
     /// <summary>
@@ -26,18 +26,21 @@
         public string Driver { get; set; }
 
         /// <summary>
-        /// Gets or sets property CustomerId.
+        /// Gets or sets property Customer.
         /// </summary>
-        public int CustomerId { get; set; }
+        public string Customer { get; set; }
+
+        /// <summary>
+        /// Gets the total amount property.
+        /// </summary>
+        public decimal TotalAmount
+        {
+            get { return this.Details.Sum(a => a.TotalPrice); }
+        }
 
         /// <summary>
         /// Gets or sets property Details.
         /// </summary>
         public ICollection<CreditMemoDetailSummary> Details { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Customer.
-        /// </summary>
-        public CustomerSummary Customer { get; set; }
     }
 }

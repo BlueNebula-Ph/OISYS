@@ -64,11 +64,6 @@
                 list = list.Where(c => c.Code.ToString().Contains(filter.SearchTerm));
             }
 
-            if (!(filter?.ProvinceId).IsNullOrZero())
-            {
-                list = list.Where(c => c.Customer.ProvinceId == filter.ProvinceId);
-            }
-
             if (!(filter?.CustomerId).IsNullOrZero())
             {
                 list = list.Where(c => c.CustomerId == filter.CustomerId);
@@ -140,20 +135,27 @@
                 foreach (var detail in entity.Details)
                 {
                     var item = await this.context.Items.FindAsync(detail.ItemId);
-
                     var orderDetail = await this.context.OrderDetails.FindAsync(detail.OrderDetailId);
+
+                    // total amount to deduct from customer's balance
+                    totalAmountReturned = totalAmountReturned + (orderDetail.Price * detail.Quantity);
+
+                    // update quantity returned and check if it exceeds quantity
+                    orderDetail.QuantityReturned += detail.Quantity;
+
+                    if (orderDetail.QuantityReturned > orderDetail.Quantity)
+                    {
+                        this.ModelState.AddModelError(Constants.ErrorMessage, $"Total quantity returned for {item.Name} cannot be greater than {orderDetail.Quantity}");
+                        return this.BadRequest(this.ModelState);
+                    }
 
                     // add checking if order detail is delivered
 
                     // add back to inventory
                     if (detail.ShouldAddBackToInventory)
                     {
-                        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoCreated);
-                        this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoCreated);
+                        this.adjustmentService.ModifyQuantity(QuantityType.Both, item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.CreditMemoCreated);
                     }
-
-                    // total amount to deduct from customer's balance
-                    totalAmountReturned = totalAmountReturned + (orderDetail.Price * detail.Quantity);
                 }
 
                 // Add customer transaction
@@ -248,8 +250,7 @@
                                                 .AsNoTracking()
                                                 .SingleOrDefault(c => c.Id == detail.OrderDetailId);
 
-                        this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, orderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDetailCreated);
-                        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, orderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDetailCreated);
+                        this.adjustmentService.ModifyQuantity(QuantityType.Both, orderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDetailCreated);
 
                         // Deduct amount from Customer Account
                         totalAmountToDeduct = totalAmountToDeduct + (orderDetail.Price * detail.Quantity);
@@ -314,8 +315,7 @@
 
                 foreach (var detail in creditMemo.Details)
                 {
-                    this.adjustmentService.ModifyQuantity(QuantityType.CurrentQuantity, detail.OrderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDeleted);
-                    this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, detail.OrderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDeleted);
+                    this.adjustmentService.ModifyQuantity(QuantityType.Both, detail.OrderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.CreditMemoDeleted);
 
                     // compute amount to add to customer's balance
                     totalAmountReturnedToBalance = totalAmountReturnedToBalance + (detail.OrderDetail.Price * detail.Quantity);

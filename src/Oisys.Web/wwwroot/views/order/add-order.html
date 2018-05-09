@@ -64,7 +64,7 @@
         </form>
     </shell-form>
     <shell-controls>
-        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.addOrderForm.$valid || ctrl.addOrderForm.$pristine"></save-button>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.addOrderForm.$valid || ctrl.addOrderForm.$pristine || ctrl.order.details.length == 0"></save-button>
     </shell-controls>
 </add-edit-shell>
 

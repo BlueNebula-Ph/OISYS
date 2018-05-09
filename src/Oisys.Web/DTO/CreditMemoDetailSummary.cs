@@ -16,5 +16,18 @@
         /// Gets or sets property Quantity.
         /// </summary>
         public decimal Quantity { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Price.
+        /// </summary>
+        public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets property total price.
+        /// </summary>
+        public decimal TotalPrice
+        {
+            get { return this.Quantity * this.Price; }
+        }
     }
 }

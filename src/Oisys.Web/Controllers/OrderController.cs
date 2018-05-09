@@ -5,6 +5,7 @@
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -95,6 +96,24 @@
 
             var entities = await this.builder.BuildAsync(list, filter);
 
+            return this.Ok(entities);
+        }
+
+        /// <summary>
+        /// Returns list of active <see cref="Order"/>
+        /// </summary>
+        /// <param name="customerId">Customer Id</param>
+        /// <returns>List of Orders per Customer</returns>
+        [HttpGet("{customerId}/lookup", Name = "GetOrderLookup")]
+        public IActionResult GetLookup(int customerId)
+        {
+            // get list of active items (not deleted)
+            var list = this.context.Orders
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted && c.CustomerId == customerId)
+                .OrderBy(c => c.Code);
+
+            var entities = list.ProjectTo<OrderLookup>();
             return this.Ok(entities);
         }
 
