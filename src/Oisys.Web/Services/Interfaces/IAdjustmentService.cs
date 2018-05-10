@@ -17,6 +17,6 @@
         /// <param name="adjustmentQuantity">Adjustment Quantity</param>
         /// <param name="adjustmentType">Adjustment Type</param>
         /// <param name="remarks">Remarks</param>
-        void ModifyQuantity(QuantityType quantityType, Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType, string remarks);
+        void ModifyQuantity(QuantityType quantityType, Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType, string remarks, string machine = "", string operatorName = "");
     }
 }

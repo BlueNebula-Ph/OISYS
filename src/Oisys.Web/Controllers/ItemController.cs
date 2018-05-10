@@ -228,7 +228,7 @@
 
             try
             {
-                this.adjustmentService.ModifyQuantity(QuantityType.Both, item, entity.AdjustmentQuantity, entity.AdjustmentType, entity.Remarks);
+                this.adjustmentService.ModifyQuantity(QuantityType.Both, item, entity.AdjustmentQuantity, entity.AdjustmentType, entity.Remarks, entity.Machine, entity.Operator);
 
                 await this.context.SaveChangesAsync();
             }

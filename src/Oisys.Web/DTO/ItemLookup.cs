@@ -46,5 +46,10 @@
         /// Gets or sets property Category
         /// </summary>
         public string NameCategoryDescription { get; set; }
+
+        /// <summary>
+        /// Gets or sets property category name.
+        /// </summary>
+        public string CategoryName { get; set; }
     }
 }

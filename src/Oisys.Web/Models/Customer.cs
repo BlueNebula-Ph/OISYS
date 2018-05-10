@@ -29,7 +29,6 @@
         /// <summary>
         /// Gets or sets property Email.
         /// </summary>
-        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         /// <summary>

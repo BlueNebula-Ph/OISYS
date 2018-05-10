@@ -12,6 +12,7 @@
             this.itemId = 0;
             this.price = 0;
             this.totalPrice = 0;
+            this.categoryName = "";
         };
 
         OrderDetail.prototype = {
@@ -19,6 +20,7 @@
                 if (this.selectedItem) {
                     this.itemId = this.selectedItem.id;
                     this.unit = this.selectedItem.unit;
+                    this.categoryName = this.selectedItem.categoryName;
 
                     switch (priceList) {
                         case 1:

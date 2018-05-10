@@ -32,7 +32,7 @@
         /// <param name="adjustmentQuantity">Adjustment Quantity</param>
         /// <param name="adjustmentType">Adjustment Type</param>
         /// <param name="remarks">Remarks</param>
-        public void ModifyQuantity(QuantityType quantityType, Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType, string remarks)
+        public void ModifyQuantity(QuantityType quantityType, Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType, string remarks, string machine = "", string operatorName = "")
         {
             if (item != null)
             {
@@ -50,7 +50,7 @@
                         break;
                 }
 
-                this.SaveAdjustment(item, adjustmentQuantity, quantityType, adjustmentType, remarks);
+                this.SaveAdjustment(item, adjustmentQuantity, quantityType, adjustmentType, remarks, machine, operatorName);
             }
         }
 
@@ -68,7 +68,7 @@
                             item.ActualQuantity - adjustmentQuantity;
         }
 
-        private void SaveAdjustment(Item item, decimal adjustmentQuantity, QuantityType quantityType, AdjustmentType adjustmentType, string remarks)
+        private void SaveAdjustment(Item item, decimal adjustmentQuantity, QuantityType quantityType, AdjustmentType adjustmentType, string remarks, string machine, string operatorName)
         {
             var adjustment = new Adjustment
             {
@@ -78,6 +78,8 @@
                 QuantityType = quantityType.GetDisplayName(),
                 Quantity = adjustmentQuantity,
                 Remarks = remarks,
+                Operator = operatorName,
+                Machine = machine,
             };
 
             this.context.Update(item);

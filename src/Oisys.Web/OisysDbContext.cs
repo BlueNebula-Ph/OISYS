@@ -212,6 +212,22 @@
             modelBuilder.Entity<CreditMemo>()
                 .Property(o => o.Code)
                 .HasDefaultValueSql("NEXT VALUE FOR CreditMemoCode");
+
+            modelBuilder.HasSequence<int>("OrderCode")
+               .StartsAt(100000)
+               .IncrementsBy(1);
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Code)
+                .HasDefaultValueSql("NEXT VALUE FOR OrderCode");
+
+            modelBuilder.HasSequence<int>("VoucherNumber")
+               .StartsAt(100000)
+               .IncrementsBy(1);
+
+            modelBuilder.Entity<CashVoucher>()
+                .Property(o => o.VoucherNumber)
+                .HasDefaultValueSql("NEXT VALUE FOR VoucherNumber");
         }
 
         private static void SeedCustomer(OisysDbContext context)
@@ -358,12 +374,12 @@
             {
                 var items = new List<Item>
                 {
-                    new Item { Name = "Item Number 1", CategoryId = 1, Description = "Item 1. This is item 1", CurrentQuantity = 100, ActualQuantity = 100, Unit = "pcs.", MainPrice = 1919.99m, NEPrice = 2929.99m, WalkInPrice = 3939.39m },
-                    new Item { Name = "Item Number 2", CategoryId = 2, Description = "Item 2. This is item 2", CurrentQuantity = 200, ActualQuantity = 200, Unit = "stacks", MainPrice = 919.99m, NEPrice = 929.99m, WalkInPrice = 939.39m },
-                    new Item { Name = "Item Number 3", CategoryId = 1, Description = "Item 3. This is item 3", CurrentQuantity = 300, ActualQuantity = 300, Unit = "makes", MainPrice = 111m, NEPrice = 222m, WalkInPrice = 333m },
-                    new Item { Name = "Item Number 4", CategoryId = 3, Description = "Item 4. This is item 4", CurrentQuantity = 400, ActualQuantity = 400, Unit = "pc", MainPrice = 12.50m, NEPrice = 29.50m, WalkInPrice = 39.50m },
-                    new Item { Name = "Item Number 5", CategoryId = 4, Description = "Item 5. This is item 5", CurrentQuantity = 500, ActualQuantity = 500, Unit = "shards", MainPrice = 400m, NEPrice = 500m, WalkInPrice = 600m },
-                    new Item { Name = "Item Number 6", CategoryId = 4, Description = "Item 6. This is item 6", CurrentQuantity = 600, ActualQuantity = 600, Unit = "rolls", MainPrice = 1211m, NEPrice = 1222m, WalkInPrice = 1233m },
+                    new Item { Code = "0001", Name = "Item Number 1", CategoryId = 1, Description = "Item 1. This is item 1", CurrentQuantity = 100, ActualQuantity = 100, Unit = "pcs.", MainPrice = 1919.99m, NEPrice = 2929.99m, WalkInPrice = 3939.39m },
+                    new Item { Code = "0002", Name = "Item Number 2", CategoryId = 2, Description = "Item 2. This is item 2", CurrentQuantity = 200, ActualQuantity = 200, Unit = "stacks", MainPrice = 919.99m, NEPrice = 929.99m, WalkInPrice = 939.39m },
+                    new Item { Code = "0003", Name = "Item Number 3", CategoryId = 1, Description = "Item 3. This is item 3", CurrentQuantity = 300, ActualQuantity = 300, Unit = "makes", MainPrice = 111m, NEPrice = 222m, WalkInPrice = 333m },
+                    new Item { Code = "0004", Name = "Item Number 4", CategoryId = 3, Description = "Item 4. This is item 4", CurrentQuantity = 400, ActualQuantity = 400, Unit = "pc", MainPrice = 12.50m, NEPrice = 29.50m, WalkInPrice = 39.50m },
+                    new Item { Code = "0005", Name = "Item Number 5", CategoryId = 4, Description = "Item 5. This is item 5", CurrentQuantity = 500, ActualQuantity = 500, Unit = "shards", MainPrice = 400m, NEPrice = 500m, WalkInPrice = 600m },
+                    new Item { Code = "0006", Name = "Item Number 6", CategoryId = 4, Description = "Item 6. This is item 6", CurrentQuantity = 600, ActualQuantity = 600, Unit = "rolls", MainPrice = 1211m, NEPrice = 1222m, WalkInPrice = 1233m },
                 };
                 context.Items.AddRange(items);
             }
