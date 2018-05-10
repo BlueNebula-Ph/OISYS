@@ -43,8 +43,20 @@
         public string Remarks { get; set; }
 
         /// <summary>
+        /// Gets or sets property Operator.
+        /// </summary>
+        public string Operator { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Machine.
+        /// </summary>
+        public string Machine { get; set; }
+
+        /// <summary>
         /// Gets or sets the item navigation property
         /// </summary>
         public Item Item { get; set; }
+
+
     }
 }

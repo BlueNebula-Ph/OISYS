@@ -60,7 +60,7 @@
             // filter
             if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
-                list = list.Where(c => c.Code.Contains(filter.SearchTerm));
+                list = list.Where(c => c.Code.ToString().Contains(filter.SearchTerm));
             }
 
             if (!(filter?.ProvinceId).IsNullOrZero())

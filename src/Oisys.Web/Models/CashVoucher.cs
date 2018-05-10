@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets or sets the voucher number
         /// </summary>
-        public string VoucherNumber { get; set; }
+        public int VoucherNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the voucher date

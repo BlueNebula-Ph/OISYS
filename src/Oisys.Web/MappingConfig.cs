@@ -69,8 +69,9 @@
 
             // Item
             this.CreateMap<Item, ItemLookup>()
-                .ForMember(d => d.CodeName, s => s.MapFrom(o => o.Name))
-                .ForMember(d => d.NameCategoryDescription, s => s.MapFrom(o => $"{o.Name} - {o.Category.Name} - {o.Description}"));
+                .ForMember(d => d.CodeName, s => s.MapFrom(o => $"{o.Code} - {o.Name}"))
+                .ForMember(d => d.NameCategoryDescription, s => s.MapFrom(o => $"{o.Name} - {o.Category.Name} - {o.Description}"))
+                .ForMember(d => d.CategoryName, s => s.MapFrom(o => o.Category.Name));
 
             this.CreateMap<Item, ItemSummary>()
                 .ForMember(d => d.CategoryName, s => s.MapFrom(o => o.Category.Name));

@@ -25,5 +25,15 @@
         /// Gets or sets property Remarks.
         /// </summary>
         public string Remarks { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Operator.
+        /// </summary>
+        public string Operator { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Machine.
+        /// </summary>
+        public string Machine { get; set; }
     }
 }
