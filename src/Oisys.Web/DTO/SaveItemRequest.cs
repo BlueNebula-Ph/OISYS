@@ -9,6 +9,12 @@
     public class SaveItemRequest : DTOBase
     {
         /// <summary>
+        /// Gets or sets property item code.
+        /// </summary>
+        [Required(ErrorMessage = "Item code is required.")]
+        public string Code { get; set; }
+
+        /// <summary>
         /// Gets or sets property Name.
         /// </summary>
         [Required(ErrorMessage = "Item name is required.")]

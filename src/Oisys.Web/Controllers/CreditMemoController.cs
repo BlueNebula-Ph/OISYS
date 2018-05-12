@@ -159,7 +159,7 @@
                 }
 
                 // Add customer transaction
-                var customerTransaction = this.customerService.AddCustomerTransaction(entity.CustomerId, AdjustmentType.Deduct, totalAmountReturned, Constants.AdjustmentRemarks.CreditMemoCreated);
+                var customerTransaction = this.customerService.AddCustomerTransaction(entity.CustomerId, TransactionType.Credit, totalAmountReturned, Constants.AdjustmentRemarks.CreditMemoCreated);
 
                 await this.context.CreditMemos.AddAsync(creditMemo);
 
@@ -167,9 +167,7 @@
 
                 await this.context.SaveChangesAsync();
 
-                var mappedCreditMemo = this.mapper.Map<CreditMemoSummary>(creditMemo);
-
-                return this.CreatedAtRoute("GetCreditMemo", new { id = creditMemo.Id }, mappedCreditMemo);
+                return this.CreatedAtRoute("GetCreditMemo", new { id = creditMemo.Id }, entity);
             }
             catch (Exception ex)
             {
@@ -257,16 +255,15 @@
                     }
                 }
 
-                // get customer transaction id
+                // get customer transaction
                 var customerTransaction = this.context.CustomerTransactions
-                                                .AsNoTracking()
                                                 .SingleOrDefault(c => c.CustomerId == cm.CustomerId && c.CreditMemoId == cm.Id);
 
                 // update customer transaction record
                 if (customerTransaction != null)
                 {
-                    this.customerService.ModifyCustomerTransaction(cm.CustomerId, cm.Id, AdjustmentType.Add, totalAmountToAdd, Constants.AdjustmentRemarks.CreditMemoUpdated);
-                    this.customerService.ModifyCustomerTransaction(cm.CustomerId, cm.Id, AdjustmentType.Deduct, totalAmountToDeduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                    this.customerService.ModifyCustomerTransaction(customerTransaction, TransactionType.Credit, totalAmountToAdd, Constants.AdjustmentRemarks.CreditMemoUpdated);
+                    this.customerService.ModifyCustomerTransaction(customerTransaction, TransactionType.Debit, totalAmountToDeduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
                 }
 
                 cm = this.mapper.Map<CreditMemo>(entity);
@@ -324,14 +321,13 @@
                 // Remove credit memo details
                 this.context.RemoveRange(creditMemo.Details);
 
-                // get customer transaction id
+                // get customer transaction
                 var customerTransaction = this.context.CustomerTransactions
-                                                .AsNoTracking()
                                                 .SingleOrDefault(c => c.CustomerId == creditMemo.CustomerId && c.CreditMemoId == creditMemo.Id);
 
                 if (customerTransaction != null)
                 {
-                    this.customerService.ModifyCustomerTransaction(creditMemo.CustomerId, customerTransaction.Id, AdjustmentType.Deduct, totalAmountReturnedToBalance, Constants.AdjustmentRemarks.CreditMemoDeleted);
+                    this.customerService.ModifyCustomerTransaction(customerTransaction, TransactionType.Debit, totalAmountReturnedToBalance, Constants.AdjustmentRemarks.CreditMemoDeleted);
                 }
 
                 await this.context.SaveChangesAsync();

@@ -13,12 +13,6 @@
     public class SaveOrderRequest : DTOBase, IObjectWithState
     {
         /// <summary>
-        /// Gets or sets property Code.
-        /// </summary>
-        [Required]
-        public string Code { get; set; }
-
-        /// <summary>
         /// Gets or sets property CustomerId.
         /// </summary>
         [Required]

@@ -11,6 +11,7 @@
         vm.defaultFocus = true;
         vm.isSaving = false;
         vm.addDetailsDisabled = true;
+        vm.label = "Input new credit memo details.";
 
         // Public methods
         vm.addCreditMemoDetail = function () {
@@ -77,7 +78,6 @@
 
         var processOrders = function (response) {
             angular.copy(response.data, vm.orderList);
-            console.log(vm.orderList);
         };
 
         var fetchOrders = function (customerId) {
@@ -90,8 +90,8 @@
         var processCreditMemo = function (response) {
             var creditMemoDetails = modelTransformer.transform(response.data.details, CreditMemoDetail);
             creditMemoDetails.forEach(function (elem) {
-                var idx = vm.itemList.map((element) => element.id).indexOf(elem.itemId);
-                elem.selectedItem = vm.itemList[idx];
+                var idx = vm.orderList.map((element) => element.id).indexOf(elem.orderId);
+                elem.selectedOrder = vm.orderList[idx];
             });
 
             response.data.date = new Date(response.data.date);
@@ -101,6 +101,9 @@
             vm.creditMemo.selectedCustomer = vm.customerList[customerIdx];
 
             vm.creditMemo.details = creditMemoDetails;
+
+            // Update the label
+            vm.label = "Update credit memo # " + vm.creditMemo.code;
         };
 
         var processResponses = function (responses) {
@@ -108,6 +111,8 @@
 
             if (responses.creditMemo) {
                 processCreditMemo(responses.creditMemo);
+
+                console.log(responses.creditMemo);
             }
         };
 

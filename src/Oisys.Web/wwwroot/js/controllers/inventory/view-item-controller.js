@@ -4,7 +4,7 @@
         vm.focus = true;
         vm.currentPage = 1;
         vm.filters = {
-            sortBy: "Name",
+            sortBy: "Code",
             sortDirection: "asc",
             searchTerm: "",
             categoryId: 0,
@@ -14,6 +14,7 @@
             items: []
         };
         vm.headers = [
+            { text: "Item Code", value: "Code" },
             { text: "Name", value: "Name" },
             { text: "Category", value: "Category.Name" },
             { text: "Current Qty", value: "CurrentQuantity", class: "text-right" },

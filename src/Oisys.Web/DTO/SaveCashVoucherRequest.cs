@@ -10,12 +10,6 @@
     public class SaveCashVoucherRequest : DTOBase
     {
         /// <summary>
-        /// Gets or sets the voucher number
-        /// </summary>
-        [Required]
-        public string VoucherNumber { get; set; }
-
-        /// <summary>
         /// Gets or sets the voucher date
         /// </summary>
         public DateTime Date { get; set; }
@@ -23,6 +17,7 @@
         /// <summary>
         /// Gets or sets pay to
         /// </summary>
+        [Required(ErrorMessage = "Please input pay to")]
         public string PayTo { get; set; }
 
         /// <summary>

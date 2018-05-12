@@ -2,7 +2,7 @@
     module.factory("Order", [function () {
         function Order(id, code, customerId, date, dueDate, discountPercent, details) {
             this.id = id || 0;
-            this.code = code || "";
+            this.code = code || 0;
             this.customerId = customerId || 0;
             this.date = date || new Date();
             this.dueDate = dueDate || new Date();

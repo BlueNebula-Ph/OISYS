@@ -25,7 +25,9 @@
             return vm.customer.provinceId;
         }, function (newVal, oldVal) {
             var idx = vm.provinceList.map((element) => element.id).indexOf(vm.customer.provinceId);
-            vm.citiesList = vm.provinceList[idx].cities;
+            if (vm.provinceList[idx].cities) {
+                vm.citiesList = vm.provinceList[idx].cities;
+            }
         }, true);
 
         // Private methods

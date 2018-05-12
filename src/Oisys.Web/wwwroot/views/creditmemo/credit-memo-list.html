@@ -23,7 +23,7 @@
             <span title="Date to"><i class="fa fa-calendar-o fa-fw"></i></span>
             <input type="date" placeholder="Date to" ng-model="ctrl.filters.dateTo" />
         </div>
-        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchReturns()">
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchCreditMemos()">
             <i class="fa fa-search"></i> Search
         </button>
         <button class="btn btn-default btn-sm" ng-click="ctrl.clearFilter()">
@@ -37,14 +37,14 @@
                     <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
                         <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
                                        sort-direction="ctrl.filters.sortDirection"
-                                       fetch-call-back="ctrl.fetchReturns()"></column-header>
+                                       fetch-call-back="ctrl.fetchCreditMemos()"></column-header>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
                     <td>{{ c.code }}</td>
-                    <td>{{ c.customer }}</td>
+                    <td>{{ c.customer.name }}</td>
                     <td class="text-center">{{ c.date | date:'MM/dd/yyyy' }}</td>
                     <td>{{ c.driver }}</td>
                     <td class="text-right">₱ {{ c.totalAmount | number: 2 }}</td>

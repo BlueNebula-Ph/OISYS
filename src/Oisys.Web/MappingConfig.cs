@@ -35,8 +35,7 @@
             this.CreateMap<SaveCityRequest, City>();
 
             // Credit Memo
-            this.CreateMap<CreditMemo, CreditMemoSummary>()
-                .ForMember(d => d.Customer, s => s.MapFrom(o => o.Customer.Name));
+            this.CreateMap<CreditMemo, CreditMemoSummary>();
             this.CreateMap<SaveCreditMemoRequest, CreditMemo>();
             this.CreateMap<CreditMemoDetail, CreditMemoDetailSummary>()
                 .ForMember(d => d.Item, s => s.MapFrom(o => o.OrderDetail.Item.Name))

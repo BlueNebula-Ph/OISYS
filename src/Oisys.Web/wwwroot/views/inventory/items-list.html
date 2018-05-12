@@ -31,6 +31,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
+                    <td>{{ c.code }}</td>
                     <td>{{ c.name }}</td>
                     <td>{{ c.categoryName }}</td>
                     <td class="text-right">{{ c.currentQuantity | number: 0 }} {{ c.unit }}</td>
@@ -45,7 +46,7 @@
                         </summary-controls>
                     </td>
                 </tr>
-                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="9"></tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="10"></tr>
             </tbody>
         </table>
     </shell-table>

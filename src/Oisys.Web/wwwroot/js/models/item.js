@@ -1,7 +1,8 @@
 ﻿(function (module) {
     module.factory("Item", function () {
-        function Item(id, name, description, mainPrice, nEPrice, walkInPrice, weight, thickness, unit, categoryId, quantity) {
+        function Item(id, code, name, description, mainPrice, nEPrice, walkInPrice, weight, thickness, unit, categoryId, quantity) {
             this.id = id || 0;
+            this.code = code || "";
             this.name = name || "";
             this.description = description || "";
             this.mainPrice = mainPrice || 0;

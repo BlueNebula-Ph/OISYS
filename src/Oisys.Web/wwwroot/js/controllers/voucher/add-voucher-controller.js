@@ -6,6 +6,7 @@
         // Helper properties
         vm.defaultFocus = true;
         vm.isSaving = false;
+        vm.label = "Input details for new cash voucher.";
 
         // Lists
         vm.categoryList = [];
@@ -42,6 +43,9 @@
         var processCashVoucher = function (response) {
             vm.cashVoucher = modelTransformer.transform(response.data, CashVoucher);
             resetForm();
+
+            // Update the label
+            vm.label = "Update details for Cash Voucher # " + vm.cashVoucher.voucherNumber;
         }
 
         var processResponses = function (responses) {

@@ -34,14 +34,16 @@
         </div>
         <div class="clearfix"></div>
         <h4>Recent Transactions.</h4>
-        <table class="table table-condensed table-bordered table-striped details-table">
+        <div class="well well-sm">
+            <em>Current Balance: ₱ {{ ctrl.customerDetails.balance | number: 2 }}</em>
+        </div>
+        <table class="table table-condensed table-striped details-table">
             <thead>
                 <tr>
                     <th class="text-center">Date</th>
                     <th>Description</th>
                     <th class="text-right">Debit Amount</th>
                     <th class="text-right">Credit Amount</th>
-                    <th class="text-right">Running Balance</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,8 +52,8 @@
                     <td>{{ tr.description }}</td>
                     <td class="text-right">₱ {{ tr.debit | number:2 }}</td>
                     <td class="text-right">₱ {{ tr.credit | number:2 }}</td>
-                    <td class="text-right">₱ {{ tr.runningBalance | number:2 }}</td>
                 </tr>
+                <tr no-records ng-if="ctrl.customerDetails.transactions.length == 0" colspan="4"></tr>
             </tbody>
         </table>
     </shell-details>

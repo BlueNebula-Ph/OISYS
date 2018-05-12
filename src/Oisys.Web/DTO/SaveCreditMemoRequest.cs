@@ -13,11 +13,6 @@
     public class SaveCreditMemoRequest : DTOBase, IObjectWithState
     {
         /// <summary>
-        /// Gets or sets property Code.
-        /// </summary>
-        public string Code { get; set; }
-
-        /// <summary>
         /// Gets or sets property Date.
         /// </summary>
         [Required]
@@ -31,7 +26,7 @@
         /// <summary>
         /// Gets or sets property CustomerId.
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "Please select a customer.")]
         public int CustomerId { get; set; }
 
         /// <summary>

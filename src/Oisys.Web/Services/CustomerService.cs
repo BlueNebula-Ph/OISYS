@@ -38,17 +38,14 @@
         /// <summary>
         /// Modify customer transaction when returning an item
         /// </summary>
-        /// <param name="customerId">customer id</param>
-        /// <param name="customerTransactionId">transaction to modify</param>
-        /// <param name="adjustmentType">Adjustment type</param>
+        /// <param name="transaction">transaction to modify</param>
+        /// <param name="transactionType">Transaction type</param>
         /// <param name="totalAmount">Total amount</param>
         /// <param name="remarks">Remarks</param>
-        public void ModifyCustomerTransaction(int customerId, int customerTransactionId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks)
+        public void ModifyCustomerTransaction(CustomerTransaction transaction, TransactionType transactionType, decimal? totalAmount, string remarks)
         {
-            var transaction = this.context.CustomerTransactions.SingleOrDefault(c => c.Id == customerTransactionId);
-
-            var credit = adjustmentType == AdjustmentType.Add ? totalAmount : null;
-            var debit = adjustmentType == AdjustmentType.Deduct ? totalAmount : null;
+            var credit = transactionType == TransactionType.Credit ? totalAmount : 0m;
+            var debit = transactionType == TransactionType.Debit ? totalAmount : 0m;
 
             // update transaction
             if (transaction != null)
@@ -58,21 +55,21 @@
                 transaction.Description = remarks;
             }
 
-            this.UpdateCustomerBalance(customerId, adjustmentType, totalAmount);
+            this.UpdateCustomerBalance(transaction.CustomerId, transactionType, totalAmount);
         }
 
         /// <summary>
         /// Method to add customer transaction using CustomerService
         /// </summary>
         /// <param name="customerId">Customer Id</param>
-        /// <param name="adjustmentType">Adjusment type</param>
+        /// <param name="transactionType">Transaction type</param>
         /// <param name="totalAmount">Total amount</param>
         /// <param name="remarks">Credit Memo remarks</param>
         /// <returns>Customer Transaction</returns>
-        public CustomerTransaction AddCustomerTransaction(int customerId, AdjustmentType adjustmentType, decimal? totalAmount, string remarks)
+        public CustomerTransaction AddCustomerTransaction(int customerId, TransactionType transactionType, decimal? totalAmount, string remarks)
         {
-            var credit = adjustmentType == AdjustmentType.Add ? totalAmount : null;
-            var debit = adjustmentType == AdjustmentType.Deduct ? totalAmount : null;
+            var credit = transactionType == TransactionType.Credit ? totalAmount : 0m;
+            var debit = transactionType == TransactionType.Debit ? totalAmount : 0m;
 
             // Add Customer transaction
             var customerTransaction = new CustomerTransaction()
@@ -87,12 +84,12 @@
 
             this.context.Add(customerTransaction);
 
-            this.UpdateCustomerBalance(customerId, adjustmentType, totalAmount);
+            this.UpdateCustomerBalance(customerId, transactionType, totalAmount);
 
             return customerTransaction;
         }
 
-        private void UpdateCustomerBalance(int customerId, AdjustmentType adjustmentType, decimal? totalAmount)
+        private void UpdateCustomerBalance(int customerId, TransactionType transactionType, decimal? totalAmount)
         {
             // Update Customer balance
             var customer = this.context.Customers
@@ -100,7 +97,9 @@
 
             if (customer != null)
             {
-                customer.Balance = adjustmentType == AdjustmentType.Deduct ? customer.Balance + totalAmount.Value : customer.Balance - totalAmount.Value;
+                customer.Balance = transactionType == TransactionType.Debit ?
+                    customer.Balance + totalAmount.Value :
+                    customer.Balance - totalAmount.Value;
             }
         }
     }

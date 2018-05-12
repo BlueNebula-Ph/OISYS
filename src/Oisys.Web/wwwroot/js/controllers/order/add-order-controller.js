@@ -10,6 +10,7 @@
         // Helper properties
         vm.defaultFocus = true;
         vm.isSaving = false;
+        vm.label = "Input details for new order.";
 
         // Public methods
         vm.addOrderDetail = function () {
@@ -79,6 +80,9 @@
             vm.order.selectedCustomer = vm.customerList[customerIdx];
 
             vm.order.details = orderDetails;
+
+            // Update the label
+            vm.label = "Update details for Order # " + vm.order.code;
         };
 
         var processResponses = function (responses) {

@@ -6,8 +6,12 @@
         <form name="ctrl.addItemForm">
             <div class="col-md-3 left-padding-none">
                 <div form-input>
+                    <label for="code">Item Code</label>
+                    <input type="text" ng-model="ctrl.item.code" focus-me="ctrl.defaultFocus" required />
+                </div>
+                <div form-input>
                     <label for="itemName">Item</label>
-                    <input type="text" ng-model="ctrl.item.name" focus-me="ctrl.defaultFocus" required />
+                    <input type="text" ng-model="ctrl.item.name" required />
                 </div>
                 <div form-input>
                     <label for="category">Category</label>

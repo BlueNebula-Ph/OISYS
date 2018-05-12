@@ -8,6 +8,7 @@
             this.details = details || [];
 
             this.totalAmount = 0;
+            this.selectedCustomer = undefined;
         };
 
         CreditMemo.prototype = {
@@ -15,6 +16,10 @@
                 this.details = [];
             },
             update: function () {
+                if (this.selectedCustomer) {
+                    this.customerId = this.selectedCustomer.id;
+                }
+
                 var total = 0;
                 if (this.details) {
                     this.details.forEach(function (elem) {

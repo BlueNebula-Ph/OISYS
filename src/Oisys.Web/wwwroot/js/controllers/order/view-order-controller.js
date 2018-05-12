@@ -18,7 +18,7 @@
             items: []
         };
         vm.headers = [
-            { text: "Code", value: "Code" },
+            { text: "Order #", value: "Code" },
             { text: "Customer", value: "Customer.Name" },
             { text: "Date", value: "Date" },
             { text: "Due Date", value: "DueDate" },

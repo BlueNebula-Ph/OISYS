@@ -140,7 +140,7 @@
             }
 
             // Add customer transaction
-            this.customerService.AddCustomerTransaction(entity.CustomerId, AdjustmentType.Add, totalAmount, Constants.AdjustmentRemarks.DeliveryCreated);
+            this.customerService.AddCustomerTransaction(entity.CustomerId, TransactionType.Debit, totalAmount, Constants.AdjustmentRemarks.DeliveryCreated);
 
             await this.context.Deliveries.AddAsync(delivery);
 

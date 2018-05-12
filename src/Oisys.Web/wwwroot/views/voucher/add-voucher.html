@@ -1,21 +1,17 @@
 ﻿<add-edit-shell>
     <shell-title>
-        <h3>Save Cash Voucher. <small class="text-muted">Please input voucher details.</small></h3>
+        <h3>Save Cash Voucher. <small>{{ ctrl.label }}</small></h3>
     </shell-title>
     <shell-form>
         <form name="ctrl.addVoucherForm">
             <div class="col-md-3 left-padding-none">
                 <div form-input>
-                    <label for="voucherNumber">Voucher Number</label>
-                    <input type="text" ng-model="ctrl.cashVoucher.voucherNumber" focus-me="ctrl.defaultFocus" required />
+                    <label for="payTo">Pay To</label>
+                    <input type="text" ng-model="ctrl.cashVoucher.payTo" focus-me="ctrl.defaultFocus" required />
                 </div>
                 <div form-input>
                     <label for="date">Date</label>
                     <input type="date" name="date" ng-model="ctrl.cashVoucher.date" />
-                </div>
-                <div form-input>
-                    <label for="payTo">Pay To</label>
-                    <input type="text" ng-model="ctrl.cashVoucher.payTo" />
                 </div>
                 <div form-input>
                     <label for="description">Description</label>

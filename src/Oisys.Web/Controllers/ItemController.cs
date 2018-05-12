@@ -59,7 +59,7 @@
             // filter
             if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
-                list = list.Where(c => c.Name.Contains(filter.SearchTerm));
+                list = list.Where(c => c.Code.Contains(filter.SearchTerm) || c.Name.Contains(filter.SearchTerm));
             }
 
             if (!(filter?.CategoryId).IsNullOrZero())

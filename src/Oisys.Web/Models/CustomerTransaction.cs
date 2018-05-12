@@ -43,6 +43,11 @@
         public bool IsDeleted { get; set; }
 
         /// <summary>
+        /// Gets or sets property Order Id.
+        /// </summary>
+        public int OrderId { get; set; }
+
+        /// <summary>
         /// Gets or sets property CreditMemoId.
         /// </summary>
         public int CreditMemoId { get; set; }

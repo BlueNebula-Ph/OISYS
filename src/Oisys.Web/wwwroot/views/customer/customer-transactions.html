@@ -41,9 +41,8 @@
                     <td>{{ c.description }}</td>
                     <td class="text-right">₱ {{ c.debit | number:2 }}</td>
                     <td class="text-right">₱ {{ c.credit | number:2 }}</td>
-                    <td class="text-right">₱ {{ c.runningBalance | number:2 }}</td>
                 </tr>
-                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="6"></tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="5"></tr>
             </tbody>
         </table>
     </shell-table>
