@@ -10,6 +10,11 @@
     public class SaveCashVoucherRequest : DTOBase
     {
         /// <summary>
+        /// Gets or sets property Voucher Number.
+        /// </summary>
+        public int VoucherNumber { get; set; }
+
+        /// <summary>
         /// Gets or sets the voucher date
         /// </summary>
         public DateTime Date { get; set; }

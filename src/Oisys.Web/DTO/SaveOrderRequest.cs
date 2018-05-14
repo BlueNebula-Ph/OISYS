@@ -4,14 +4,18 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
-    using BlueNebula.Common.Helpers;
     using Newtonsoft.Json;
 
     /// <summary>
     /// <see cref="SaveOrderRequest"/> class Create/Update Order object.
     /// </summary>
-    public class SaveOrderRequest : DTOBase, IObjectWithState
+    public class SaveOrderRequest : DTOBase
     {
+        /// <summary>
+        /// Gets or sets property Code.
+        /// </summary>
+        public int Code { get; set; }
+
         /// <summary>
         /// Gets or sets property CustomerId.
         /// </summary>
@@ -48,11 +52,5 @@
         /// Gets or sets property Details navigation property.
         /// </summary>
         public ICollection<SaveOrderDetailRequest> Details { get; set; }
-
-        /// <summary>
-        /// Gets or sets the state property
-        /// </summary>
-        [JsonIgnore]
-        public ObjectState State { get; set; }
     }
 }

@@ -50,7 +50,10 @@
             return vm.creditMemo.customerId;
         }, function (newVal, oldVal) {
             if (newVal && newVal != 0) {
-                vm.creditMemo.clearDetails();
+                if (vm.creditMemo.id == 0) {
+                    vm.creditMemo.clearDetails();
+                }
+                
                 fetchOrders(newVal);
                 vm.addDetailsDisabled = false;
             }
@@ -113,8 +116,6 @@
 
             if (responses.creditMemo) {
                 processCreditMemo(responses.creditMemo);
-
-                console.log(responses.creditMemo);
             }
         };
 

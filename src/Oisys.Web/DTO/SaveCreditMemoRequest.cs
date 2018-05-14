@@ -12,6 +12,11 @@
     public class SaveCreditMemoRequest : DTOBase
     {
         /// <summary>
+        /// Gets or sets property Code.
+        /// </summary>
+        public int Code { get; set; }
+
+        /// <summary>
         /// Gets or sets property Date.
         /// </summary>
         [Required]

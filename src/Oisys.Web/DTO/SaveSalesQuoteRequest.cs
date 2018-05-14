@@ -11,6 +11,11 @@
     public class SaveSalesQuoteRequest : DTOBase
     {
         /// <summary>
+        /// Gets or sets property QuoteNumber.
+        /// </summary>
+        public int QuoteNumber { get; set; }
+
+        /// <summary>
         /// Gets or sets property CustomerId.
         /// </summary>
         public int? CustomerId { get; set; }

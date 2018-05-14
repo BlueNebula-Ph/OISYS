@@ -2,7 +2,7 @@
     module.factory("Quotation", function () {
         function Quotation(id, quoteNumber, customerId, date, deliveryFee, details) {
             this.id = id || 0;
-            this.quoteNumber = quoteNumber || "";
+            this.quoteNumber = quoteNumber || 0;
             this.customerId = customerId || 0;
             this.date = date || new Date();
             this.deliveryFee = deliveryFee || 0;
