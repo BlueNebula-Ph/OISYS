@@ -32,6 +32,8 @@
         /// <param name="adjustmentQuantity">Adjustment Quantity</param>
         /// <param name="adjustmentType">Adjustment Type</param>
         /// <param name="remarks">Remarks</param>
+        /// <param name="machine">Machine</param>
+        /// <param name="operatorName">Operator Name</param>
         public void ModifyQuantity(QuantityType quantityType, Item item, decimal adjustmentQuantity, AdjustmentType adjustmentType, string remarks, string machine = "", string operatorName = "")
         {
             if (item != null)

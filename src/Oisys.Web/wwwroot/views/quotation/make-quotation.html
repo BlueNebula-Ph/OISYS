@@ -6,27 +6,8 @@
         <form name="ctrl.addQuotationForm">
             <div class="col-md-3 left-padding-none">
                 <div form-input>
-                    <label>Quote Number</label>
-                    <input type="text" ng-model="ctrl.quotation.quoteNumber" focus-me="ctrl.defaultFocus" />
-                </div>
-            </div>
-            <div class="col-md-3 left-padding-none">
-                <div form-input>
-                    <label>Date</label>
-                    <input type="date" ng-model="ctrl.quotation.date" />
-                </div>
-            </div>
-            <div class="col-md-3 left-padding-none">
-                <div form-input>
-                    <label>Delivery Fee</label>
-                    <input type="text" ng-model="ctrl.quotation.deliveryFee" numeric-textbox="{ currencySymbol: '₱ '}" />
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-md-3 left-padding-none">
-                <div form-input>
                     <label>Customer</label>
-                    <select ng-options="customer.name for customer in ctrl.customerList" ng-model="ctrl.quotation.selectedCustomer"></select>
+                    <select ng-options="customer.name for customer in ctrl.customerList" ng-model="ctrl.quotation.selectedCustomer" focus-me="ctrl.defaultFocus"></select>
                 </div>
             </div>
             <div class="col-md-3 left-padding-none">
@@ -41,21 +22,36 @@
                     <input type="text" ng-model="ctrl.quotation.contactNumber" readonly />
                 </div>
             </div>
+            <div class="clearfix"></div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Date</label>
+                    <input type="date" ng-model="ctrl.quotation.date" />
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Delivery Fee</label>
+                    <input type="text" ng-model="ctrl.quotation.deliveryFee" numeric-textbox="{ currencySymbol: '₱ '}" />
+                </div>
+            </div>
+            <div class="clearfix"></div>
             <div class="col-md-9 left-padding-none">
                 <table class="table table-condensed input-details-table">
                     <thead>
                         <tr>
-                            <th colspan="6" class="header-actions">
+                            <th colspan="7" class="header-actions">
                                 <button ng-click="ctrl.addDetail()" class="header-action-button"><i class="fa fa-plus"></i> Quotation Items</button>
                             </th>
                         </tr>
                         <tr class="header">
                             <th class="text-right" style="width: 10%;">Qty</th>
                             <th style="width: 10%;">Unit</th>
-                            <th style="width: 44%;">Item</th>
+                            <th>Item</th>
+                            <th style="width: 15%">Category</th>
                             <th class="text-right" style="width: 15%;">Unit Price</th>
                             <th class="text-right" style="width: 15%;">Total Price</th>
-                            <th style="width: 6%;"></th>
+                            <th style="width: 5%;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,12 +60,12 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td class="text-right" colspan="5">Total Amount : ₱ {{ ctrl.quotation.totalAmount | number: 2 }}</td>
+                            <td class="text-right" colspan="6">Total Amount : ₱ {{ ctrl.quotation.totalAmount | number: 2 }}</td>
                             <td></td>
                         </tr>
                     </tfoot>
                 </table>
-            </div> 
+            </div>
         </form>
     </shell-form>
     <shell-controls>
@@ -81,11 +77,12 @@
     <td><input type="number" ng-model="detail.quantity" class="form-control input-xs text-right" min="1" focus-me="detail.focus" /></td>
     <td><input class="form-control input-xs" ng-model="detail.unit" readonly /></td>
     <td ng-if="detail.id == 0">
-        <select class="form-control input-xs" ng-model="detail.selectedItem" ng-options="item.nameCategoryDescription for item in ctrl.itemList"></select>
+        <select class="form-control input-xs" ng-model="detail.selectedItem" ng-options="item.codeName for item in ctrl.itemList"></select>
     </td>
     <td ng-if="detail.id != 0">
         <input class="form-control input-xs" ng-model="detail.item" readonly />
     </td>
+    <td><input class="form-control input-xs text-right" ng-model="detail.categoryName" readonly /></td>
     <td><input class="form-control input-xs text-right" numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.price" readonly /></td>
     <td><input class="form-control input-xs text-right" numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.totalPrice" readonly /></td>
     <td class="text-center">

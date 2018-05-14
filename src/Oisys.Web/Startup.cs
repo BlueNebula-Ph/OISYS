@@ -12,6 +12,7 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
+    using Oisys.Web.SeedData;
     using Oisys.Web.Services;
     using Oisys.Web.Services.Interfaces;
     using Swashbuckle.AspNetCore.Swagger;

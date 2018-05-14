@@ -49,8 +49,13 @@
         public decimal TotalPrice { get; set; }
 
         /// <summary>
-        /// Gets or sets Item navigation property.
+        /// Gets or sets property Item.
         /// </summary>
         public string Item { get; set; }
+
+        /// <summary>
+        /// Gets or sets property ItemCode.
+        /// </summary>
+        public string ItemCode { get; set; }
     }
 }

@@ -32,6 +32,7 @@
                     <th class="text-right">Qty</th>
                     <th>Unit</th>
                     <th>Item</th>
+                    <th>Category</th>
                     <th class="text-right">Unit Price</th>
                     <th class="text-right">Total Price</th>
                 </tr>
@@ -40,14 +41,15 @@
                 <tr ng-repeat="detail in ctrl.quotationInfo.details track by $index">
                     <td class="text-right">{{ detail.quantity | number: 0 }}</td>
                     <td>{{ detail.unit }}</td>
-                    <td>{{ detail.item }} - {{ detail.description}} - {{ detail.category }}</td>
+                    <td>{{ detail.itemCode }} - {{ detail.item }} - {{ detail.description }}</td>
+                    <td>{{ detail.category }}</td>
                     <td class="text-right">₱ {{ detail.price | number:2 }}</td>
                     <td class="text-right">₱ {{ detail.totalPrice | number:2 }}</td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td class="text-right" colspan="5">
+                    <td class="text-right" colspan="6">
                         <ul class="list-unstyled details-totals">
                             <li>Total Amount: ₱ {{ ctrl.quotationInfo.totalAmount | number: 2 }}</li>
                         </ul>

@@ -70,7 +70,7 @@
 </add-edit-shell>
 
 <script type="text/ng-template" id="edit">
-    <td><input type="number" ng-model="detail.quantity" class="form-control input-xs text-right" min="1" focus-me="detail.focus" /></td>
+    <td><input type="number" ng-model="detail.quantity" class="form-control input-xs text-right" min="1" max="{{ detail.selectedItem.currentQuantity }}" focus-me="detail.focus" /></td>
     <td><input class="form-control input-xs" ng-model="detail.unit" readonly /></td>
     <td ng-if="detail.id == 0">
         <select class="form-control input-xs" ng-model="detail.selectedItem" ng-options="item.codeName for item in ctrl.itemList"></select>

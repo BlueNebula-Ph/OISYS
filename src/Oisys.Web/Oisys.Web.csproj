@@ -12,7 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="SeedData\ReferenceTypes.csv" />
     <None Remove="wwwroot\views\customer\add-customer.html~RF530933.TMP" />
   </ItemGroup>
 
@@ -1428,9 +1427,6 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SeedData\ReferenceTypes.csv" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Home\" />

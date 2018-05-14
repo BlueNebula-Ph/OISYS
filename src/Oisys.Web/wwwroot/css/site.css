@@ -283,6 +283,12 @@ dd {
 }
 
     .details-totals li {
+        font-weight: bold;
         padding: 5px 0;
         font-style: italic;
     }
+
+/* Validation */
+.ng-dirty.ng-invalid {
+    border-color: red;
+}

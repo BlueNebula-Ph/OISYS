@@ -13,7 +13,7 @@
         /// <summary>
         /// Gets or sets property quote number.
         /// </summary>
-        public string QuoteNumber { get; set; }
+        public int QuoteNumber { get; set; }
 
         /// <summary>
         /// Gets or sets property CustomerId.

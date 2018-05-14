@@ -89,6 +89,7 @@
 
             // Order Detail
             this.CreateMap<OrderDetail, OrderDetailSummary>()
+                .ForMember(d => d.ItemCode, s => s.MapFrom(o => o.Item.Code))
                 .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name))
                 .ForMember(d => d.Unit, s => s.MapFrom(o => o.Item.Unit))
                 .ForMember(d => d.Description, s => s.MapFrom(o => o.Item.Description))
@@ -121,6 +122,7 @@
 
             // Sales Quote
             this.CreateMap<SalesQuote, SalesQuoteSummary>()
+                .ForMember(d => d.QuoteNumber, s => s.MapFrom(o => o.QuoteNumber.ToString()))
                 .ForMember(d => d.CustomerName, s => s.MapFrom(o => o.Customer.Name))
                 .ForMember(d => d.CustomerAddress, s => s.MapFrom(o => $"{o.Customer.Address}, {o.Customer.City.Name} {o.Customer.Province.Name}"))
                 .ForMember(d => d.CustomerContact, s => s.MapFrom(o => o.Customer.ContactNumber));
@@ -129,6 +131,7 @@
 
             // Sales Quote Detail
             this.CreateMap<SalesQuoteDetail, SalesQuoteDetailSummary>()
+                .ForMember(d => d.ItemCode, s => s.MapFrom(o => o.Item.Code))
                 .ForMember(d => d.Item, s => s.MapFrom(o => o.Item.Name))
                 .ForMember(d => d.Unit, s => s.MapFrom(o => o.Item.Unit))
                 .ForMember(d => d.Description, s => s.MapFrom(o => o.Item.Description))

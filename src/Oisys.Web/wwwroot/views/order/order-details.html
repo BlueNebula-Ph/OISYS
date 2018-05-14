@@ -37,7 +37,7 @@
                 <tr ng-repeat="detail in ctrl.orderInfo.details track by $index">
                     <td class="text-right">{{ detail.quantity | number: 0 }}</td>
                     <td>{{ detail.unit }}</td>
-                    <td>{{ detail.item }} - {{ detail.description }}</td>
+                    <td>{{ detail.itemCode }} - {{ detail.item }} - {{ detail.description }}</td>
                     <td>{{ detail.category }}</td>
                     <td class="text-right">₱ {{ detail.price | number:2 }}</td>
                     <td class="text-right">₱ {{ detail.totalPrice | number:2 }}</td>

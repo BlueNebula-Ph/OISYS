@@ -59,7 +59,7 @@
             return vm.filters.provinceId;
         }, function (newVal, oldVal) {
             var selectedProvince = vm.provinceList.find(function (elem) { return elem.id == newVal; });
-            if (selectedProvince.cities) {
+            if (selectedProvince) {
                 utils.populateDropdownlist({ data: selectedProvince.cities }, vm.cityList, "name", "Filter by city..");
             }
         }, true);

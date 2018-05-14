@@ -5,8 +5,10 @@
     using System.Linq;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ValueGeneration;
     using Microsoft.Extensions.DependencyInjection;
     using Oisys.Web.Models;
+    using Oisys.Web.SeedData;
 
     /// <summary>
     /// <see cref="OisysDbContext"/> class DbContext.
@@ -213,6 +215,11 @@
                 .Property(o => o.Code)
                 .HasDefaultValueSql("NEXT VALUE FOR CreditMemoCode");
 
+            // TODO: Remove when migrated to sql server
+            modelBuilder.Entity<CreditMemo>()
+                .Property(o => o.Code)
+                .HasValueGenerator(typeof(CreditMemoCodeGenerator));
+
             modelBuilder.HasSequence<int>("OrderCode")
                .StartsAt(100000)
                .IncrementsBy(1);
@@ -221,6 +228,11 @@
                 .Property(o => o.Code)
                 .HasDefaultValueSql("NEXT VALUE FOR OrderCode");
 
+            // TODO: Remove when migrated to sql server
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Code)
+                .HasValueGenerator(typeof(OrderCodeGenerator));
+
             modelBuilder.HasSequence<int>("VoucherNumber")
                .StartsAt(100000)
                .IncrementsBy(1);
@@ -228,6 +240,24 @@
             modelBuilder.Entity<CashVoucher>()
                 .Property(o => o.VoucherNumber)
                 .HasDefaultValueSql("NEXT VALUE FOR VoucherNumber");
+
+            // TODO: Remove when migrated to sql server
+            modelBuilder.Entity<CashVoucher>()
+                .Property(o => o.VoucherNumber)
+                .HasValueGenerator(typeof(VoucherNumberGenerator));
+
+            modelBuilder.HasSequence<int>("QuotationCode")
+                .StartsAt(100000)
+                .IncrementsBy(1);
+
+            modelBuilder.Entity<SalesQuote>()
+                .Property(o => o.QuoteNumber)
+                .HasDefaultValueSql("NEXT VALUE FOR QuotationCode");
+
+            // TODO: Remove when migrated to sql server
+            modelBuilder.Entity<SalesQuote>()
+                .Property(o => o.QuoteNumber)
+                .HasValueGenerator(typeof(SalesQuotationNumberGenerator));
         }
 
         private static void SeedCustomer(OisysDbContext context)

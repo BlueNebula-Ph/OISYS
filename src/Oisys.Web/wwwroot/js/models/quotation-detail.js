@@ -19,6 +19,7 @@
                 if (this.selectedItem) {
                     this.itemId = this.selectedItem.id;
                     this.unit = this.selectedItem.unit;
+                    this.categoryName = this.selectedItem.categoryName;
 
                     switch (priceList) {
                         case 1:

@@ -46,5 +46,10 @@
         /// Gets or sets property Category.
         /// </summary>
         public string Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets property ItemCode.
+        /// </summary>
+        public string ItemCode { get; set; }
     }
 }
