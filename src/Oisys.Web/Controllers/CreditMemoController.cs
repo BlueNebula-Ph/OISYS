@@ -27,6 +27,7 @@
         private readonly ISummaryListBuilder<CreditMemo, CreditMemoSummary> builder;
         private readonly IAdjustmentService adjustmentService;
         private readonly ICustomerService customerService;
+        private readonly IOrderService orderService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreditMemoController"/> class.
@@ -35,14 +36,16 @@
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
         /// <param name="adjustmentService">Adjustment Service</param>
-        /// <param name="customerService">CustomerService</param>
-        public CreditMemoController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<CreditMemo, CreditMemoSummary> builder, IAdjustmentService adjustmentService, ICustomerService customerService)
+        /// <param name="customerService">Customer Service</param>
+        /// <param name="orderService">Order Service</param>
+        public CreditMemoController(OisysDbContext context, IMapper mapper, ISummaryListBuilder<CreditMemo, CreditMemoSummary> builder, IAdjustmentService adjustmentService, ICustomerService customerService, IOrderService orderService)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
             this.adjustmentService = adjustmentService;
             this.customerService = customerService;
+            this.orderService = orderService;
         }
 
         /// <summary>
@@ -106,6 +109,8 @@
             var entity = await this.context.CreditMemos
                 .Include(c => c.Customer)
                 .Include(c => c.Details)
+                    .ThenInclude(d => d.OrderDetail.Order)
+                .Include(c => c.Details)
                     .ThenInclude(d => d.OrderDetail.Item)
                 .SingleOrDefaultAsync(c => c.Id == id);
 
@@ -130,26 +135,18 @@
             try
             {
                 var creditMemo = this.mapper.Map<CreditMemo>(entity);
-                decimal totalAmountReturned = 0;
+                await this.context.CreditMemos.AddAsync(creditMemo);
 
+                var totalAmountReturned = 0m;
                 foreach (var detail in entity.Details)
                 {
                     var item = await this.context.Items.FindAsync(detail.ItemId);
                     var orderDetail = await this.context.OrderDetails.FindAsync(detail.OrderDetailId);
 
-                    // total amount to deduct from customer's balance
-                    totalAmountReturned = totalAmountReturned + (orderDetail.Price * detail.Quantity);
+                    totalAmountReturned += detail.Quantity * orderDetail.Price;
 
-                    // update quantity returned and check if it exceeds quantity
-                    orderDetail.QuantityReturned += detail.Quantity;
-
-                    if (orderDetail.QuantityReturned > orderDetail.Quantity)
-                    {
-                        this.ModelState.AddModelError(Constants.ErrorMessage, $"Total quantity returned for {item.Name} cannot be greater than {orderDetail.Quantity}");
-                        return this.BadRequest(this.ModelState);
-                    }
-
-                    // add checking if order detail is delivered
+                    // update quantity returned on order detail
+                    await this.orderService.UpdateQuantityReturnedForOrderDetail(entity.Id, detail.OrderDetailId, detail.Quantity);
 
                     // add back to inventory
                     if (detail.ShouldAddBackToInventory)
@@ -160,14 +157,16 @@
 
                 // Add customer transaction
                 var customerTransaction = this.customerService.AddCustomerTransaction(entity.CustomerId, TransactionType.Credit, totalAmountReturned, Constants.AdjustmentRemarks.CreditMemoCreated);
-
-                await this.context.CreditMemos.AddAsync(creditMemo);
-
                 customerTransaction.CreditMemoId = creditMemo.Id;
 
                 await this.context.SaveChangesAsync();
 
                 return this.CreatedAtRoute("GetCreditMemo", new { id = creditMemo.Id }, entity);
+            }
+            catch (QuantityReturnedException qEx)
+            {
+                this.ModelState.AddModelError(Constants.ErrorMessage, qEx.Message);
+                return this.BadRequest(this.ModelState);
             }
             catch (Exception ex)
             {
@@ -222,13 +221,6 @@
                             totalAmountToAdd = totalAmountToAdd + (oldDetail.OrderDetail.Price * detail.Quantity);
                         }
 
-                        // deleted existing detail
-                        if (detail.IsDeleted)
-                        {
-                            detail.State = ObjectState.Deleted;
-                            continue;
-                        }
-
                         if (oldDetail.Quantity != detail.Quantity)
                         {
                             // add new quantity
@@ -263,16 +255,11 @@
                 if (customerTransaction != null)
                 {
                     this.customerService.ModifyCustomerTransaction(customerTransaction, TransactionType.Credit, totalAmountToAdd, Constants.AdjustmentRemarks.CreditMemoUpdated);
-                    this.customerService.ModifyCustomerTransaction(customerTransaction, TransactionType.Debit, totalAmountToDeduct, Constants.AdjustmentRemarks.CreditMemoUpdated);
                 }
 
                 cm = this.mapper.Map<CreditMemo>(entity);
 
                 this.context.Update(cm);
-
-                var deletedDetails = cm.Details.Where(a => a.State == ObjectState.Deleted);
-
-                this.context.RemoveRange(deletedDetails);
 
                 await this.context.SaveChangesAsync();
             }

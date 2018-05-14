@@ -91,7 +91,7 @@
             var creditMemoDetails = modelTransformer.transform(response.data.details, CreditMemoDetail);
             creditMemoDetails.forEach(function (elem) {
                 var idx = vm.orderList.map((element) => element.id).indexOf(elem.orderId);
-                elem.selectedOrder = vm.orderList[idx];
+                elem.selectedOrder = elem.orderDetail;
             });
 
             response.data.date = new Date(response.data.date);
@@ -101,6 +101,8 @@
             vm.creditMemo.selectedCustomer = vm.customerList[customerIdx];
 
             vm.creditMemo.details = creditMemoDetails;
+            console.log(creditMemoDetails);
+            console.log(vm.creditMemo);
 
             // Update the label
             vm.label = "Update credit memo # " + vm.creditMemo.code;

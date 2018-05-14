@@ -14,10 +14,10 @@
         </div>
         <div class="col-md-6">
             <dl class="dl-horizontal">
-                <dt>Order Date</dt>
+                <dt>Date</dt>
                 <dd>{{ ctrl.creditMemo.date | date:'MM/dd/yyyy' }}</dd>
-                <dt>Due Date</dt>
-                <dd>{{ ctrl.creditMemo.dueDate | date:'MM/dd/yyyy' }}</dd>
+                <dt>Driver</dt>
+                <dd>{{ ctrl.creditMemo.driver }}</dd>
             </dl>
         </div>
         <div class="clearfix"></div>
@@ -25,30 +25,35 @@
         <table class="table table-condensed table-striped details-table">
             <thead>
                 <tr>
+                    <th>
+                        <i class="fa fa-undo"></i>
+                    </th>
+                    <th>Order Code</th>
                     <th class="text-right">Qty</th>
                     <th>Unit</th>
                     <th>Item</th>
-                    <th>Category</th>
                     <th class="text-right">Unit Price</th>
                     <th class="text-right">Total Price</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="detail in ctrl.creditMemo.details track by $index">
+                    <td>
+                        <i ng-if="detail.shouldAddBackToInventory" class="text-success fa fa-check" title="Items returned to inventory."></i>
+                        <i ng-if="!detail.shouldAddBackToInventory" class="text-danger fa fa-times" title="Items not returned to inventory."></i>
+                    </td>
+                    <td>{{ detail.orderCode }}</td>
                     <td class="text-right">{{ detail.quantity | number: 0 }}</td>
-                    <td>{{ detail.unit }}</td>
-                    <td>{{ detail.item }} - {{ detail.description }}</td>
-                    <td>{{ detail.category }}</td>
+                    <td>{{ detail.orderDetail.unit }}</td>
+                    <td>{{ detail.itemCode }} - {{ detail.item }}</td>
                     <td class="text-right">₱ {{ detail.price | number:2 }}</td>
                     <td class="text-right">₱ {{ detail.totalPrice | number:2 }}</td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td class="text-right" colspan="6">
+                    <td class="text-right" colspan="7">
                         <ul class="list-unstyled details-totals">
-                            <li>Gross Amount: ₱ {{ ctrl.creditMemo.grossAmount | number: 2 }}</li>
-                            <li>Less ({{ ctrl.creditMemo.discountPercent | number: 2 }}%): ₱ {{ ctrl.creditMemo.discountAmount | number: 2 }}</li>
                             <li>Total Amount: ₱ {{ ctrl.creditMemo.totalAmount | number: 2 }}</li>
                         </ul>
                     </td>

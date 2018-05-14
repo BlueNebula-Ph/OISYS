@@ -4,13 +4,11 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using BlueNebula.Common.Helpers;
 
     /// <summary>
     /// <see cref="CreditMemo"/> class CreditMemo object.
     /// </summary>
-    public class CreditMemo : ModelBase, IObjectWithState
+    public class CreditMemo : ModelBase
     {
         /// <summary>
         /// Gets or sets property Code.
@@ -49,11 +47,5 @@
         /// Gets or sets property Customer.
         /// </summary>
         public Customer Customer { get; set; }
-
-        /// <summary>
-        /// Gets or sets the objectstate property
-        /// </summary>
-        [NotMapped]
-        public ObjectState State { get; set; }
     }
 }

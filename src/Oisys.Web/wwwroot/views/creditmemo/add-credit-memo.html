@@ -4,10 +4,16 @@
     </shell-title>
     <shell-form>
         <form name="ctrl.addCreditMemoForm">
-            <div class="col-md-3 left-padding-none">
+            <div class="col-md-3 left-padding-none" ng-if="ctrl.creditMemo.id == 0">
                 <div form-input>
                     <label>Customer</label>
                     <select ng-model="ctrl.creditMemo.customerId" focus-me="ctrl.defaultFocus" ng-options="customer.id as customer.name for customer in ctrl.customerList"></select>
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none" ng-if="ctrl.creditMemo.id != 0">
+                <div form-input>
+                    <label>Customer</label>
+                    <input ng-model="ctrl.creditMemo.customer.name" readonly />
                 </div>
             </div>
             <div class="col-md-3 left-padding-none">

@@ -38,9 +38,13 @@
             this.CreateMap<CreditMemo, CreditMemoSummary>();
             this.CreateMap<SaveCreditMemoRequest, CreditMemo>();
             this.CreateMap<CreditMemoDetail, CreditMemoDetailSummary>()
+                .ForMember(d => d.OrderCode, s => s.MapFrom(o => o.OrderDetail.Order.Code))
+                .ForMember(d => d.ItemCode, s => s.MapFrom(o => o.OrderDetail.Item.Code))
                 .ForMember(d => d.Item, s => s.MapFrom(o => o.OrderDetail.Item.Name))
-                .ForMember(d => d.Price, s => s.MapFrom(o => o.OrderDetail.Price));
-            this.CreateMap<SaveCreditMemoDetailRequest, CreditMemoDetail>();
+                .ForMember(d => d.Price, s => s.MapFrom(o => o.OrderDetail.Price))
+                .ForMember(d => d.ShouldAddBackToInventory, s => s.MapFrom(o => o.ReturnedToInventory));
+            this.CreateMap<SaveCreditMemoDetailRequest, CreditMemoDetail>()
+                .ForMember(d => d.ReturnedToInventory, s => s.MapFrom(o => o.ShouldAddBackToInventory));
 
             // TODO: Change LastUpdatedBy value
             // Customer

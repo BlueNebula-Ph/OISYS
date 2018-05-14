@@ -4,13 +4,12 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
-    using BlueNebula.Common.Helpers;
     using Newtonsoft.Json;
 
     /// <summary>
     /// <see cref="SaveCreditMemoRequest"/> class Create/Update CreditMemo object.
     /// </summary>
-    public class SaveCreditMemoRequest : DTOBase, IObjectWithState
+    public class SaveCreditMemoRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets property Date.
@@ -33,11 +32,5 @@
         /// Gets or sets property Details.
         /// </summary>
         public ICollection<SaveCreditMemoDetailRequest> Details { get; set; }
-
-        /// <summary>
-        /// Gets or sets the state property
-        /// </summary>
-        [JsonIgnore]
-        public ObjectState State { get; set; }
     }
 }

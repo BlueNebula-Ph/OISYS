@@ -3,13 +3,12 @@
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
-    using BlueNebula.Common.Helpers;
     using Newtonsoft.Json;
 
     /// <summary>
     /// <see cref="SaveCreditMemoDetailRequest"/> class represents the child of CreditMemo object.
     /// </summary>
-    public class SaveCreditMemoDetailRequest : DTOBase, IObjectWithState
+    public class SaveCreditMemoDetailRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets property CreditMemoId.
@@ -44,11 +43,5 @@
         /// </summary>
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// Gets or sets the state property
-        /// </summary>
-        [JsonIgnore]
-        public ObjectState State { get; set; }
     }
 }

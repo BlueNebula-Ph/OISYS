@@ -1,13 +1,11 @@
 ﻿namespace Oisys.Web.Models
 {
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using BlueNebula.Common.Helpers;
 
     /// <summary>
     /// <see cref="CreditMemoDetail"/> class CreditMemodetail object.
     /// </summary>
-    public class CreditMemoDetail : ModelBase, IObjectWithState
+    public class CreditMemoDetail : ModelBase
     {
         /// <summary>
         /// Gets or sets property CreditMemoId.
@@ -28,6 +26,12 @@
         public int OrderDetailId { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether
+        /// the item is returned to the inventory.
+        /// </summary>
+        public bool ReturnedToInventory { get; set; }
+
+        /// <summary>
         /// Gets or sets property OrderDetail.
         /// </summary>
         public OrderDetail OrderDetail { get; set; }
@@ -36,11 +40,5 @@
         /// Gets or sets property CreditMemo.
         /// </summary>
         public CreditMemo CreditMemo { get; set; }
-
-        /// <summary>
-        /// Gets or sets the objectstate property
-        /// </summary>
-        [NotMapped]
-        public ObjectState State { get; set; }
     }
 }

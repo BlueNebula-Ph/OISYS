@@ -31,8 +31,9 @@
         public void DeleteCustomerTransaction(int customerId, int customerTransactionId)
         {
             var transaction = this.context.CustomerTransactions.SingleOrDefault(c => c.Id == customerTransactionId);
-
             transaction.IsDeleted = true;
+
+            this.UpdateCustomerBalance(customerId);
         }
 
         /// <summary>
@@ -55,7 +56,7 @@
                 transaction.Description = remarks;
             }
 
-            this.UpdateCustomerBalance(transaction.CustomerId, transactionType, totalAmount);
+            this.UpdateCustomerBalance(transaction.CustomerId);
         }
 
         /// <summary>
@@ -78,28 +79,30 @@
                     Date = DateTime.Now.ToUniversalTime(),
                     Credit = credit,
                     Debit = debit,
-                    TransactionType = remarks,
+                    TransactionType = Enum.GetName(typeof(TransactionType), transactionType),
                     Description = remarks,
                 };
 
-            this.context.Add(customerTransaction);
+            this.context.CustomerTransactions.Add(customerTransaction);
 
-            this.UpdateCustomerBalance(customerId, transactionType, totalAmount);
+            this.UpdateCustomerBalance(customerId);
 
             return customerTransaction;
         }
 
-        private void UpdateCustomerBalance(int customerId, TransactionType transactionType, decimal? totalAmount)
+        private void UpdateCustomerBalance(int customerId)
         {
             // Update Customer balance
-            var customer = this.context.Customers
-                                .SingleOrDefault(c => c.Id == customerId);
+            var customer = this.context.Customers.SingleOrDefault(a => a.Id == customerId);
+            var customerTransactions = this.context.CustomerTransactions.Local
+                .Where(a => a.CustomerId == customerId && !a.IsDeleted);
 
             if (customer != null)
             {
-                customer.Balance = transactionType == TransactionType.Debit ?
-                    customer.Balance + totalAmount.Value :
-                    customer.Balance - totalAmount.Value;
+                var totalDebit = customerTransactions.Sum(a => a.Debit) ?? 0;
+                var totalCredit = customerTransactions.Sum(a => a.Credit) ?? 0;
+
+                customer.Balance = totalDebit - totalCredit;
             }
         }
     }
