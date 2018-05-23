@@ -1,54 +1,97 @@
 ﻿namespace Oisys.Web.Controllers
 {
     using System;
+    using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
-    using AspNet.Security.OpenIdConnect.Primitives;
-    using AspNet.Security.OpenIdConnect.Server;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Tokens;
+    using Oisys.Web.Configuration;
+    using Oisys.Web.DTO;
+    using Oisys.Web.Models;
 
     /// <summary>
-    /// <see cref="AuthorizationController"/> handles token requests.
+    /// The <see cref="AuthorizationController"/> manages security tokens for client applications.
     /// </summary>
+    [Route("auth")]
     [Produces("application/json")]
     public class AuthorizationController : Controller
     {
+        private readonly OisysDbContext context;
+        private readonly IPasswordHasher<ApplicationUser> hasher;
+        private readonly IOptions<AuthOptions> authOptions;
+
         /// <summary>
-        /// Validates user credentials and returns a token if user is valid.
+        /// Initializes a new instance of the <see cref="AuthorizationController"/> class.
         /// </summary>
-        /// <param name="request">The token request</param>
-        /// <returns>Token object</returns>
-        [HttpPost("connect/token")]
-        public IActionResult GetToken(OpenIdConnectRequest request)
+        /// <param name="context">The database context</param>
+        /// <param name="hasher">The password hasher</param>
+        /// <param name="authOptions">The authentication configuration</param>
+        public AuthorizationController(
+            OisysDbContext context,
+            IPasswordHasher<ApplicationUser> hasher,
+            IOptions<AuthOptions> authOptions)
         {
-            if (request.IsPasswordGrantType())
+            this.context = context;
+            this.hasher = hasher;
+            this.authOptions = authOptions;
+        }
+
+        /// <summary>
+        /// Generates a Json Web Token
+        /// </summary>
+        /// <param name="model">The login request model</param>
+        /// <returns>An object containing the JWT</returns>
+        [HttpPost("connect/token")]
+        [Produces("application/json")]
+        public async Task<IActionResult> Token([FromForm]LoginRequest model)
+        {
+            if (!this.ModelState.IsValid)
             {
-                // Validate the user credentials here
-                if (request.Username != "SampleUser" || request.Password != "SamplePassword")
-                {
-                    return this.Forbid(OpenIdConnectServerDefaults.AuthenticationScheme);
-                }
-
-                var identity = new ClaimsIdentity(
-                    OpenIdConnectServerDefaults.AuthenticationScheme,
-                    OpenIdConnectConstants.Claims.Name,
-                    OpenIdConnectConstants.Claims.Role);
-
-                identity.AddClaim(new Claim(
-                    OpenIdConnectConstants.Claims.Subject,
-                    "SubjectId",
-                    OpenIdConnectConstants.Destinations.AccessToken));
-
-                identity.AddClaim(new Claim(
-                    OpenIdConnectConstants.Claims.Name,
-                    "SampleUser",
-                    OpenIdConnectConstants.Destinations.AccessToken));
-
-                var principal = new ClaimsPrincipal(identity);
-
-                return this.SignIn(principal, OpenIdConnectServerDefaults.AuthenticationScheme);
+                return this.BadRequest(this.ModelState);
             }
 
-            throw new InvalidOperationException("The requested grant type is not supported.");
+            // Validate User
+            var user = await this.context.Users.FirstOrDefaultAsync(a => a.Username == model.Username);
+            if (user != null)
+            {
+                if (this.hasher.VerifyHashedPassword(user, user.PasswordHash, model.Password) == PasswordVerificationResult.Success)
+                {
+                    var claims = new[]
+                    {
+                        new Claim(JwtRegisteredClaimNames.Sub, model.Username),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
+                        new Claim(JwtRegisteredClaimNames.GivenName, $"{user.Firstname} {user.Lastname}"),
+                        new Claim("accessRights", user.AccessRights),
+                    };
+
+                    var signingCred = new SigningCredentials(
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.authOptions.Value.Key)), SecurityAlgorithms.HmacSha256);
+
+                    var token = new JwtSecurityToken(
+                        issuer: this.authOptions.Value.Issuer,
+                        audience: this.authOptions.Value.Audience,
+                        claims: claims,
+                        expires: DateTime.UtcNow.AddDays(60),
+                        notBefore: DateTime.UtcNow,
+                        signingCredentials: signingCred);
+
+                    return this.Ok(new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expirationDate = token.ValidTo,
+                    });
+                }
+
+                return this.BadRequest(new { error = "Incorrect username or password." });
+            }
+
+            return this.BadRequest(new { error = "Unable to login. User not found." });
         }
     }
 }

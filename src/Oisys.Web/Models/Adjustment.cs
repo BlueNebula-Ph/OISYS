@@ -56,7 +56,5 @@
         /// Gets or sets the item navigation property
         /// </summary>
         public Item Item { get; set; }
-
-
     }
 }

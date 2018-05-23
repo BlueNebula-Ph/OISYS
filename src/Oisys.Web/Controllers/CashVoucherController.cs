@@ -57,7 +57,7 @@ namespace Oisys.Web.Controllers
             // filter
             if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
-                list = list.Where(c => c.VoucherNumber.Contains(filter.SearchTerm));
+                list = list.Where(c => c.VoucherNumber.ToString().Contains(filter.SearchTerm));
             }
 
             if (filter?.DateFrom != null || filter?.DateTo != null)

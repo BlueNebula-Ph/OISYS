@@ -1,31 +1,24 @@
 ﻿(function (module) {
 
-    var loginRedirect = function ($q, $location) {
+    var loginRedirect = function ($q, $state) {
 
-        var lastPath = "/";
+        var lastState = "home";
 
-        var responseError = function (response) {
-            if (response.statusCode == 401) {
-                lastPath = $location.path();
-                $location.path("/login");
-            }
-            return $q.reject(response);
+        var setLastState = function (newState) {
+            lastState = newState;
         };
 
         var redirectPostLogin = function () {
-            $location.path(lastPath);
-            lastPath = "/";
+            $state.go(lastState);
+            setLastState("home");
         };
 
         return {
-            redirectPostLogin: redirectPostLogin,
-            responseError: responseError
+            setLastState: setLastState,
+            redirectPostLogin: redirectPostLogin
         };
     };
 
-    module.factory("loginRedirect", ["$q", "$location", loginRedirect]);
-    module.config(function ($httpProvider) {
-        $httpProvider.interceptors.push("loginRedirect");
-    });
+    module.factory("loginRedirect", ["$q", "$state", loginRedirect]);
 
 })(angular.module("oisys-app"));
