@@ -10,10 +10,9 @@
     public class Delivery : ModelBase
     {
         /// <summary>
-        /// Gets or sets property Code.
+        /// Gets or sets property Delivery Number.
         /// </summary>
-        [Required]
-        public string Code { get; set; }
+        public int DeliveryNumber { get; set; }
 
         /// <summary>
         /// Gets or sets property Date.
@@ -35,12 +34,21 @@
         /// <summary>
         /// Gets or sets property Driver.
         /// </summary>
-        [Required]
         public string Driver { get; set; }
+
+        /// <summary>
+        /// Gets or sets property TotalAmount.
+        /// </summary>
+        public decimal TotalAmount { get; set; }
 
         /// <summary>
         /// Gets or sets property Details.
         /// </summary>
-        public ICollection<OrderDetail> Details { get; set; }
+        public ICollection<DeliveryDetail> Details { get; set; }
+
+        /// <summary>
+        /// Gets or sets navigation property to customer.
+        /// </summary>
+        public Customer Customer { get; set; }
     }
 }

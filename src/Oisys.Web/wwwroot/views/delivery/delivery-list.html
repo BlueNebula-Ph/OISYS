@@ -31,8 +31,8 @@
             </thead>
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
-                    <td>{{ c.code }}</td>
-                    <td>{{ c.customer }}</td>
+                    <td>{{ c.deliveryNumber }}</td>
+                    <td>{{ c.customerName }}</td>
                     <td>{{ c.date | date:'MM/dd/yyyy' }}</td>
                     <td>{{ c.driver }}</td>
                     <td class="text-center">

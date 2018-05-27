@@ -28,11 +28,6 @@
         public int ItemId { get; set; }
 
         /// <summary>
-        /// Gets or sets property DeliveryId.
-        /// </summary>
-        public int DeliveryId { get; set; }
-
-        /// <summary>
         /// Gets or sets property Price.
         /// </summary>
         [Required]
@@ -49,6 +44,11 @@
         public decimal QuantityReturned { get; set; }
 
         /// <summary>
+        /// Gets or sets property QuantityDelivered.
+        /// </summary>
+        public decimal QuantityDelivered { get; set; }
+
+        /// <summary>
         /// Gets or sets Order navigation property.
         /// </summary>
         public Order Order { get; set; }
@@ -57,11 +57,6 @@
         /// Gets or sets Item navigation property.
         /// </summary>
         public Item Item { get; set; }
-
-        /// <summary>
-        /// Gets or sets Delivery navigation property.
-        /// </summary>
-        public Delivery Delivery { get; set; }
 
         /// <summary>
         /// Gets or sets the objectstate

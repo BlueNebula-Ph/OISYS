@@ -1,4 +1,4 @@
-﻿namespace Oisys.Web
+﻿namespace Oisys.Web.Exceptions
 {
     using System;
 

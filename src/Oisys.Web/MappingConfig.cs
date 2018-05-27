@@ -66,9 +66,13 @@
                 .ForMember(d => d.Customer, s => s.MapFrom(o => o.Customer.Name));
 
             // Delivery
-            this.CreateMap<Delivery, DeliverySummary>();
-
+            this.CreateMap<Delivery, DeliverySummary>()
+                .ForMember(d => d.CustomerName, s => s.MapFrom(o => o.Customer.Name));
             this.CreateMap<SaveDeliveryRequest, Delivery>();
+
+            // Delivery Detail
+            this.CreateMap<DeliveryDetail, DeliveryDetailSummary>();
+            this.CreateMap<SaveDeliveryDetailRequest, DeliveryDetail>();
 
             // Item
             this.CreateMap<Item, ItemLookup>()

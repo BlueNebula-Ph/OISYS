@@ -12,7 +12,12 @@
         /// <summary>
         /// Gets or sets property Code.
         /// </summary>
-        public string Code { get; set; }
+        public string DeliveryNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets property CustomerName.
+        /// </summary>
+        public string CustomerName { get; set; }
 
         /// <summary>
         /// Gets or sets property Date.
@@ -27,6 +32,6 @@
         /// <summary>
         /// Gets or sets property Details.
         /// </summary>
-        public IEnumerable<OrderDetailSummary> Details { get; set; }
+        public IEnumerable<DeliveryDetailSummary> Details { get; set; }
     }
 }

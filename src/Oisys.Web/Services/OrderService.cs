@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
+    using Oisys.Web.Exceptions;
     using Oisys.Web.Services.Interfaces;
 
     /// <inheritdoc />

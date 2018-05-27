@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Web.DTO
 {
     using System.Collections.Generic;
+    using System.Linq;
     using BlueNebula.Common.DTOs;
 
     /// <summary>
@@ -74,9 +75,18 @@
         public string PriceList { get; set; }
 
         /// <summary>
-        /// Gets or sets property RunningBalance.
+        /// Gets property RunningBalance.
         /// </summary>
-        public decimal Balance { get; set; }
+        public decimal Balance
+        {
+            get
+            {
+                var totalDebit = this.Transactions.Sum(a => a.Debit) ?? 0;
+                var totalCredit = this.Transactions.Sum(a => a.Credit) ?? 0;
+
+                return totalDebit - totalCredit;
+            }
+        }
 
         /// <summary>
         /// Gets or sets property Customer transactions.

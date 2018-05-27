@@ -13,12 +13,6 @@
     public class SaveDeliveryRequest : DTOBase, IObjectWithState
     {
         /// <summary>
-        /// Gets or sets property Code.
-        /// </summary>
-        [Required]
-        public string Code { get; set; }
-
-        /// <summary>
         /// Gets or sets property Date.
         /// </summary>
         [Required]
@@ -27,7 +21,6 @@
         /// <summary>
         /// Gets or sets property Driver.
         /// </summary>
-        [Required]
         public string Driver { get; set; }
 
         /// <summary>
@@ -39,7 +32,7 @@
         /// <summary>
         /// Gets or sets property Details.
         /// </summary>
-        public IEnumerable<SaveOrderDetailRequest> Details { get; set; }
+        public IEnumerable<SaveDeliveryDetailRequest> Details { get; set; }
 
         /// <summary>
         /// Gets or sets the state property

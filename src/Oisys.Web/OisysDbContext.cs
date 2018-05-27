@@ -70,6 +70,11 @@
         public DbSet<Delivery> Deliveries { get; set; }
 
         /// <summary>
+        /// Gets or sets the delivery details db set.
+        /// </summary>
+        public DbSet<DeliveryDetail> DeliveryDetails { get; set; }
+
+        /// <summary>
         /// Gets or sets the items db set.
         /// </summary>
         public DbSet<Item> Items { get; set; }
@@ -181,6 +186,12 @@
                 .WithMany(p => p.Transactions)
                 .HasForeignKey(p => p.CustomerId);
 
+            // Delivery Details
+            modelBuilder.Entity<DeliveryDetail>()
+                .HasOne<Delivery>(d => d.Delivery)
+                .WithMany(p => p.Details)
+                .HasForeignKey(p => p.DeliveryId);
+
             // Order
             modelBuilder.Entity<OrderDetail>()
                 .HasOne<Order>(d => d.Order)
@@ -258,6 +269,19 @@
             modelBuilder.Entity<SalesQuote>()
                 .Property(o => o.QuoteNumber)
                 .HasValueGenerator(typeof(SalesQuotationNumberGenerator));
+
+            modelBuilder.HasSequence<int>("DeliveryNumber")
+                .StartsAt(100000)
+                .IncrementsBy(1);
+
+            modelBuilder.Entity<Delivery>()
+                .Property(o => o.DeliveryNumber)
+                .HasDefaultValueSql("NEXT VALUE FOR DeliveryNumber");
+
+            // TODO: Remove when migrated to sql server
+            modelBuilder.Entity<Delivery>()
+                .Property(o => o.DeliveryNumber)
+                .HasValueGenerator(typeof(DeliveryNumberCodeGenerator));
         }
 
         private static void SeedCustomer(OisysDbContext context)
@@ -276,7 +300,6 @@
                     Terms = "term1",
                     Discount = 10m,
                     PriceListId = 1,
-                    Balance = 0m,
                 });
 
                 context.Customers.Add(new Customer
@@ -291,7 +314,6 @@
                     Terms = "term2",
                     Discount = 5m,
                     PriceListId = 2,
-                    Balance = 0m,
                 });
             }
         }

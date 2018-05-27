@@ -1,0 +1,95 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Save Delivery. <small>{{ ctrl.label }}</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="ctrl.addDeliveryForm">
+            <div class="col-md-3 left-padding-none" ng-if="ctrl.delivery.id == 0">
+                <div form-input>
+                    <label>Customer</label>
+                    <select ng-model="ctrl.delivery.customerId" focus-me="ctrl.defaultFocus" ng-options="customer.id as customer.name for customer in ctrl.customerList"></select>
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none" ng-if="ctrl.delivery.id != 0">
+                <div form-input>
+                    <label>Customer</label>
+                    <input ng-model="ctrl.delivery.customer.name" readonly />
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Date</label>
+                    <input type="date" ng-model="ctrl.delivery.date" />
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Driver</label>
+                    <input ng-model="ctrl.delivery.driver" />
+                </div>
+            </div>
+            <div class="col-md-12 left-padding-none">
+                <table class="table table-condensed input-details-table">
+                    <thead>
+                        <tr>
+                            <th colspan="7" class="header-actions">
+                                <button ng-click="ctrl.addDeliveryDetail()" ng-disabled="ctrl.addDetailsDisabled" class="header-action-button"><i class="fa fa-plus"></i> Delivery Items</button>
+                            </th>
+                        </tr>
+                        <tr class="header">
+                            <th style="width: 15%;">Order Number</th>
+                            <th style="width: 15%;">Item</th>
+                            <th class="text-right" style="width: 10%;">Quantity</th>
+                            <th style="width: 10%;">Unit</th>
+                            <th class="text-right" style="width: 15%;">Unit Price</th>
+                            <th class="text-right" style="width: 15%;">Total Price</th>
+                            <th style="width: 5%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="detail in ctrl.delivery.details track by $index" ng-if="!detail.isDeleted"
+                            ng-include="detail.id == 0 ? 'new' : 'edit'"></tr>
+                        <tr no-records ng-if="ctrl.delivery.details.length == 0" colspan="7"></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="text-right" colspan="6">Total Amount : ₱ {{ ctrl.delivery.totalAmount | number: 2 }}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </form>
+    </shell-form>
+    <shell-controls>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.addDeliveryForm.$valid || ctrl.addDeliveryForm.$pristine"></save-button>
+    </shell-controls>
+</add-edit-shell>
+
+<script type="text/ng-template" id="new">
+    <td>
+        <select class="form-control input-xs" ng-model="detail.selectedOrder" ng-options="order.code for order in ctrl.orderList"></select>
+    </td>
+    <td>
+        <select class="form-control input-xs" ng-model="detail.selectedOrderDetail" ng-options="orderDetail.itemName for orderDetail in detail.selectedOrder.details"></select>
+    </td>
+    <td><input type="number" ng-model="detail.quantity" class="form-control input-xs text-right" min="1" max="{{ detail.selectedOrderDetail.quantity }}" /></td>
+    <td><input class="form-control input-xs" ng-model="detail.unit" readonly /></td>
+    <td><input class="form-control input-xs text-right" numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.price" readonly /></td>
+    <td><input class="form-control input-xs text-right" numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.totalPrice" readonly /></td>
+    <td class="text-center">
+        <button ng-click="ctrl.deleteDetail(detail)" class="table-action-button red"><i class="fa fa-trash"></i></button>
+    </td>
+</script>
+
+<script type="text/ng-template" id="edit">
+    <td><input class="form-control input-xs" ng-model="detail.orderCode" readonly /></td>
+    <td><input class="form-control input-xs" ng-model="detail.item" readonly /></td>
+    <td><input type="number" ng-model="detail.quantity" class="form-control input-xs text-right" min="1" max="{{ detail.orderDetail.quantity }}" /></td>
+    <td><input class="form-control input-xs" ng-model="detail.orderDetail.unit" readonly /></td>
+    <td><input class="form-control input-xs text-right" numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.price" readonly /></td>
+    <td><input class="form-control input-xs text-right" numeric-textbox="{ currencySymbol: '₱ '}" ng-model="detail.totalPrice" readonly /></td>
+    <td class="text-center">
+        <button ng-click="ctrl.deleteDetail(detail)" class="table-action-button red"><i class="fa fa-trash"></i></button>
+    </td>
+</script>

@@ -10,6 +10,7 @@
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Oisys.Web.DTO;
+    using Oisys.Web.Exceptions;
     using Oisys.Web.Filters;
     using Oisys.Web.Helpers;
     using Oisys.Web.Services.Interfaces;
@@ -61,12 +62,12 @@
             // filter
             if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
-                list = list.Where(c => c.Code.Contains(filter.SearchTerm));
+                list = list.Where(c => c.DeliveryNumber.ToString().Contains(filter.SearchTerm));
             }
 
             if (!(filter?.CustomerId).IsNullOrZero())
             {
-                list = list.Where(c => c.Details.Any(a => a.Order.CustomerId == filter.CustomerId));
+                list = list.Where(c => c.Details.Any(a => a.OrderDetail.Order.CustomerId == filter.CustomerId));
             }
 
             if (filter?.DateFrom != null || filter?.DateTo != null)
@@ -78,11 +79,11 @@
 
             if (!(filter?.ItemId).IsNullOrZero())
             {
-                list = list.Where(c => c.Details.Any(d => d.ItemId == filter.ItemId));
+                list = list.Where(c => c.Details.Any(d => d.OrderDetail.ItemId == filter.ItemId));
             }
 
             // sort
-            var ordering = $"Code {Constants.DefaultSortDirection}";
+            var ordering = $"DeliveryNumber {Constants.DefaultSortDirection}";
             if (!string.IsNullOrEmpty(filter?.SortBy))
             {
                 ordering = $"{filter.SortBy} {filter.SortDirection}";
@@ -129,26 +130,43 @@
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]SaveDeliveryRequest entity)
         {
-            var delivery = this.mapper.Map<Delivery>(entity);
-
-            decimal totalAmount = 0;
-            foreach (var detail in delivery.Details)
+            try
             {
-                var item = await this.context.Items.FindAsync(detail.ItemId);
-                this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.DeliveryCreated);
-                totalAmount = totalAmount + (detail.Quantity * detail.Price);
+                var delivery = this.mapper.Map<Delivery>(entity);
+
+                decimal totalAmount = 0;
+                foreach (var detail in entity.Details)
+                {
+                    // Fetch the order detail associated
+                    var orderDetail = await this.context.OrderDetails
+                        .Include(a => a.Item)
+                        .SingleOrDefaultAsync(a => a.Id == detail.OrderDetailId);
+
+                    this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, orderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.DeliveryCreated);
+                    totalAmount += detail.Quantity * orderDetail.Price;
+
+                    orderDetail.QuantityDelivered += detail.Quantity;
+
+                    if (orderDetail.QuantityDelivered > orderDetail.Quantity)
+                    {
+                        throw new QuantityDeliveredException($"Total quantity delivered for {orderDetail.Item.Name} cannot exceed {orderDetail.Quantity}.");
+                    }
+                }
+
+                // Add customer transaction
+                this.customerService.AddCustomerTransaction(entity.CustomerId, TransactionType.Debit, totalAmount, Constants.AdjustmentRemarks.DeliveryCreated);
+
+                await this.context.Deliveries.AddAsync(delivery);
+
+                await this.context.SaveChangesAsync();
+
+                return this.CreatedAtRoute("GetDelivery", new { id = delivery.Id }, entity);
             }
-
-            // Add customer transaction
-            this.customerService.AddCustomerTransaction(entity.CustomerId, TransactionType.Debit, totalAmount, Constants.AdjustmentRemarks.DeliveryCreated);
-
-            await this.context.Deliveries.AddAsync(delivery);
-
-            await this.context.SaveChangesAsync();
-
-            var mappedDelivery = this.mapper.Map<DeliverySummary>(delivery);
-
-            return this.CreatedAtRoute("GetDelivery", new { id = delivery.Id }, mappedDelivery);
+            catch (QuantityDeliveredException dEx)
+            {
+                this.ModelState.AddModelError(Constants.ErrorMessage, dEx.Message);
+                return this.BadRequest(this.ModelState);
+            }
         }
 
         /// <summary>
@@ -171,32 +189,32 @@
             try
             {
                 // Adjust actual quantities accordingly
-                foreach (var updatedDeliveryDetail in entity.Details)
-                {
-                    var deliveryDetailItem = await this.context.Items.FindAsync(updatedDeliveryDetail.ItemId);
-                    if (deliveryDetailItem != null)
-                    {
-                        // Fetch the old detail as no tracking to not interfere with the context-tracked order detail
-                        var oldDetail = await this.context.OrderDetails
-                            .AsNoTracking()
-                            .SingleOrDefaultAsync(c => c.Id == updatedDeliveryDetail.Id);
+                //foreach (var updatedDeliveryDetail in entity.Details)
+                //{
+                //    var deliveryDetailItem = await this.context.Items.FindAsync(updatedDeliveryDetail.ItemId);
+                //    if (deliveryDetailItem != null)
+                //    {
+                //        // Fetch the old detail as no tracking to not interfere with the context-tracked order detail
+                //        var oldDetail = await this.context.OrderDetails
+                //            .AsNoTracking()
+                //            .SingleOrDefaultAsync(c => c.Id == updatedDeliveryDetail.Id);
 
-                        // If the order detail exists, return the old quantities back
-                        if (oldDetail != null)
-                        {
-                            this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, deliveryDetailItem, oldDetail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.DeliveryUpdated);
+                //        // If the order detail exists, return the old quantities back
+                //        if (oldDetail != null)
+                //        {
+                //            this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, deliveryDetailItem, oldDetail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.DeliveryUpdated);
 
-                            // If DeliveryId is set to 0, do not re-add the actual quantity
-                            if (updatedDeliveryDetail.DeliveryId == 0)
-                            {
-                                continue;
-                            }
-                        }
+                //            // If DeliveryId is set to 0, do not re-add the actual quantity
+                //            if (updatedDeliveryDetail.DeliveryId == 0)
+                //            {
+                //                continue;
+                //            }
+                //        }
 
-                        // Deduct the correct amount from the item's current quantity
-                        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, deliveryDetailItem, updatedDeliveryDetail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.DeliveryUpdated);
-                    }
-                }
+                //        // Deduct the correct amount from the item's current quantity
+                //        this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, deliveryDetailItem, updatedDeliveryDetail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.DeliveryUpdated);
+                //    }
+                //}
 
                 // Map the entity to an delivery object
                 var delivery = this.mapper.Map<Delivery>(entity);
@@ -235,7 +253,7 @@
 
             foreach (var detail in delivery.Details)
             {
-                this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, detail.Item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.DeliveryDeleted);
+                this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, detail.OrderDetail.Item, detail.Quantity, AdjustmentType.Add, Constants.AdjustmentRemarks.DeliveryDeleted);
                 detail.DeliveryId = 0;
             }
 

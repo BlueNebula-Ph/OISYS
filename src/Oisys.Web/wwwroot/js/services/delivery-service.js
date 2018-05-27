@@ -15,7 +15,7 @@
         };
 
         dataFactory.saveDelivery = function (id, delivery) {
-            if (id === 0) {
+            if (id == 0) {
                 return $http.post(urlBase, delivery);
             } else {
                 var url = urlBase + "/" + id;

@@ -32,8 +32,6 @@
         {
             var transaction = this.context.CustomerTransactions.SingleOrDefault(c => c.Id == customerTransactionId);
             transaction.IsDeleted = true;
-
-            this.UpdateCustomerBalance(customerId);
         }
 
         /// <summary>
@@ -55,8 +53,6 @@
                 transaction.Debit = debit;
                 transaction.Description = remarks;
             }
-
-            this.UpdateCustomerBalance(transaction.CustomerId);
         }
 
         /// <summary>
@@ -85,25 +81,7 @@
 
             this.context.CustomerTransactions.Add(customerTransaction);
 
-            this.UpdateCustomerBalance(customerId);
-
             return customerTransaction;
-        }
-
-        private void UpdateCustomerBalance(int customerId)
-        {
-            // Update Customer balance
-            var customer = this.context.Customers.SingleOrDefault(a => a.Id == customerId);
-            var customerTransactions = this.context.CustomerTransactions.Local
-                .Where(a => a.CustomerId == customerId && !a.IsDeleted);
-
-            if (customer != null)
-            {
-                var totalDebit = customerTransactions.Sum(a => a.Debit) ?? 0;
-                var totalCredit = customerTransactions.Sum(a => a.Credit) ?? 0;
-
-                customer.Balance = totalDebit - totalCredit;
-            }
         }
     }
 }

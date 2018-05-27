@@ -224,7 +224,9 @@
                 })
                 .state("deliveries.add", {
                     url: "/add/{id}",
-                    template: "<div>Add Delivery</div>"
+                    templateUrl: "/views/delivery/add-delivery.html",
+                    controller: "addDeliveryController",
+                    controllerAs: "ctrl"
                 })
                 .state("deliveries.detail", {
                     url: "/details/{id}",
