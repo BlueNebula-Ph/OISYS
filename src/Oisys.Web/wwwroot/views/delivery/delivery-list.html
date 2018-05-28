@@ -11,6 +11,18 @@
             <span><i class="fa fa-address-card-o fa-fw"></i></span>
             <select ng-model="ctrl.filters.customerId" ng-options="customer.id as customer.name for customer in ctrl.customerList"></select>
         </div>
+        <div search-input>
+            <span><i class="fa fa-bars fa-fw"></i></span>
+            <select ng-model="ctrl.filters.itemId" ng-options="item.id as item.codeName for item in ctrl.itemList"></select>
+        </div>
+        <div search-input>
+            <span title="Date from"><i class="fa fa-calendar-o fa-fw"></i></span>
+            <input type="date" placeholder="Date from" ng-model="ctrl.filters.dateFrom" />
+        </div>
+        <div search-input>
+            <span title="Date to"><i class="fa fa-calendar-o fa-fw"></i></span>
+            <input type="date" placeholder="Date to" ng-model="ctrl.filters.dateTo" />
+        </div>
         <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchDeliveries()">
             <i class="fa fa-search"></i> Search
         </button>
