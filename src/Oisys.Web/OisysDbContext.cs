@@ -7,6 +7,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Oisys.Web.Models;
+    using Microsoft.AspNetCore.Identity;
 
     /// <summary>
     /// <see cref="OisysDbContext"/> class DbContext.
@@ -100,7 +101,7 @@
         /// <summary>
         /// Gets or sets property Users <see cref="User"/> class.
         /// </summary>
-        public DbSet<User> Users { get; set; }
+        public DbSet<ApplicationUser> Users { get; set; }
 
         /// <summary>
         /// Gets or sets the reference types db set.
@@ -130,6 +131,7 @@
                 SeedProvincesAndCities(context);
                 SeedCustomer(context);
                 SeedItems(context);
+                SeedUsers(context);
 
                 context.SaveChanges();
             }
@@ -382,6 +384,18 @@
                     new Item { Code = "0006", Name = "Item Number 6", CategoryId = 4, Description = "Item 6. This is item 6", CurrentQuantity = 600, ActualQuantity = 600, Unit = "rolls", MainPrice = 1211m, NEPrice = 1222m, WalkInPrice = 1233m },
                 };
                 context.Items.AddRange(items);
+            }
+        }
+
+        private static void SeedUsers(OisysDbContext context)
+        {
+            if (!context.Users.Any())
+            {
+                var newUser = new ApplicationUser { Username = "Admin", Firstname = "Admin", Lastname = "User", AccessRights = "admin,canView,canWrite,canDelete" };
+                var password = new PasswordHasher<ApplicationUser>().HashPassword(newUser, "Admin");
+                newUser.PasswordHash = password;
+
+                context.Users.Add(newUser);
             }
         }
     }
