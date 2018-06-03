@@ -18,9 +18,10 @@
         };
         vm.headers = [
             { text: "DR #", value: "DeliveryNumber" },
-            { text: "Customer", value: "Customer.Name" },
             { text: "Date", value: "Date" },
-            { text: "Driver", value: "Driver" },
+            { text: "Plate Number", value: "PlateNumber" },
+            { text: "Province", value: "ProvinceName" },
+            { text: "City", value: "CityName" },
             { text: "", value: "" }
         ];
 

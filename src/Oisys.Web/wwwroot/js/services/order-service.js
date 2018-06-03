@@ -13,6 +13,11 @@
             return $http.get(url);
         };
 
+        dataFactory.getOrderDetailLookup = function (customerId, delivered) {
+            var url = urlBase + "/detail/" + customerId + "/lookup/" + delivered;
+            return $http.get(url);
+        };
+
         dataFactory.getOrder = function (id) {
             var url = urlBase + "/" + id;
             return $http.get(url);

@@ -118,6 +118,33 @@
         }
 
         /// <summary>
+        /// Returns a list of order details
+        /// </summary>
+        /// <param name="customerId">Customer Id</param>
+        /// <param name="isDelivered">True is delivered, false if not</param>
+        /// <returns>List of order details per customer</returns>
+        [HttpGet("detail/{customerId}/lookup/{isDelivered?}", Name = "GetOrderDetailLookup")]
+        public IActionResult GetOrderDetailLookup(int customerId, bool isDelivered = false)
+        {
+            // get list of active items (not deleted)
+            var list = this.context.OrderDetails
+                .Include(c => c.Item)
+                .ThenInclude(c => c.Category)
+                .AsNoTracking()
+                .Where(c => !c.Order.IsDeleted && c.Order.CustomerId == customerId);
+
+            if (!isDelivered)
+            {
+                list = list.Where(c => c.QuantityDelivered != c.Quantity);
+            }
+
+            list = list.OrderBy(c => c.Item.Code);
+
+            var entities = list.ProjectTo<OrderDetailLookup>();
+            return this.Ok(entities);
+        }
+
+        /// <summary>
         /// Gets a specific <see cref="Order"/>.
         /// </summary>
         /// <param name="id">id</param>

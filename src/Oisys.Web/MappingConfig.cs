@@ -67,7 +67,8 @@
 
             // Delivery
             this.CreateMap<Delivery, DeliverySummary>()
-                .ForMember(d => d.CustomerName, s => s.MapFrom(o => o.Customer.Name));
+                .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Name))
+                .ForMember(d => d.CityName, s => s.MapFrom(o => o.City.Name));
             this.CreateMap<SaveDeliveryRequest, Delivery>();
 
             // Delivery Detail
@@ -107,7 +108,11 @@
 
             this.CreateMap<OrderDetail, OrderDetailLookup>()
                 .ForMember(d => d.ItemName, s => s.MapFrom(o => o.Item.Name))
-                .ForMember(d => d.Unit, s => s.MapFrom(o => o.Item.Unit));
+                .ForMember(d => d.Unit, s => s.MapFrom(o => o.Item.Unit))
+                .ForMember(d => d.ItemCodeName, s => s.MapFrom(o => $"{o.Item.Code} - {o.Item.Name}"))
+                .ForMember(d => d.ItemCodeNameOrder, s => s.MapFrom(o => $"{o.Item.Code} - {o.Item.Name} ({o.Order.Code})"))
+                .ForMember(d => d.Category, s => s.MapFrom(o => o.Item.Category.Name))
+                .ForMember(d => d.QuantityDelivered, s => s.MapFrom(o => o.QuantityDelivered));
 
             // Province
             this.CreateMap<Province, ProvinceSummary>();

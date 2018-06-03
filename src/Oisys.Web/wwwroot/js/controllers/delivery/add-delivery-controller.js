@@ -1,11 +1,13 @@
 ﻿(function (module) {
-    var addDeliveryController = function (customerService, orderService, deliveryService, utils, $stateParams, $scope, $q, Delivery, DeliveryDetail, modelTransformer) {
+    var addDeliveryController = function (customerService, provinceService, orderService, deliveryService, utils, $stateParams, $scope, $q, Delivery, DeliveryDetail, modelTransformer) {
         var vm = this;
         vm.delivery = new Delivery();
 
         // Lists
         vm.customerList = [];
         vm.orderList = [];
+        vm.provinceList = [];
+        vm.citiesList = [];
 
         // Helper properties
         vm.defaultFocus = true;
@@ -17,6 +19,7 @@
         vm.addDeliveryDetail = function () {
             var detail = new DeliveryDetail();
             vm.delivery.details.splice(0, 0, detail);
+            vm.delivery.currentCustomerId = 0;
         };
 
         vm.save = function () {
@@ -41,23 +44,19 @@
 
         // Watchers
         $scope.$watch(function () {
-            return vm.delivery;
+            return vm.delivery.provinceId;
         }, function (newVal, oldVal) {
-            vm.delivery.update();
+            var idx = vm.provinceList.map((element) => element.id).indexOf(vm.delivery.provinceId);
+            if (vm.provinceList[idx]) {
+                vm.citiesList = vm.provinceList[idx].cities;
+            }
         }, true);
 
         $scope.$watch(function () {
-            return vm.delivery.customerId;
+            return vm.delivery.details;
         }, function (newVal, oldVal) {
-            if (newVal && newVal != 0) {
-                if (vm.delivery.id == 0) {
-                    vm.delivery.clearDetails();
-                }
-
-                fetchOrders(newVal);
-                vm.addDetailsDisabled = false;
-            }
-        }, true)
+            vm.delivery.update();
+        }, true);
 
         // Private methods
         var resetForm = function () {
@@ -111,6 +110,7 @@
 
         var processResponses = function (responses) {
             utils.populateDropdownlist(responses.customer, vm.customerList, "", "");
+            utils.populateDropdownlist(responses.province, vm.provinceList, "", "");
 
             if (responses.delivery) {
                 processDelivery(responses.delivery);
@@ -122,6 +122,7 @@
 
             var requests = {
                 customer: customerService.getCustomerLookup(),
+                province: provinceService.getProvinceLookup()
             };
 
             if ($stateParams.id != 0) {
@@ -140,6 +141,6 @@
         return vm;
     };
 
-    module.controller("addDeliveryController", ["customerService", "orderService", "deliveryService", "utils", "$stateParams", "$scope", "$q", "Delivery", "DeliveryDetail", "modelTransformer", addDeliveryController]);
+    module.controller("addDeliveryController", ["customerService", "provinceService", "orderService", "deliveryService", "utils", "$stateParams", "$scope", "$q", "Delivery", "DeliveryDetail", "modelTransformer", addDeliveryController]);
 
 })(angular.module("oisys-app"));

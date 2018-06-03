@@ -1,6 +1,7 @@
 ﻿namespace Oisys.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
@@ -133,17 +134,29 @@
             try
             {
                 var delivery = this.mapper.Map<Delivery>(entity);
+                var customerTransactions = new Dictionary<int, decimal>();
 
-                decimal totalAmount = 0;
                 foreach (var detail in entity.Details)
                 {
                     // Fetch the order detail associated
                     var orderDetail = await this.context.OrderDetails
+                        .Include(a => a.Order)
+                            .ThenInclude(a => a.Customer)
                         .Include(a => a.Item)
                         .SingleOrDefaultAsync(a => a.Id == detail.OrderDetailId);
 
                     this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, orderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.DeliveryCreated);
-                    totalAmount += detail.Quantity * orderDetail.Price;
+
+                    var customerId = orderDetail.Order.CustomerId;
+                    var amount = detail.Quantity * orderDetail.Price; // Todo: add discount here.
+                    if (customerTransactions.Keys.Contains(customerId))
+                    {
+                        customerTransactions[customerId] += amount;
+                    }
+                    else
+                    {
+                        customerTransactions.Add(customerId, amount);
+                    }
 
                     orderDetail.QuantityDelivered += detail.Quantity;
 
@@ -154,7 +167,10 @@
                 }
 
                 // Add customer transaction
-                this.customerService.AddCustomerTransaction(entity.CustomerId, TransactionType.Debit, totalAmount, Constants.AdjustmentRemarks.DeliveryCreated);
+                foreach (var transaction in customerTransactions)
+                {
+                    this.customerService.AddCustomerTransaction(transaction.Key, TransactionType.Debit, transaction.Value, Constants.AdjustmentRemarks.DeliveryCreated);
+                }
 
                 await this.context.Deliveries.AddAsync(delivery);
 

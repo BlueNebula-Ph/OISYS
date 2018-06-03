@@ -15,19 +15,24 @@
         public string DeliveryNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets property CustomerName.
-        /// </summary>
-        public string CustomerName { get; set; }
-
-        /// <summary>
         /// Gets or sets property Date.
         /// </summary>
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Gets or sets property Driver.
+        /// Gets or sets property Plate Number.
         /// </summary>
-        public string Driver { get; set; }
+        public string PlateNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Province Name.
+        /// </summary>
+        public string ProvinceName { get; set; }
+
+        /// <summary>
+        /// Gets or sets property City Name.
+        /// </summary>
+        public string CityName { get; set; }
 
         /// <summary>
         /// Gets or sets property Details.

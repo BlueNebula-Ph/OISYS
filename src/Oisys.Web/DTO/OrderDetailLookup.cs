@@ -13,6 +13,16 @@
         public int ItemId { get; set; }
 
         /// <summary>
+        /// Gets or sets item code and name.
+        /// </summary>
+        public string ItemCodeName { get; set; }
+
+        /// <summary>
+        /// Gets or sets item code and name and order code.
+        /// </summary>
+        public string ItemCodeNameOrder { get; set; }
+
+        /// <summary>
         /// Gets or sets item name property.
         /// </summary>
         public string ItemName { get; set; }
@@ -31,5 +41,15 @@
         /// Gets or sets price property.
         /// </summary>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets category name property.
+        /// </summary>
+        public string Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets quantity delivered property.
+        /// </summary>
+        public decimal QuantityDelivered { get; set; }
     }
 }

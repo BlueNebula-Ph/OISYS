@@ -1,14 +1,13 @@
 ﻿(function (module) {
     module.factory("Delivery", [function () {
-        function Delivery(id, code, customerId, date, details) {
+        function Delivery(id, code, date, details) {
             this.id = id || 0;
             this.code = code || 0;
-            this.customerId = customerId || 0;
             this.date = date || new Date();
             this.details = details || [];
 
-            this.totalAmount = 0;
-            this.selectedCustomer = undefined;
+            this.summary = [];
+            this.totals = [];
         };
 
         Delivery.prototype = {
@@ -16,24 +15,46 @@
                 this.details = [];
             },
             update: function () {
-                if (this.selectedCustomer) {
-                    this.customerId = this.selectedCustomer.id;
-                }
-
-                var total = 0;
                 if (this.details) {
                     this.details.forEach(function (elem) {
                         if (!elem.isDeleted) {
                             elem.setupDetail();
-
-                            if (elem.totalPrice) {
-                                total += elem.totalPrice;
-                            }
                         }
                     });
                 }
 
-                this.totalAmount = total;
+                this.summary = [];
+                var itemsByName = this.groupBy(this.details, "itemCodeName");
+                for (var key in itemsByName) {
+                    if (key != "undefined") {
+                        var totalQuantity = 0
+                        itemsByName[key].forEach(function (elem) {
+                            totalQuantity += elem.quantity;
+                        });
+
+                        this.summary.push({ itemCodeName: key, totalQuantity: totalQuantity });
+                    }
+                }
+
+                this.totals = [];
+                var itemsByCategory = this.groupBy(this.details, "category");
+                for (var key in itemsByCategory) {
+                    if (key != "undefined") {
+                        var totalQuantity = 0
+                        itemsByCategory[key].forEach(function (elem) {
+                            totalQuantity += elem.quantity;
+                        });
+
+                        this.totals.push({ description: "Total " + key + ": " + totalQuantity });
+                    }
+                }
+                this.totals.push({ description: "Total Items: " + this.summary.length })
+            },
+            groupBy: function (xs, key) {
+                return xs.reduce(function (rv, x) {
+                    (rv[x[key]] = rv[x[key]] || []).push(x);
+                    return rv;
+                }, {});
             }
         };
 

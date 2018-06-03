@@ -81,8 +81,8 @@
         {
             get
             {
-                var totalDebit = this.Transactions.Sum(a => a.Debit) ?? 0;
-                var totalCredit = this.Transactions.Sum(a => a.Credit) ?? 0;
+                var totalDebit = this.Transactions?.Sum(a => a.Debit) ?? 0;
+                var totalCredit = this.Transactions?.Sum(a => a.Credit) ?? 0;
 
                 return totalDebit - totalCredit;
             }

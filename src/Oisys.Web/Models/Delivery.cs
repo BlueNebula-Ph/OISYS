@@ -21,10 +21,19 @@
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Gets or sets property CustomerId.
+        /// Gets or sets property Plate Number.
         /// </summary>
-        [Required]
-        public int CustomerId { get; set; }
+        public string PlateNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets property Province Id.
+        /// </summary>
+        public int ProvinceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets property City Id.
+        /// </summary>
+        public int CityId { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.
@@ -32,23 +41,18 @@
         public bool IsDeleted { get; set; }
 
         /// <summary>
-        /// Gets or sets property Driver.
-        /// </summary>
-        public string Driver { get; set; }
-
-        /// <summary>
-        /// Gets or sets property TotalAmount.
-        /// </summary>
-        public decimal TotalAmount { get; set; }
-
-        /// <summary>
         /// Gets or sets property Details.
         /// </summary>
         public ICollection<DeliveryDetail> Details { get; set; }
 
         /// <summary>
-        /// Gets or sets navigation property to customer.
+        /// Gets or sets the province nav property.
         /// </summary>
-        public Customer Customer { get; set; }
+        public Province Province { get; set; }
+
+        /// <summary>
+        /// Gets or sets the city nav property.
+        /// </summary>
+        public City City { get; set; }
     }
 }

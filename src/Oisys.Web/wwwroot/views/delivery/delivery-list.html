@@ -44,9 +44,10 @@
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
                     <td>{{ c.deliveryNumber }}</td>
-                    <td>{{ c.customerName }}</td>
                     <td>{{ c.date | date:'MM/dd/yyyy' }}</td>
-                    <td>{{ c.driver }}</td>
+                    <td>{{ c.plateNumber }}</td>
+                    <td>{{ c.provinceName }}</td>
+                    <td>{{ c.cityName }}</td>
                     <td class="text-center">
                         <summary-controls show-details="true" details-state="deliveries.detail({ id: {{ c.id }} })" details-title="View delivery details."
                                           show-edit="true" edit-state="deliveries.add({ id: {{ c.id }} })" edit-title="Edit this delivery."
@@ -54,7 +55,7 @@
                         </summary-controls>
                     </td>
                 </tr>
-                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="5"></tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="6"></tr>
             </tbody>
         </table>
     </shell-table>
