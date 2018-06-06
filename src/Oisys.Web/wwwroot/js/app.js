@@ -230,7 +230,9 @@
                 })
                 .state("deliveries.detail", {
                     url: "/details/{id}",
-                    template: "<div>Delivery Details</div>"
+                    templateUrl: "/views/delivery/delivery-details.html",
+                    controller: "deliveryDetailsController",
+                    controllerAs: "ctrl"
                 });
         }])
         .run(["$rootScope", "$state", "$stateParams",

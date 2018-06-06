@@ -107,10 +107,13 @@
         {
             var entity = await this.context.Deliveries
                 .AsNoTracking()
+                .Include(c => c.Province)
+                .Include(c => c.City)
                 .Include(c => c.Details)
-                .Include("Details.Order")
-                .Include("Details.Order.Customer")
-                .Include("Details.Item")
+                .Include("Details.OrderDetail")
+                .Include("Details.OrderDetail.Order.Customer")
+                .Include("Details.OrderDetail.Item")
+                .Include("Details.OrderDetail.Item.Category")
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)

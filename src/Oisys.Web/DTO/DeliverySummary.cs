@@ -25,9 +25,19 @@
         public string PlateNumber { get; set; }
 
         /// <summary>
+        /// Gets or sets property Province Id.
+        /// </summary>
+        public int ProvinceId { get; set; }
+
+        /// <summary>
         /// Gets or sets property Province Name.
         /// </summary>
         public string ProvinceName { get; set; }
+
+        /// <summary>
+        /// Gets or sets property City Id.
+        /// </summary>
+        public int CityId { get; set; }
 
         /// <summary>
         /// Gets or sets property City Name.

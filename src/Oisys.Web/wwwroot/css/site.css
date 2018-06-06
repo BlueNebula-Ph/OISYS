@@ -233,6 +233,20 @@ shell-search div {
     font-size: smaller;
 }
 
+.delivery-summary-box {
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    padding: 4px 8px;
+}
+
+    .delivery-summary-box.totals {
+        border-top: 0;
+    }
+
+        .delivery-summary-box.totals ul {
+            line-height: 30px;
+        }
+
 /* Details page */
 dl {
     margin-bottom: 10px;
@@ -286,6 +300,22 @@ dd {
         font-weight: bold;
         padding: 5px 0;
         font-style: italic;
+    }
+
+.details-delivery-box {
+    border: 1px solid #ccc;
+}
+
+    .details-delivery-box label {
+        padding: 4px 8px;
+    }
+
+    .details-delivery-box table {
+        margin-bottom: 0;
+    }
+
+    .details-delivery-box ul li {
+        padding: 2px 8px;
     }
 
 /* Validation */

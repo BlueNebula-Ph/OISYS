@@ -1,1 +1,64 @@
-﻿
+﻿<details-shell>
+    <shell-title>
+        <h3>Delivery Details.</h3>
+    </shell-title>
+    <shell-details>
+        <h4>Delivery Information.</h4>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>DR #</dt>
+                <dd>{{ ctrl.deliveryInfo.deliveryNumber }}</dd>
+                <dt>Area</dt>
+                <dd>{{ ctrl.deliveryInfo.cityName }}, {{ ctrl.deliveryInfo.provinceName }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>Date</dt>
+                <dd>{{ ctrl.deliveryInfo.date | date:'MM/dd/yyyy' }}</dd>
+                <dt>Plate Number</dt>
+                <dd>{{ ctrl.deliveryInfo.plateNumber }}</dd>
+            </dl>
+        </div>
+        <div class="clearfix"></div>
+        <h4>Delivery Details.</h4>
+        <div class="col-md-8">
+            <div class="details-delivery-box bottom-margin-sm" ng-repeat="(key, value) in ctrl.groupedDetails">
+                <label>{{ key }}</label>
+                <table class="table table-striped table-condensed">
+                    <tbody>
+                        <tr ng-repeat="val in value">
+                            <td>{{ val.quantity | number: 0 }} {{ val.unit }}</td>
+                            <td>{{ val.itemCode }} - {{ val.itemName }} ({{ val.orderNumber }})</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="details-delivery-box bottom-margin-sm">
+                <label>Summary</label>
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="detail in ctrl.summary">
+                            <td>{{ detail.itemCodeName }}</td>
+                            <td>{{ detail.totalQuantity }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="details-delivery-box">
+                <label>Totals</label>
+                <ul ng-repeat="detail in ctrl.totals" class="list-unstyled">
+                    <li>{{ detail.description }}</li>
+                </ul>
+            </div>
+        </div>
+    </shell-details>
+</details-shell>

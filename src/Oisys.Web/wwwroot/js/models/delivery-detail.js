@@ -18,6 +18,7 @@
             this.customerId = 0;
             this.customerOrders = [];
             this.orderDetailId = 0;
+            this.max = 1;
         };
 
         DeliveryDetail.prototype = {
@@ -33,6 +34,7 @@
                     this.itemCodeName = this.selectedOrderDetail.itemCodeName;
                     this.category = this.selectedOrderDetail.category;
                     this.orderDetailId = this.selectedOrderDetail.id;
+                    this.max = this.selectedOrderDetail.quantity - this.selectedOrderDetail.quantityDelivered;
                 }
             }
         };

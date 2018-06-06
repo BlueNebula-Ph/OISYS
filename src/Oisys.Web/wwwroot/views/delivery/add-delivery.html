@@ -53,7 +53,7 @@
                 </table>
             </div>
             <div class="col-md-4 left-padding-none">
-                <div style="border: 1px solid #ccc; background-color: #fafafa; padding: 4px 8px;">
+                <div class="delivery-summary-box">
                     <label>Summary</label>
                     <table class="table">
                         <thead>
@@ -71,9 +71,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="border: 1px solid #ccc; border-top: 0; background-color: #fafafa; padding: 4px 8px;">
+                <div class="delivery-summary-box totals">
                     <label>Totals</label>
-                    <ul class="list-unstyled" style="line-height: 30px;">
+                    <ul class="list-unstyled">
                         <li ng-if="ctrl.delivery.totals.length == 0">No totals to display.</li>
                         <li ng-repeat="total in ctrl.delivery.totals track by $index">{{ total.description }}</li>
                     </ul>
@@ -89,7 +89,7 @@
 <script type="text/ng-template" id="edit">
     <td><select class="form-control input-xs" ng-options="customer.id as customer.name for customer in ctrl.customerList" ng-model="detail.customerId"></select></td>
     <td><select class="form-control input-xs" ng-options="orderDetail.itemCodeNameOrder for orderDetail in detail.customerOrders" ng-model="detail.selectedOrderDetail"></select></td>
-    <td><input class="form-control input-xs text-right" type="number" ng-model="detail.quantity" /></td>
+    <td><input class="form-control input-xs text-right" type="number" ng-model="detail.quantity" max="{{ detail.max }}" /></td>
     <td class="text-center">
         <button ng-click="ctrl.deleteDetail(detail)" class="table-action-button red"><i class="fa fa-trash"></i></button>
     </td>
