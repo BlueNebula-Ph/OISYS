@@ -83,7 +83,9 @@
 
             services.AddDbContext<OisysDbContext>(opt =>
             {
-                opt.UseInMemoryDatabase();
+                opt.UseSqlServer(this.Configuration.GetConnectionString("InventoryDatabase"));
+
+                // opt.UseInMemoryDatabase();
             });
 
             // Add application services

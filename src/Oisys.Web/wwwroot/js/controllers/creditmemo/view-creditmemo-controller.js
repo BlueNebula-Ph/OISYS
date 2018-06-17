@@ -43,6 +43,11 @@
             vm.focus = true;
         };
 
+        // Paging
+        vm.changePage = function () {
+            vm.fetchCreditMemos();
+        };
+
         vm.customerList = [];
         vm.itemList = [];
         var processCreditMemos = function (response) {

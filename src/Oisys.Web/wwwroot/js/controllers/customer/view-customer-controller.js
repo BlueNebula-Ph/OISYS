@@ -42,6 +42,11 @@
             vm.focus = true;
         };
 
+        // Paging
+        vm.changePage = function () {
+            vm.fetchCustomers();
+        };
+
         vm.cityList = [{ id: 0, name: "Filter by city.." }];
         vm.provinceList = [];
 

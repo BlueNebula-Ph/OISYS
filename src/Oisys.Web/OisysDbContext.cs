@@ -4,10 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Oisys.Web.Models;
-    using Microsoft.AspNetCore.Identity;
 
     /// <summary>
     /// <see cref="OisysDbContext"/> class DbContext.
@@ -129,6 +129,8 @@
 
                 SeedCategories(context);
                 SeedProvincesAndCities(context);
+                context.SaveChanges();
+
                 SeedCustomer(context);
                 SeedItems(context);
                 SeedUsers(context);
@@ -175,6 +177,16 @@
                 .WithMany(p => p.Details)
                 .HasForeignKey(p => p.CreditMemoId);
 
+            modelBuilder.Entity<CreditMemoDetail>()
+                .HasOne<OrderDetail>(d => d.OrderDetail)
+                .WithMany()
+                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Customer>()
+                .HasOne<Province>(d => d.Province)
+                .WithMany()
+                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+
             // Customer
             modelBuilder.Entity<CustomerTransaction>()
                 .HasOne<Customer>(d => d.Customer)
@@ -195,18 +207,6 @@
 
             // TODO: Set default values for Date columns
             // Set default value for CreatedDate
-            modelBuilder.Entity<Customer>()
-                .Property(e => e.CreatedDate)
-                .HasDefaultValueSql("getutcdate()");
-
-            modelBuilder.Entity<Reference>()
-                .Property(e => e.CreatedDate)
-                .HasDefaultValueSql("getutcdate()");
-
-            modelBuilder.Entity<ReferenceType>()
-                .Property(e => e.CreatedDate)
-                .HasDefaultValueSql("getutcdate()");
-
             modelBuilder.HasSequence<int>("CreditMemoCode")
                 .StartsAt(100000)
                 .IncrementsBy(1);
@@ -248,15 +248,7 @@
                     Terms = "term1",
                     Discount = 10m,
                     PriceListId = 1,
-                    Transactions = new List<CustomerTransaction>
-                    {
-                        new CustomerTransaction { Date = new DateTime(2017, 8, 1), Description = "Order", Debit = 5000m, Credit = 0m },
-                        new CustomerTransaction { Date = new DateTime(2017, 8, 4), Description = "Payment", Debit = 0m, Credit = 5000m },
-                        new CustomerTransaction { Date = new DateTime(2017, 8, 6), Description = "Order", Debit = 4639m, Credit = 0m },
-                        new CustomerTransaction { Date = new DateTime(2017, 8, 10), Description = "Payment", Debit = 0m, Credit = 4000m },
-                        new CustomerTransaction { Date = new DateTime(2017, 8, 18), Description = "Order", Debit = 5000m, Credit = 0m },
-                    },
-                    Balance = 5000m,
+                    Balance = 0,
                 });
 
                 context.Customers.Add(new Customer
@@ -271,12 +263,7 @@
                     Terms = "term2",
                     Discount = 5m,
                     PriceListId = 2,
-                    Transactions = new List<CustomerTransaction>
-                    {
-                        new CustomerTransaction { Date = new DateTime(2016, 12, 1), Description = "Order", Debit = 5000m, Credit = 0m },
-                        new CustomerTransaction { Date = new DateTime(2016, 12, 22), Description = "Payment", Debit = 0m, Credit = 5000m },
-                    },
-                    Balance = 6000m,
+                    Balance = 0,
                 });
             }
         }

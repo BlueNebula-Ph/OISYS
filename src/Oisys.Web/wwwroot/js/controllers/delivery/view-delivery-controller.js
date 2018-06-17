@@ -39,6 +39,11 @@
             vm.focus = true;
         };
 
+        // Paging
+        vm.changePage = function () {
+            vm.fetchDeliveries();
+        };
+
         vm.customerList = [];
         var processFilterList = function (response, copyTo, prop, defaultText) {
             angular.copy(response.data, copyTo);

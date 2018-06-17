@@ -32,6 +32,7 @@
             // City
             this.CreateMap<City, CitySummary>()
                 .ForMember(d => d.ProvinceName, s => s.MapFrom(o => o.Province.Name));
+
             this.CreateMap<SaveCityRequest, City>();
 
             // Credit Memo

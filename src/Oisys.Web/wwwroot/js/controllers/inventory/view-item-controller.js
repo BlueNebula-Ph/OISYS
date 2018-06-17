@@ -39,6 +39,11 @@
             vm.focus = true;
         };
 
+        // Paging
+        vm.changePage = function () {
+            vm.fetchItems();
+        };
+
         vm.deleteItem = function (id) {
             if (!confirm("Are you sure you want to delete this item?")) {
                 return;
