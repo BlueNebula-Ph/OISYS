@@ -8,7 +8,8 @@
             sortBy: "Name",
             sortDirection: "asc",
             searchTerm: "",
-            pageIndex: vm.currentPage
+            pageIndex: vm.currentPage,
+            pageSize: 50
         };
         vm.summaryResult = {
             items: []

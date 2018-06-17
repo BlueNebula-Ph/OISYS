@@ -12,7 +12,8 @@
             itemId: 0,
             dateFrom: "",
             dateTo: "",
-            pageIndex: vm.currentPage
+            pageIndex: vm.currentPage,
+            pageSize: 50
         };
         vm.summaryResult = {
             items: []
@@ -44,6 +45,11 @@
             vm.filters.provinceId = 0;
 
             vm.focus = true;
+        };
+
+        // Paging
+        vm.changePage = function () {
+            vm.fetchQuotations();
         };
 
         vm.customerList = [];
