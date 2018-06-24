@@ -34,12 +34,12 @@
                     <i class="fa fa-plus"></i> Delivery Items
                 </button>
                 <div>
-                    <ul class="list-unstyled" ng-repeat="detail in ctrl.delivery.details track by $index" style="margin-top: 15px;">
+                    <ul class="list-unstyled" ng-repeat="detail in ctrl.delivery.customerOrders track by $index" style="margin-top: 15px;">
                         <li>
                             <i class="fa fa-trash pull-right"></i>
                             <div class="input-group input-group-sm">
                                 <span class="input-group-addon">Customer</span>
-                                <select class="form-control input-xs" ng-options="customer.id as customer.name for customer in ctrl.customerList" ng-model="detail.customerId"></select>
+                                <select class="form-control input-xs" ng-options="customer.name for customer in ctrl.customerList" ng-model="detail.selectedCustomer"></select>
                             </div>
                             <table class="table table-condensed" style="border: 1px solid #ccc; margin-bottom: 0; margin-top: 5px;">
                                 <thead>
@@ -49,8 +49,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="d in detail.customerOrders track by $index" ng-include="'edit'"></tr>
-                                    <tr no-records ng-if="detail.customerOrders.length == 0" colspan="2"></tr>
+                                    <tr ng-repeat="d in detail.selectedCustomer.orderDetails track by $index" ng-include="'edit'"></tr>
+                                    <tr no-records ng-if="detail.selectedCustomer.orderDetails.length == 0" colspan="2"></tr>
                                 </tbody>
                             </table>
                         </li>
@@ -93,5 +93,5 @@
 
 <script type="text/ng-template" id="edit">
     <td>{{ d.itemCodeNameOrder }}</td>
-    <td><input class="form-control input-xs" type="number" ng-model="d.quantity" max="{{ d.max }}" /></td>
+    <td><input class="form-control input-xs" type="number" ng-model="d.deliverQuantity" max="{{ d.quantity - d.quantityDelivered }}" /></td>
 </script>

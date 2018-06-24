@@ -1,8 +1,8 @@
 ﻿(function (module) {
-    module.factory("DeliveryDetail", ["orderService", "utils", function (orderService, utils) {
-        function DeliveryDetail() {
+    module.factory("DeliveryDetail", [function () {
+        function DeliveryDetail(quantity, selectedOrderDetail) {
             this.id = 0;
-            this.quantity = 1;
+            this.quantity = quantity || 1;
 
             this.isDeleted = false;
             this.focus = true;
@@ -12,27 +12,13 @@
             this.price = 0;
             this.totalPrice = 0;
 
-            this.selectedOrder = undefined;
-            this.selectedOrderDetail = undefined;
+            this.selectedOrderDetail = selectedOrderDetail || undefined;
 
-            this.customerId = 0;
-            this.customerOrders = [];
             this.orderDetailId = 0;
             this.max = 1;
         };
 
         DeliveryDetail.prototype = {
-            getCustomerOrders: function () {
-                if (this.customerId != 0 && !this.selectedOrderDetail) {
-                    utils.showLoading();
-                    orderService.getOrderDetailLookup(this.customerId, false)
-                        .then((response) => {
-                            angular.copy(response.data, this.customerOrders);
-                            return this.customerOrders;
-                        }, utils.onError)
-                        .finally(utils.hideLoading);
-                }
-            },
             setupDetail: function () {
                 if (this.selectedOrderDetail) {
                     this.itemCodeName = this.selectedOrderDetail.itemCodeName;

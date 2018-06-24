@@ -51,5 +51,16 @@
         /// Gets or sets quantity delivered property.
         /// </summary>
         public decimal QuantityDelivered { get; set; }
+
+        /// <summary>
+        /// Gets initial deliver quantity
+        /// </summary>
+        public decimal DeliverQuantity
+        {
+            get
+            {
+                return this.Quantity - this.QuantityDelivered;
+            }
+        }
     }
 }

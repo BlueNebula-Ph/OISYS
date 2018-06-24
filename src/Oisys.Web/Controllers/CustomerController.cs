@@ -112,6 +112,48 @@ namespace Oisys.Web.Controllers
         }
 
         /// <summary>
+        /// Returns list of active <see cref="Customer"/> with corresponding orders.
+        /// </summary>
+        /// <param name="isDelivered">Indicates whether orders returned are delivered or not.</param>
+        /// <returns>List of Customers with orders</returns>
+        [HttpGet("lookupWithOrders/{isDelivered?}", Name = "GetCustomerLookupWithOrders")]
+        public IActionResult GetLookupWithOrders(bool isDelivered = false)
+        {
+            // get list of active items (not deleted)
+            var list = this.context.Customers
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted);
+
+            // sort
+            var ordering = $"Name {Constants.DefaultSortDirection}";
+
+            list = list.OrderBy(ordering);
+
+            var customers = list.ProjectTo<CustomerWithOrdersLookup>().ToList();
+
+            // get the corresponding open orders of each customer
+            foreach (var customer in customers)
+            {
+                var orderDetails = this.context.OrderDetails
+                .Include(c => c.Item)
+                .ThenInclude(c => c.Category)
+                .AsNoTracking()
+                .Where(c => !c.Order.IsDeleted && c.Order.CustomerId == customer.Id);
+
+                if (!isDelivered)
+                {
+                    orderDetails = orderDetails.Where(a => a.QuantityDelivered != a.Quantity);
+                }
+
+                orderDetails = orderDetails.OrderBy(c => c.Item.Code);
+
+                customer.OrderDetails = orderDetails.ProjectTo<OrderDetailLookup>().ToList();
+            }
+
+            return this.Ok(customers);
+        }
+
+        /// <summary>
         /// Gets a specific <see cref="Customer"/>.
         /// </summary>
         /// <param name="id">id</param>

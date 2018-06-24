@@ -32,10 +32,5 @@
         /// Gets or sets property Contact Number
         /// </summary>
         public string ContactNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Orders
-        /// </summary>
-        public List<OrderLookup> Orders { get; set; }
     }
 }

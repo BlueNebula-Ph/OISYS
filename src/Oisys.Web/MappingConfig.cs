@@ -49,6 +49,7 @@
             // TODO: Change LastUpdatedBy value
             // Customer
             this.CreateMap<Customer, CustomerLookup>();
+            this.CreateMap<Customer, CustomerWithOrdersLookup>();
 
             this.CreateMap<Customer, CustomerSummary>()
                 .ForMember(d => d.CityName, s => s.MapFrom(o => o.City.Name))

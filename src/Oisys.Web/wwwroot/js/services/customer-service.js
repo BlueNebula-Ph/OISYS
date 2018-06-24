@@ -10,6 +10,16 @@
             return $http.get(url);
         };
 
+        dataFactory.getCustomerLookupWithOrders = function (isDelivered) {
+            var url = urlBase + "/lookupWithOrders";
+
+            if (isDelivered) {
+                url += "/true";
+            }
+
+            return $http.get(url);
+        };
+
         dataFactory.fetchCustomers = function (filters) {
             var url = urlBase + "/search";
             return $http.post(url, filters);

@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    module.factory("Delivery", [function () {
+    module.factory("Delivery", ["DeliveryDetail", function (DeliveryDetail) {
         function Delivery(id, code, date, details) {
             this.id = id || 0;
             this.code = code || 0;
@@ -16,18 +16,24 @@
                 this.details = [];
             },
             update: function () {
-                if (this.details) {
-                    this.details.forEach(function (elem) {
-                        if (!elem.isDeleted) {
-                            this.customerOrders = elem.getCustomerOrders();
+                this.clearDetails();
 
-                            this.customerOrders.forEach(function (elem) {
-                                var detail = new DeliveryDetail(elem);
-                                detail.setupDetail();
+                if (this.customerOrders) {
+                    var details = this.details;
+                    this.customerOrders.forEach(function (elem) {
+                        if (elem.selectedCustomer.orderDetails) {
+                            elem.selectedCustomer.orderDetails.forEach(function (detail) {
+                                if (detail.deliverQuantity != 0) {
+                                    var deliveryDetail = new DeliveryDetail(detail.deliverQuantity, detail);
+                                    deliveryDetail.setupDetail();
+                                    details.push(deliveryDetail);
+                                }
                             });
                         }
                     });
                 }
+
+                console.log(this.details);
 
                 this.summary = [];
                 var itemsByName = this.groupBy(this.details, "itemCodeName");

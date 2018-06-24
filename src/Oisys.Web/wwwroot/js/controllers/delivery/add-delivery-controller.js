@@ -5,7 +5,6 @@
 
         // Lists
         vm.customerList = [];
-        vm.orderList = [];
         vm.provinceList = [];
         vm.citiesList = [];
 
@@ -17,9 +16,10 @@
 
         // Public methods
         vm.addDeliveryDetail = function () {
-            var detail = new DeliveryDetail();
-            vm.delivery.details.splice(0, 0, detail);
-            vm.delivery.currentCustomerId = 0;
+            var customerOrder = {
+                selectedCustomer: { orderDetails: [] }
+            };
+            vm.delivery.customerOrders.splice(0, 0, customerOrder);
         };
 
         vm.save = function () {
@@ -53,7 +53,7 @@
         }, true);
 
         $scope.$watch(function () {
-            return vm.delivery.details;
+            return vm.delivery.customerOrders;
         }, function (newVal, oldVal) {
             vm.delivery.update();
         }, true);
@@ -121,7 +121,7 @@
             utils.showLoading();
 
             var requests = {
-                customer: customerService.getCustomerLookup(),
+                customer: customerService.getCustomerLookupWithOrders(false),
                 province: provinceService.getProvinceLookup()
             };
 
