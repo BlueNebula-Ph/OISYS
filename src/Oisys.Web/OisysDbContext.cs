@@ -158,6 +158,9 @@
                 SeedReferenceTypes(context);
                 SeedReferences(context);
 
+                // TODO: Remove for prod
+                SeedUsers(context);
+
                 context.SaveChanges();
             }
         }
