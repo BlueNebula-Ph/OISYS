@@ -6,6 +6,7 @@
             this.date = date || new Date();
             this.details = details || [];
 
+            this.customerOrders = [];
             this.summary = [];
             this.totals = [];
         };
@@ -18,7 +19,12 @@
                 if (this.details) {
                     this.details.forEach(function (elem) {
                         if (!elem.isDeleted) {
-                            elem.setupDetail();
+                            this.customerOrders = elem.getCustomerOrders();
+
+                            this.customerOrders.forEach(function (elem) {
+                                var detail = new DeliveryDetail(elem);
+                                detail.setupDetail();
+                            });
                         }
                     });
                 }

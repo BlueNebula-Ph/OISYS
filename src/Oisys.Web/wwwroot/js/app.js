@@ -93,6 +93,14 @@
                     controller: "customerTransactionsController",
                     controllerAs: "ctrl"
                 })
+                .state("customers.invoice", {
+                    url: "/invoices",
+                    template: "<div>Invoice List</div>"
+                })
+                .state("customers.add-invoice", {
+                    url: "/invoices/add/{id}",
+                    template: "<div>Add Invoice</div>"
+                })
 
                 .state("inventory", {
                     url: "/inventory",
