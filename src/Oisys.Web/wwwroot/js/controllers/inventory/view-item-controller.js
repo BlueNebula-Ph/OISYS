@@ -8,7 +8,8 @@
             sortDirection: "asc",
             searchTerm: "",
             categoryId: 0,
-            pageIndex: vm.currentPage
+            pageIndex: vm.currentPage,
+            pageSize: 50
         };
         vm.summaryResult = {
             items: []
@@ -38,6 +39,11 @@
             vm.filters.categoryId = 0;
 
             vm.focus = true;
+        };
+
+        // Paging
+        vm.changePage = function () {
+            vm.fetchItems();
         };
 
         vm.deleteItem = function (id) {

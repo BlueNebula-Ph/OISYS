@@ -25,8 +25,8 @@ namespace Oisys.Web.Controllers
     {
         private readonly OisysDbContext context;
         private readonly IMapper mapper;
-        private readonly ISummaryListBuilder<User, UserSummary> builder;
-        private readonly IPasswordHasher<User> passwordHasher;
+        private readonly ISummaryListBuilder<ApplicationUser, UserSummary> builder;
+        private readonly IPasswordHasher<ApplicationUser> passwordHasher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
@@ -38,8 +38,8 @@ namespace Oisys.Web.Controllers
         public UserController(
             OisysDbContext context,
             IMapper mapper,
-            ISummaryListBuilder<User, UserSummary> builder,
-            IPasswordHasher<User> passwordHasher)
+            ISummaryListBuilder<ApplicationUser, UserSummary> builder,
+            IPasswordHasher<ApplicationUser> passwordHasher)
         {
             this.context = context;
             this.mapper = mapper;
@@ -48,7 +48,7 @@ namespace Oisys.Web.Controllers
         }
 
         /// <summary>
-        /// Returns list of active <see cref="User"/>
+        /// Returns list of active <see cref="ApplicationUser"/>
         /// </summary>
         /// <param name="filter"><see cref="UserFilterRequest"/></param>
         /// <returns>List of Users</returns>
@@ -83,7 +83,7 @@ namespace Oisys.Web.Controllers
         }
 
         /// <summary>
-        /// Gets a specific <see cref="User"/>.
+        /// Gets a specific <see cref="ApplicationUser"/>.
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>User summary object</returns>
@@ -104,14 +104,14 @@ namespace Oisys.Web.Controllers
         }
 
         /// <summary>
-        /// Creates a <see cref="User"/>.
+        /// Creates a <see cref="ApplicationUser"/>.
         /// </summary>
         /// <param name="entity">User to be created</param>
         /// <returns>User object</returns>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]SaveUserRequest entity)
         {
-            var user = this.mapper.Map<User>(entity);
+            var user = this.mapper.Map<ApplicationUser>(entity);
             user.PasswordHash = this.passwordHasher.HashPassword(user, entity.Password);
 
             await this.context.Users.AddAsync(user);
@@ -121,7 +121,7 @@ namespace Oisys.Web.Controllers
         }
 
         /// <summary>
-        /// Updates a specific <see cref="User"/>.
+        /// Updates a specific <see cref="ApplicationUser"/>.
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="entity">entity</param>
@@ -152,7 +152,7 @@ namespace Oisys.Web.Controllers
         }
 
         /// <summary>
-        /// Deletes a specific <see cref="User"/>.
+        /// Deletes a specific <see cref="ApplicationUser"/>.
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>None</returns>

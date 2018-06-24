@@ -10,7 +10,8 @@
             searchTerm: "",
             provinceId: 0,
             cityId: 0,
-            pageIndex: vm.currentPage
+            pageIndex: vm.currentPage,
+            pageSize: 50
         };
         vm.summaryResult = {
             items: []
@@ -40,6 +41,11 @@
             vm.filters.cityId = 0;
 
             vm.focus = true;
+        };
+
+        // Paging
+        vm.changePage = function () {
+            vm.fetchCustomers();
         };
 
         vm.cityList = [{ id: 0, name: "Filter by city.." }];

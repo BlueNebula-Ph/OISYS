@@ -12,6 +12,35 @@ hr {
     margin-bottom: 10px;
 }
 
+/* Login */
+.login-container {
+    margin: 0 auto;
+    width: 25%;
+}
+
+.login-header {
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #008080;
+}
+
+.login-form {
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-color: #ffffec;
+    padding: 0 25px 20px 25px;
+}
+
+.login-footer {
+    color: #aaa;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    text-align: center;
+}
+
 /* Common: paddings and margins */
 .side-padding-none {
     padding-left: 0;

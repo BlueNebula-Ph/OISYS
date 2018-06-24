@@ -1,8 +1,10 @@
 ﻿namespace Oisys.Web
 {
     using System.IO;
+    using System.Text;
     using AutoMapper;
     using BlueNebula.Common.Helpers;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -10,8 +12,11 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Microsoft.Extensions.PlatformAbstractions;
+    using Microsoft.IdentityModel.Tokens;
     using Newtonsoft.Json.Serialization;
+    using Oisys.Web.Configuration;
     using Oisys.Web.SeedData;
     using Oisys.Web.Services;
     using Oisys.Web.Services.Interfaces;
@@ -64,6 +69,9 @@
                         .AllowCredentials());
             });
 
+            // Add the authentication service
+            services.AddAuthentication(o => { o.SignInScheme = JwtBearerDefaults.AuthenticationScheme; });
+
             // Add framework services.
             services.AddMvc()
                 .AddJsonOptions(opt =>
@@ -88,6 +96,9 @@
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IOrderService, OrderService>();
 
+            // Add configuration options
+            services.Configure<AuthOptions>(this.Configuration.GetSection("Auth"));
+
             if (this.HostingEnvironment.IsDevelopment())
             {
                 services.AddSwaggerGen(opt =>
@@ -108,12 +119,31 @@
         /// <param name="app">IApplicationBuilder</param>
         /// <param name="env">IHostingEnvironment</param>
         /// <param name="loggerFactory">ILoggerFactory</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        /// <param name="authOptions">The configuration for authentication</param>
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IOptions<AuthOptions> authOptions)
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseCors("OisysCorsPolicy");
+
+            // Register the validation middleware, that is used to decrypt
+            // the access tokens and populate the HttpContext.User property.
+            app.UseOAuthValidation();
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authOptions.Value.Key)),
+                    ValidAudience = authOptions.Value.Audience,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = authOptions.Value.Issuer,
+                },
+            });
 
             app.UseStaticFiles();
 
