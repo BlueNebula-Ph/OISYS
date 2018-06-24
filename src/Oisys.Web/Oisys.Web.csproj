@@ -29,7 +29,6 @@
     <Content Include="wwwroot\js\app.min.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\js\controllers\common\login-controller.js" />
     <Content Include="wwwroot\js\controllers\customer\add-customer-controller.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

@@ -9,7 +9,7 @@
             searchTerm: "",
             customerId: 0,
             pageIndex: vm.currentPage,
-            pageSize: 50
+            pageSize: 50,
             itemId: 0,
             dateFrom: "",
             dateTo: ""

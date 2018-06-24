@@ -8,8 +8,9 @@
         Object.assign(env, window._environment);
     };
 
-    angular.module("oisys-app", ["ui.router"])
+    angular.module("oisys-app", ["ui.router", "permission", "permission.ui"])
         .constant("env", env)
+        .constant("keys", { userkey: "USERKEY", userpermissions: "USERPERMISSIONS" })
         .config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 
             $urlRouterProvider.otherwise("/home");

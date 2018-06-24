@@ -78,7 +78,7 @@
                 .ForMember(d => d.ItemCode, s => s.MapFrom(o => o.OrderDetail.Item.Code))
                 .ForMember(d => d.ItemName, s => s.MapFrom(o => o.OrderDetail.Item.Name))
                 .ForMember(d => d.OrderNumber, s => s.MapFrom(o => o.OrderDetail.Order.Code.ToString()))
-                .ForMember(d => d.ItemCodeName, s => s.MapFrom(o => $"{o.OrderDetail.Item.Code} - { o.OrderDetail.Item.Name}"))
+                .ForMember(d => d.ItemCodeName, s => s.MapFrom(o => $"{o.OrderDetail.Item.Code} - {o.OrderDetail.Item.Name}"))
                 .ForMember(d => d.Unit, s => s.MapFrom(o => o.OrderDetail.Item.Unit));
             this.CreateMap<SaveDeliveryDetailRequest, DeliveryDetail>();
 

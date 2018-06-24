@@ -4,11 +4,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ValueGeneration;
     using Microsoft.Extensions.DependencyInjection;
     using Oisys.Web.Models;
-    using Microsoft.AspNetCore.Identity;
     using Oisys.Web.SeedData;
 
     /// <summary>
