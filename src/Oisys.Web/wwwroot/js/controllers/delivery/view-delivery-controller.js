@@ -8,7 +8,8 @@
             sortDirection: "asc",
             searchTerm: "",
             customerId: 0,
-            pageIndex: vm.currentPage
+            pageIndex: vm.currentPage,
+            pageSize: 50
         };
         vm.summaryResult = {
             items: []
@@ -37,6 +38,11 @@
             vm.filters.itemId = 0;
 
             vm.focus = true;
+        };
+
+        // Paging
+        vm.changePage = function () {
+            vm.fetchDeliveries();
         };
 
         vm.customerList = [];

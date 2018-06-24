@@ -9,7 +9,8 @@
             searchTerm: "",
             dateFrom: "",
             dateTo: "",
-            pageIndex: vm.currentPage
+            pageIndex: vm.currentPage,
+            pageSize: 50
         };
         vm.summaryResult = {
             items: []
@@ -38,6 +39,11 @@
             vm.filters.dateTo = "";
 
             vm.focus = true;
+        };
+
+        // Paging
+        vm.changePage = function () {
+            vm.fetchCashVouchers();
         };
 
         vm.delete = function (id) {
