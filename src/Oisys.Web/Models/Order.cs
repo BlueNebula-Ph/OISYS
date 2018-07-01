@@ -51,7 +51,12 @@
         public decimal TotalAmount { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
+        /// Gets or sets a value indicating whether order is invoiced.
+        /// </summary>
+        public bool IsInvoiced { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether order is deleted.
         /// </summary>
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }

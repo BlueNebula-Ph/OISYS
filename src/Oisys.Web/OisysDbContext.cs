@@ -6,7 +6,6 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.ValueGeneration;
     using Microsoft.Extensions.DependencyInjection;
     using Oisys.Web.Models;
     using Oisys.Web.SeedData;
@@ -74,6 +73,16 @@
         /// Gets or sets the delivery details db set.
         /// </summary>
         public DbSet<DeliveryDetail> DeliveryDetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets the invoice db set.
+        /// </summary>
+        public DbSet<Invoice> Invoices { get; set; }
+
+        /// <summary>
+        /// Gets or sets the invoice details db set.
+        /// </summary>
+        public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
 
         /// <summary>
         /// Gets or sets the items db set.
@@ -197,6 +206,12 @@
                 .WithMany(p => p.Details)
                 .HasForeignKey(p => p.DeliveryId);
 
+            // Invoice Details
+            modelBuilder.Entity<InvoiceDetail>()
+                .HasOne<Invoice>(d => d.Invoice)
+                .WithMany(p => p.Details)
+                .HasForeignKey(p => p.InvoiceId);
+
             // Order
             modelBuilder.Entity<OrderDetail>()
                 .HasOne<Order>(d => d.Order)
@@ -287,6 +302,19 @@
             modelBuilder.Entity<Delivery>()
                 .Property(o => o.DeliveryNumber)
                 .HasValueGenerator(typeof(DeliveryNumberCodeGenerator));
+
+            modelBuilder.HasSequence<int>("InvoiceNumber")
+                .StartsAt(100000)
+                .IncrementsBy(1);
+
+            modelBuilder.Entity<Invoice>()
+                .Property(o => o.InvoiceNumber)
+                .HasDefaultValueSql("NEXT VALUE FOR InvoiceNumber");
+
+            // TODO: Remove when migrated to sql server
+            modelBuilder.Entity<Invoice>()
+                .Property(o => o.InvoiceNumber)
+                .HasValueGenerator(typeof(InvoiceNumberCodeGenerator));
         }
 
         private static void SeedCustomer(OisysDbContext context)

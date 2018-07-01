@@ -1,6 +1,6 @@
 ﻿<summary-shell>
     <shell-title>
-        <h3>Deliveries. <small class="text-muted">Search deliveries.</small></h3>
+        <h3>Invoices. <small class="text-muted">Search invoices.</small></h3>
     </shell-title>
     <shell-search>
         <div search-input>
@@ -12,10 +12,6 @@
             <select ng-model="ctrl.filters.customerId" ng-options="customer.id as customer.name for customer in ctrl.customerList"></select>
         </div>
         <div search-input>
-            <span><i class="fa fa-bars fa-fw"></i></span>
-            <select ng-model="ctrl.filters.itemId" ng-options="item.id as item.codeName for item in ctrl.itemList"></select>
-        </div>
-        <div search-input>
             <span title="Date from"><i class="fa fa-calendar-o fa-fw"></i></span>
             <input type="date" placeholder="Date from" ng-model="ctrl.filters.dateFrom" />
         </div>
@@ -23,7 +19,7 @@
             <span title="Date to"><i class="fa fa-calendar-o fa-fw"></i></span>
             <input type="date" placeholder="Date to" ng-model="ctrl.filters.dateTo" />
         </div>
-        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchDeliveries()">
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchInvoices()">
             <i class="fa fa-search"></i> Search
         </button>
         <button class="btn btn-default btn-sm" ng-click="ctrl.clearFilter()">
@@ -37,25 +33,23 @@
                     <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
                         <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
                                        sort-direction="ctrl.filters.sortDirection"
-                                       fetch-call-back="ctrl.fetchDeliveries()"></column-header>
+                                       fetch-call-back="ctrl.fetchInvoices()"></column-header>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
-                    <td>{{ c.deliveryNumber }}</td>
+                    <td>{{ c.invoiceNumber }}</td>
                     <td>{{ c.date | date:'MM/dd/yyyy' }}</td>
-                    <td>{{ c.plateNumber }}</td>
-                    <td>{{ c.provinceName }}</td>
-                    <td>{{ c.cityName }}</td>
+                    <td class="text-right">₱ {{ c.totalAmount | number: 2 }}</td>
                     <td class="text-center">
-                        <summary-controls show-details="true" details-state="deliveries.detail({ id: {{ c.id }} })" details-title="View delivery details."
-                                          show-edit="true" edit-state="deliveries.add({ id: {{ c.id }} })" edit-title="Edit this delivery."
-                                          show-delete="true" delete-title="Delete this delivery.">
+                        <summary-controls show-details="true" details-state="invoices.detail({ id: {{ c.id }} })" details-title="View invoice details."
+                                          show-edit="true" edit-state="invoices.add({ id: {{ c.id }} })" edit-title="Edit this invoice."
+                                          show-delete="true" delete-title="Delete this invoice.">
                         </summary-controls>
                     </td>
                 </tr>
-                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="6"></tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="4"></tr>
             </tbody>
         </table>
     </shell-table>

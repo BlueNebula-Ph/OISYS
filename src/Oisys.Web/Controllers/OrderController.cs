@@ -145,6 +145,25 @@
         }
 
         /// <summary>
+        /// Fetches orders for invoicing
+        /// </summary>
+        /// <param name="customerId">The customer id selected</param>
+        /// <returns>A list of orders for invoicing</returns>
+        [HttpGet("invoicing/{customerId}", Name = "GetOrdersForInvoicing")]
+        public IActionResult GetOrdersForInvoicing(int customerId)
+        {
+            // get list of active items (not deleted)
+            var list = this.context.Orders
+                .Include(c => c.Details)
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted && c.CustomerId == customerId && !c.IsInvoiced)
+                .OrderBy(c => c.Code);
+
+            var entities = list.ProjectTo<OrderLookup>();
+            return this.Ok(entities);
+        }
+
+        /// <summary>
         /// Gets a specific <see cref="Order"/>.
         /// </summary>
         /// <param name="id">id</param>

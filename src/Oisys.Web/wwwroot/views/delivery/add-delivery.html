@@ -34,14 +34,14 @@
                     <i class="fa fa-plus"></i> Delivery Items
                 </button>
                 <div>
-                    <ul class="list-unstyled" ng-repeat="detail in ctrl.delivery.customerOrders track by $index" style="margin-top: 15px;">
+                    <ul class="list-unstyled customer-list" ng-repeat="detail in ctrl.delivery.customerOrders track by $index">
                         <li>
                             <i class="fa fa-trash pull-right"></i>
                             <div class="input-group input-group-sm">
                                 <span class="input-group-addon">Customer</span>
                                 <select class="form-control input-xs" ng-options="customer.name for customer in ctrl.customerList" ng-model="detail.selectedCustomer"></select>
                             </div>
-                            <table class="table table-condensed" style="border: 1px solid #ccc; margin-bottom: 0; margin-top: 5px;">
+                            <table class="table table-condensed">
                                 <thead>
                                     <tr>
                                         <th>Item</th>

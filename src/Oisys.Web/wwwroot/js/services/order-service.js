@@ -18,6 +18,11 @@
             return $http.get(url);
         };
 
+        dataFactory.getOrdersForInvoicing = function (customerId) {
+            var url = urlBase + "/invoicing/" + customerId;
+            return $http.get(url);
+        };
+
         dataFactory.getOrder = function (id) {
             var url = urlBase + "/" + id;
             return $http.get(url);

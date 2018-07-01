@@ -10,8 +10,8 @@
             { text: "Transactions", isHeader: true, isItem: false, icon: "fa-credit-card" },
             { text: "View Transactions", isHeader: false, isItem: true, icon: "fa-search", link: ".transactions" },
             { text: "Invoices", isHeader: true, isItem: false, icon: "fa-file-o" },
-            { text: "Create Invoice", isHeader: false, isItem: true, icon: "fa-plus", link: ".invoice" },
-            { text: "View Invoices", isHeader: false, isItem: true, icon: "fa-search", link: ".add-invoice({ id: 0 })" }
+            { text: "Create Invoice", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-invoice({ id: 0 })" },
+            { text: "View Invoices", isHeader: false, isItem: true, icon: "fa-search", link: ".invoice" }
         ];
 
         // Show lists page as default view

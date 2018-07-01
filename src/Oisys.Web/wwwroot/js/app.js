@@ -103,11 +103,15 @@
                 })
                 .state("customers.invoice", {
                     url: "/invoices",
-                    template: "<div>Invoice List</div>"
+                    templateUrl: "/views/invoice/invoice-list.html",
+                    controller: "viewInvoiceController",
+                    controllerAs: "ctrl"
                 })
                 .state("customers.add-invoice", {
                     url: "/invoices/add/{id}",
-                    template: "<div>Add Invoice</div>"
+                    templateUrl: "/views/invoice/add-invoice.html",
+                    controller: "addInvoiceController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("inventory", {

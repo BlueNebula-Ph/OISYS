@@ -1,5 +1,6 @@
 ﻿namespace Oisys.Web.DTO
 {
+    using System;
     using System.Collections.Generic;
     using BlueNebula.Common.DTOs;
 
@@ -12,6 +13,21 @@
         /// Gets or sets code property.
         /// </summary>
         public string Code { get; set; }
+
+        /// <summary>
+        /// Gets or sets date property.
+        /// </summary>
+        public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Gets or sets discount property.
+        /// </summary>
+        public decimal DiscountPercent { get; set; }
+
+        /// <summary>
+        /// Gets or sets total amount property.
+        /// </summary>
+        public decimal TotalAmount { get; set; }
 
         /// <summary>
         /// Gets or sets order details property.

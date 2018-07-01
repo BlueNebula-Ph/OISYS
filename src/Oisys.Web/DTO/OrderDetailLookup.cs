@@ -62,5 +62,16 @@
                 return this.Quantity - this.QuantityDelivered;
             }
         }
+
+        /// <summary>
+        /// Gets total price
+        /// </summary>
+        public decimal TotalPrice
+        {
+            get
+            {
+                return this.Quantity * this.Price;
+            }
+        }
     }
 }

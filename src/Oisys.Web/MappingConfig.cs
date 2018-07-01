@@ -83,6 +83,11 @@
                 .ForMember(d => d.Unit, s => s.MapFrom(o => o.OrderDetail.Item.Unit));
             this.CreateMap<SaveDeliveryDetailRequest, DeliveryDetail>();
 
+            // Invoice
+            this.CreateMap<Invoice, InvoiceSummary>()
+                .ForMember(d => d.Customer, s => s.MapFrom(o => o.Customer.Name));
+            this.CreateMap<SaveInvoiceRequest, Invoice>();
+
             // Item
             this.CreateMap<Item, ItemLookup>()
                 .ForMember(d => d.CodeName, s => s.MapFrom(o => $"{o.Code} - {o.Name}"))

@@ -1,7 +1,6 @@
 ﻿namespace Oisys.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
@@ -55,7 +54,7 @@
         [HttpPost("search", Name = "GetAllDelivery")]
         public async Task<IActionResult> GetAll([FromBody]DeliveryFilterRequest filter)
         {
-            // get list of active customers (not deleted)
+            // get list of active deliveries (not deleted)
             var list = this.context.Deliveries
                 .AsNoTracking()
                 .Where(c => !c.IsDeleted);
@@ -137,7 +136,6 @@
             try
             {
                 var delivery = this.mapper.Map<Delivery>(entity);
-                var customerTransactions = new Dictionary<int, decimal>();
 
                 foreach (var detail in entity.Details)
                 {
@@ -150,29 +148,12 @@
 
                     this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, orderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.DeliveryCreated);
 
-                    var customerId = orderDetail.Order.CustomerId;
-                    var amount = detail.Quantity * orderDetail.Price; // Todo: add discount here.
-                    if (customerTransactions.Keys.Contains(customerId))
-                    {
-                        customerTransactions[customerId] += amount;
-                    }
-                    else
-                    {
-                        customerTransactions.Add(customerId, amount);
-                    }
-
                     orderDetail.QuantityDelivered += detail.Quantity;
 
                     if (orderDetail.QuantityDelivered > orderDetail.Quantity)
                     {
                         throw new QuantityDeliveredException($"Total quantity delivered for {orderDetail.Item.Name} cannot exceed {orderDetail.Quantity}.");
                     }
-                }
-
-                // Add customer transaction
-                foreach (var transaction in customerTransactions)
-                {
-                    this.customerService.AddCustomerTransaction(transaction.Key, TransactionType.Debit, transaction.Value, Constants.AdjustmentRemarks.DeliveryCreated);
                 }
 
                 await this.context.Deliveries.AddAsync(delivery);

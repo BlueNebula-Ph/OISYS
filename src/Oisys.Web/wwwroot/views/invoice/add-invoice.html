@@ -1,0 +1,69 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Save Invoice. <small>{{ ctrl.label }}</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="ctrl.addInvoiceForm" novalidate>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Customer</label>
+                    <select ng-model="ctrl.invoice.selectedCustomer" ng-options="customer.name for customer in ctrl.customerList" focus-me="ctrl.defaultFocus" required></select>
+                </div>
+                <div form-input>
+                    <label>Date</label>
+                    <input type="date" ng-model="ctrl.invoice.date" />
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Discount</label>
+                    <input type="text" ng-model="ctrl.invoice.discountPercent" numeric-textbox="{ currencySymbol: ' %', currencySymbolPlacement: 's' }" discount-percent="ctrl.invoice.discountPercent" discount-amount="ctrl.invoice.discountAmount" />
+                </div>
+                <div form-input>
+                    <label>Total Discount</label>
+                    <input type="text" ng-model="ctrl.invoice.discountAmount" numeric-textbox="{ currencySymbol: '₱ '}" readonly />
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label>Total Discounted Amount</label>
+                    <input type="text" ng-model="ctrl.invoice.totalAmount" numeric-textbox="{ currencySymbol: '₱ '}" readonly />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <ul class="list-unstyled col-md-9 left-padding-none">
+                <li class="invoice-box" ng-repeat="order in ctrl.ordersForInvoicing track by $index">
+                    <div class="h4">
+                        <em>Order # {{ order.code }} <span class="text-muted">({{ order.date | date: 'MM/dd/yyyy' }})</span></em>
+                        <span class="pull-right"><span class="text-muted">(- {{ order.discountPercent | number: 2 }}%)</span> ₱ {{ order.totalAmount | number: 2 }}</span>
+                    </div>
+                    <table class="table table-condensed input-details-table">
+                        <thead>
+                            <tr class="header">
+                                <th class="text-right" style="width: 10%;">Qty</th>
+                                <th style="width: 10%;">Unit</th>
+                                <th style="width: 30%;">Item</th>
+                                <th style="width: 20%;">Category</th>
+                                <th class="text-right" style="width: 12%;">Unit Price</th>
+                                <th class="text-right" style="width: 12%;">Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="detail in order.details track by $index">
+                                <td class="text-right">{{ detail.quantity }}</td>
+                                <td>{{ detail.unit }}</td>
+                                <td>{{ detail.itemCodeName }}</td>
+                                <td>{{ detail.category }}</td>
+                                <td class="text-right">₱ {{ detail.price | number: 2 }}</td>
+                                <td class="text-right">₱ {{ detail.totalPrice | number: 2 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </form>
+    </shell-form>
+    <shell-controls>
+        <save-button on-save="ctrl.save()" is-saving="ctrl.isSaving" is-disabled="!ctrl.addInvoiceForm.$valid || ctrl.addInvoiceForm.$pristine || ctrl.invoice.details.length == 0"></save-button>
+    </shell-controls>
+</add-edit-shell>

@@ -351,3 +351,21 @@ dd {
 .ng-dirty.ng-invalid {
     border-color: red;
 }
+
+/* Delivery */
+.customer-list {
+    margin-top: 15px;
+}
+
+    .customer-list table {
+        border: 1px solid #ccc;
+        margin-bottom: 0;
+        margin-top: 5px;
+    }
+
+/* Invoice */
+.invoice-box {
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    margin-bottom: 10px;
+}

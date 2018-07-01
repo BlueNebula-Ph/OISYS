@@ -1,0 +1,57 @@
+﻿<details-shell>
+    <shell-title>
+        <h3>Invoice Details.</h3>
+    </shell-title>
+    <shell-details>
+        <h4>Invoice Information.</h4>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>Invoice Number</dt>
+                <dd>{{ ctrl.invoiceInfo.code }}</dd>
+                <dt>Customer</dt>
+                <dd>{{ ctrl.invoiceInfo.customer.name }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>Invoice Date</dt>
+                <dd>{{ ctrl.invoiceInfo.date | date:'MM/dd/yyyy' }}</dd>
+            </dl>
+        </div>
+        <div class="clearfix"></div>
+        <h4>Invoice Details.</h4>
+        <table class="table table-condensed table-striped details-table">
+            <thead>
+                <tr>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                    <th>Item</th>
+                    <th>Category</th>
+                    <th class="text-right">Unit Price</th>
+                    <th class="text-right">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="detail in ctrl.invoiceInfo.details track by $index">
+                    <td class="text-right">{{ detail.quantity | number: 0 }}</td>
+                    <td>{{ detail.unit }}</td>
+                    <td>{{ detail.itemCode }} - {{ detail.item }} - {{ detail.description }}</td>
+                    <td>{{ detail.category }}</td>
+                    <td class="text-right">₱ {{ detail.price | number:2 }}</td>
+                    <td class="text-right">₱ {{ detail.totalPrice | number:2 }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="text-right" colspan="6">
+                        <ul class="list-unstyled details-totals">
+                            <li>Gross Amount: ₱ {{ ctrl.invoiceInfo.grossAmount | number: 2 }}</li>
+                            <li>Less ({{ ctrl.invoiceInfo.discountPercent | number: 2 }}%): ₱ {{ ctrl.invoiceInfo.discountAmount | number: 2 }}</li>
+                            <li>Total Amount: ₱ {{ ctrl.invoiceInfo.totalAmount | number: 2 }}</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </shell-details>
+</details-shell>
