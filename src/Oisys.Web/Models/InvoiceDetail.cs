@@ -11,8 +11,18 @@
         public int InvoiceId { get; set; }
 
         /// <summary>
-        /// Gets or sets navigation property.
+        /// Gets or sets property order id.
+        /// </summary>
+        public int OrderId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the invoice navigation property.
         /// </summary>
         public Invoice Invoice { get; set; }
+
+        /// <summary>
+        /// Gets or sets the order navigation property.
+        /// </summary>
+        public Order Order { get; set; }
     }
 }

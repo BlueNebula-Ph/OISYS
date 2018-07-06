@@ -48,6 +48,7 @@ namespace Oisys.Web.Controllers
         {
             // get list of active customers (not deleted)
             var list = this.context.Invoices
+                .Include(c => c.Customer)
                 .AsNoTracking()
                 .Where(c => !c.IsDeleted);
 
@@ -115,35 +116,21 @@ namespace Oisys.Web.Controllers
         {
             try
             {
-                //var invoice = this.mapper.Map<Invoice>(entity);
+                var invoice = this.mapper.Map<Invoice>(entity);
 
-                //foreach (var detail in entity.Details)
-                //{
-                //    // Fetch the order detail associated
-                //    var orderDetail = await this.context.OrderDetails
-                //        .Include(a => a.Order)
-                //            .ThenInclude(a => a.Customer)
-                //        .Include(a => a.Item)
-                //        .SingleOrDefaultAsync(a => a.Id == detail.OrderDetailId);
+                foreach (var detail in entity.Details)
+                {
+                    // Set the order to invoiced to prevent it from showing up in future invoicing.
+                    var order = await this.context.Orders.FindAsync(detail.OrderId);
+                    order.IsInvoiced = true;
+                }
 
-                //    this.adjustmentService.ModifyQuantity(QuantityType.ActualQuantity, orderDetail.Item, detail.Quantity, AdjustmentType.Deduct, Constants.AdjustmentRemarks.InvoiceCreated);
+                await this.context.Invoices.AddAsync(invoice);
+                await this.context.SaveChangesAsync();
 
-                //    orderDetail.QuantityDelivered += detail.Quantity;
-
-                //    if (orderDetail.QuantityDelivered > orderDetail.Quantity)
-                //    {
-                //        throw new QuantityDeliveredException($"Total quantity delivered for {orderDetail.Item.Name} cannot exceed {orderDetail.Quantity}.");
-                //    }
-                //}
-
-                //await this.context.Deliveries.AddAsync(invoice);
-
-                //await this.context.SaveChangesAsync();
-
-                //return this.CreatedAtRoute("GetInvoice", new { id = invoice.Id }, entity);
-                return this.BadRequest();
+                return this.CreatedAtRoute("GetInvoice", new { id = invoice.Id }, entity);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return this.BadRequest();
             }

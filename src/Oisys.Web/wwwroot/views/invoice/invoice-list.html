@@ -40,6 +40,7 @@
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
                     <td>{{ c.invoiceNumber }}</td>
+                    <td>{{ c.customer }}</td>
                     <td>{{ c.date | date:'MM/dd/yyyy' }}</td>
                     <td class="text-right">₱ {{ c.totalAmount | number: 2 }}</td>
                     <td class="text-center">
@@ -49,7 +50,7 @@
                         </summary-controls>
                     </td>
                 </tr>
-                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="4"></tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="5"></tr>
             </tbody>
         </table>
     </shell-table>

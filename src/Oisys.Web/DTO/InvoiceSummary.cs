@@ -9,6 +9,11 @@
     public class InvoiceSummary : DTOBase
     {
         /// <summary>
+        /// Gets or sets invoice number;
+        /// </summary>
+        public string InvoiceNumber { get; set; }
+
+        /// <summary>
         /// Gets or sets customer id.
         /// </summary>
         public int CustomerId { get; set; }

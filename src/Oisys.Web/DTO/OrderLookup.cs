@@ -10,6 +10,11 @@
     public class OrderLookup : DTOBase
     {
         /// <summary>
+        /// Gets the order id property.
+        /// </summary>
+        public int OrderId => this.Id;
+
+        /// <summary>
         /// Gets or sets code property.
         /// </summary>
         public string Code { get; set; }

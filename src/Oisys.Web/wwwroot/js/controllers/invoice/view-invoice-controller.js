@@ -18,6 +18,7 @@
         };
         vm.headers = [
             { text: "Invoice #", value: "InvoiceNumber" },
+            { text: "Customer", value: "Customer" },
             { text: "Date", value: "Date" },
             { text: "Total Amount", value: "TotalAmount", class: "text-right" },
             { text: "", value: "" }

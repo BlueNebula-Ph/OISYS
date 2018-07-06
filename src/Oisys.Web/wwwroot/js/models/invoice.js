@@ -17,7 +17,25 @@
 
         Invoice.prototype = {
             update: function () {
-                
+                if (this.selectedCustomer) {
+                    this.customerId = this.selectedCustomer.id;
+                }
+
+                var total = 0;
+                this.details.forEach(function (elem) {
+                    // Set order id for passing to controller
+                    elem.id = 0;
+
+                    if (!elem.isDeleted) {
+                        if (elem.totalAmount) {
+                            total += elem.totalAmount;
+                        }
+                    }
+                });
+
+                this.grossAmount = total;
+                this.discountAmount = total * this.discountPercent / 100;
+                this.totalAmount = total - this.discountAmount;
             }
         };
 

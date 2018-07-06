@@ -17,27 +17,7 @@
 
         InvoiceDetail.prototype = {
             setupDetail: function (priceList) {
-                if (this.selectedItem) {
-                    this.itemId = this.selectedItem.id;
-                    this.unit = this.selectedItem.unit;
-                    this.categoryName = this.selectedItem.categoryName;
-
-                    switch (priceList) {
-                        case 1:
-                            this.price = this.selectedItem.mainPrice;
-                            break;
-                        case 2:
-                            this.price = this.selectedItem.walkInPrice;
-                            break;
-                        case 3:
-                            this.price = this.selectedItem.nePrice;
-                            break;
-                        default:
-                            this.price = this.selectedItem.mainPrice;
-                    }
-
-                    this.totalPrice = this.quantity * this.price;
-                }
+                
             },
         };
 

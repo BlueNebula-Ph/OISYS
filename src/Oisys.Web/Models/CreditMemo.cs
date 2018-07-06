@@ -33,6 +33,11 @@
         public int CustomerId { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether credit memo is invoiced.
+        /// </summary>
+        public bool IsInvoiced { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether gets or sets property IsDeleted.
         /// </summary>
         [DefaultValue(false)]

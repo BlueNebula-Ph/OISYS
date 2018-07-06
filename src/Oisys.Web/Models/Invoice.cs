@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets or sets property discount in percent.
         /// </summary>
-        public decimal Discount { get; set; }
+        public decimal DiscountPercent { get; set; }
 
         /// <summary>
         /// Gets or sets property discount amount.

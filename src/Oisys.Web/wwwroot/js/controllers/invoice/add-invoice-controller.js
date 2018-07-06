@@ -27,7 +27,7 @@
         };
 
         vm.deleteDetail = function (detail) {
-            if (confirm("Are you sure you want to delete this invoice detail?")) {
+            if (confirm("Are you sure you want to delete this order?")) {
                 if (detail.id != 0) {
                     detail.isDeleted = true;
                     vm.addInvoiceForm.$setDirty();
@@ -78,8 +78,8 @@
         };
         
         var processOrders = function (response) {
-            console.log(response.data);
-            angular.copy(response.data, vm.ordersForInvoicing);
+            angular.copy(response.data, vm.invoice.details);
+            vm.invoice.update();
         };
 
         var processInvoice = function (response) {
